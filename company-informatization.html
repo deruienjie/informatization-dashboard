@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>橙子自动化 · 信息化全景数据流转图</title>
+<style>
+  :root {
+    --green: #10b981; --green-bg: #d1fae5; --green-dark: #065f46;
+    --red: #ef4444; --red-bg: #fee2e2; --red-dark: #991b1b;
+    --yellow: #f59e0b; --yellow-bg: #fef3c7; --yellow-dark: #92400e;
+    --blue: #3b82f6; --blue-bg: #dbeafe; --blue-dark: #1e40af;
+    --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+    --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
+    --slate-900: #0f172a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--slate-50); color: var(--slate-800);
+    min-height: 100vh; overflow-x: hidden;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+    color: #fff; padding: 28px 48px;
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content:''; position:absolute; top:-60%; right:-5%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(99,102,241,.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header::after {
+    content:''; position:absolute; bottom:-40%; left:10%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(16,185,129,.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner { position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; }
+  .header h1 { font-size: 26px; font-weight: 700; letter-spacing:.5px; }
+  .header .sub { font-size:13px; color:#94a3b8; margin-top:4px; display:flex; align-items:center; gap:8px; }
+  .header .sub span { display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; }
+  .tag-online { background:rgba(16,185,129,.2); color:#34d399; }
+  .tag-date { color:#64748b; }
+  .header-actions { display:flex; gap:12px; }
+  .header-actions button {
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15);
+    color:#cbd5e1; padding:8px 16px; border-radius:8px; font-size:13px;
+    cursor:pointer; transition: all .2s; font-family: inherit;
+  }
+  .header-actions button:hover { background:rgba(255,255,255,.15); color:#fff; }
+
+  /* ─── Stats ─── */
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:24px 48px 0; }
+  .stat {
+    background:#fff; border-radius:14px; padding:20px 24px;
+    border:1px solid var(--slate-200); display:flex; align-items:center; gap:16px;
+    transition: transform .2s, box-shadow .2s; cursor:default;
+  }
+  .stat:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,.06); }
+  .stat-icon { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .stat.s-green .stat-icon { background:var(--green-bg); }
+  .stat.s-red .stat-icon { background:var(--red-bg); }
+  .stat.s-yellow .stat-icon { background:var(--yellow-bg); }
+  .stat.s-blue .stat-icon { background:var(--blue-bg); }
+  .stat-val { font-size:30px; font-weight:700; line-height:1; }
+  .stat.s-green .stat-val { color:var(--green); }
+  .stat.s-red .stat-val { color:var(--red); }
+  .stat.s-yellow .stat-val { color:var(--yellow); }
+  .stat.s-blue .stat-val { color:var(--blue); }
+  .stat-lbl { font-size:13px; color:var(--slate-600); margin-top:3px; }
+
+  /* ─── Main Flow ─── */
+  .flow-wrap { padding:24px 48px 32px; }
+  .flow-card {
+    background:#fff; border-radius:16px; border:1px solid var(--slate-200);
+    padding:20px; position:relative; overflow:hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,.03);
+  }
+  .flow-card h2 {
+    font-size:16px; font-weight:600; color:var(--slate-700);
+    margin-bottom:16px; display:flex; align-items:center; gap:10px;
+  }
+  .flow-card h2::before { content:''; width:4px; height:20px; background:var(--blue); border-radius:2px; display:inline-block; }
+
+  /* SVG Canvas */
+  .svg-wrap { overflow-x:auto; padding:10px 0; }
+  .svg-wrap svg { min-width:1200px; display:block; margin:0 auto; }
+
+  /* System node styling */
+  .sys-node { cursor:pointer; transition: filter .25s, transform .25s; }
+  .sys-node:hover { filter: brightness(1.05) drop-shadow(0 4px 12px rgba(0,0,0,.15)); transform: translateY(-2px); }
+  .sys-node:active { transform: scale(.97); }
+
+  /* Animated flow lines */
+  @keyframes dashFlow { to { stroke-dashoffset: -24; } }
+  .flow-line { stroke-dasharray: 8 4; animation: dashFlow .8s linear infinite; }
+  .flow-line-solid { animation: none; stroke-dasharray: none; }
+
+  @keyframes pulseGlow {
+    0%, 100% { opacity:.6; }
+    50% { opacity:1; }
+  }
+  .flow-line-glow { animation: pulseGlow 2s ease-in-out infinite; }
+
+  /* Gap callout */
+  .gap-callout { font-size:11px; font-weight:600; text-anchor:middle; }
+
+  /* ─── Legend ─── */
+  .legend-row { display:flex; gap:32px; padding:0 48px 32px; flex-wrap:wrap; }
+  .legend-card {
+    background:#fff; border-radius:12px; border:1px solid var(--slate-200);
+    padding:18px 22px; flex:1; min-width:220px;
+  }
+  .legend-card h3 { font-size:14px; font-weight:600; margin-bottom:12px; color:var(--slate-700); }
+  .legend-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:13px; color:var(--slate-600); }
+  .legend-dot { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+  .legend-dot.dot-green { background:var(--green); }
+  .legend-dot.dot-red { background:var(--red); }
+  .legend-dot.dot-yellow { background:var(--yellow); }
+  .legend-dot.dot-blue { background:var(--blue); }
+  .dot-dashed { border:2px dashed var(--red); background:transparent; width:10px; height:10px; }
+  .dot-solid { border:2px solid var(--green); background:transparent; width:10px; height:10px; }
+
+  /* ─── Footer ─── */
+  .footer { text-align:center; padding:20px 48px 32px; color:var(--slate-600); font-size:12px; }
+
+  /* Tooltip */
+  .tooltip {
+    position:fixed; pointer-events:none; z-index:999;
+    background:var(--slate-900); color:#fff; padding:10px 14px;
+    border-radius:8px; font-size:12px; line-height:1.5;
+    opacity:0; transform:translateY(4px);
+    transition: opacity .15s, transform .15s;
+    box-shadow:0 8px 30px rgba(0,0,0,.3); max-width:240px;
+  }
+  .tooltip.show { opacity:1; transform:translateY(0); }
+  .tooltip strong { display:block; font-size:13px; margin-bottom:4px; }
+  .tooltip .tt-status { display:inline-block; padding:1px 8px; border-radius:10px; font-size:10px; margin-bottom:4px; }
+  .tt-online { background:rgba(16,185,129,.25); color:#34d399; }
+  .tt-offline { background:rgba(239,68,68,.25); color:#f87171; }
+  .tt-planned { background:rgba(245,158,11,.25); color:#fbbf24; }
+
+  /* Responsive */
+  @media (max-width:768px) {
+    .header { padding:20px 24px; }
+    .stats { grid-template-columns:repeat(2,1fr); padding:16px 24px 0; }
+    .flow-wrap { padding:16px 24px; }
+    .legend-row { padding:0 24px 24px; flex-direction:column; }
+    .header h1 { font-size:20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <h1>🏭 橙子自动化 · 信息化全景数据流转图</h1>
+      <div class="sub">
+        <span class="tag-online">生产环境 v1.0</span>
+        <span class="tag-date">更新于 2026年7月</span>
+        <span>杰德瑞恩J · 信息化项目组</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button onclick="resetView()">🔄 重置视图</button>
+      <button onclick="window.print()">🖨 打印</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="stats">
+  <div class="stat s-blue">
+    <div class="stat-icon">📊</div>
+    <div><div class="stat-val">7</div><div class="stat-lbl">涉及系统总数</div></div>
+  </div>
+  <div class="stat s-green">
+    <div class="stat-icon">✅</div>
+    <div><div class="stat-val">3</div><div class="stat-lbl">已上线系统</div></div>
+  </div>
+  <div class="stat s-red">
+    <div class="stat-icon">⚠️</div>
+    <div><div class="stat-val">2</div><div class="stat-lbl">缺失 / 人工处理</div></div>
+  </div>
+  <div class="stat s-yellow">
+    <div class="stat-icon">🔄</div>
+    <div><div class="stat-val">1</div><div class="stat-lbl">规划中</div></div>
+  </div>
+</div>
+
+<!-- ═══════════ FLOW DIAGRAM ═══════════ -->
+<div class="flow-wrap">
+  <div class="flow-card">
+    <h2>系统数据流转全景 · 销售 → 采购 → 生产 → 财务 全链路</h2>
+    <div class="svg-wrap" id="svgWrap">
+      <svg viewBox="0 0 1320 750" xmlns="http://www.w3.org/2000/svg" id="mainSvg">
+        <defs>
+          <!-- Arrow markers -->
+          <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#10b981"/></marker>
+          <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ef4444"/></marker>
+          <marker id="arrowYellow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f59e0b"/></marker>
+          <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/></marker>
+          <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#3b82f6"/></marker>
+
+          <!-- Drop shadow -->
+          <filter id="shadow" x="-10%" y="-10%" width="130%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity=".08"/>
+          </filter>
+          <filter id="shadowHover" x="-10%" y="-10%" width="130%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity=".15"/>
+          </filter>
+
+          <!-- Gradient backgrounds -->
+          <linearGradient id="gradOnline" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f0fdf4"/><stop offset="100%" stop-color="#d1fae5"/>
+          </linearGradient>
+          <linearGradient id="gradOffline" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fef2f2"/><stop offset="100%" stop-color="#fee2e2"/>
+          </linearGradient>
+          <linearGradient id="gradPlanned" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fffbeb"/><stop offset="100%" stop-color="#fef3c7"/>
+          </linearGradient>
+        </defs>
+
+        <!-- ═══════ CONNECTION LINES (drawn first, behind nodes) ═══════ -->
+
+        <!-- CRM → ERP-Sales -->
+        <path d="M200,145 C270,145 280,145 310,145" stroke="#10b981" stroke-width="2.5" fill="none" marker-end="url(#arrowGreen)" class="flow-line"/>
+        <text x="260" y="136" font-size="10" fill="#059669" text-anchor="middle" font-weight="500">客户/合同</text>
+
+        <!-- EHR → ERP-Sales (curved) -->
+        <path d="M95,580 C95,620 200,630 260,630 L260,190 L310,190" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)" stroke-dasharray="6 3"/>
+        <text x="150" y="540" font-size="10" fill="#3b82f6" text-anchor="middle" font-weight="500">部门/人员数据</text>
+
+        <!-- EHR → ERP-Finance -->
+        <path d="M200,580 L280,580" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+        <text x="240" y="570" font-size="10" fill="#3b82f6" text-anchor="middle" font-weight="500">组织架构</text>
+
+        <!-- ERP-Sales → ERP-Purchase -->
+        <line x1="415" y1="170" x2="415" y2="209" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowGreen)" class="flow-line"/>
+        <text x="426" y="193" font-size="10" fill="#059669" font-weight="500">采购需求</text>
+
+        <!-- ERP-Purchase → WMS (to WMS left) -->
+        <path d="M550,255 L580,255 L580,195 L610,195" stroke="#ef4444" stroke-width="2" fill="none" marker-end="url(#arrowRed)" stroke-dasharray="6 3"/>
+        <text x="565" y="248" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="500">到货通知</text>
+
+        <!-- WMS → ERP-Inventory (back) -->
+        <path d="M790,195 L850,195 L850,340 L550,340" stroke="#ef4444" stroke-width="2" fill="none" stroke-dasharray="6 3"/>
+        <text x="820" y="188" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="500">入库确认</text>
+
+        <!-- ERP-Inventory → WMS (shipping) -->
+        <path d="M550,340 L610,340" stroke="#ef4444" stroke-width="2" fill="none" stroke-dasharray="6 3"/>
+        <text x="580" y="332" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="500">备货出库</text>
+
+        <!-- ERP-Sales → WMS (ship instruction) -->
+        <path d="M550,145 C600,145 580,175 610,175" stroke="#ef4444" stroke-width="2" fill="none" stroke-dasharray="6 3"/>
+        <text x="580" y="138" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="500">发货指令</text>
+
+        <!-- ERP-Inventory → MES -->
+        <path d="M550,400 L610,400" stroke="#ef4444" stroke-width="2.5" fill="none" marker-end="url(#arrowRed)" stroke-dasharray="6 3"/>
+        <text x="580" y="392" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="500">发料到产线</text>
+
+        <!-- MES → ERP-Inventory (finished goods) -->
+        <path d="M820,400 L870,400 L870,350 L550,350" stroke="#ef4444" stroke-width="2" fill="none" stroke-dasharray="6 3"/>
+        <text x="800" y="393" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="500">完工报缴</text>
+
+        <!-- ═══════ PLM 核心对接（下一步重点，加粗加亮） ═══════ -->
+
+        <!-- PLM Block background -->
+        <rect x="810" y="0" rx="10" ry="10" width="480" height="30" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="1050" y="20" text-anchor="middle" font-size="12" fill="#92400e" font-weight="700">⭐ 下一步重点 — PLM 对接关系</text>
+
+        <!-- PLM → ERP-Sales: 产品配置/报价 -->
+        <path d="M850,125 L520,190" stroke="#f59e0b" stroke-width="3" fill="none" stroke-dasharray="8 3" marker-end="url(#arrowYellow)"/>
+        <text x="680" y="150" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">产品配置 / 报价依据（规划）</text>
+
+        <!-- PLM → ERP-Purchase: 物料规格/供应商 -->
+        <path d="M850,125 L520,245" stroke="#f59e0b" stroke-width="3" fill="none" stroke-dasharray="8 3"/>
+        <text x="660" y="225" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">物料规格 / 合格供应商（规划）</text>
+
+        <!-- PLM → ERP-Inventory: BOM/物料主数据 -->
+        <path d="M850,125 L520,355" stroke="#f59e0b" stroke-width="3" fill="none" stroke-dasharray="8 3" marker-end="url(#arrowYellow)"/>
+        <text x="600" y="330" font-size="11" fill="#92400e" text-anchor="middle" font-weight="700">⚠ BOM / 物料主数据（规划）</text>
+
+        <!-- PLM → MES: 工艺路线 -->
+        <path d="M850,125 L710,400" stroke="#f59e0b" stroke-width="3" fill="none" stroke-dasharray="8 3" marker-end="url(#arrowYellow)"/>
+        <text x="800" y="310" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">工艺路线 / 作业指导（规划）</text>
+
+        <!-- PLM → ERP-Finance: 成本BOM -->
+        <path d="M850,125 L520,555" stroke="#f59e0b" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+        <text x="680" y="500" font-size="10" fill="#92400e" text-anchor="middle" font-weight="600">标准成本（规划）</text>
+
+        <!-- PLM core annotation -->
+        <rect x="880" y="10" rx="4" ry="4" width="160" height="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+        <text x="960" y="22" text-anchor="middle" font-size="10" fill="#92400e" font-weight="700">← 往左下发到各系统</text>
+
+        <!-- ERP modules → ERP-Finance -->
+        <path d="M415,465 L415,510" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)" class="flow-line"/>
+        <text x="426" y="492" font-size="10" fill="#059669" font-weight="500">应收/应付/成本</text>
+
+        <!-- MES → ERP-Finance (missing) -->
+        <path d="M710,500 L550,530" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+        <text x="630" y="525" font-size="9" fill="#dc2626" text-anchor="middle" font-weight="500">工时成本（缺失）</text>
+
+        <!-- ═══════ GAP ANNOTATIONS ═══════ -->
+        <!-- WMS gap -->
+        <text x="700" y="108" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="700">⚠ 当前：Excel/人工</text>
+        <!-- MES gap -->
+        <text x="700" y="325" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="700">⚠ 当前：纸质/人工</text>
+
+        <!-- ═══════ NODES ═══════ -->
+
+        <!-- ── CRM ── -->
+        <g class="sys-node" data-system="CRM" onclick="navigateTo('CRM')">
+          <rect x="30" y="100" rx="12" ry="12" width="170" height="90" fill="url(#gradOnline)" stroke="#10b981" stroke-width="2.5" filter="url(#shadow)"/>
+          <rect x="30" y="100" rx="12" ry="12" width="170" height="90" fill="none" stroke="#10b981" stroke-width="3" opacity="0" class="hover-ring"/>
+          <text x="115" y="130" text-anchor="middle" font-size="15" font-weight="700" fill="#065f46">🟢 CRM</text>
+          <text x="115" y="148" text-anchor="middle" font-size="11" fill="#065f46">客户关系管理</text>
+          <line x1="50" y1="156" x2="180" y2="156" stroke="#10b981" stroke-width=".5" opacity=".5"/>
+          <text x="115" y="172" text-anchor="middle" font-size="10" fill="#047857">客户线索 · 商机 · 合同</text>
+        </g>
+
+        <!-- ── EHR ── -->
+        <g class="sys-node" data-system="EHR" onclick="navigateTo('EHR')">
+          <rect x="30" y="535" rx="12" ry="12" width="170" height="90" fill="url(#gradOnline)" stroke="#10b981" stroke-width="2.5" filter="url(#shadow)"/>
+          <text x="115" y="565" text-anchor="middle" font-size="15" font-weight="700" fill="#065f46">🟢 EHR</text>
+          <text x="115" y="583" text-anchor="middle" font-size="11" fill="#065f46">人力资源系统</text>
+          <line x1="50" y1="591" x2="180" y2="591" stroke="#10b981" stroke-width=".5" opacity=".5"/>
+          <text x="115" y="607" text-anchor="middle" font-size="10" fill="#047857">组织 · 员工 · 薪资考勤</text>
+        </g>
+
+        <!-- ── ERP Modules (Central Column) ── -->
+        <!-- ERP Group Box -->
+        <rect x="290" y="35" rx="10" ry="10" width="250" height="600" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4 4" opacity=".3"/>
+        <text x="415" y="28" text-anchor="middle" font-size="11" fill="#10b981" font-weight="600">ERP 企业资源计划</text>
+
+        <!-- ERP-Sales -->
+        <g class="sys-node" data-system="ERP-Sales" onclick="navigateTo('ERP')">
+          <rect x="310" y="100" rx="10" ry="10" width="210" height="70" fill="url(#gradOnline)" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+          <text x="415" y="125" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">📋 销售模块</text>
+          <text x="415" y="148" text-anchor="middle" font-size="10" fill="#047857">销售订单 · 发货通知 · 应收账款</text>
+        </g>
+
+        <!-- ERP-Purchase -->
+        <g class="sys-node" data-system="ERP-Purchase" onclick="navigateTo('ERP')">
+          <rect x="310" y="210" rx="10" ry="10" width="210" height="70" fill="url(#gradOnline)" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+          <text x="415" y="235" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">📋 采购模块</text>
+          <text x="415" y="258" text-anchor="middle" font-size="10" fill="#047857">采购申请 · 采购订单 · 应付账款</text>
+        </g>
+
+        <!-- ERP-Inventory -->
+        <g class="sys-node" data-system="ERP-Inventory" onclick="navigateTo('ERP')">
+          <rect x="310" y="320" rx="10" ry="10" width="210" height="70" fill="url(#gradOnline)" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+          <text x="415" y="345" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">📋 库存模块</text>
+          <text x="415" y="368" text-anchor="middle" font-size="10" fill="#047857">库存台账 · 出入库 · 安全库存</text>
+        </g>
+
+        <!-- ERP-Finance -->
+        <g class="sys-node" data-system="ERP-Finance" onclick="navigateTo('ERP')">
+          <rect x="310" y="510" rx="10" ry="10" width="210" height="70" fill="url(#gradOnline)" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+          <text x="415" y="535" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">📋 财务模块</text>
+          <text x="415" y="558" text-anchor="middle" font-size="10" fill="#047857">总账 · 成本核算 · 财务报表</text>
+        </g>
+
+        <!-- ── WMS (Missing) ── -->
+        <g class="sys-node" data-system="WMS" onclick="navigateTo('WMS')">
+          <rect x="610" y="145" rx="10" ry="10" width="200" height="100" fill="url(#gradOffline)" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="6 3" filter="url(#shadow)"/>
+          <text x="710" y="175" text-anchor="middle" font-size="14" font-weight="700" fill="#991b1b">🔴 WMS</text>
+          <text x="710" y="193" text-anchor="middle" font-size="11" fill="#991b1b">仓储管理系统</text>
+          <line x1="630" y1="200" x2="790" y2="200" stroke="#ef4444" stroke-width=".5" opacity=".4"/>
+          <text x="710" y="216" text-anchor="middle" font-size="10" fill="#b91c1c">扫码出入库 · 库位 · 波次</text>
+          <text x="710" y="233" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="600">❌ 尚未上线</text>
+        </g>
+
+        <!-- ── MES (Missing) ── -->
+        <g class="sys-node" data-system="MES" onclick="navigateTo('MES')">
+          <rect x="610" y="350" rx="10" ry="10" width="200" height="100" fill="url(#gradOffline)" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="6 3" filter="url(#shadow)"/>
+          <text x="710" y="380" text-anchor="middle" font-size="14" font-weight="700" fill="#991b1b">🔴 MES</text>
+          <text x="710" y="398" text-anchor="middle" font-size="11" fill="#991b1b">制造执行系统</text>
+          <line x1="630" y1="405" x2="790" y2="405" stroke="#ef4444" stroke-width=".5" opacity=".4"/>
+          <text x="710" y="421" text-anchor="middle" font-size="10" fill="#b91c1c">工单排产 · 工序报工 · 质量追溯</text>
+          <text x="710" y="438" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="600">❌ 尚未上线</text>
+        </g>
+
+        <!-- ── PLM (Planned - NEXT PRIORITY) ── -->
+        <!-- PLM Zone highlight -->
+        <rect x="806" y="36" rx="14" ry="14" width="248" height="100" fill="#fffbeb" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 3" filter="url(#shadow)"/>
+        <rect x="806" y="36" rx="14" ry="14" width="248" height="100" fill="none" stroke="#f59e0b" stroke-width="3" opacity="0.15"/>
+
+        <g class="sys-node" data-system="PLM" onclick="navigateTo('PLM')">
+          <rect x="810" y="40" rx="12" ry="12" width="240" height="110" fill="url(#gradPlanned)" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 3" filter="url(#shadow)"/>
+          <!-- Priority badge -->
+          <rect x="810" y="40" rx="12" ry="12" width="240" height="20" fill="#f59e0b"/>
+          <text x="930" y="54" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">⭐ 下一步重点实施</text>
+          <text x="930" y="80" text-anchor="middle" font-size="16" font-weight="800" fill="#92400e">🟡 PLM</text>
+          <text x="930" y="98" text-anchor="middle" font-size="12" fill="#92400e">产品生命周期管理</text>
+          <line x1="830" y1="106" x2="1030" y2="106" stroke="#f59e0b" stroke-width=".5" opacity=".4"/>
+          <text x="930" y="123" text-anchor="middle" font-size="10" fill="#a16207">产品BOM · 设计变更 · 工艺路线</text>
+          <text x="930" y="138" text-anchor="middle" font-size="10" fill="#d97706" font-weight="700">🔗 对接: ERP全模块 + MES</text>
+        </g>
+
+        <!-- ═══════ DATA CLOSED LOOP ANNOTATION ═══════ -->
+        <g class="flow-line-glow">
+          <rect x="355" y="595" rx="20" ry="20" width="120" height="28" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+          <text x="415" y="614" text-anchor="middle" font-size="11" fill="#059669" font-weight="700">🔄 数据闭环</text>
+        </g>
+
+        <!-- ═══════ BUSINESS FLOW LABELS AT BOTTOM ═══════ -->
+        <g>
+          <rect x="30" y="710" rx="6" ry="6" width="1260" height="24" fill="#f8fafc"/>
+          <text x="660" y="726" text-anchor="middle" font-size="11" fill="#64748b">
+            业务流程：CRM 获客 → ERP 下单 → 采购 → 入库 → 生产 → 出货 → 财务结算 → 数据闭环 &nbsp;|&nbsp; ⭐ PLM：源头治理，产品数据统一分发到各系统
+          </text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LEGEND ═══════════ -->
+<div class="legend-row">
+  <div class="legend-card">
+    <h3>📌 图例说明</h3>
+    <div class="legend-item"><span class="legend-dot dot-green"></span> 已上线系统 — 数据线上化运行中</div>
+    <div class="legend-item"><span class="legend-dot dot-red"></span> 缺失系统 — 当前依赖 Excel/人工</div>
+    <div class="legend-item"><span class="legend-dot dot-yellow"></span> 规划中 — 待选型/待上线</div>
+    <div class="legend-item"><span class="legend-dot dot-blue"></span> 人力资源数据流</div>
+    <div class="legend-item" style="font-size:12px;color:#94a3b8;margin-top:4px;">⬤ 实线=已打通 │ ⬤ 虚线=缺失/规划</div>
+  </div>
+  <div class="legend-card">
+    <h3>⚠️ 当前信息化缺口</h3>
+    <div style="font-size:12px;color:var(--slate-600);line-height:2;">
+      <div>🔴 <strong>WMS 仓储</strong> — 出入库靠 Excel，无扫码、无库位管理</div>
+      <div>🔴 <strong>MES 生产</strong> — 工单纸质流转，无报工、无质量追溯</div>
+      <div>🟡 <strong>PLM 产品</strong> — BOM/工艺未系统化，选型中</div>
+      <div style="margin-top:4px;color:var(--red);font-weight:600;">📌 关键风险：生产-仓储-财务 数据未连线，成本核算不准</div>
+    </div>
+  </div>
+  <div class="legend-card" style="border-color:#f59e0b; border-width:2px;">
+    <h3>⭐ PLM 对接关系（下一步重点）</h3>
+    <div style="font-size:12px;color:var(--slate-600);line-height:2;">
+      <div>🟡 → <strong>ERP-销售</strong> — 产品配置、报价数据</div>
+      <div>🟡 → <strong>ERP-采购</strong> — 物料规格、合格供应商</div>
+      <div>🟡 → <strong>ERP-库存</strong> — BOM、物料主数据</div>
+      <div>🟡 → <strong>ERP-财务</strong> — 标准成本</div>
+      <div>🟡 → <strong>MES</strong> — 工艺路线、作业指导书</div>
+      <div style="margin-top:4px;color:#92400e;font-weight:600;">📌 PLM上线后，产品数据源头统一，不再依赖Excel</div>
+    </div>
+  </div>
+  <div class="legend-card">
+    <h3>🎯 建议上线顺序</h3>
+    <div style="font-size:12px;color:var(--slate-600);line-height:2;">
+      <div>1️⃣ <strong>PLM</strong> — 先固化产品数据源头（BOM/工艺）</div>
+      <div>2️⃣ <strong>WMS</strong> — 再打通仓储，库存数据实时化</div>
+      <div>3️⃣ <strong>MES</strong> — 最后打通生产，实现工序级管控</div>
+      <div style="margin-top:4px;color:var(--blue);font-weight:600;">💡 源头治理优先：产品数据对了，后面才跑得通</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 点击系统节点可查看详情 ｜ 杰德瑞恩J 出品
+</div>
+
+<!-- Tooltip -->
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+  // ── Tooltip ──
+  const tooltip = document.getElementById('tooltip');
+  const nodes = document.querySelectorAll('.sys-node');
+
+  const tooltipData = {
+    'CRM': { status:'tt-online', statusText:'✅ 已上线', desc:'管理客户线索、商机追踪、销售合同，是数据流的起点' },
+    'EHR': { status:'tt-online', statusText:'✅ 已上线', desc:'北森系统管理组织架构、员工档案、薪资考勤，为ERP提供人员主数据' },
+    'ERP-Sales': { status:'tt-online', statusText:'✅ 已上线', desc:'金蝶ERP销售模块，处理销售订单、发货通知、应收账款' },
+    'ERP-Purchase': { status:'tt-online', statusText:'✅ 已上线', desc:'金蝶ERP采购模块，处理采购申请、采购订单、应付账款' },
+    'ERP-Inventory': { status:'tt-online', statusText:'✅ 已上线', desc:'金蝶ERP库存模块，管理库存台账、出入库记录、安全库存预警' },
+    'ERP-Finance': { status:'tt-online', statusText:'✅ 已上线', desc:'金蝶ERP财务模块，总账、成本核算、财务报表，闭环终点' },
+    'WMS': { status:'tt-offline', statusText:'❌ 缺失', desc:'仓储管理系统 — 当前Excel管理<br>需：扫码出入库、库位管理、波次拣货' },
+    'MES': { status:'tt-offline', statusText:'❌ 缺失', desc:'制造执行系统 — 当前纸质流转<br>需：工单排产、工序报工、质量追溯、设备联网' },
+    'PLM': { status:'tt-planned', statusText:'🔄 下一步重点', desc:'产品生命周期管理 — 数据源头<br><br>🔗 对接:<br>  • ERP-销售：产品配置/报价<br>  • ERP-采购：物料规格/供应商<br>  • ERP-库存：BOM/物料主数据<br>  • ERP-财务：标准成本<br>  • MES：工艺路线/作业指导书<br><br>📌 上线后统一产品数据源头' }
+  };
+
+  nodes.forEach(node => {
+    node.addEventListener('mouseenter', e => {
+      const sys = node.dataset.system;
+      const d = tooltipData[sys];
+      if (!d) return;
+      tooltip.innerHTML = `<strong>${sys}</strong><span class="tt-status ${d.status}">${d.statusText}</span><div style="margin-top:4px;">${d.desc}</div>`;
+      tooltip.classList.add('show');
+    });
+    node.addEventListener('mousemove', e => {
+      tooltip.style.left = (e.clientX + 16) + 'px';
+      tooltip.style.top = (e.clientY - 60) + 'px';
+    });
+    node.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('show');
+    });
+  });
+
+  // ── Click system to navigate ──
+  function navigateTo(system) {
+    // Default placeholder — will be connected to detail pages later
+    const pages = {
+      'CRM': '#crm-detail',
+      'EHR': '#ehr-detail',
+      'ERP': '#erp-detail',
+      'ERP-Sales': '#erp-detail',
+      'ERP-Purchase': '#erp-detail',
+      'ERP-Inventory': '#erp-detail',
+      'ERP-Finance': '#erp-detail',
+      'WMS': '#wms-detail',
+      'MES': '#mes-detail',
+      'PLM': '#plm-detail'
+    };
+    const target = pages[system] || '#';
+    // Pulse animation on click
+    const el = document.querySelector(`[data-system="${system}"]`);
+    if (el) {
+      el.style.transform = 'scale(0.95)';
+      setTimeout(() => { el.style.transform = ''; }, 200);
+    }
+    // Show toast instead of navigating for now
+    showToast(`📌 即将跳转到 <strong>${system}</strong> 详情页（下一阶段开发）`);
+    // window.location.href = target;
+  }
+
+  // ── Toast ──
+  function showToast(msg) {
+    let t = document.getElementById('toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast';
+      t.style.cssText = `
+        position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+        background:#1e293b; color:#fff; padding:12px 24px; border-radius:10px;
+        font-size:14px; z-index:999; opacity:0; transition:opacity .3s;
+        box-shadow:0 8px 30px rgba(0,0,0,.3); pointer-events:none;
+      `;
+      document.body.appendChild(t);
+    }
+    t.innerHTML = msg;
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2500);
+  }
+
+  // ── Reset view (scroll to top of SVG) ──
+  function resetView() {
+    document.getElementById('svgWrap').scrollTo({ left: 0, behavior: 'smooth' });
+    showToast('🔄 视图已重置');
+  }
+
+  // ── Keyboard shortcut ──
+  document.addEventListener('keydown', e => {
+    if (e.key === 'f' && e.ctrlKey) { e.preventDefault(); resetView(); }
+  });
+</script>
+</body>
+</html>
