@@ -168,6 +168,8 @@
       </div>
     </div>
     <div class="header-actions">
+      <button onclick="window.location.href='index.html'" style="background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.3);color:#34d399;">🏠 首页</button>
+      <button onclick="window.location.href='company-intro.html'">📋 公司背景</button>
       <button onclick="resetView()">🔄 重置视图</button>
       <button onclick="window.print()">🖨 打印</button>
     </div>
@@ -178,7 +180,7 @@
 <div class="stats">
   <div class="stat s-blue">
     <div class="stat-icon">📊</div>
-    <div><div class="stat-val">7</div><div class="stat-lbl">涉及系统总数</div></div>
+    <div><div class="stat-val">8</div><div class="stat-lbl">涉及系统总数</div></div>
   </div>
   <div class="stat s-green">
     <div class="stat-icon">✅</div>
@@ -190,7 +192,7 @@
   </div>
   <div class="stat s-yellow">
     <div class="stat-icon">🔄</div>
-    <div><div class="stat-val">1</div><div class="stat-lbl">规划中</div></div>
+    <div><div class="stat-val">2</div><div class="stat-lbl">规划中（明年上线）</div></div>
   </div>
 </div>
 
@@ -199,7 +201,7 @@
   <div class="flow-card">
     <h2>系统数据流转全景 · 销售 → 采购 → 生产 → 财务 全链路</h2>
     <div class="svg-wrap" id="svgWrap">
-      <svg viewBox="0 0 1320 750" xmlns="http://www.w3.org/2000/svg" id="mainSvg">
+      <svg viewBox="0 0 1320 810" xmlns="http://www.w3.org/2000/svg" id="mainSvg">
         <defs>
           <!-- Arrow markers -->
           <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#10b981"/></marker>
@@ -308,6 +310,27 @@
         <path d="M710,500 L550,530" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
         <text x="630" y="525" font-size="9" fill="#dc2626" text-anchor="middle" font-weight="500">工时成本（缺失）</text>
 
+        <!-- ═══════ APS 智能排产（明年上线） ═══════ -->
+
+        <!-- ERP-Purchase → APS: 物料需求 -->
+        <path d="M520,270 L540,270 L540,530 L610,530" stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-dasharray="8 3" marker-end="url(#arrowYellow)"/>
+        <text x="560" y="263" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">物料需求计划（明年）</text>
+
+        <!-- ERP-Inventory → APS: 库存可用量 -->
+        <path d="M520,370 L580,370 L580,520 L610,520" stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-dasharray="8 3"/>
+        <text x="555" y="440" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">库存可用量（明年）</text>
+
+        <!-- APS → MES: 日排程 -->
+        <path d="M810,530 L820,530 L820,450 L790,450" stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-dasharray="8 3"/>
+        <text x="810" y="485" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">日排程（明年）</text>
+
+        <!-- APS → ERP-Inventory: 产成品入库计划 -->
+        <path d="M810,550 L820,550 L820,590 L550,590 L550,390 L520,390" stroke="#f59e0b" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+        <text x="700" y="610" font-size="9" fill="#92400e" text-anchor="middle" font-weight="600">产成品入库计划（明年）</text>
+
+        <!-- APS gap annotation -->
+        <text x="700" y="495" font-size="11" fill="#f59e0b" text-anchor="middle" font-weight="700">🔄 明年上线</text>
+
         <!-- ═══════ GAP ANNOTATIONS ═══════ -->
         <!-- WMS gap -->
         <text x="700" y="108" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="700">⚠ 当前：Excel/人工</text>
@@ -388,6 +411,17 @@
           <text x="710" y="438" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="600">❌ 尚未上线</text>
         </g>
 
+        <!-- ── APS (Planned - Next Year) ── -->
+        <g class="sys-node" data-system="APS" onclick="navigateTo('APS')">
+          <rect x="610" y="490" rx="10" ry="10" width="200" height="95" fill="url(#gradPlanned)" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="6 3" filter="url(#shadow)"/>
+          <rect x="610" y="490" rx="10" ry="10" width="200" height="18" fill="#f59e0b"/>
+          <text x="710" y="504" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">📅 明年上线</text>
+          <text x="710" y="530" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">🟡 APS</text>
+          <text x="710" y="548" text-anchor="middle" font-size="11" fill="#92400e">智能排产系统</text>
+          <line x1="630" y1="556" x2="790" y2="556" stroke="#f59e0b" stroke-width=".5" opacity=".4"/>
+          <text x="710" y="572" text-anchor="middle" font-size="10" fill="#a16207">产能规划 · 排程调度 · 交期预测</text>
+        </g>
+
         <!-- ── PLM (Planned - NEXT PRIORITY) ── -->
         <!-- PLM Zone highlight -->
         <rect x="806" y="36" rx="14" ry="14" width="248" height="100" fill="#fffbeb" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 3" filter="url(#shadow)"/>
@@ -413,9 +447,9 @@
 
         <!-- ═══════ BUSINESS FLOW LABELS AT BOTTOM ═══════ -->
         <g>
-          <rect x="30" y="710" rx="6" ry="6" width="1260" height="24" fill="#f8fafc"/>
-          <text x="660" y="726" text-anchor="middle" font-size="11" fill="#64748b">
-            业务流程：CRM 获客 → ERP 下单 → 采购 → 入库 → 生产 → 出货 → 财务结算 → 数据闭环 &nbsp;|&nbsp; ⭐ PLM：源头治理，产品数据统一分发到各系统
+          <rect x="30" y="770" rx="6" ry="6" width="1260" height="24" fill="#f8fafc"/>
+          <text x="660" y="786" text-anchor="middle" font-size="11" fill="#64748b">
+            业务流程：CRM 获客 → ERP 下单 → 采购 → APS排产 → 生产 → 出货 → 财务结算 → 数据闭环 &nbsp;|&nbsp; ⭐ PLM：源头治理 &nbsp; 📅 APS：明年上线智能排产
           </text>
         </g>
       </svg>
@@ -438,7 +472,8 @@
     <div style="font-size:12px;color:var(--slate-600);line-height:2;">
       <div>🔴 <strong>WMS 仓储</strong> — 出入库靠 Excel，无扫码、无库位管理</div>
       <div>🔴 <strong>MES 生产</strong> — 工单纸质流转，无报工、无质量追溯</div>
-      <div>🟡 <strong>PLM 产品</strong> — BOM/工艺未系统化，选型中</div>
+      <div>🟡 <strong>PLM 产品</strong> — BOM/工艺未系统化，今年选型中</div>
+      <div>🟡 <strong>APS 排产</strong> — 排产靠经验/Excel，无系统化调度</div>
       <div style="margin-top:4px;color:var(--red);font-weight:600;">📌 关键风险：生产-仓储-财务 数据未连线，成本核算不准</div>
     </div>
   </div>
@@ -457,9 +492,10 @@
     <h3>🎯 建议上线顺序</h3>
     <div style="font-size:12px;color:var(--slate-600);line-height:2;">
       <div>1️⃣ <strong>PLM</strong> — 先固化产品数据源头（BOM/工艺）</div>
-      <div>2️⃣ <strong>WMS</strong> — 再打通仓储，库存数据实时化</div>
-      <div>3️⃣ <strong>MES</strong> — 最后打通生产，实现工序级管控</div>
-      <div style="margin-top:4px;color:var(--blue);font-weight:600;">💡 源头治理优先：产品数据对了，后面才跑得通</div>
+      <div>2️⃣ <strong>APS</strong> — 再打通智能排产（产销协同）</div>
+      <div>3️⃣ <strong>WMS</strong> — 第三步打通仓储，库存实时化</div>
+      <div>4️⃣ <strong>MES</strong> — 最后打通生产，工序级管控</div>
+      <div style="margin-top:4px;color:var(--blue);font-weight:600;">💡 PLM 源头治理 → APS 产销协同 → 仓储/生产落地</div>
     </div>
   </div>
 </div>
@@ -486,7 +522,8 @@
     'ERP-Finance': { status:'tt-online', statusText:'✅ 已上线', desc:'金蝶ERP财务模块，总账、成本核算、财务报表，闭环终点' },
     'WMS': { status:'tt-offline', statusText:'❌ 缺失', desc:'仓储管理系统 — 当前Excel管理<br>需：扫码出入库、库位管理、波次拣货' },
     'MES': { status:'tt-offline', statusText:'❌ 缺失', desc:'制造执行系统 — 当前纸质流转<br>需：工单排产、工序报工、质量追溯、设备联网' },
-    'PLM': { status:'tt-planned', statusText:'🔄 下一步重点', desc:'产品生命周期管理 — 数据源头<br><br>🔗 对接:<br>  • ERP-销售：产品配置/报价<br>  • ERP-采购：物料规格/供应商<br>  • ERP-库存：BOM/物料主数据<br>  • ERP-财务：标准成本<br>  • MES：工艺路线/作业指导书<br><br>📌 上线后统一产品数据源头' }
+    'PLM': { status:'tt-planned', statusText:'🔄 下一步重点', desc:'产品生命周期管理 — 数据源头<br><br>🔗 对接:<br>  • ERP-销售：产品配置/报价<br>  • ERP-采购：物料规格/供应商<br>  • ERP-库存：BOM/物料主数据<br>  • ERP-财务：标准成本<br>  • MES：工艺路线/作业指导书<br><br>📌 上线后统一产品数据源头' },
+    'APS': { status:'tt-planned', statusText:'📅 明年上线', desc:'智能排产系统 — 产销协同中枢<br><br>🔗 对接:<br>  • ERP-采购：接收物料需求<br>  • ERP-库存：获取库存可用量<br>  • MES：下发日排程计划<br>  • ERP-库存：回传产成品入库计划<br><br>📌 衔接计划层与执行层' }
   };
 
   nodes.forEach(node => {

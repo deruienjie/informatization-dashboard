@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>橙子自动化 · 公司背景与产品布局</title>
+<style>
+  :root {
+    --green: #10b981; --green-bg: #d1fae5; --green-dark: #065f46;
+    --red: #ef4444; --red-bg: #fee2e2;
+    --yellow: #f59e0b; --yellow-bg: #fef3c7; --yellow-dark: #92400e;
+    --blue: #3b82f6; --blue-bg: #dbeafe; --blue-dark: #1e40af;
+    --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+    --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b; --slate-900: #0f172a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--slate-50); color: var(--slate-800); line-height:1.6;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+    color: #fff; padding: 32px 48px; position:relative; overflow:hidden;
+  }
+  .header::before {
+    content:''; position:absolute; top:-50%; right:-10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(99,102,241,.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner { position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; }
+  .header h1 { font-size: 24px; font-weight:700; }
+  .header .sub { font-size:13px; color:#94a3b8; margin-top:4px; }
+  .header-actions { display:flex; gap:12px; }
+  .header-actions a {
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15);
+    color:#cbd5e1; padding:8px 16px; border-radius:8px; font-size:13px;
+    cursor:pointer; transition:.2s; text-decoration:none;
+  }
+  .header-actions a:hover { background:rgba(255,255,255,.15); color:#fff; }
+  .header-actions a.home-btn { background:rgba(16,185,129,.2); border-color:rgba(16,185,129,.3); color:#34d399; }
+
+  /* ─── Hero ─── */
+  .hero {
+    padding:60px 48px 40px; text-align:center;
+    background:linear-gradient(180deg, var(--slate-900) 0%, var(--slate-50) 40%);
+    color:#fff;
+  }
+  .hero h2 { font-size:32px; font-weight:800; margin-bottom:8px; }
+  .hero .tagline { font-size:16px; color:#94a3b8; }
+  .hero-stats { display:flex; justify-content:center; gap:40px; margin-top:36px; flex-wrap:wrap; }
+  .hero-stat { text-align:center; }
+  .hero-stat .val { font-size:36px; font-weight:800; background:linear-gradient(135deg,#34d399,#3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-stat .lbl { font-size:12px; color:#94a3b8; margin-top:4px; }
+
+  /* ─── Sections ─── */
+  .section { padding:0 48px 40px; }
+  .section-title {
+    font-size:20px; font-weight:700; color:var(--slate-800); margin-bottom:20px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-title::before { content:''; width:4px; height:24px; background:var(--blue); border-radius:2px; display:inline-block; }
+  .section-desc { font-size:14px; color:var(--slate-600); margin-bottom:20px; }
+
+  /* ─── Cards Grid ─── */
+  .cards { display:grid; gap:16px; }
+  .cards-2 { grid-template-columns:repeat(2,1fr); }
+  .cards-3 { grid-template-columns:repeat(3,1fr); }
+  .cards-4 { grid-template-columns:repeat(4,1fr); }
+  .cards-6 { grid-template-columns:repeat(3,1fr); }
+  .card {
+    background:#fff; border-radius:14px; padding:20px 24px;
+    border:1px solid var(--slate-200); transition:transform .2s, box-shadow .2s;
+  }
+  .card:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,.06); }
+  .card .card-icon { font-size:28px; margin-bottom:8px; }
+  .card h4 { font-size:15px; font-weight:700; color:var(--slate-800); margin-bottom:6px; }
+  .card p { font-size:12px; color:var(--slate-600); line-height:1.7; }
+
+  /* ─── Timeline ─── */
+  .timeline { position:relative; padding-left:30px; }
+  .timeline::before { content:''; position:absolute; left:14px; top:0; bottom:0; width:2px; background:var(--slate-200); }
+  .tl-item { position:relative; margin-bottom:24px; padding-left:24px; }
+  .tl-item::before { content:''; position:absolute; left:-20px; top:4px; width:14px; height:14px; border-radius:50%; background:var(--blue); border:3px solid #fff; box-shadow:0 0 0 2px var(--blue); }
+  .tl-item:nth-child(odd)::before { background:var(--green); box-shadow:0 0 0 2px var(--green); }
+  .tl-year { font-size:13px; color:var(--blue); font-weight:700; }
+  .tl-text { font-size:13px; color:var(--slate-600); }
+
+  /* ─── Tier Chart ─── */
+  .tier-chart { display:flex; flex-direction:column; gap:0; }
+  .tier-row { display:flex; align-items:stretch; min-height:60px; }
+  .tier-label {
+    width:80px; background:var(--slate-800); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:700; flex-shrink:0; border-radius:8px 0 0 8px;
+  }
+  .tier-content { flex:1; background:#fff; border:1px solid var(--slate-200); border-left:none; padding:12px 16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; border-radius:0 8px 8px 0; }
+  .tier-company { padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; }
+  .tc-tier1 { background:#dbeafe; color:#1e40af; }
+  .tc-tier2 { background:#e0e7ff; color:#3730a3; }
+  .tc-tier3 { background:#f1f5f9; color:var(--slate-700); }
+  .tc-us { background:var(--yellow-bg); color:var(--yellow-dark); border:2px solid var(--yellow); font-size:13px; }
+
+  /* ─── Footer ─── */
+  .footer { text-align:center; padding:24px 48px 40px; color:var(--slate-600); font-size:12px; }
+
+  @media (max-width:768px) {
+    .header { padding:20px 24px; }
+    .hero { padding:40px 24px; }
+    .hero h2 { font-size:24px; }
+    .section { padding:0 24px 32px; }
+    .cards-2, .cards-3, .cards-4, .cards-6 { grid-template-columns:1fr; }
+    .hero-stats { gap:20px; }
+    .hero-stat .val { font-size:28px; }
+    .tier-label { width:60px; font-size:11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <h1>📋 橙子自动化 · 公司背景与产品布局</h1>
+      <div class="sub">电子测试设备国产替代先行者 ｜ 更新于 2026年7月</div>
+    </div>
+    <div class="header-actions">
+      <a href="index.html" class="home-btn">🏠 首页</a>
+      <a href="company-informatization.html">🔄 信息化全景</a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <h2>🏭 橙子自动化</h2>
+  <p class="tagline">电子测试设备国产替代先行者 · 飞针测试机全国出货量第一 · 为 PCB 行业提供全栈测试解决方案</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="val">2014</div><div class="lbl">公司成立</div></div>
+    <div class="hero-stat"><div class="val">30+</div><div class="lbl">产品型号</div></div>
+    <div class="hero-stat"><div class="val">#1</div><div class="lbl">飞针出货全国领先</div></div>
+    <div class="hero-stat"><div class="val">150</div><div class="lbl">团队规模</div></div>
+    <div class="hero-stat"><div class="val">3</div><div class="lbl">制造基地（贵阳/肇庆/湛江）</div></div>
+    <div class="hero-stat"><div class="val">C轮</div><div class="lbl">融资完成 · 高速发展</div></div>
+  </div>
+</section>
+
+<!-- ═══ TIMELINE ═══ -->
+<section class="section">
+  <h3 class="section-title">📅 发展历程</h3>
+  <div class="card">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2014 年</div>
+        <div class="tl-text">邵总（87年出生，河南科技大学机械系）从共高科技离职，在深圳创立橙子自动化。早期为华为提供手机组装线与测试线，赶上3G换4G换机潮。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2017 年</div>
+        <div class="tl-text">华为启动供应商"1+1计划"（海外供应商必须配本土备份），橙子应华为之邀开始研发飞针测试设备。邵总30岁做出关键决策：自筹资金投入飞针研发。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2019 年</div>
+        <div class="tl-text">危机时刻：华为被制裁，原有手机产线订单归零，飞针也只卖出2台。公司坚持投入研发，从定制化向标准化产品转型，逐步打开局面。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021 年</div>
+        <div class="tl-text">战略聚焦：彻底想明白放弃消费电子组装业务，All-in 电子测试设备赛道。使命——让"小、非主流"市场变成"主流、先进"的新范式。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2026 年</div>
+        <div class="tl-text">飞针测试机年度出货量全国第一。完成C轮融资，产品型号30+，覆盖PCBA、光板、FPC、玻璃基板/陶瓷载板。研发中心迁入深圳宝安中晟立新产业园。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INDUSTRY POSITION ═══ -->
+<section class="section">
+  <h3 class="section-title">🌍 全球竞争格局</h3>
+  <p class="section-desc">电子测试设备行业壁垒高、积累深。第一梯队公司均已发展60-80+年，中国在该领域刚刚起步。橙子处于第三梯队中下游，目标领跑第三梯队。</p>
+  <div class="tier-chart">
+    <div class="tier-row">
+      <div class="tier-label" style="background:#1e40af;">🥇 第一梯队</div>
+      <div class="tier-content">
+        <span class="tier-company tc-tier1">Keysight 是德科技</span>
+        <span style="font-size:11px;color:var(--slate-600);">美国 · 年收≈400亿人民币 · 源自惠普→安捷伦→是德</span>
+        <span class="tier-company tc-tier1">Rohde & Schwarz</span>
+        <span style="font-size:11px;color:var(--slate-600);">德国 · 私人公司 · 军工起家</span>
+      </div>
+    </div>
+    <div class="tier-row">
+      <div class="tier-label" style="background:#3730a3;">🥈 第二梯队</div>
+      <div class="tier-content">
+        <span class="tier-company tc-tier2">Tektronix</span>
+        <span class="tier-company tc-tier2">NI（National Instruments）</span>
+        <span style="font-size:11px;color:var(--slate-600);">均为美国公司</span>
+      </div>
+    </div>
+    <div class="tier-row">
+      <div class="tier-label" style="background:var(--yellow-dark);">🥉 第三梯队</div>
+      <div class="tier-content">
+        <span class="tier-company tc-tier3">SPEA</span><span style="font-size:11px;color:var(--slate-600);">意大利</span>
+        <span class="tier-company tc-tier3">HIOKI</span><span style="font-size:11px;color:var(--slate-600);">日本</span>
+        <span class="tier-company tc-tier3">Seica</span><span style="font-size:11px;color:var(--slate-600);">意大利</span>
+        <span class="tier-company tc-tier3">ATG</span><span style="font-size:11px;color:var(--slate-600);">德国</span>
+        <span class="tier-company tc-tier3">TRI</span><span style="font-size:11px;color:var(--slate-600);">台湾/日本</span>
+        <span class="tier-company tc-us">⭐ 橙子 iPR</span>
+        <span style="font-size:11px;color:var(--yellow-dark);font-weight:600;">中国 · 唯一中国选手</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px;">
+    <h4>💡 我们的核心优势</h4>
+    <div class="cards cards-4" style="margin-top:12px;">
+      <div class="card"><h4>趋势红利</h4><p>中国电子产业高端化 + 两极化脱钩 = 国产测试设备黄金窗口。军工/汽车/服务器全面鼓励采购国产。</p></div>
+      <div class="card"><h4>规模效应</h4><p>设备级产品（非仪表盒），最便宜一台十几万，同样销量下收入是仪器公司的10倍。</p></div>
+      <div class="card"><h4>贴近客户</h4><p>全球70-80%的SMT产线在中国，研发就在客户身边。竞争对手研发全在欧美，无法快速响应。</p></div>
+      <div class="card"><h4>壁垒深厚</h4><p>测试行业不会被轻易颠覆（vs互联网/通信），经验积累越久越强。60岁的专家依然能指导25岁的工程师。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRODUCTS ═══ -->
+<section class="section">
+  <h3 class="section-title">🚀 核心产品矩阵</h3>
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h4>飞针测试机 Flying Probe</h4>
+      <p>公司核心产品，30+型号，2针/4针/6针/8针配置。对PCBA（贴装电路板）进行全面电器性能测试：电阻、电容、电感、开路、短路、跳线等。柔性测试，无需定制治具，特别适合多品种小批量及研发验证场景。2026年出货量全国第一。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📟</div>
+      <h4>光板测试机 Bare Board</h4>
+      <p>面向PCB制造环节——在贴片前对裸板进行开路/短路/阻抗测试。覆盖硬板、FPC（柔性电路板）、玻璃基板、陶瓷载板等。精度要求更高（20-10μm级别）。双面4针/8针可实现在线量产测试，是当前研发的重点方向。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔌</div>
+      <h4>ICT 在线测试</h4>
+      <p>静态针床式测试，适用于大批量产线。通过定制治具（成百上千根探针同时接触板子），实现毫秒级测试。高端型号对标Keysight/Teradyne。目前处于研发阶段，涉及大型测量系统和复杂测试卡设计。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h4>MD Pro 自动化平台</h4>
+      <p>零代码拖拽式设备控制平台。支持运动控制（板卡/直线电机/雷赛等）、通讯（TCP/串口/Modbus）、Lua脚本。可快速搭建自动化设备控制逻辑，无需写一行代码。大幅降低设备开发门槛。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">👁️</div>
+      <h4>MD Vision 视觉平台</h4>
+      <p>独立运行或嵌入MD Pro的机器视觉平台。支持2D/3D/线扫相机，具备定位、检测、测量、缺陷分类等功能。已集成深度学习AI模块（擦伤、脏污等缺陷分类），多个项目现场落地。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💻</div>
+      <h4>测试软件平台</h4>
+      <p>ST/MDA/BST测试软件，DFT解析软件（解析ODB++/Gerber设计文件→生成测试文件给飞针）。GitLab代码管理+Pytest自动化测试。主要语言Python/C++，ISP综合测试平台正在新一代开发中。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CUSTOMERS ═══ -->
+<section class="section">
+  <h3 class="section-title">🤝 核心客户</h3>
+  <div class="cards cards-4">
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h4>军工国防</h4>
+      <p>空空导弹研究院（霹雳-15导弹测试）、俄罗斯Ostec（最大军工设备代理）。军工是核心行业，订单旺盛。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔋</div>
+      <h4>新能源 / 汽车</h4>
+      <p>宁德时代（CATL）、中创新航、科博达、现代汽车。车规级产品对测试覆盖率要求极高。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🖥️</div>
+      <h4>服务器 / 通信</h4>
+      <p>华为（多业务线）、超聚变（服务器）、荣耀、微软、苹果。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏭</div>
+      <h4>EMS 电子代工</h4>
+      <p>立讯精密、富士康、闻泰、嘉立创等级别的代工厂，正在做多家验证。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VALUES ═══ -->
+<section class="section">
+  <h3 class="section-title">💡 企业文化与价值观</h3>
+  <div class="cards cards-4">
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h4>客户第一</h4>
+      <p>用户思维：研发不是炫技，而是解决客户的真实问题。鼓励到现场、看实况，"现场现物"是公司文化核心。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <h4>成果思维</h4>
+      <p>追求卓越、不甘平庸。任何阶段任务都要超额兑现。问题即机会：碰到问题是你的机会来了，而不是抱怨。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💪</div>
+      <h4>持续创新</h4>
+      <p>客观认识事物是改善它的前提。不修饰、不粉饰——像张雪一样坦率真实。数据在哪里，现场在哪里，答案就在哪里。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔬</div>
+      <h4>专业专注</h4>
+      <p>牌桌上都是干了六七十年的欧美企业。我们要用26届、27届、28届一代代新人的能量，把每一步都做扎实。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VISION ═══ -->
+<section class="section">
+  <h3 class="section-title">🎯 未来愿景</h3>
+  <div class="cards cards-2">
+    <div class="card">
+      <h4>从硬件到数据</h4>
+      <p>不满足于卖测试设备。随着设备覆盖率提升，将从客户端获取可开放数据，把数据资产加工成软件产品——这是趋势，也是橙子更大的想象空间。</p>
+    </div>
+    <div class="card">
+      <h4>从中国到全球</h4>
+      <p>5年内有资格坐上牌桌，与欧美日韩企业同台竞争。10年内在行业标准制定中拥有话语权。在两极化格局下，成为中国电子测试设备的核心力量。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 数据来源：2026年7月公司内部培训纪要
+</div>
+
+</body>
+</html>

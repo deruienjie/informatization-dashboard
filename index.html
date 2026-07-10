@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>橙子自动化 · 信息化展示平台</title>
+<style>
+  :root {
+    --green: #10b981; --green-dark: #065f46;
+    --slate-50: #f8fafc; --slate-200: #e2e8f0;
+    --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b; --slate-900: #0f172a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--slate-50); color: var(--slate-800);
+    min-height: 100vh; display:flex; flex-direction:column;
+  }
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+    color: #fff; padding: 40px 48px; text-align:center;
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content:''; position:absolute; top:-60%; left:-10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header::after {
+    content:''; position:absolute; bottom:-50%; right:0%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(16,185,129,.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner { position:relative; z-index:1; }
+  .header h1 { font-size: 32px; font-weight: 700; letter-spacing:1px; }
+  .header .sub { font-size:14px; color:#94a3b8; margin-top:8px; }
+  .main { flex:1; display:flex; align-items:center; justify-content:center; padding:48px; gap:32px; flex-wrap:wrap; }
+  .nav-card {
+    background:#fff; border-radius:20px; padding:40px 36px; width:360px; min-height:260px;
+    border:1px solid var(--slate-200); text-decoration:none; color:inherit;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    position:relative; overflow:hidden; cursor:pointer; display:block;
+  }
+  .nav-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(0,0,0,.1); }
+  .nav-card.card1:hover { border-color:#3b82f6; }
+  .nav-card.card2:hover { border-color:var(--green); }
+  .nav-card .icon { font-size:48px; margin-bottom:16px; }
+  .nav-card h2 { font-size:20px; font-weight:700; margin-bottom:8px; color:var(--slate-800); }
+  .nav-card p { font-size:13px; color:var(--slate-600); line-height:1.6; }
+  .nav-card .arrow { 
+    position:absolute; right:28px; bottom:24px; font-size:20px;
+    opacity:0; transform:translateX(-8px); transition:all .3s; color:var(--slate-600);
+  }
+  .nav-card:hover .arrow { opacity:1; transform:translateX(0); }
+  .nav-card::after {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    transition:transform .25s; transform:scaleX(0); transform-origin:left;
+  }
+  .nav-card.card1::after { background:linear-gradient(90deg,#3b82f6,#8b5cf6); }
+  .nav-card.card2::after { background:linear-gradient(90deg,#10b981,#06b6d4); }
+  .nav-card:hover::after { transform:scaleX(1); }
+  .tag-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .tag { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:500; }
+  .tag-green { background:#d1fae5; color:#065f46; }
+  .tag-blue { background:#dbeafe; color:#1e40af; }
+  .tag-yellow { background:#fef3c7; color:#92400e; }
+  .tag-red { background:#fee2e2; color:#991b1b; }
+  .footer { text-align:center; padding:20px 48px 32px; color:var(--slate-600); font-size:12px; }
+  @media (max-width:768px) {
+    .header { padding:24px; }
+    .header h1 { font-size:22px; }
+    .main { padding:24px; gap:16px; }
+    .nav-card { width:100%; padding:28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1>🏭 橙子自动化 · 信息化展示平台</h1>
+    <p class="sub">电子测试设备国产替代先行者 ｜ 杰德瑞恩J · 信息化项目组</p>
+  </div>
+</header>
+
+<div class="main">
+  <a href="company-informatization.html" class="nav-card card1">
+    <div class="icon">🔄</div>
+    <h2>企业信息化全景</h2>
+    <p>公司全部系统数据流转图 — 从销售到生产到财务全闭环。一眼看清已上线、缺失、规划中的系统。</p>
+    <div class="tag-row">
+      <span class="tag tag-green">CRM</span>
+      <span class="tag tag-green">ERP</span>
+      <span class="tag tag-green">EHR</span>
+      <span class="tag tag-yellow">PLM</span>
+      <span class="tag tag-yellow">APS</span>
+      <span class="tag tag-red">WMS</span>
+      <span class="tag tag-red">MES</span>
+    </div>
+    <div class="arrow">→</div>
+  </a>
+
+  <a href="company-intro.html" class="nav-card card2">
+    <div class="icon">📋</div>
+    <h2>公司背景与产品</h2>
+    <p>创业历程、行业地位、产品矩阵、技术能力、核心客户、企业文化 — 新人培训一站式了解。</p>
+    <div class="tag-row">
+      <span class="tag tag-green">发展历程</span>
+      <span class="tag tag-blue">行业地位</span>
+      <span class="tag tag-yellow">产品矩阵</span>
+      <span class="tag tag-green">客户案例</span>
+    </div>
+    <div class="arrow">→</div>
+  </a>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 点击卡片进入详情
+</div>
+
+</body>
+</html>
