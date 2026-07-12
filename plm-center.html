@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLM项目实施中心 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;
+  --or:#f97316;--or-bg:#fff3e0;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+/* ── Header ── */
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
+
+/* ── Dashboard Section ── */
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--b);color:#fff;padding:2px 8px;border-radius:10px}
+.section-desc{font-size:12px;color:var(--s-400);margin-bottom:12px}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat-value{font-size:24px;font-weight:700;line-height:1}
+.stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
+
+/* Dash grid */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.dash-box{background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
+.dash-box .box-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:6px}
+.dash-box .box-desc{font-size:11px;color:var(--s-400);margin-bottom:12px}
+
+/* Mini flow */
+.mini-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:8px 0}
+.mf-plm{padding:10px 14px;border-radius:8px;background:var(--y-bg);border:2px solid var(--y);font-size:12px;font-weight:700;color:var(--y-d);text-align:center}
+.mf-plm small{display:block;font-size:9px;font-weight:400;opacity:.7}
+.mf-erp{padding:7px 10px;border-radius:6px;background:var(--g-bg);border:1px solid var(--g);font-size:10px;font-weight:600;color:var(--g-d);text-align:center}
+.mf-erp small{display:block;font-size:9px;font-weight:400;opacity:.7}
+.mf-mes{padding:7px 10px;border-radius:6px;background:var(--r-bg);border:1px dashed var(--r);font-size:10px;font-weight:600;color:var(--r-d);text-align:center}
+.mf-mes small{display:block;font-size:9px;font-weight:400;opacity:.7}
+.mf-arr{color:var(--s-400);font-size:16px;font-weight:700}
+.mf-sep{color:var(--s-400);font-size:12px}
+
+/* File progress */
+.fp-item{display:flex;align-items:center;justify-content:space-between;padding:5px 6px;border-radius:4px;font-size:12px;margin-bottom:2px;transition:background .15s}
+.fp-item:hover{background:var(--s-50)}
+.fp-name{flex:1}
+.fp-st{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.st-done{background:var(--g-bg);color:var(--g)}
+.st-now{background:var(--b-bg);color:var(--b);animation:pulse 2s ease-in-out infinite}
+.st-wait{background:var(--s-100);color:var(--s-400)}
+@keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+.fp-bar{height:6px;background:var(--s-200);border-radius:3px;margin-top:10px;overflow:hidden}
+.fp-fill{height:100%;background:linear-gradient(90deg,var(--g),#34d399);border-radius:3px;transition:width .5s}
+.fp-num{text-align:right;font-size:10px;color:var(--s-400);margin-top:3px}
+
+/* Action box */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.action-box{padding:14px 16px;border-radius:10px;border:1px dashed}
+.action-box.blue{background:var(--b-bg);border-color:var(--b)}
+.action-box.green{background:var(--g-bg);border-color:var(--g)}
+.action-box .ab-title{font-size:12px;font-weight:700;margin-bottom:6px}
+.action-box.blue .ab-title{color:var(--b)}
+.action-box.green .ab-title{color:var(--g)}
+.action-box .ab-list{font-size:11px;color:var(--s-600);line-height:1.8}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:12px;margin:24px 0 14px}
+.divider::before,.divider::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--s-200),transparent)}
+.divider .lb{font-size:13px;color:var(--s-400);font-weight:600;white-space:nowrap}
+.divider .sw{display:flex;gap:6px}
+.divider .sw-btn{font-size:10px;padding:4px 12px;border-radius:20px;background:var(--s-100);color:var(--s-400);border:1px solid var(--s-200);cursor:pointer;transition:all .2s;font-family:inherit}
+.divider .sw-btn:hover,.divider .sw-btn.active{background:var(--b);color:#fff;border-color:var(--b)}
+
+/* ── Phase Sections ── */
+.phase{margin-bottom:16px}
+.phase-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.phase-num{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;min-width:34px;flex-shrink:0}
+.p0{background:var(--p)}.p1{background:var(--b)}.p2{background:var(--g)}
+.p3{background:var(--y)}.p4{background:var(--r)}.p5{background:var(--b)}.p6{background:var(--p)}
+.phase-title{font-size:15px;font-weight:700;color:var(--s-800)}
+.phase-week{font-size:10px;color:var(--s-400);margin-left:auto}
+.phase-chk{font-size:10px;padding:3px 10px;border-radius:10px;background:var(--g-bg);color:var(--g);font-weight:600;white-space:nowrap}
+
+.io-grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:0;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--s-200)}
+.io-col{padding:14px 16px}
+.io-col.in{background:#eff6ff;border-right:1px solid #bfdbfe}
+.io-col.act{background:#fff}
+.io-col.out{background:#f0fdf4;border-left:1px solid #bbf7d0}
+.io-h{font-size:11px;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.io-col.in .io-h{color:var(--b)}.io-col.out .io-h{color:var(--g)}.io-col.act .io-h{color:var(--s-600)}
+.io-item{font-size:11px;padding:3px 0;line-height:1.6;display:flex;align-items:flex-start;gap:5px}
+.io-item::before{content:'•';color:var(--s-400);flex-shrink:0}
+.io-doc{border:1px dashed #bbf7d0;border-radius:6px;padding:5px 8px;margin:3px 0;font-size:10px;background:#fff;transition:all .15s;cursor:default}
+.io-doc:hover{border-color:var(--g);background:var(--g-bg)}
+.io-doc.out-in{border-color:#bfdbfe}
+.io-doc.out-in:hover{border-color:var(--b);background:var(--b-bg)}
+.io-doc strong{display:block;font-size:9px;color:var(--s-400);margin-bottom:1px;font-weight:600}
+.io-doc small{font-size:9px;color:var(--s-400)}
+
+.checkpoint{background:var(--y-bg);border:1px dashed var(--y);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:11px;line-height:1.6;transition:all .15s}
+.checkpoint:hover{border-color:var(--y);background:#fffbeb}
+.checkpoint strong{color:var(--y-d)}
+
+.arrow{text-align:center;padding:4px 0 8px;color:var(--s-400);font-size:18px}
+
+/* ── Templates Section ── */
+.templates{background:#fff;border-radius:14px;padding:22px 24px;margin:24px 0;border:1px solid var(--s-200);position:relative}
+.templates::before{content:'📥 文件模板下载';position:absolute;top:-11px;left:20px;background:var(--or);color:#fff;padding:3px 14px;border-radius:6px;font-size:12px;font-weight:700}
+.tm-desc{font-size:12px;color:var(--s-400);margin:8px 0 14px}
+.tm-dl-all{display:inline-block;background:var(--or);color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none}
+.tm-dl-all:hover{background:#ea580c;transform:translateY(-1px)}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .dash-grid,.action-grid{grid-template-columns:1fr}
+  .io-grid{grid-template-columns:1fr}
+  .io-col.in{border-right:none;border-bottom:1px solid #bfdbfe}
+  .io-col.out{border-left:none;border-top:1px solid #bbf7d0}
+  .header{padding:18px 20px}
+  .header h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <div class="header-left">
+    <h1>🔧 PLM 项目实施中心</h1>
+    <div class="sub">橙子自动化 · 金蝶 PLM · 周期 4-6 个月 · 项目经理：杰德瑞恩J</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="company-informatization.html">🔄 信息化全景</a>
+    <a href="company-intro.html">📋 公司背景</a>
+  </nav>
+</header>
+
+<!-- ═══════════ DASHBOARD ZONE ═══════════ -->
+<div class="section-label">
+  <span class="icon">📊</span>
+  <span class="text">现状诊断看板</span>
+  <span class="badge">领导汇报</span>
+</div>
+<div class="section-desc">给领导看的全貌：PLM 当前在哪、对接哪些系统、文件产出到哪了、本周该干什么。</div>
+
+<!-- Stats -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--b)">🔵 准备期</div>
+    <div class="stat-label">当前阶段 · 第3-4周</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--g)">3 / 23</div>
+    <div class="stat-label">文件完成</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--y)">1 / 8</div>
+    <div class="stat-label">里程碑达成</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--g)">🟢 正常</div>
+    <div class="stat-label">整体状态</div>
+  </div>
+</div>
+
+<!-- Dash grid: mini flow + file progress -->
+<div class="dash-grid">
+  <div class="dash-box">
+    <div class="box-title">🔗 PLM 对接系统一览</div>
+    <div class="box-desc">PLM 上线后，产品数据从源头分发到各系统</div>
+    <div class="mini-flow">
+      <div class="mf-plm">🟡 PLM<br><small>产品数据源头</small></div>
+      <div class="mf-arr">→</div>
+      <div><div class="mf-erp">📋 ERP·销售<br><small>产品配置</small></div></div>
+      <div class="mf-sep">+</div>
+      <div><div class="mf-erp">📋 ERP·采购<br><small>物料规格</small></div></div>
+      <div class="mf-sep">+</div>
+      <div><div class="mf-erp">📋 ERP·库存<br><small>BOM主数据</small></div></div>
+      <div class="mf-sep">+</div>
+      <div><div class="mf-erp">📋 ERP·财务<br><small>标准成本</small></div></div>
+      <div class="mf-arr">+</div>
+      <div class="mf-mes">🔴 MES<br><small>工艺路线</small></div>
+    </div>
+  </div>
+  <div class="dash-box">
+    <div class="box-title">📄 文件产出进度</div>
+    <div class="box-desc">全流程 23 个关键文件</div>
+    <div class="fp-item"><span class="fp-name">阶段0 · 现状调研报告</span><span class="fp-st st-now">进行中</span></div>
+    <div class="fp-item"><span class="fp-name">阶段0 · 试点产品清单</span><span class="fp-st st-done">✅ 已完成</span></div>
+    <div class="fp-item"><span class="fp-name">阶段0 · 金蝶PLM方案书</span><span class="fp-st st-done">✅ 已完成</span></div>
+    <div class="fp-item"><span class="fp-name">阶段1 · 一期范围说明书</span><span class="fp-st st-now">进行中</span></div>
+    <div class="fp-item"><span class="fp-name">阶段1 · 物料数据健康度报告</span><span class="fp-st st-wait">待启动</span></div>
+    <div class="fp-item"><span class="fp-name">阶段1 · 图纸文档现状清单</span><span class="fp-st st-wait">待启动</span></div>
+    <div class="fp-item"><span class="fp-name">阶段2-6 · 剩余17个文件</span><span class="fp-st st-wait">待启动</span></div>
+    <div class="fp-bar"><div class="fp-fill" style="width:13%"></div></div>
+    <div class="fp-num">13% 完成</div>
+  </div>
+</div>
+
+<!-- Action boxes -->
+<div class="action-grid">
+  <div class="action-box blue">
+    <div class="ab-title">⚡ 本周行动建议</div>
+    <div class="ab-list">
+      1. 找研发主管聊 BOM/图纸/变更管理现状<br>
+      2. 从金蝶 ERP 导出完整物料清单<br>
+      3. 选 2 款试点产品（1 量产 + 1 在研）<br>
+      4. 整理现有物料编码规则<br>
+      5. 联系金蝶确认 PLM-ERP 原生对接方案
+    </div>
+  </div>
+  <div class="action-box green">
+    <div class="ab-title">👥 需要协调的人</div>
+    <div class="ab-list">
+      👤 <strong>研发主管</strong> — 了解 BOM/图纸管理现状和痛点<br>
+      👤 <strong>邵总</strong> — 确认 PLM 预算和期望<br>
+      👤 <strong>谢总</strong> — 确认合同条款和付款节奏<br>
+      👤 <strong>IT 负责人</strong> — PLM-ERP 对接技术评估<br>
+      👤 <strong>金蝶销售</strong> — 方案书 + 参考案例 + 报价
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DIVIDER ═══════════ -->
+<div class="divider">
+  <div class="lb">📖 学习引导 · 7步走完PLM实施</div>
+  <div class="sw">
+    <button class="sw-btn active" onclick="scrollToPhase(0)">看板 ↑</button>
+    <button class="sw-btn" onclick="scrollToPhase('guide')">学习引导 ↓</button>
+  </div>
+</div>
+
+<!-- ═══════════ LEARNING ZONE ═══════════ -->
+
+<!-- Phase 0 -->
+<div class="phase" id="phase0">
+  <div class="phase-header">
+    <div class="phase-num p0">0</div>
+    <div class="phase-title">前期调研 · 搞清楚现状</div>
+    <div class="phase-week">第 0-2 周</div>
+    <div class="phase-chk">🔍 诊断点</div>
+  </div>
+  <div class="io-grid">
+    <div class="io-col in">
+      <div class="io-h">📥 输入物</div>
+      <div class="io-item">公司现有系统清单</div>
+      <div class="io-item">当前 BOM 管理方式</div>
+      <div class="io-item">图纸存放位置和组织方式</div>
+      <div class="io-item">设计变更流程现状</div>
+      <div class="io-item">领导层对 PLM 的期望</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h">🔧 关键动作</div>
+      <div class="io-item">找研发主管深入聊 1 小时，挖出真实痛点</div>
+      <div class="io-item">实地参观研发部：看 BOM/图纸怎么存的</div>
+      <div class="io-item">跟邵总/谢总确认 PLM 预算和期望</div>
+      <div class="io-item">联系金蝶销售，要 PLM 产品方案书</div>
+      <div class="io-item">选 2 款试点产品（1 量产飞针 + 1 在研新品）</div>
+      <div class="io-item">记录当前物料编码规则的完整逻辑</div>
+    </div>
+    <div class="io-col out">
+      <div class="io-h">📤 输出文件</div>
+      <div class="io-doc out-in"><strong>📄 文件1</strong>现状调研报告.docx<small>BOM/图纸/变更管理现状，一页纸</small></div>
+      <div class="io-doc out-in"><strong>📄 文件2</strong>试点产品清单.xlsx<small>2款产品名 + BOM层级预估</small></div>
+      <div class="io-doc"><strong>📄 文件3</strong>金蝶PLM方案书<small>金蝶提供的产品介绍（外部）</small></div>
+    </div>
+  </div>
+  <div class="checkpoint">
+    <strong>🔍 阶段0 诊断检查点：</strong>你搞清楚现在 BOM 在哪管了吗？试点产品选好了吗？金蝶方案书拿到了吗？物料编码规则理清楚了吗？<br>
+    <span style="color:var(--y-d);font-weight:600">→ 全部确认，才能进入阶段1</span>
+  </div>
+</div>
+
+<div class="arrow">⬇</div>
+
+<!-- Phase 1 -->
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div class="phase-num p1">1</div>
+    <div class="phase-title">项目准备 · 定范围 + 盘数据</div>
+    <div class="phase-week">第 3-4 周</div>
+    <div class="phase-chk">🔍 诊断点</div>
+  </div>
+  <div class="io-grid">
+    <div class="io-col in">
+      <div class="io-h">📥 输入物</div>
+      <div class="io-item">现状调研报告（阶段0产出）</div>
+      <div class="io-item">ERP 导出的完整物料清单</div>
+      <div class="io-item">现有图纸/设计文件目录</div>
+      <div class="io-item">金蝶 PLM 方案书</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h">🔧 关键动作</div>
+      <div class="io-item">明确 PLM 一期范围：BOM管理 + 设计变更 + 图纸管理（别贪多）</div>
+      <div class="io-item">盘物料：从 ERP 拉清单，统计总数和类型分布</div>
+      <div class="io-item">整理现有编码规则，决定是否统一</div>
+      <div class="io-item">抽 5-10 个产品，对比 BOM 和实物是否一致</div>
+      <div class="io-item">检查图纸命名规范，没有就现定一个</div>
+      <div class="io-item">找采购/仓库排查一物多码问题</div>
+    </div>
+    <div class="io-col out">
+      <div class="io-h">📤 输出文件</div>
+      <div class="io-doc out-in"><strong>📄 文件4</strong>PLM一期范围说明书.docx<small>包含/不包含清单 + 优先级</small></div>
+      <div class="io-doc"><strong>📄 文件5</strong>物料数据健康度报告.xlsx<small>物料总数、类型分布、准确率</small></div>
+      <div class="io-doc"><strong>📄 文件6</strong>图纸/文档现状清单.xlsx<small>格式、存放位置、命名规范方案</small></div>
+    </div>
+  </div>
+  <div class="checkpoint">
+    <strong>🔍 阶段1 诊断检查点：</strong>一期范围定了吗？物料数据健康度报告出来了吗？BOM准确率抽查结果如何？图纸命名规范定好了吗？<br>
+    <span style="color:var(--y-d);font-weight:600">→ 全部确认，才能进入阶段2</span>
+  </div>
+</div>
+
+<div class="arrow">⬇</div>
+
+<!-- Phase 2 -->
+<div class="phase" id="phase2">
+  <div class="phase-header">
+    <div class="phase-num p2">2</div>
+    <div class="phase-title">数据清洗 · 把数据弄干净</div>
+    <div class="phase-week">第 5-6 周</div>
+    <div class="phase-chk">🔍 诊断点</div>
+  </div>
+  <div class="io-grid">
+    <div class="io-col in">
+      <div class="io-h">📥 输入物</div>
+      <div class="io-item">物料数据健康度报告（阶段1产出）</div>
+      <div class="io-item">图纸/文档现状清单（阶段1产出）</div>
+      <div class="io-item">一期范围说明书（阶段1产出）</div>
+      <div class="io-item">新编码规则方案（如有变更）</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h">🔧 关键动作</div>
+      <div class="io-item">去重：一物多码的物料合并（研发+采购配合，3-5天）</div>
+      <div class="io-item">补全：缺失的规格型号、图号逐一补上（5-10天）</div>
+      <div class="io-item">校准：BOM 和实物逐项对比修正（5-10天）</div>
+      <div class="io-item">统一：按新编码规则重新编号物料</div>
+      <div class="io-item">跟金蝶确认数据导入格式要求</div>
+    </div>
+    <div class="io-col out">
+      <div class="io-h">📤 输出文件</div>
+      <div class="io-doc"><strong>📄 文件7</strong>清洗后物料主数据.xlsx<small>无重复、无缺失、已校准</small></div>
+      <div class="io-doc"><strong>📄 文件8</strong>清洗后BOM数据.xlsx<small>与实物一致，层级正确</small></div>
+      <div class="io-doc out-in"><strong>📄 文件9</strong>编码规则文档.docx<small>（如变更了编码规则）</small></div>
+    </div>
+  </div>
+  <div class="checkpoint">
+    <strong>🔍 阶段2 诊断检查点：</strong>一物多码都合并完了吗？缺失的规格型号补全了吗？BOM和实物对比过没有？新编码规则文档写好了吗？<br>
+    <span style="color:var(--y-d);font-weight:600">→ 全部确认，才能进入阶段3</span>
+  </div>
+</div>
+
+<div class="arrow">⬇</div>
+
+<!-- Phase 3 -->
+<div class="phase" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num p3">3</div>
+    <div class="phase-title">团队与合同 · 组队 + 签合同</div>
+    <div class="phase-week">第 4-6 周（可与数据清洗并行）</div>
+    <div class="phase-chk">🔍 诊断点</div>
+  </div>
+  <div class="io-grid">
+    <div class="io-col in">
+      <div class="io-h">📥 输入物</div>
+      <div class="io-item">一期范围说明书（阶段1产出）</div>
+      <div class="io-item">金蝶方案书 + 参考案例</div>
+      <div class="io-item">PLM-ERP 对接需求</div>
+      <div class="io-item">领导批复的预算</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h">🔧 关键动作</div>
+      <div class="io-item">组建 6 人项目团队：邵总(发起人)+你(PM)+研发主管+IT+工程师×3</div>
+      <div class="io-item">跟金蝶谈合同：付款节奏 3:3:3:1，写死验收标准</div>
+      <div class="io-item">确认 PLM 与 ERP 原生对接方案（同品牌有天然优势）</div>
+      <div class="io-item">确定服务器部署方式：云端还是本地</div>
+      <div class="io-item">内部宣导：跟研发/生产/采购提前沟通，减少阻力</div>
+      <div class="io-item">要求金蝶派出资深顾问（合同里写明，别被派实习生）</div>
+    </div>
+    <div class="io-col out">
+      <div class="io-h">📤 输出文件</div>
+      <div class="io-doc out-in"><strong>📄 文件10</strong>项目团队名单+职责表.xlsx</div>
+      <div class="io-doc"><strong>📄 文件11</strong>PLM-ERP对接方案文档.docx<small>字段映射+接口方案</small></div>
+      <div class="io-doc"><strong>📄 文件12</strong>金蝶实施合同.docx<small>含验收标准、付款节奏</small></div>
+      <div class="io-doc out-in"><strong>📄 文件13</strong>内部宣导材料.pptx<small>给研发/生产/采购的说明</small></div>
+    </div>
+  </div>
+  <div class="checkpoint">
+    <strong>🔍 阶段3 诊断检查点：</strong>合同签了吗？（付款3:3:3:1）团队组好了吗？对接方案确定了吗？（原生接口 vs API vs 中间表）服务器定了吗？<br>
+    <span style="color:var(--y-d);font-weight:600">→ 全部确认，才能进入阶段4</span>
+  </div>
+</div>
+
+<div class="arrow">⬇</div>
+
+<!-- Phase 4 -->
+<div class="phase" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num p4">4</div>
+    <div class="phase-title">系统实施 · 部署 + 配置 + 导入</div>
+    <div class="phase-week">第 7-12 周</div>
+    <div class="phase-chk">🔍 诊断点</div>
+  </div>
+  <div class="io-grid">
+    <div class="io-col in">
+      <div class="io-h">📥 输入物</div>
+      <div class="io-item">清洗后的物料 + BOM 数据（阶段2产出）</div>
+      <div class="io-item">PLM-ERP 对接方案文档（阶段3产出）</div>
+      <div class="io-item">金蝶实施合同（阶段3产出）</div>
+      <div class="io-item">服务器/网络环境就绪</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h">🔧 关键动作</div>
+      <div class="io-item">金蝶部署 PLM 系统环境</div>
+      <div class="io-item">配置工作流：物料审批 / 变更审批 / BOM发布</div>
+      <div class="io-item">配置 PLM↔ERP 接口并测试连通</div>
+      <div class="io-item">按序导入数据：物料主数据→BOM→图纸</div>
+      <div class="io-item">二次开发（如果标准功能不满足需求）</div>
+      <div class="io-item">每周固定跟金蝶开项目会，同步进度+问题</div>
+      <div class="io-item">每两周跟邵总汇报一次</div>
+    </div>
+    <div class="io-col out">
+      <div class="io-h">📤 输出文件</div>
+      <div class="io-doc"><strong>📄 文件14</strong>系统配置文档.docx<small>工作流、权限、字段设置</small></div>
+      <div class="io-doc out-in"><strong>📄 文件15</strong>接口对接确认书.docx<small>金蝶确认对接完成</small></div>
+      <div class="io-doc"><strong>📄 文件16</strong>数据导入验证报告.xlsx<small>导入数据 vs 源数据对比</small></div>
+      <div class="io-doc out-in"><strong>📄 文件17</strong>实施周报（每周）.docx<small>进度/问题/下一步</small></div>
+    </div>
+  </div>
+  <div class="checkpoint">
+    <strong>🔍 阶段4 诊断检查点：</strong>系统部署好了吗？PLM↔ERP 对接测试通过了吗？数据导入验证过了吗？工作流配置是否满足需求？<br>
+    <span style="color:var(--y-d);font-weight:600">→ 全部确认，才能进入阶段5</span>
+  </div>
+</div>
+
+<div class="arrow">⬇</div>
+
+<!-- Phase 5 -->
+<div class="phase" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num p5">5</div>
+    <div class="phase-title">试运行 · 试点验证 + 培训</div>
+    <div class="phase-week">第 13-16 周</div>
+    <div class="phase-chk">🔍 诊断点</div>
+  </div>
+  <div class="io-grid">
+    <div class="io-col in">
+      <div class="io-h">📥 输入物</div>
+      <div class="io-item">部署完成的 PLM 系统（阶段4产出）</div>
+      <div class="io-item">2 款试点产品完整数据</div>
+      <div class="io-item">研发工程师 2-3 人（关键用户）</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h">🔧 关键动作</div>
+      <div class="io-item">在 PLM 中跑完试点产品完整流程（建BOM→变更→发布）</div>
+      <div class="io-item">验证 PLM→ERP 数据同步是否准确无误</div>
+      <div class="io-item">收集关键用户反馈，整理 Bug/改进清单</div>
+      <div class="io-item">金蝶修复问题，迭代优化</div>
+      <div class="io-item">全员培训：研发 / 工艺 / 采购 / 生产分批进行</div>
+      <div class="io-item">培训后现场考核关键用户操作能力</div>
+    </div>
+    <div class="io-col out">
+      <div class="io-h">📤 输出文件</div>
+      <div class="io-doc out-in"><strong>📄 文件18</strong>试运行验证报告.docx<small>试点结果+Bug修复记录</small></div>
+      <div class="io-doc"><strong>📄 文件19</strong>用户反馈汇总.xlsx<small>问题列表+优先级</small></div>
+      <div class="io-doc"><strong>📄 文件20</strong>培训签到表.xlsx + 培训材料<small>PPT/操作手册</small></div>
+    </div>
+  </div>
+  <div class="checkpoint">
+    <strong>🔍 阶段5 诊断检查点：</strong>试点产品跑通了吗？PLM→ERP同步无误吗？用户反馈处理完了吗？全员培训完成了吗？<br>
+    <span style="color:var(--y-d);font-weight:600">→ 全部确认，才能进入阶段6（正式上线！）</span>
+  </div>
+</div>
+
+<div class="arrow">⬇</div>
+
+<!-- Phase 6 -->
+<div class="phase" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num p6">6</div>
+    <div class="phase-title">正式上线 + 持续优化</div>
+    <div class="phase-week">第 17 周 +</div>
+    <div class="phase-chk" style="background:var(--y-bg);color:var(--y-d)">🎯 收尾</div>
+  </div>
+  <div class="io-grid">
+    <div class="io-col in">
+      <div class="io-h">📥 输入物</div>
+      <div class="io-item">试运行验证通过（阶段5产出）</div>
+      <div class="io-item">全员培训完成（阶段5产出）</div>
+      <div class="io-item">全产品清洗后数据就绪</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h">🔧 关键动作</div>
+      <div class="io-item">全产品线切换到 PLM——从此 PLM 是唯一数据源</div>
+      <div class="io-item">正式验收：按合同逐条核对，写完签字</div>
+      <div class="io-item">封存旧 Excel/共享文件夹，统一用 PLM</div>
+      <div class="io-item">安排金蝶驻场运维支持至少 1 个月</div>
+      <div class="io-item">持续收集反馈，规划二期（工艺路线/项目管理/CAD集成）</div>
+    </div>
+    <div class="io-col out">
+      <div class="io-h">📤 输出文件</div>
+      <div class="io-doc out-in"><strong>📄 文件21</strong>项目验收报告.docx<small>验收标准逐条确认+签字</small></div>
+      <div class="io-doc"><strong>📄 文件22</strong>运维交接文档.docx<small>账号、备份、紧急联系人</small></div>
+      <div class="io-doc out-in"><strong>📄 文件23</strong>二期需求清单.xlsx<small>工艺路线/项目管理/CAD集成</small></div>
+    </div>
+  </div>
+  <div class="checkpoint" style="background:#d1fae5;border-color:var(--g)">
+    <strong style="color:var(--g-d)">🎯 最终检查：</strong>验收签字了吗？金蝶运维安排了吗？旧 Excel 封存了吗？（别让同事偷偷用回去！）二期需求整理了吗？<br>
+    <span style="color:var(--g);font-weight:700">→ 🎉 恭喜，PLM 项目正式上线！</span>
+  </div>
+</div>
+
+<!-- ═══════════ TEMPLATES ═══════════ -->
+<div class="templates" id="templates">
+  <div class="tm-desc">每个阶段你需要产出的文件，这里都有空白模板。下载后直接填内容。模板会在正式网页中提供实际下载链接。</div>
+  <div class="io-grid" style="margin-bottom:14px">
+    <div class="io-col in" style="background:#fff3e0;border-right:1px solid #ffcc80">
+      <div class="io-h" style="color:#e65100">阶段 0-1 · 调研与准备</div>
+      <div class="io-item">📄 现状调研报告模板.docx</div>
+      <div class="io-item">📄 试点产品清单模板.xlsx</div>
+      <div class="io-item">📄 一期范围说明书模板.docx</div>
+      <div class="io-item">📄 物料数据健康度模板.xlsx</div>
+      <div class="io-item">📄 图纸文档现状清单模板.xlsx</div>
+    </div>
+    <div class="io-col act">
+      <div class="io-h" style="color:var(--s-600)">阶段 2-3 · 清洗与合同</div>
+      <div class="io-item">📄 物料主数据清洗模板.xlsx</div>
+      <div class="io-item">📄 BOM数据清洗模板.xlsx</div>
+      <div class="io-item">📄 编码规则文档模板.docx</div>
+      <div class="io-item">📄 项目团队职责表模板.xlsx</div>
+      <div class="io-item">📄 PLM-ERP对接方案模板.docx</div>
+      <div class="io-item">📄 实施合同检查清单.docx</div>
+    </div>
+    <div class="io-col out" style="background:#e8f5e9;border-left:1px solid #a5d6a7">
+      <div class="io-h" style="color:#2e7d32">阶段 4-6 · 实施与上线</div>
+      <div class="io-item">📄 实施周报模板.docx</div>
+      <div class="io-item">📄 数据导入验证报告模板.xlsx</div>
+      <div class="io-item">📄 试运行验证报告模板.docx</div>
+      <div class="io-item">📄 用户反馈汇总模板.xlsx</div>
+      <div class="io-item">📄 培训签到表模板.xlsx</div>
+      <div class="io-item">📄 项目验收报告模板.docx</div>
+      <div class="io-item">📄 二期需求清单模板.xlsx</div>
+    </div>
+  </div>
+  <div style="text-align:center">
+    <a class="tm-dl-all" href="#templates" onclick="alert('模板打包功能将在正式版本中提供下载链接')">📦 一键打包下载全部 18 个模板</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  PLM 项目实施中心 · 看板给领导汇报 · 学习引导给自己用 · 橙子自动化 · 杰德瑞恩J · WorkBuddy 出品
+</div>
+
+</div>
+
+<script>
+function scrollToPhase(id) {
+  if (id === 'guide') {
+    document.getElementById('phase0').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+// Phase checkpoint click to highlight
+document.querySelectorAll('.checkpoint').forEach(cp => {
+  cp.addEventListener('click', function() {
+    this.style.borderColor = 'var(--g)';
+    this.style.background = '#f0fdf4';
+    setTimeout(() => {
+      this.style.borderColor = 'var(--y)';
+      this.style.background = 'var(--y-bg)';
+    }, 600);
+  });
+});
+</script>
+</body>
+</html>
