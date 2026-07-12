@@ -36,9 +36,9 @@
   .header-inner { position:relative; z-index:1; }
   .header h1 { font-size: 32px; font-weight: 700; letter-spacing:1px; }
   .header .sub { font-size:14px; color:#94a3b8; margin-top:8px; }
-  .main { flex:1; display:flex; align-items:center; justify-content:center; padding:48px; gap:32px; flex-wrap:wrap; }
+  .main { flex:1; display:flex; align-items:center; justify-content:center; padding:48px 32px; gap:28px; flex-wrap:wrap; }
   .nav-card {
-    background:#fff; border-radius:20px; padding:40px 36px; width:360px; min-height:260px;
+    background:#fff; border-radius:20px; padding:40px 32px; width:320px; min-height:260px;
     border:1px solid var(--slate-200); text-decoration:none; color:inherit;
     transition: transform .25s, box-shadow .25s, border-color .25s;
     position:relative; overflow:hidden; cursor:pointer; display:block;
@@ -46,6 +46,7 @@
   .nav-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(0,0,0,.1); }
   .nav-card.card1:hover { border-color:#3b82f6; }
   .nav-card.card2:hover { border-color:var(--green); }
+  .nav-card.card3:hover { border-color:#8b5cf6; }
   .nav-card .icon { font-size:48px; margin-bottom:16px; }
   .nav-card h2 { font-size:20px; font-weight:700; margin-bottom:8px; color:var(--slate-800); }
   .nav-card p { font-size:13px; color:var(--slate-600); line-height:1.6; }
@@ -60,6 +61,7 @@
   }
   .nav-card.card1::after { background:linear-gradient(90deg,#3b82f6,#8b5cf6); }
   .nav-card.card2::after { background:linear-gradient(90deg,#10b981,#06b6d4); }
+  .nav-card.card3::after { background:linear-gradient(90deg,#8b5cf6,#ec4899); }
   .nav-card:hover::after { transform:scaleX(1); }
   .tag-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
   .tag { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:500; }
@@ -111,6 +113,19 @@
       <span class="tag tag-blue">行业地位</span>
       <span class="tag tag-yellow">产品矩阵</span>
       <span class="tag tag-green">客户案例</span>
+    </div>
+    <div class="arrow">→</div>
+  </a>
+
+  <a href="plm-center.html" class="nav-card card3">
+    <div class="icon">🔧</div>
+    <h2>PLM 项目实施中心</h2>
+    <p>金蝶PLM实施全流程 — 看板给领导汇报 · 7步学习引导 · 33条真实痛点 · 23个文件追踪 · 模板下载。</p>
+    <div class="tag-row">
+      <span class="tag tag-yellow">现状诊断</span>
+      <span class="tag tag-blue">7步学习引导</span>
+      <span class="tag tag-green">33条痛点</span>
+      <span class="tag tag-red">模板下载</span>
     </div>
     <div class="arrow">→</div>
   </a>
