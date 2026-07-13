@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>业务解析 · 采购订单合并下推</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#7c2d12,#9a3412,#c2410c);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(249,115,22,.2),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#fed7aa;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#fed7aa;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover{background:rgba(249,115,22,.3);color:#fff}
+
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:28px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+
+.card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:12px}
+
+/* ── AS-IS flow ── */
+.as-is-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:12px 0;font-size:11px}
+.as-is-node{padding:6px 12px;border-radius:5px;font-weight:600}
+.asis-arr{color:var(--s-400);font-weight:700}
+.asis-green{background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)}
+.asis-red{background:var(--r-bg);border:1px solid var(--r);color:var(--r-d)}
+.asis-yellow{background:var(--y-bg);border:1px solid var(--y);color:var(--y-d)}
+.asis-gray{background:var(--s-100);border:1px solid var(--s-400);color:var(--s-600)}
+
+/* ── Scenario cards ── */
+.scenario{background:var(--r-bg);border:1.5px solid var(--r);border-radius:10px;padding:14px 16px;margin-bottom:10px;font-size:12px;color:var(--s-700);line-height:1.6}
+.scenario h4{color:var(--r-d);font-size:13px;margin-bottom:4px}
+.scenario table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+.scenario th,.scenario td{padding:5px 8px;border:1px solid var(--s-200);text-align:center}
+.scenario th{background:var(--s-100);color:var(--s-600);font-weight:600}
+
+/* ── Info box ── */
+.info-box{
+  border-radius:10px;padding:14px 16px;font-size:12px;color:var(--s-700);line-height:1.6;margin-bottom:10px;
+}
+.info-box.orange{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid var(--o)}
+.info-box.orange h4{color:var(--o-d)}
+.info-box.green{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid var(--g)}
+.info-box.green h4{color:var(--g-d)}
+
+.data-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.data-table th,.data-table td{padding:8px 12px;border:1px solid var(--s-200);text-align:left;vertical-align:top}
+.data-table th{background:var(--s-100);color:var(--s-600);font-weight:600;font-size:11px}
+.data-table .bad{background:var(--r-bg);color:var(--r-d)}
+.data-table .good{background:var(--g-bg);color:var(--g-d)}
+
+.section-nav{display:flex;gap:12px;align-items:center;font-size:12px;margin-top:20px;padding:12px 16px;background:#fff;border-radius:10px;border:1px solid var(--s-200)}
+.section-nav .nav-label{color:var(--s-400)}
+.section-nav a{font-weight:600;text-decoration:none;padding:4px 10px;border-radius:6px}
+.section-nav a.analysis{background:var(--o-bg);color:var(--o-d);border:1px solid var(--o)}
+.section-nav a.solution{color:var(--g-d)}
+.section-nav a.purchase{color:var(--b-d)}
+.section-nav a:hover{text-decoration:underline}
+
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .header{padding:18px 20px}.header h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="header">
+  <div class="header-left">
+    <h1>🔍 业务解析：采购订单合并下推</h1>
+    <div class="sub">为什么同一个物料会被分拆成N张采购订单？· 根源分析 · 教你看懂这个业务问题</div>
+  </div>
+  <nav class="header-nav">
+    <a href="erp-procurement.html">← 返回采购管理</a>
+    <a href="erp-procurement-solution.html">📋 看方案</a>
+    <a href="erp-center.html">📦 ERP中心</a>
+  </nav>
+</header>
+
+<div class="section-nav">
+  <span class="nav-label">📍 你在：</span>
+  <a href="erp-procurement.html">采购管理</a> →
+  <a href="erp-procurement-analysis.html" class="analysis">业务解析</a>（当前页）
+  <span style="color:var(--s-400)">|</span>
+  <a href="erp-procurement-solution.html" class="solution">查看解决方案 →</a>
+</div>
+
+<!-- ═══ 1: AS-IS流程 ═══ -->
+<div class="section-label"><span class="text">📊 1. 当前业务流程（AS-IS）</span></div>
+
+<div class="card">
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:8px 0;font-size:11px">
+    <span class="as-is-node asis-green">项目A提物料<br>需求A</span>
+    <span class="asis-arr">→</span>
+    <span class="as-is-node asis-green">项目B提物料<br>需求B</span>
+    <span class="asis-arr">→</span>
+    <span class="as-is-node asis-green">项目C提物料<br>需求C</span>
+    <span class="asis-arr">⇩</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:8px 0;font-size:11px">
+    <span class="as-is-node asis-gray">物控收到</span>
+    <span class="asis-arr">→</span>
+    <span class="as-is-node asis-red">❌ ERP中逐行下推</span>
+    <span class="asis-arr">→</span>
+    <span class="as-is-node asis-red">❌ 产生3张PO</span>
+    <span class="asis-arr">→</span>
+    <span class="as-is-node asis-yellow">采购逐个询价下单</span>
+    <span class="asis-arr">→</span>
+    <span class="as-is-node asis-yellow">仓库分3次收货</span>
+  </div>
+  <p style="text-align:center;font-size:11px;color:var(--s-400);margin-top:8px">
+    关键节点：ERP 的"下推"功能是逐行触发的，不支持批量勾选多行、合并生成 <strong>一张</strong> 采购订单。
+  </p>
+</div>
+
+<!-- ═══ 2: 具体场景 ═══ -->
+<div class="section-label"><span class="text">🎯 2. 具体场景还原</span></div>
+
+<div class="card">
+  <p style="font-size:12px;color:var(--s-700);line-height:1.8;margin-bottom:14px">
+    假设<strong>步进电机</strong>是公司常用物料，一周内有 3 个项目同时申请，数量分别是 5台 / 3台 / 2台。当前系统中的操作是这样的：
+  </p>
+
+  <div class="scenario">
+    <h4>🔴 物控的实际操作（当前）</h4>
+    <table>
+      <tr><th>步骤</th><th>操作</th><th>耗时</th><th>问题</th></tr>
+      <tr>
+        <td>1</td><td>打开项目A的采购申请 → 点"下推" → 生成PO-A（步进电机 ×5）</td><td>~10分钟</td><td>逐行操作</td>
+      </tr>
+      <tr>
+        <td>2</td><td>打开项目B的采购申请 → 点"下推" → 生成PO-B（步进电机 ×3）</td><td>~10分钟</td><td>同物料重复</td>
+      </tr>
+      <tr>
+        <td>3</td><td>打开项目C的采购申请 → 点"下推" → 生成PO-C（步进电机 ×2）</td><td>~10分钟</td><td>同物料重复</td>
+      </tr>
+      <tr>
+        <td>结果</td><td colspan="3"><strong>同一物料，物控重复操作3次。采购收到3张PO（总量10台），分开询价议价。仓库分3次收货入库。</strong></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="info-box green" style="margin-top:10px">
+    <h4>✅ 如果合并下推（期望）</h4>
+    <p>物控勾选3行 → 点一次"合并下推" → 生成1张PO（步进电机 ×10台）→ 采购一次询价（量大有议价权）→ 供应商一次送货 → 仓库一次入库。物控5分钟搞定。</p>
+  </div>
+</div>
+
+<!-- ═══ 3: 根源分析 ═══ -->
+<div class="section-label"><span class="text">🔍 3. 根源分析</span></div>
+
+<div class="card">
+  <table class="data-table">
+    <tr><th style="width:100px">根源</th><th>说明</th><th style="width:80px">严重程度</th></tr>
+    <tr>
+      <td>ERP功能限制</td>
+      <td>金蝶云星空的"下推"功能设计为<strong>逐行触发</strong>，不支持批量勾选多行 + 合并生成一张订单。这是问题的<strong>技术根因</strong>。</td>
+      <td class="bad">高</td>
+    </tr>
+    <tr>
+      <td>流程设计缺陷</td>
+      <td>公司采购流程以"项目"为维度——每个项目的采购申请独立走、独立审批、独立下单。没有"跨项目同一物料"的合并机制。</td>
+      <td class="bad">高</td>
+    </tr>
+    <tr>
+      <td>信息不透明</td>
+      <td>物控人工作业时，需要自己判断"哪几种物料可以合并"，系统没有自动识别"×物料被×个项目同时申请，共×份"的提示。</td>
+      <td style="background:var(--y-bg);color:var(--y-d)">中</td>
+    </tr>
+    <tr>
+      <td>组织边界</td>
+      <td>5个部门（工程/物控/采购/仓库/财务）各自以"项目"为单位操作，没有人负责跨项目统筹。缺乏"共用料计划员"角色。</td>
+      <td style="background:var(--y-bg);color:var(--y-d)">中</td>
+    </tr>
+  </table>
+
+  <div class="info-box orange" style="margin-top:14px">
+    <h4>📌 关键理解</h4>
+    <p>这个问题不是"某个人的问题"，而是<strong>系统设计 + 流程设计 + 组织分工</strong>三重因素叠加的结果。解决它需要 ERP 功能改造 + 流程变更 + 部门协同。</p>
+  </div>
+</div>
+
+<!-- ═══ 4: 量化影响 ═══ -->
+<div class="section-label"><span class="text">💸 4. 量化影响</span></div>
+
+<div class="card">
+  <table class="data-table">
+    <tr><th>影响维度</th><th>数据</th><th>年化损失</th></tr>
+    <tr>
+      <td>物控工作量</td>
+      <td>每月平均合并机会 10-15 次，每次重复操作 ~30 分钟</td>
+      <td>~60 工时/年</td>
+    </tr>
+    <tr>
+      <td>议价权流失</td>
+      <td>分散询价损失 ~15% 议价空间（按月采购额估算）</td>
+      <td>视采购量而定</td>
+    </tr>
+    <tr>
+      <td>仓库效率</td>
+      <td>分 3 次收货 vs 合并 1 次，单次收货约 2 小时</td>
+      <td>~80 工时/年</td>
+    </tr>
+    <tr>
+      <td>采购效率</td>
+      <td>每张 PO 独立询价比价 1-2 天，合并后只需 1 次</td>
+      <td>~30 天/年</td>
+    </tr>
+  </table>
+</div>
+
+<div class="section-nav" style="justify-content:end">
+  <span class="nav-label">看完了根源分析，接着看：</span>
+  <a href="erp-procurement-solution.html" class="solution" style="background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)">📋 解决方案 → 怎么实现合并下推？</a>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+</div>
+
+</div>
+</body>
+</html>

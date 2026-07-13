@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ERP · 采购与共用料管理 · 问题列表</title>
+<title>ERP · 采购管理 · 需求</title>
 <style>
 :root {
   --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
@@ -40,65 +40,79 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 .header-nav a:hover,.header-nav a.active{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
 
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center}
-.stat-value{font-size:24px;font-weight:700;line-height:1}
-.stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
-
-.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:20px}
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px}
 .section-label .icon{font-size:18px}
 .section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
 .section-label .badge{font-size:10px;background:var(--g);color:#fff;padding:2px 8px;border-radius:10px}
 
-/* ── 问题卡片 ── */
-.problem-list{display:flex;flex-direction:column;gap:10px}
-.problem-card{
-  background:#fff;border-radius:12px;padding:18px 20px;border:1.5px solid var(--s-200);
-  display:grid;grid-template-columns:80px 1fr auto;gap:16px;align-items:center;
-  text-decoration:none;color:inherit;transition:all .2s;cursor:pointer;
+.card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:12px}
+
+/* ── Flow diagram ── */
+.flow-container{overflow-x:auto;padding:8px 0}
+.flow-row{display:flex;align-items:flex-start;gap:6px;min-width:max-content;padding:16px 4px}
+.flow-node{
+  flex-shrink:0;width:130px;border-radius:12px;padding:14px 8px;text-align:center;
+  border:2px solid;transition:transform .15s;
 }
-.problem-card:hover{border-color:var(--g);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.06)}
-.problem-card.priority-p0{border-left:5px solid var(--r)}
-.problem-card.priority-p1{border-left:5px solid var(--y)}
-.problem-card.priority-p2{border-left:5px solid var(--b)}
-
-.priority-tag{
-  text-align:center;padding:8px 6px;border-radius:8px;
-  font-weight:700;font-size:12px;color:#fff;flex-shrink:0
+.flow-node:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.flow-node .n-icon{font-size:22px;margin-bottom:4px}
+.flow-node .n-title{font-size:12px;font-weight:700;margin-bottom:2px}
+.flow-node .n-sub{font-size:9px;line-height:1.4}
+.flow-arrow{
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--s-400);font-weight:700;flex-shrink:0;width:22px;padding-top:35px;
 }
-.priority-p0 .priority-tag{background:var(--r)}
-.priority-p1 .priority-tag{background:var(--y);color:var(--y-d)}
-.priority-p2 .priority-tag{background:var(--b)}
+.flow-node.green{background:var(--g-bg);border-color:var(--g)}.flow-node.green .n-title{color:var(--g-d)}
+.flow-node.blue{background:var(--b-bg);border-color:var(--b)}.flow-node.blue .n-title{color:var(--b-d)}
+.flow-node.orange{background:var(--o-bg);border-color:var(--o)}.flow-node.orange .n-title{color:var(--o-d)}
+.flow-node.purple{background:var(--p-bg);border-color:var(--p)}.flow-node.purple .n-title{color:var(--p-d)}
+.flow-node.yellow{background:var(--y-bg);border-color:var(--y)}.flow-node.yellow .n-title{color:var(--y-d)}
 
-.problem-body{flex:1;min-width:0}
-.problem-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.problem-title .module-tag{font-size:10px;padding:2px 8px;border-radius:6px;background:var(--g-bg);color:var(--g-d);font-weight:600}
-.problem-desc{font-size:12px;color:var(--s-600);line-height:1.5}
-.problem-meta{display:flex;gap:12px;margin-top:6px;font-size:10px;color:var(--s-400);flex-wrap:wrap}
-.problem-meta .meta-item{display:flex;align-items:center;gap:3px}
+/* ── Clickable flow nodes ── */
+.flow-node.clickable{cursor:pointer;position:relative}
+.flow-node.clickable:hover{border-width:3px;margin:-1px}
+.flow-node.highlight{box-shadow:0 0 0 4px rgba(245,158,11,.2);border-color:var(--y)!important}
+.flow-node.highlight .n-title{color:var(--y-d)!important}
+.flow-node.highlight .n-icon::after{content:'⚠️';font-size:10px;position:relative;top:-8px}
 
-.problem-arrow{
-  font-size:20px;color:var(--s-400);padding:8px 14px;
-  background:var(--s-50);border-radius:8px;flex-shrink:0
+/* ── Requirement card ── */
+.req-card{
+  border-radius:14px;padding:24px 28px;background:linear-gradient(135deg,#fff,#fef2f2);
+  border:2px solid var(--r);position:relative;
 }
-.problem-card:hover .problem-arrow{background:var(--g-bg);color:var(--g-d)}
+.req-card h3{font-size:16px;font-weight:700;color:var(--r-d);margin-bottom:8px}
+.req-card p{font-size:13px;color:var(--s-700);line-height:1.7;margin-bottom:16px}
+.req-card .req-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.req-card .meta-tag{font-size:10px;padding:3px 10px;border-radius:12px;font-weight:600}
+.req-card .meta-tag.red{background:var(--r-bg);color:var(--r-d)}
 
-/* ── 进度条 ── */
-.progress-row{margin-top:20px;background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
-.progress-bar{height:8px;background:var(--s-100);border-radius:4px;overflow:hidden;display:flex;margin:8px 0}
-.progress-segment{height:100%}
-.progress-legend{display:flex;gap:14px;font-size:11px;color:var(--s-600);flex-wrap:wrap;margin-top:8px}
-.legend-item{display:flex;align-items:center;gap:4px}
-.legend-dot{width:10px;height:10px;border-radius:2px}
+/* ── Action buttons ── */
+.btn-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:10px;font-size:14px;font-weight:700;
+  text-decoration:none;border:2px solid;transition:all .2s;cursor:pointer;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.btn-analysis{
+  background:var(--o-bg);color:var(--o-d);border-color:var(--o);
+}
+.btn-analysis:hover{background:var(--o);color:#fff}
+.btn-solution{
+  background:var(--g-bg);color:var(--g-d);border-color:var(--g);
+}
+.btn-solution:hover{background:var(--g);color:#fff}
+
+/* ── Sub pages nav ── */
+.sub-nav{display:flex;gap:4px;margin-top:10px;font-size:11px;color:var(--s-400)}
+.sub-nav a{color:var(--b);text-decoration:none}
+.sub-nav a:hover{text-decoration:underline}
 
 .footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
 
 @media(max-width:768px){
-  .stats-row{grid-template-columns:1fr 1fr}
-  .problem-card{grid-template-columns:60px 1fr}
-  .problem-arrow{display:none}
-  .header{padding:18px 20px}
-  .header h1{font-size:18px}
+  .header{padding:18px 20px}.header h1{font-size:18px}
+  .btn-row{flex-direction:column}.btn{justify-content:center}
 }
 </style>
 </head>
@@ -108,8 +122,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 <!-- ═══ HEADER ═══ -->
 <header class="header">
   <div class="header-left">
-    <h1>📦 ERP · 采购与共用料管理</h1>
-    <div class="sub">共用料合并采购方案 · 2026-06-29 更新 · 物控提出 → 多部门推进中</div>
+    <h1>📦 ERP · 采购管理</h1>
+    <div class="sub">采购订单合并下推 · 2026-06-29 提出 · 物控 → 采购 → 多部门推进中</div>
   </div>
   <nav class="header-nav">
     <a href="index.html">🏠 首页</a>
@@ -120,272 +134,105 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   </nav>
 </header>
 
-<!-- ═══ 顶部说明 ═══ -->
-<div style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1.5px solid var(--g);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--g-d);margin-bottom:14px;line-height:1.6">
-  <strong>📌 页面说明：</strong>本页面是<strong>问题列表</strong>，每条问题可点开查看详情。
-  每个问题详情包含 <span style="background:#fff;padding:1px 6px;border-radius:4px;color:var(--p-d);font-weight:600">📋 方案Tab</span>（给用户解释"为什么这样做/这样做有什么好处"）
-  和 <span style="background:#fff;padding:1px 6px;border-radius:4px;color:var(--b-d);font-weight:600">🛠️ 指引Tab</span>（手把手教操作步骤）。
-  HR看方案、业务操作员看指引。
-</div>
-
-<!-- ═══ STATS ═══ -->
-<div class="stats-row">
-  <div class="stat-card">
-    <div class="stat-value" style="color:var(--r)">3</div>
-    <div class="stat-label">P0 紧急问题</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" style="color:var(--y)">5</div>
-    <div class="stat-label">P1 重要问题</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" style="color:var(--b)">4</div>
-    <div class="stat-label">P2 一般问题</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" style="color:var(--g)">12</div>
-    <div class="stat-label">问题总数</div>
-  </div>
-</div>
-
-<!-- ═══ P0 紧急问题 ═══ -->
+<!-- ═══ FLOW DIAGRAM ═══ -->
 <div class="section-label">
-  <span class="icon">🔴</span>
-  <span class="text">P0 · 紧急问题（必须本月解决）</span>
-  <span class="badge" style="background:var(--r)">3个</span>
+  <span class="icon">🔁</span>
+  <span class="text">采购业务流程</span>
+  <span class="badge">AS-IS 现状流程</span>
 </div>
 
-<div class="problem-list">
-  <a href="erp-procurement-detail.html?id=common-material" class="problem-card priority-p0">
-    <div class="priority-tag">P0</div>
-    <div class="problem-body">
-      <div class="problem-title">
-        <span class="module-tag">共用料</span>
-        同一个料下10张PO，采购重复劳动
+<div class="card" style="overflow-x:auto;padding:16px 12px">
+  <div class="flow-container">
+    <div class="flow-row">
+      <div class="flow-node blue">
+        <div class="n-icon">👤</div>
+        <div class="n-title">项目提出</div>
+        <div class="n-sub">各项目经理<br>提出物料需求</div>
       </div>
-      <div class="problem-desc">同一物料被多项目同时申请 → 物控收到10张分散PO → 逐个询价/下单/跟单，重复6倍以上工作量。每月发生10次以上。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：物控/采购</div>
-        <div class="meta-item">⏱ 每月耗时：~30工时</div>
-        <div class="meta-item">💰 浪费：人月成本+议价权流失</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node green">
+        <div class="n-icon">📋</div>
+        <div class="n-title">物控创建</div>
+        <div class="n-sub">在ERP创建<br>采购申请单</div>
       </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=supplier-pool" class="problem-card priority-p0">
-    <div class="priority-tag">P0</div>
-    <div class="problem-body">
-      <div class="problem-title">
-        <span class="module-tag">供应商</span>
-        供应商分散10次发现，物流成本高
+      <div class="flow-arrow">→</div>
+      <div class="flow-node green">
+        <div class="n-icon">🔄</div>
+        <div class="n-title">下推采购订单</div>
+        <div class="n-sub">按项目逐个<br>下推PO</div>
       </div>
-      <div class="problem-desc">10个项目各找各的供应商，分散议价，无量价无折扣。每次都要重新走一遍询价→比价→议价流程。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：采购/财务</div>
-        <div class="meta-item">⏱ 议价周期：5-7天/次</div>
-        <div class="meta-item">💰 议价权流失：~15%</div>
+      <div class="flow-arrow">→</div>
+      <!-- 问题节点 -->
+      <div class="flow-node yellow highlight clickable" onclick="document.getElementById('req-card').scrollIntoView({behavior:'smooth'})">
+        <div class="n-icon">⚠️</div>
+        <div class="n-title">问题：重复下推</div>
+        <div class="n-sub">同一物料<br>被多个项目<br>分开下推PO</div>
       </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=warehouse-fee" class="problem-card priority-p0">
-    <div class="priority-tag">P0</div>
-    <div class="problem-body">
-      <div class="module-tag">仓库</span>
-        仓库收10次货，效率低
+      <div class="flow-arrow">→</div>
+      <div class="flow-node orange">
+        <div class="n-icon">🏭</div>
+        <div class="n-title">供应商交付</div>
+        <div class="n-sub">按PO分别<br>送货到仓库</div>
       </div>
-      <div class="problem-desc">10个项目各送各的货，仓库分10次收货、检验、入库、上架，每月重复劳动~10次。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：仓库/物控</div>
-        <div class="meta-item">⏱ 单次收货：~2小时</div>
-        <div class="meta-item">💰 月节省空间：~20小时</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node purple">
+        <div class="n-icon">📦</div>
+        <div class="n-title">仓库收货</div>
+        <div class="n-sub">分N次收货<br>分N次入库</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node blue">
+        <div class="n-icon">💰</div>
+        <div class="n-title">财务结算</div>
+        <div class="n-sub">按PO分摊<br>到各项目</div>
       </div>
     </div>
-    <div class="problem-arrow">→</div>
-  </a>
-</div>
-
-<!-- ═══ P1 重要问题 ═══ -->
-<div class="section-label">
-  <span class="icon">🟡</span>
-  <span class="text">P1 · 重要问题（季度内解决）</span>
-  <span class="badge" style="background:var(--y)">5个</span>
-</div>
-
-<div class="problem-list">
-  <a href="erp-procurement-detail.html?id=info-isolated" class="problem-card priority-p1">
-    <div class="priority-tag">P1</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--y-bg);color:var(--y-d)">信息流</span>
-        业务项目部经理不清楚（唯一优势）
-      </div>
-      <div class="problem-desc">各项目独立做方案，不知道有共物料可合并。仅个别项目经理有信息渠道。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：项目经理/物控</div>
-        <div class="meta-item">⚠ 当前唯一突破点</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=material-abc" class="problem-card priority-p1">
-    <div class="priority-tag">P1</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--y-bg);color:var(--y-d)">物料分级</span>
-        ABC物料分级策略不清晰
-      </div>
-      <div class="problem-desc">所有物料按同一模式采购，导致A类高价值长交期物料的紧急性被忽视。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：物控/采购/仓库</div>
-        <div class="meta-item">💡 不同物料不同策略</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=public-inventory" class="problem-card priority-p1">
-    <div class="priority-tag">P1</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--y-bg);color:var(--y-d)">库存模式</span>
-        公共库存功能待验证
-      </div>
-      <div class="problem-desc">ERP是否支持公共库存+各项目领料的成本归集，需要顾问确认。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：ERP配置/财务核算</div>
-        <div class="meta-item">⏱ 待顾问评估</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=po-merge" class="problem-card priority-p1">
-    <div class="priority-tag">P1</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--y-bg);color:var(--y-d)">流程改造</span>
-        PO合并审批流程待设计
-      </div>
-      <div class="problem-desc">从"项目→单独PO"改为"多项目合并PO"，需要重新设计审批流和成本归集规则。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：流程/IT/财务</div>
-        <div class="meta-item">⏱ 涉及5个部门沟通</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=eng-spec" class="problem-card priority-p1">
-    <div class="priority-tag">P1</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--y-bg);color:var(--y-d)">BOM</span>
-        工程规格统一 / 选型归一
-      </div>
-      <div class="problem-desc">多项目用同一类物料但规格/品牌不统一，无法合并采购。需要PLM侧推动选型归一。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：工程/PLM</div>
-        <div class="meta-item">💡 选型归一是合并基础</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-</div>
-
-<!-- ═══ P2 一般问题 ═══ -->
-<div class="section-label">
-  <span class="icon">🔵</span>
-  <span class="text">P2 · 一般问题（年度内解决）</span>
-  <span class="badge" style="background:var(--b)">4个</span>
-</div>
-
-<div class="problem-list">
-  <a href="erp-procurement-detail.html?id=supplier-vmi" class="problem-card priority-p2">
-    <div class="priority-tag">P2</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--b-bg);color:var(--b-d)">供应商</span>
-        VMI模式探索
-      </div>
-      <div class="problem-desc">A类物料试行供应商管理库存（VMI），降低库存资金占用。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：采购/仓库/供应商</div>
-        <div class="meta-item">💡 长期方向</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=report-dash" class="problem-card priority-p2">
-    <div class="priority-tag">P2</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--b-bg);color:var(--b-d)">报表</span>
-        采购合并节省金额报表
-      </div>
-      <div class="problem-desc">每月展示合并采购节省的成本，量化价值，便于汇报。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：管理层/财务</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=plm-erp" class="problem-card priority-p2">
-    <div class="priority-tag">P2</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--b-bg);color:var(--b-d)">系统集成</span>
-        PLM↔ERP BOM对接
-      </div>
-      <div class="problem-desc">PLM BOM下发至ERP，自动生成采购计划，避免人工二次录入。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：PLM/ERP/IT</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-
-  <a href="erp-procurement-detail.html?id=role-clarify" class="problem-card priority-p2">
-    <div class="priority-tag">P2</div>
-    <div class="problem-body">
-      <div class="module-tag" style="background:var(--b-bg);color:var(--b-d)">组织</span>
-        5部门角色职责明确化
-      </div>
-      <div class="problem-desc">工程/物控/采购/仓库/财务在共用料模式下的职责边界，写入SOP。</div>
-      <div class="problem-meta">
-        <div class="meta-item">📍 影响：5部门+SOP</div>
-      </div>
-    </div>
-    <div class="problem-arrow">→</div>
-  </a>
-</div>
-
-<!-- ═══ 整体进度 ═══ -->
-<div class="section-label">
-  <span class="icon">📊</span>
-  <span class="text">整体推进进度</span>
-</div>
-
-<div class="progress-row">
-  <div style="font-size:12px;color:var(--s-600);margin-bottom:4px">P0 紧急问题 3/3 已立项</div>
-  <div class="progress-bar">
-    <div class="progress-segment" style="width:25%;background:var(--r)"></div>
   </div>
-  <div style="font-size:12px;color:var(--s-600);margin-top:12px;margin-bottom:4px">P1 重要问题 2/5 已推进</div>
-  <div class="progress-bar">
-    <div class="progress-segment" style="width:40%;background:var(--y)"></div>
+  <div style="text-align:center;font-size:10px;color:var(--s-400);margin-top:4px">
+    ⚠️ 黄色节点为当前痛点：同一物料被多个项目分开下推PO，导致物控/采购/仓库三方重复劳动
   </div>
-  <div style="font-size:12px;color:var(--s-600);margin-top:12px;margin-bottom:4px">P2 一般问题 0/4 启动</div>
-  <div class="progress-bar">
-    <div class="progress-segment" style="width:0%;background:var(--b)"></div>
+</div>
+
+<!-- ═══ KEY INSIGHT ═══ -->
+<div style="background:#fef3c7;border:1.5px solid var(--y);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--y-d);margin-bottom:12px;line-height:1.6">
+  <strong>📊 核心问题一句话：</strong>同一个物料被3-10个项目同时申请 → 物控在ERP中逐个下推生成3-10张采购订单 → 采购逐个询价下单 → 仓库分批收货 → 三方都重复劳动，议价权也被稀释。
+</div>
+
+<!-- ═══ REQUIREMENT ═══ -->
+<div class="section-label">
+  <span class="icon">📋</span>
+  <span class="text">采购需求清单</span>
+  <span class="badge" style="background:var(--r)">1条</span>
+</div>
+
+<div class="req-card" id="req-card">
+  <h3>🔥 需求：采购订单合并下推</h3>
+  <p>
+    同一物料被多项目申请时，物控在ERP中应支持<strong>"勾选多行采购申请 → 一键合并下推为一张采购订单"</strong>，
+    而非按项目逐个下推。合并后由采购统一询价下单，供应商一次送货，仓库一次入库，各项目按需领料。
+  </p>
+  <div class="req-meta">
+    <span class="meta-tag red">优先级 P0</span>
+    <span class="meta-tag red">物控提出</span>
+    <span class="meta-tag red">影响：物控/采购/仓库</span>
   </div>
-  <div class="progress-legend">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--r)"></div> P0 推进中</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--y)"></div> P1 推进中</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--b)"></div> P2 待启动</div>
+  <div class="btn-row">
+    <a href="erp-procurement-analysis.html" class="btn btn-analysis">
+      🔍 业务解析：为什么会发生这个问题？
+    </a>
+    <a href="erp-procurement-solution.html" class="btn btn-solution">
+      📋 解决方案：怎么实现合并下推？
+    </a>
+  </div>
+  <div class="sub-nav">
+    <a href="erp-procurement-analysis.html">业务解析</a> · 
+    <a href="erp-procurement-solution.html">解决方案</a>
   </div>
 </div>
 
 <!-- ═══ FOOTER ═══ -->
 <div class="footer">
-  橙子自动化 · 信息化项目组 · ERP 采购与共用料管理问题列表 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+  橙子自动化 · 信息化项目组 · ERP 采购管理 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
 </div>
 
 </div>

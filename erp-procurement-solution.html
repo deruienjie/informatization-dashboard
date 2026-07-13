@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>解决方案 · 采购订单合并下推</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#065f46,#047857,#059669);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(16,185,129,.2),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#a7f3d0;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#a7f3d0;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover{background:rgba(16,185,129,.3);color:#fff}
+
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:28px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+
+.card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:12px}
+
+/* ── TO-BE flow ── */
+.tobe-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:14px 0;font-size:11px;overflow-x:auto}
+.tobe-node{padding:8px 14px;border-radius:6px;font-weight:600;text-align:center;min-width:90px}
+.tobe-arr{color:var(--s-400);font-weight:700;font-size:16px}
+.tobe-g{background:var(--g-bg);border:1.5px solid var(--g);color:var(--g-d)}
+.tobe-b{background:var(--b-bg);border:1.5px solid var(--b);color:var(--b-d)}
+.tobe-y{background:var(--y-bg);border:1.5px solid var(--y);color:var(--y-d)}
+.tobe-star{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid var(--y);color:var(--y-d);position:relative}
+.tobe-star::after{content:'⭐ 关键';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--y-d);white-space:nowrap}
+
+/* ── Step cards ── */
+.solution-step{
+  display:grid;grid-template-columns:56px 1fr;gap:16px;
+  padding:14px 0;border-bottom:1px solid var(--s-100);
+}
+.solution-step:last-child{border:none}
+.step-num{
+  width:40px;height:40px;border-radius:50%;font-weight:700;font-size:16px;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  flex-shrink:0
+}
+.step-num.g{background:linear-gradient(135deg,var(--g),var(--g-d))}
+.step-num.b{background:linear-gradient(135deg,var(--b),var(--b-d))}
+.step-num.y{background:linear-gradient(135deg,var(--y),#d97706)}
+.step-num.p{background:linear-gradient(135deg,var(--p),var(--p-d))}
+
+.step-body h4{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:4px}
+.step-body p{font-size:12px;color:var(--s-600);line-height:1.7;margin-bottom:6px}
+.step-action{
+  font-size:11px;padding:6px 12px;border-radius:6px;margin:6px 0;display:inline-block;
+}
+.step-action.blue{background:var(--b-bg);color:var(--b-d)}
+.step-action.green{background:var(--g-bg);color:var(--g-d)}
+.step-action.yellow{background:var(--y-bg);color:var(--y-d);border:1px solid var(--y)}
+.step-action.red{background:var(--r-bg);color:var(--r-d)}
+
+/* ── Compare table ── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.compare-col{
+  border-radius:10px;padding:16px;border:2px solid;
+}
+.compare-col.bad{background:var(--r-bg);border-color:var(--r)}
+.compare-col.bad h4{color:var(--r-d)}
+.compare-col.good{background:var(--g-bg);border-color:var(--g)}
+.compare-col.good h4{color:var(--g-d)}
+.compare-col ul{list-style:none;font-size:12px;line-height:1.8;color:var(--s-700)}
+.compare-col ul li::before{content:'• ';font-weight:700}
+
+/* ── Precondition box ── */
+.precon{
+  background:var(--y-bg);border:1.5px solid var(--y);border-radius:10px;
+  padding:14px 16px;font-size:12px;color:var(--s-700);line-height:1.6;margin-bottom:12px;
+}
+.precon h4{color:var(--y-d);font-size:13px;margin-bottom:4px}
+.precon ul{list-style:none;padding-left:0}
+.precon ul li{padding:2px 0}
+.precon ul li::before{content:'✅ '}
+
+.section-nav{display:flex;gap:12px;align-items:center;font-size:12px;margin-top:20px;padding:12px 16px;background:#fff;border-radius:10px;border:1px solid var(--s-200)}
+.section-nav .nav-label{color:var(--s-400)}
+.section-nav a{font-weight:600;text-decoration:none;padding:4px 10px;border-radius:6px}
+.section-nav a.solution{background:var(--g-bg);color:var(--g-d);border:1px solid var(--g)}
+.section-nav a.analysis{color:var(--o-d)}
+
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .header{padding:18px 20px}.header h1{font-size:18px}
+  .compare-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="header">
+  <div class="header-left">
+    <h1>📋 解决方案：采购订单合并下推</h1>
+    <div class="sub">TO-BE 方案 · 物控勾选多行 → 一键合并生成 PO · 涉及 ERP 配置 + 流程变更</div>
+  </div>
+  <nav class="header-nav">
+    <a href="erp-procurement.html">← 返回采购管理</a>
+    <a href="erp-procurement-analysis.html">🔍 看解析</a>
+    <a href="erp-center.html">📦 ERP中心</a>
+  </nav>
+</header>
+
+<div class="section-nav">
+  <span class="nav-label">📍 你在：</span>
+  <a href="erp-procurement.html">采购管理</a> →
+  <a href="erp-procurement-solution.html" class="solution">解决方案</a>（当前页）
+  <span style="color:var(--s-400)">|</span>
+  <a href="erp-procurement-analysis.html" class="analysis">查看业务解析 →</a>
+</div>
+
+<!-- ═══ 1: TO-BE 流程 ═══ -->
+<div class="section-label"><span class="text">🔁 1. 目标业务流程（TO-BE）</span></div>
+
+<div class="card" style="overflow-x:auto">
+  <div class="tobe-flow">
+    <div class="tobe-node tobe-b">项目A/B/C<br>提交需求</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-g">物控审核<br>采购申请</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-star">勾选3行<br>→ 合并下推</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-g">生成1张<br>合并PO</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-b">采购统一<br>询价下单</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-g">供应商<br>一次送货</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-g">仓库一次<br>收货入库</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-y">各项目<br>按需领料</div>
+    <div class="tobe-arr">→</div>
+    <div class="tobe-node tobe-b">财务按领料<br>分摊成本</div>
+  </div>
+  <div style="text-align:center;font-size:10px;color:var(--s-400);margin-top:6px">
+    ⭐ 核心改造点：物控勾选多行 → 合并下推生成 1 张 PO（替代原来逐行下推 N 张 PO）
+  </div>
+</div>
+
+<!-- ═══ 2: 对比 ═══ -->
+<div class="section-label"><span class="text">📊 2. 现况 vs 目标对比</span></div>
+
+<div class="compare-grid">
+  <div class="compare-col bad">
+    <h4>❌ 现况（AS-IS）</h4>
+    <ul>
+      <li>物控逐行下推 → 3张PO</li>
+      <li>物控操作 ~30 分钟</li>
+      <li>采购分开询价3次 → 无议价权</li>
+      <li>仓库分3次收货 ~6 小时</li>
+      <li>供应商逐个跟单3条</li>
+      <li>财务按3张PO分别核算</li>
+    </ul>
+  </div>
+  <div class="compare-col good">
+    <h4>✅ 目标（TO-BE）</h4>
+    <ul>
+      <li>物控勾选多行 → 合并1张PO</li>
+      <li>物控操作 ~5 分钟</li>
+      <li>采购统一询价 → 量大议价权</li>
+      <li>仓库一次收货 ~2 小时</li>
+      <li>供应商跟1单即可</li>
+      <li>财务按领料单分摊成本</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══ 3: 实施步骤 ═══ -->
+<div class="section-label"><span class="text">🛠️ 3. 实施步骤（分4步）</span></div>
+
+<div class="card">
+  <div class="solution-step">
+    <div class="step-num g">1</div>
+    <div class="step-body">
+      <h4>确认 ERP 能力：金蝶云星空是否支持"合并下推"</h4>
+      <p>核心问题：在采购申请列表中，是否支持<strong>批量勾选多行 → 下推时自动合并为一张采购订单</strong>？</p>
+      <span class="step-action yellow">⚠ 优先确认：这是技术前提，若ERP不支持，后续步骤全部作废</span>
+      <p style="font-size:11px;color:var(--s-400)">→ 联系金蝶顾问，确认"合并下推"功能是否可用；若需要二开，获取开发周期和报价</p>
+    </div>
+  </div>
+
+  <div class="solution-step">
+    <div class="step-num b">2</div>
+    <div class="step-body">
+      <h4>ERP 配置：开启合并下推 + 配置合并规则</h4>
+      <p>若 ERP 原生支持合并下推，需要配置合并条件：</p>
+      <span class="step-action blue">合并条件示例：物料编码相同 AND 规格型号一致 AND 品牌相同 → 方可合并下推</span>
+      <span class="step-action blue">若规格/品牌不一致 → 不可合并（防止采购错误规格的物料）</span>
+    </div>
+  </div>
+
+  <div class="solution-step">
+    <div class="step-num y">3</div>
+    <div class="step-body">
+      <h4>流程变更：制定"采购申请合并下推"标准作业 SOP</h4>
+      <p>需要梳理：① 物控合并下推的判断标准（哪些物料可合并、哪些不可以） ② 跨项目物料的成本归集规则（公共库存 + 项目领料） ③ 审批流变更（合并PO的审批人/审批链）</p>
+      <span class="step-action yellow">⚠ 涉及5个部门协同：工程（选型归一）、物控（判断+操作）、采购（统一询价）、仓库（一次入库）、财务（按领料分摊）</span>
+    </div>
+  </div>
+
+  <div class="solution-step">
+    <div class="step-num p">4</div>
+    <div class="step-body">
+      <h4>培训 & 试运行 → 正式推广</h4>
+      <p>选 2-3 个重点物控人员试点 1 个月 → 收集问题 → 调整 SOP → 全部门推广</p>
+      <span class="step-action green">试点验收标准：月合并PO数 ≥ 5张 → 物控节省 ≥ 50% 下推操作 → 采购议价节约 ≥ 5%</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 4: 前提条件 ═══ -->
+<div class="section-label"><span class="text">✅ 4. 成功前提条件</span></div>
+
+<div class="precon">
+  <h4>以下条件需同时满足，合并下推方案才能真正落地：</h4>
+  <ul>
+    <li>1. ERP（金蝶云星空）支持批量勾选 + 合并下推（或二开实现）</li>
+    <li>2. 工程完成选型归一（不同品牌/规格的物料不能强行合并）</li>
+    <li>3. 物料主数据中的规格/品牌字段完整无缺失（作为合并判定的依据）</li>
+    <li>4. 公共库存 + 项目领料 + 财务分摊 的完整业务流程经顾问验证可行</li>
+    <li>5. 物控、采购、仓库、财务 4 个岗位的 SOP 完成编撰</li>
+  </ul>
+</div>
+
+<div class="section-nav" style="justify-content:end">
+  <span class="nav-label">看完方案了，想了解根源？</span>
+  <a href="erp-procurement-analysis.html" class="analysis" style="background:var(--o-bg);border:1px solid var(--o);color:var(--o-d)">🔍 业务解析 → 为什么发生？</a>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+</div>
+
+</div>
+</body>
+</html>
