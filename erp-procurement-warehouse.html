@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仓库方案对比 · 共享料管理</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+  border-radius:16px;padding:22px 28px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  position:relative;overflow:hidden;
+}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(100,116,139,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:21px;font-weight:700}
+.header .sub{font-size:11px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:6px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:11px;padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#94a3b8;text-decoration:none;white-space:nowrap}
+.header-nav a:hover{background:rgba(255,255,255,.12);color:#fff}
+
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:28px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--p);color:#fff;padding:2px 8px;border-radius:10px}
+
+.card{background:#fff;border-radius:12px;padding:18px 22px;border:1px solid var(--s-200);margin-bottom:12px}
+
+/* ── 方案卡片 ── */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.plan-card{border-radius:14px;padding:18px 16px;border:2px solid;position:relative}
+.plan-card h3{font-size:14px;font-weight:700;margin-bottom:8px}
+.plan-card .flow-mini{display:flex;align-items:center;gap:4px;flex-wrap:wrap;font-size:10px;padding:8px 0;margin-bottom:10px}
+.plan-card .flow-node{padding:3px 7px;border-radius:4px;font-weight:600;white-space:nowrap}
+.plan-card .flow-arr{color:var(--s-400);font-size:11px}
+.plan-card .pros-cons{font-size:11px;line-height:1.6}
+.plan-card .pros-cons .good{color:var(--g-d)}.plan-card .pros-cons .bad{color:var(--r-d)}
+.plan-card.p1{border-color:var(--b);background:linear-gradient(180deg,#fff,#eff6ff)}
+.plan-card.p1 h3{color:var(--b-d)}.plan-card.p1 .flow-node{background:var(--b-bg);color:var(--b-d)}
+.plan-card.p2{border-color:var(--y);background:linear-gradient(180deg,#fff,#fffbeb)}
+.plan-card.p2 h3{color:var(--y-d)}.plan-card.p2 .flow-node{background:var(--y-bg);color:var(--y-d)}
+.plan-card.p3{border-color:var(--p);background:linear-gradient(180deg,#fff,#f5f3ff)}
+.plan-card.p3 h3{color:var(--p-d)}.plan-card.p3 .flow-node{background:var(--p-bg);color:var(--p-d)}
+
+/* ── Tables ── */
+.data-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.data-table th,.data-table td{padding:9px 12px;border:1px solid var(--s-200);text-align:left;vertical-align:top}
+.data-table th{background:var(--s-100);color:var(--s-600);font-weight:600;font-size:11px}
+.data-table .num{text-align:center;font-weight:700}
+.data-table .red{color:var(--r);font-weight:700}
+.data-table .green{color:var(--g);font-weight:700}
+.data-table .yellow{color:var(--y-d);font-weight:700}
+
+/* ── Info boxes ── */
+.hl{border-radius:10px;padding:14px 16px;font-size:12px;line-height:1.7;margin-bottom:10px}
+.hl h4{font-size:13px;margin-bottom:4px}
+.hl.blue{background:var(--b-bg);border:1.5px solid var(--b);color:var(--s-700)}.hl.blue h4{color:var(--b-d)}
+.hl.green{background:var(--g-bg);border:1.5px solid var(--g);color:var(--s-700)}.hl.green h4{color:var(--g-d)}
+.hl.yellow{background:var(--y-bg);border:1.5px solid var(--y);color:var(--s-700)}.hl.yellow h4{color:var(--y-d)}
+.hl.red{background:var(--r-bg);border:1.5px solid var(--r);color:var(--s-700)}.hl.red h4{color:var(--r-d)}
+
+/* ── Comparison row ── */
+.comp-section{margin-bottom:16px}
+.comp-section h4{font-size:13px;font-weight:700;color:var(--s-800);margin-bottom:6px}
+.comp-matrix{display:grid;grid-template-columns:200px repeat(3,1fr);gap:0;border:1px solid var(--s-200);border-radius:10px;overflow:hidden}
+.comp-matrix .row{display:contents}
+.comp-matrix .row div{padding:8px 12px;border-bottom:1px solid var(--s-100);font-size:11px;display:flex;align-items:center}
+.comp-matrix .row:last-child div{border-bottom:none}
+.comp-matrix .row div:first-child{background:var(--s-100);color:var(--s-600);font-weight:600}
+
+/* ── bin naming ── */
+.bin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.bin-card{background:#fff;border-radius:10px;padding:12px 14px;border:1px solid var(--s-200);text-align:center;font-size:11px}
+.bin-card .bin-code{font-size:28px;font-weight:700;color:var(--p);font-family:monospace;margin-bottom:4px}
+.bin-card .bin-desc{color:var(--s-600);line-height:1.5}
+
+/* ── Step cards ── */
+.step-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px 0;font-size:11px}
+.step-node{padding:6px 12px;border-radius:6px;font-weight:600;text-align:center}
+.step-arr{color:var(--s-400);font-weight:700;font-size:14px}
+
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .plan-grid{grid-template-columns:1fr}
+  .comp-matrix{grid-template-columns:1fr}
+  .bin-grid{grid-template-columns:1fr}
+  .header{padding:16px 20px}.header h1{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="header">
+  <div class="header-left">
+    <h1>📦 仓库方案对比：共享料管理</h1>
+    <div class="sub">三种方案 · 成本分析 · 仓位命名 · 与采购物控对齐步骤</div>
+  </div>
+  <nav class="header-nav">
+    <a href="erp-procurement.html">← 采购管理</a>
+    <a href="erp-procurement-solution.html">📋 解决方案</a>
+    <a href="erp-procurement-analysis.html">🔍 业务解析</a>
+  </nav>
+</header>
+
+<!-- ══════ 一、三种方案总览 ══════ -->
+<div class="section-label">
+  <span class="icon">📊</span>
+  <span class="text">一、三种方案总览</span>
+</div>
+
+<div class="plan-grid">
+  <!-- 方案1 -->
+  <div class="plan-card p1">
+    <h3>🟦 方案1：不合并PO</h3>
+    <div class="flow-mini">
+      <div class="flow-node">供应商按项目分箱发货</div>
+      <div class="flow-arr">→</div>
+      <div class="flow-node">拆包→对应项目箱</div>
+      <div class="flow-arr">→</div>
+      <div class="flow-node">整箱领走</div>
+    </div>
+    <div class="pros-cons">
+      <span class="good">✅ 仓库0额外工作</span><br>
+      <span class="good">✅ 领料最快（整箱给）</span><br>
+      <span class="bad">❌ 无议价权（散单）</span><br>
+      <span class="bad">❌ 物控/采购重复劳动</span><br>
+      <span class="bad">❌ 供应商分N次送货</span>
+    </div>
+  </div>
+
+  <!-- 方案2 -->
+  <div class="plan-card p2">
+    <h3>🟡 方案2：合并PO + 按项目分拣</h3>
+    <div class="flow-mini">
+      <div class="flow-node">供应商混箱送货</div>
+      <div class="flow-arr">→</div>
+      <div class="flow-node">拆包→逐项目分拣</div>
+      <div class="flow-arr">→</div>
+      <div class="flow-node">各项目箱←领走</div>
+    </div>
+    <div class="pros-cons">
+      <span class="good">✅ 有议价权（量大）</span><br>
+      <span class="good">✅ 领料方式不变</span><br>
+      <span class="bad">❌ 仓库增加分拣工作量</span><br>
+      <span class="bad">❌ 需逐件辨认物料归属</span>
+      <span class="bad">❌ 来料≥50件时分拣比收货还久</span>
+    </div>
+  </div>
+
+  <!-- 方案3 -->
+  <div class="plan-card p3">
+    <h3>🟣 方案3：合并PO + 按料号归仓</h3>
+    <div class="flow-mini">
+      <div class="flow-node">供应商混箱送货</div>
+      <div class="flow-arr">→</div>
+      <div class="flow-node">拆包→各料号归固定仓位</div>
+      <div class="flow-arr">→</div>
+      <div class="flow-node">系统打领料单→按单取料</div>
+    </div>
+    <div class="pros-cons">
+      <span class="good">✅ 有议价权（量大）</span><br>
+      <span class="good">✅ 盘点一次搞定</span><br>
+      <span class="good">✅ 仓库不依赖项目号</span><br>
+      <span class="bad">❌ 仓库需重新规划仓位（一次性的）</span><br>
+      <span class="bad">❌ 领料从"整箱给"变"按单取"</span>
+      <span class="bad">❌ 场地要求：每个料号一个仓位</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 二、成本分析 ══════ -->
+<div class="section-label">
+  <span class="icon">💰</span>
+  <span class="text">二、成本分析：工作量 & 人力</span>
+</div>
+
+<div class="card">
+  <p style="font-size:12px;color:var(--s-600);line-height:1.8;margin-bottom:12px">
+    假设前提：一次合并采购覆盖 <strong>5 个项目、10 种共用料</strong>，每种物料收到 <strong>5 件</strong>（对应 5 个项目各 1 件），共 50 件。
+  </p>
+
+  <table class="data-table">
+    <tr>
+      <th style="width:12%">维度</th>
+      <th style="width:22%">方案1<br><span style="font-weight:400;font-size:10px;color:var(--s-400)">不合并PO</span></th>
+      <th style="width:22%">方案2<br><span style="font-weight:400;font-size:10px;color:var(--s-400)">合并PO+分拣</span></th>
+      <th style="width:22%">方案3<br><span style="font-weight:400;font-size:10px;color:var(--s-400)">合并PO+归仓</span></th>
+      <th style="width:22%">备注</th>
+    </tr>
+    <tr>
+      <td style="font-weight:700">来料批次</td>
+      <td>5-10 批（按供应商/项目）</td>
+      <td class="num green">1 批</td>
+      <td class="num green">1 批</td>
+      <td>方案2/3 收货次数大幅减少</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">拆包操作</td>
+      <td>每批拆 1 箱 → 共拆 N 次</td>
+      <td class="num yellow">拆大箱 1 次</td>
+      <td class="num yellow">拆大箱 1 次</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">分拣操作</td>
+      <td class="num green">0 — 供应商已按项目分好</td>
+      <td class="num red">50 次：逐件辨认→投入对应项目箱</td>
+      <td class="num red">50 次：逐件辨认→投入对应仓位</td>
+      <td>核心差异</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">分拣耗时</td>
+      <td class="num green">0 分钟</td>
+      <td class="num red">~25-50 分钟<br><span style="font-size:10px;color:var(--s-400)">每件 30-60 秒</span></td>
+      <td class="num red">~25-50 分钟<br><span style="font-size:10px;color:var(--s-400)">每件 30-60 秒</span></td>
+      <td style="font-size:10px;color:var(--s-400)">方案2物料少的项目分拣快（一次几件），多的慢</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">领料操作</td>
+      <td>找项目箱 → 整箱给</td>
+      <td>找项目箱 → 整箱给</td>
+      <td class="num red">按领料单逐仓位取料<br>再按项目拼成一套给装配</td>
+      <td style="font-size:10px;color:var(--s-400)">方案3领料复杂，每项目要拼多个仓位</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">领料耗时（每项目）</td>
+      <td class="num green">~2 分钟</td>
+      <td class="num green">~2 分钟</td>
+      <td class="num red">~10-15 分钟<br><span style="font-size:10px;color:var(--s-400)">需跑多个仓位</span></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">盘点难度</td>
+      <td>按项目箱清点 → 同料 N 次</td>
+      <td>按项目箱清点 → 同料 N 次</td>
+      <td class="num green">按仓位清点 → 同料 1 次</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">一次性改造成本</td>
+      <td class="num green">0</td>
+      <td class="num green">0</td>
+      <td class="num red">仓库重新规划 2-3 天<br>ERP 库位录入 1-2 天<br>贴标签 0.5 天</td>
+      <td>方案3一次性投入约 5 天</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">追加人力需求</td>
+      <td class="num green">0</td>
+      <td class="num yellow">0（加班或提效对冲）<br>但若合并量大、物料种类多，可能需要<strong>分拣员 0.5 人</strong></td>
+      <td class="num yellow">方案改造期 <strong>5 天全仓库参与</strong>；日常领料如果频繁，可能需要专人负责拼料（<strong>0.5-1 人</strong>）</td>
+      <td style="font-size:10px;color:var(--s-400)">取决于日常领料频率</td>
+    </tr>
+  </table>
+
+  <div class="hl yellow" style="margin-top:12px">
+    <h4>📊 成本结论</h4>
+    <p>
+      <strong>方案1：</strong>仓库成本为 0，但采购侧失去议价权（~15%），物控侧重复劳动不解决。<br>
+      <strong>方案2：</strong>仓库增加分拣工作量（每月多 ~5-10 小时），但领料方式不变，对装配现场零影响。是目前<strong>改动最小、能兼顾采购效率和仓库习惯</strong>的方案。<br>
+      <strong>方案3：</strong>仓库一次性改造约 5 天。领料从简单变复杂（装配现场需要配合按单取料）。需额外 0.5-1 人。除非仓库场地本来就乱且长期没有规范化，否则方案3的投入产出比不如方案2。
+    </p>
+  </div>
+</div>
+
+<!-- ══════ 三、方案3仓位命名规则 ══════ -->
+<div class="section-label">
+  <span class="icon">🏷️</span>
+  <span class="text">三、方案3仓位命名规则</span>
+</div>
+
+<div class="card">
+  <p style="font-size:12px;color:var(--s-600);line-height:1.8;margin-bottom:12px">
+    如果选方案3，仓库需要从"按项目号存料"变为<strong>"按物料编码 + 物理仓位"</strong>管理。命名规则如下：
+  </p>
+
+  <div class="hl blue" style="margin-bottom:10px">
+    <h4>📌 仓位编码格式</h4>
+    <p style="font-size:24px;font-weight:700;color:var(--b-d);font-family:monospace;text-align:center;letter-spacing:2px">Z-RR-SS-PP</p>
+    <p style="text-align:center;font-size:11px;color:var(--s-400);margin-top:4px">区域-排-层-位</p>
+  </div>
+
+  <div class="bin-grid">
+    <div class="bin-card">
+      <div class="bin-code">A-01-03-12</div>
+      <div class="bin-desc">A区（电机类）<br>第01排货架<br>第3层 · 第12号位<br>物料：步进电机 42BYGH</div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-code">B-02-01-05</div>
+      <div class="bin-desc">B区（传动类）<br>第02排货架<br>第1层 · 第5号位<br>物料：导轨 HGH15CA</div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-code">C-01-02-20</div>
+      <div class="bin-desc">C区（紧固件类）<br>第01排货架<br>第2层 · 第20号位<br>物料：M4×10 螺丝</div>
+    </div>
+  </div>
+
+  <div class="hl yellow" style="margin-top:10px">
+    <h4>⚠ 关键问题：一个料号一个仓位 = 需要多少个仓位？</h4>
+    <p>
+      <strong>取决于你们仓库有多少种物料。</strong>你说一台机器大几百种物料——
+    </p>
+    <p style="margin-top:6px">
+      ① <strong>如果仓库只存"共用料"（跨项目使用的）：</strong>一般在 50-200 种，场地才可能够。每个仓位不需要大——共用料单次收的量不大。<br>
+      ② <strong>如果仓库要存"全部物料"（含项目专属的）：</strong>大几百种，每个料一个仓位，场地大概率不够。而且很多料可能几个月才用一次，占着仓位不划算。<br>
+      ③ <strong>折中方案：</strong>共用料用固定仓位（大几百种里挑共享的，可能就几十到一两百种），项目专属料继续按项目箱走（方案1模式）。
+    </p>
+  </div>
+
+  <div class="hl green">
+    <h4>💡 建议：混合模式（方案2+方案3的折中）</h4>
+    <p>
+      <strong>共用料：</strong>用方案3的固定仓位（物料种类少，仓位可控）→ 归仓管理，方便合并采购的入库和盘点。<br>
+      <strong>非共用料（项目专属）：</strong>继续用方案1/2的项目箱模式 → 不占用固定仓位空间。<br>
+      <strong>这样做的好处：</strong>不需要一次性改造整个仓库，只需要重新规划"共有料区"（可能就2-3排货架），其余不变。场地压力降到最低。
+    </p>
+  </div>
+</div>
+
+<!-- ══════ 四、沟通对齐步骤 ══════ -->
+<div class="section-label">
+  <span class="icon">🤝</span>
+  <span class="text">四、与采购/物控对齐步骤</span>
+  <span class="badge">必做</span>
+</div>
+
+<div class="card">
+  <p style="font-size:12px;color:var(--s-600);line-height:1.8;margin-bottom:14px">
+    在选方案2还是方案3之前，<strong>必须先和物控/采购对齐一件事：到底有多少种物料是跨项目共用的？</strong>这个数据决定了方案2还是方案3更合适。
+  </p>
+
+  <table class="data-table">
+    <tr><th style="width:3%">#</th><th style="width:18%">步骤</th><th style="width:35%">做什么</th><th style="width:10%">跟谁对齐</th><th style="width:10%">产出</th></tr>
+    <tr>
+      <td class="num">1</td>
+      <td style="font-weight:700">数据拉取</td>
+      <td>物控从 ERP 导出近 3 个月的采购申请数据。按"物料编码"分组，统计每种物料被几个项目申请过。</td>
+      <td>物控</td>
+      <td>一份 Excel</td>
+    </tr>
+    <tr>
+      <td class="num">2</td>
+      <td style="font-weight:700">识别共用料</td>
+      <td>筛选出"被 ≥2 个项目申请"的物料。这是可能合并的物料清单。</td>
+      <td>物控</td>
+      <td>共用料清单</td>
+    </tr>
+    <tr>
+      <td class="num">3</td>
+      <td style="font-weight:700">采购验证</td>
+      <td>拿着清单问采购：这些物料是否可以合并采购？有没有供应商限制（如品牌锁定、独家供应）？有没有规格差异（同编码不同品牌）？</td>
+      <td>采购</td>
+      <td>标记"可合并/不可合并"</td>
+    </tr>
+    <tr>
+      <td class="num">4</td>
+      <td style="font-weight:700">仓库评估</td>
+      <td>根据"可合并"物料的数量，判断：<br>
+      • 可合并 ≤30 种 → <strong>推荐方案2</strong>（分拣量可控，不需要改仓库）<br>
+      • 可合并 30-100 种 → <strong>推荐混合模式</strong>（共用料区用固定仓位）<br>
+      • 可合并 >100 种 → <strong>推荐方案3</strong>（需要系统性仓位管理）</td>
+      <td>仓库</td>
+      <td>方案建议</td>
+    </tr>
+    <tr>
+      <td class="num">5</td>
+      <td style="font-weight:700">对齐结论</td>
+      <td>物控+采购+仓库三方会议，确认：哪些料合并、用哪种方案、什么时候开始试点。</td>
+      <td>三方</td>
+      <td>会议纪要</td>
+    </tr>
+  </table>
+
+  <div class="hl red" style="margin-top:10px">
+    <h4>🔑 关键：不是所有料都要合并</h4>
+    <p>
+      合并采购的本质是<strong>把"值得合并的料"合并</strong>，而不是把仓库变成物流中心。<br>
+      类比：Costco卖大包装卫生纸很划算，但没人把冰箱里所有食物都买 Costco 大包装——生鲜还是散买。<br>
+      <strong>同理：B类（中价值通用件，如导轨/丝杆）最适合合并；A类（高价值定制，如精密电机）按项目走更合理。</strong>
+    </p>
+  </div>
+</div>
+
+<!-- ══════ 五、总结对比 ══════ -->
+<div class="section-label">
+  <span class="icon">📊</span>
+  <span class="text">五、三种方案总结对比</span>
+</div>
+
+<div class="card" style="overflow-x:auto">
+  <table class="data-table">
+    <tr><th style="width:12%">维度</th><th style="width:20%"><span style="color:var(--b-d)">方案1：不合并</span></th><th style="width:20%"><span style="color:var(--y-d)">方案2：合并+分拣</span></th><th style="width:20%"><span style="color:var(--p-d)">方案3：合并+归仓</span></th><th style="width:28%">结论</th></tr>
+    <tr>
+      <td style="font-weight:700">仓库工作量</td>
+      <td class="num green">不变</td>
+      <td class="num yellow">+5-10 小时/月</td>
+      <td class="num red">改造 5 天 + 日常 +0.5-1人</td>
+      <td>方案1最优，方案2次之，方案3最重</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">领料方式</td>
+      <td class="num green">整箱拿走</td>
+      <td class="num green">整箱拿走</td>
+      <td class="num red">按领料单逐仓位取料+拼料</td>
+      <td>方案1/2 装配现场无感，方案3 装配要适应</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">采购议价权</td>
+      <td class="num red">无</td>
+      <td class="num green">有（量大）</td>
+      <td class="num green">有（量大）</td>
+      <td>方案2/3 均恢复议价权</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">物控效率</td>
+      <td class="num red">低（逐行下推）</td>
+      <td class="num green">高（合并下推）</td>
+      <td class="num green">高（合并下推）</td>
+      <td>方案2/3 均解决物控痛点</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">适配场景</td>
+      <td>共用料 < 5 种</td>
+      <td><strong>共用料 5-30 种</strong><br>（推荐大多数情况）</td>
+      <td>共用料 > 30 种<br>且仓库愿意长远改造</td>
+      <td style="font-size:11px;color:var(--s-600)">关键变量：先做步骤1拉数据</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════ 六、下一步 ══════ -->
+<div class="section-label">
+  <span class="icon">▶️</span>
+  <span class="text">六、建议的下一步</span>
+</div>
+
+<div class="card">
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:8px 0">
+    <div style="padding:6px 12px;border-radius:6px;background:var(--b-bg);border:1px solid var(--b);color:var(--b-d);font-weight:600;font-size:11px">1. 物控拉数据<br>（今天）</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 12px;border-radius:6px;background:var(--y-bg);border:1px solid var(--y);color:var(--y-d);font-weight:600;font-size:11px">2. 采购标可合并<br>（本周）</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 12px;border-radius:6px;background:var(--p-bg);border:1px solid var(--p);color:var(--p-d);font-weight:600;font-size:11px">3. 三方定方案<br>（下周）</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 12px;border-radius:6px;background:var(--g-bg);border:1px solid var(--g);color:var(--g-d);font-weight:600;font-size:11px">4. 试点3种料<br>（下下周）</div>
+  </div>
+  <p style="text-align:center;font-size:10px;color:var(--s-400);margin-top:4px">
+    先拉数据再定方案，不要猜。30种以下直接方案2，30种以上再考虑方案3。
+  </p>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 · 仓库方案分析 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+</div>
+
+</div>
+</body>
+</html>
