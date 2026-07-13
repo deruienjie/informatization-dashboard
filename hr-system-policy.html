@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR系统操作规范制度 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+/* ── Header ── */
+.header{
+  background:linear-gradient(135deg,#581c87,#6b21a8,#7e22ce);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(168,85,247,.25),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#d8b4fe;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#e9d5ff;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(168,85,247,.3);border-color:rgba(168,85,247,.5);color:#fff}
+
+/* ── Section ── */
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:28px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--p);color:#fff;padding:2px 8px;border-radius:10px}
+
+/* ── Grid ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+
+/* ── Card ── */
+.card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200)}
+.card .card-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card .card-sub{font-size:11px;color:var(--s-400);margin-bottom:10px}
+
+/* ── Principle cards ── */
+.principle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.principle-card{
+  border-radius:12px;padding:18px 16px;border:2px solid;text-align:center;
+  transition:transform .15s,box-shadow .15s
+}
+.principle-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.principle-card .p-icon{font-size:28px;margin-bottom:6px}
+.principle-card .p-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.principle-card .p-desc{font-size:11px;line-height:1.5;color:var(--s-600)}
+.principle-card.purple{background:var(--p-bg);border-color:var(--p)}.principle-card.purple .p-title{color:var(--p-d)}
+.principle-card.blue{background:var(--b-bg);border-color:var(--b)}.principle-card.blue .p-title{color:var(--b-d)}
+.principle-card.green{background:var(--g-bg);border-color:var(--g)}.principle-card.green .p-title{color:var(--g-d)}
+
+/* ── SOP steps ── */
+.sop-item{
+  border-left:3px solid var(--p);padding:8px 0 8px 16px;margin-bottom:8px;
+  background:var(--p-bg);border-radius:0 8px 8px 0;
+}
+.sop-item .sop-title{font-size:12px;font-weight:700;color:var(--p-d);margin-bottom:3px}
+.sop-item .sop-steps{font-size:11px;color:var(--s-600);line-height:1.6}
+.sop-item .sop-who{font-size:10px;color:var(--s-400);margin-top:2px}
+
+/* ── Role matrix ── */
+.role-table{width:100%;border-collapse:collapse;font-size:12px}
+.role-table th,.role-table td{padding:8px 10px;text-align:center;border:1px solid var(--s-200)}
+.role-table th{background:var(--s-100);color:var(--s-600);font-weight:600;font-size:11px}
+.role-table .role-name{text-align:left;font-weight:600;color:var(--s-700);white-space:nowrap}
+.role-table td.yes{color:var(--g);font-weight:700;font-size:14px}
+.role-table td.no{color:var(--s-400)}
+.role-table td.info{color:var(--b);font-weight:600}
+
+/* ── Data table ── */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{padding:9px 12px;background:var(--s-100);color:var(--s-600);font-weight:600;text-align:left;border-bottom:2px solid var(--s-200)}
+.data-table td{padding:9px 12px;border-bottom:1px solid var(--s-100);color:var(--s-600)}
+.data-table tr:hover td{background:var(--s-50)}
+
+/* ── Checklist ── */
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12px;color:var(--s-600);border-bottom:1px solid var(--s-100)}
+.check-item:last-child{border:none}
+.check-box{width:16px;height:16px;border:2px solid var(--s-400);border-radius:3px;flex-shrink:0;margin-top:1px}
+
+/* ── Flow mini ── */
+.mini-flow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11px;padding:6px 0}
+.mini-node{padding:5px 10px;border-radius:4px;font-weight:600;background:var(--p-bg);color:var(--p-d);border:1px solid var(--p)}
+.mini-arr{color:var(--s-400);font-size:12px}
+
+/* ── Highlight box ── */
+.highlight-box{
+  background:linear-gradient(135deg,#fef3c7,#fef9c3);border:1.5px solid var(--y);
+  border-radius:10px;padding:12px 16px;font-size:12px;color:var(--y-d);
+  margin-bottom:8px
+}
+.danger-box{
+  background:linear-gradient(135deg,#fee2e2,#fff1f2);border:1.5px solid var(--r);
+  border-radius:10px;padding:12px 16px;font-size:12px;color:var(--r-d);
+  margin-bottom:8px
+}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .grid-2,.grid-3,.principle-grid{grid-template-columns:1fr}
+  .header{padding:18px 20px}
+  .header h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-left">
+    <h1>📜 HR系统操作规范制度</h1>
+    <div class="sub">北森(Beisen) · 制定人：杰德瑞恩J · 版本 V1.0 · 适用范围：橙子自动化全体HR</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="hr-system-process.html">🔁 全流程排查</a>
+    <a href="erp-center.html">📦 ERP中心</a>
+    <a href="plm-center.html">🔧 PLM中心</a>
+  </nav>
+</header>
+
+<!-- ═══ PURPOSE ═══ -->
+<div class="section-label">
+  <span class="icon">🎯</span>
+  <span class="text">一、总则</span>
+</div>
+
+<div class="principle-grid">
+  <div class="principle-card purple">
+    <div class="p-icon">📌</div>
+    <div class="p-title">制度目的</div>
+    <div class="p-desc">统一北森HR系统操作标准，杜绝"一人一套做法"，确保无论谁操作均可追溯、可复现、可交接</div>
+  </div>
+  <div class="principle-card blue">
+    <div class="p-icon">👥</div>
+    <div class="p-title">适用范围</div>
+    <div class="p-desc">橙子自动化全体HR岗位（招聘、员工关系、薪酬、绩效），以及IT运维、财务相关操作</div>
+  </div>
+  <div class="principle-card green">
+    <div class="p-icon">⚖️</div>
+    <div class="p-title">基本原则</div>
+    <div class="p-desc">①一人操作一人复核 ②关键操作留日志 ③数据改动需审批 ④离职交接走SOP</div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="card-title">📖 术语定义</div>
+  <table class="data-table">
+    <tr><th style="width:120px">术语</th><th>定义</th></tr>
+    <tr><td>北森(Beisen)</td><td>公司使用的HR SaaS系统，覆盖组织人事、考勤、薪酬、绩效等模块</td></tr>
+    <tr><td>EHR组织数据</td><td>北森系统中的组织架构、部门、岗位、员工档案数据（43个部门）</td></tr>
+    <tr><td>ERP组织对标</td><td>EHR部门数据与金蝶ERP双组织（200橙子贵州 + 400广东艾富瑞）的对应关系</td></tr>
+    <tr><td>结构化表单</td><td>系统内可填写、存储、查询、统计的电子表单（区别于附件上传的Excel/Word）</td></tr>
+    <tr><td>关键操作</td><td>指涉及薪酬、组织架构、员工入离职、数据删除/批量修改等影响面大的操作</td></tr>
+  </table>
+</div>
+
+<!-- ═══ ROLE MATRIX ═══ -->
+<div class="section-label">
+  <span class="icon">🔐</span>
+  <span class="text">二、角色与权限矩阵</span>
+  <span class="badge">谁做什么，一目了然</span>
+</div>
+
+<div class="card" style="overflow-x:auto;margin-bottom:12px">
+  <div class="card-title">权限矩阵</div>
+  <div class="card-sub">✅ = 可操作 &nbsp; 🔍 = 可查看 &nbsp; ❌ = 不可见 &nbsp; ⚠ = 需审批后操作</div>
+  <table class="role-table">
+    <tr>
+      <th style="width:120px;text-align:left">操作项 \ 角色</th>
+      <th>HR负责人</th><th>招聘HR</th><th>员工关系HR</th><th>薪酬HR</th><th>绩效HR</th><th>IT运维</th><th>部门负责人</th>
+    </tr>
+    <tr><td class="role-name">组织架构修改</td><td class="yes">✅</td><td class="no">❌</td><td class="info">🔍</td><td class="no">❌</td><td class="no">❌</td><td class="info">⚠</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">岗位编制调整</td><td class="yes">✅</td><td class="no">❌</td><td class="info">🔍</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="info">🔍</td></tr>
+    <tr><td class="role-name">员工档案创建/修改</td><td class="yes">✅</td><td class="info">🔍</td><td class="yes">✅</td><td class="info">🔍</td><td class="info">🔍</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">入职信息录入</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">合同管理</td><td class="yes">✅</td><td class="no">❌</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">考勤方案配置</td><td class="yes">✅</td><td class="no">❌</td><td class="info">🔍</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">月考勤确认/异常处理</td><td class="yes">✅</td><td class="no">❌</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="info">🔍</td></tr>
+    <tr><td class="role-name">薪酬方案/公式修改</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">薪酬核算 & 工资条发放</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">社保公积金增减员</td><td class="info">🔍</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">绩效模板配置</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">试用期目标对齐</td><td class="info">🔍</td><td class="no">❌</td><td class="info">🔍</td><td class="no">❌</td><td class="yes">✅</td><td class="no">❌</td><td class="info">🔍</td></tr>
+    <tr><td class="role-name">离职办理</td><td class="info">🔍</td><td class="no">❌</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">员工数据批量导出</td><td class="yes">✅</td><td class="info">🔍</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="info">⚠</td><td class="no">❌</td></tr>
+    <tr><td class="role-name">系统配置/接口变更</td><td class="yes">✅</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td><td class="no">❌</td></tr>
+  </table>
+</div>
+
+<!-- ═══ DATA STANDARDS ═══ -->
+<div class="section-label">
+  <span class="icon">📐</span>
+  <span class="text">三、数据管理标准</span>
+  <span class="badge">输入规范</span>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">🏷️ 命名与编码规则（强制）</div>
+    <table class="data-table">
+      <tr><th style="width:120px">数据项</th><th>规则</th><th>示例</th></tr>
+      <tr><td>员工编号</td><td>公司统一编码体系，HR系统与ERP对齐</td><td>—</td></tr>
+      <tr><td>部门编码</td><td>与ERP部门编码一致（IOR0001-IOR0051）</td><td>IOR0001</td></tr>
+      <tr><td>岗位名称</td><td>统一岗位体系命名，禁止口语化简称</td><td>软件开发工程师（非"程序员"）</td></tr>
+      <tr><td>员工姓名</td><td>身份证姓名，不含空格/特殊字符</td><td>张三（非张 三）</td></tr>
+      <tr><td>手机号</td><td>11位数字，不包含横线/空格</td><td>13800138000</td></tr>
+      <tr><td>日期格式</td><td>YYYY-MM-DD，系统标准格式</td><td>2026-07-13</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">⚠️ 数据操作红线</div>
+    <div class="sop-item" style="border-color:var(--r);background:var(--r-bg)">
+      <div class="sop-title" style="color:var(--r-d)">🚫 绝对禁止</div>
+      <div class="sop-steps">
+        • 自行编造员工编码、手机号、身份证号<br>
+        • 批量删除员工档案（无审批）<br>
+        • 直接修改历史薪酬数据<br>
+        • 将系统数据以明文方式通过微信/邮件外发<br>
+        • 使用他人账号操作关键流程
+      </div>
+    </div>
+    <div class="sop-item" style="border-color:var(--y);background:var(--y-bg);margin-top:8px">
+      <div class="sop-title" style="color:var(--y-d)">⚠ 需审批后操作</div>
+      <div class="sop-steps">
+        • 批量导入/导出员工数据<br>
+        • 修改组织架构<br>
+        • 调整薪资方案/公式<br>
+        • 删除已归档数据<br>
+        • 修改系统配置参数
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SOPs ═══ -->
+<div class="section-label">
+  <span class="icon">📋</span>
+  <span class="text">四、关键操作标准流程（SOP）</span>
+  <span class="badge">8项核心SOP</span>
+</div>
+
+<div class="grid-2">
+  <!-- SOP 1 -->
+  <div class="card">
+    <div class="card-title">SOP-01 新员工入职</div>
+    <div class="sop-item">
+      <div class="sop-title">① 发起入职流程</div>
+      <div class="sop-steps">在"招聘管理→Offer管理"中确认候选人接受Offer → 点击"发起入职"</div>
+      <div class="sop-who">责任人：招聘HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 信息采集发送</div>
+      <div class="sop-steps">系统自动发送入职信息采集链接 → 候选人填写个人信息（证件、银行、学历、紧急联系人）</div>
+      <div class="sop-who">责任人：候选人 → 招聘HR催办</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 信息审核 & 档案创建</div>
+      <div class="sop-steps">HR逐项核对：姓名/身份证号/手机号/银行卡号 → 确认无误后生成员工档案 → 分配工号</div>
+      <div class="sop-who">责任人：员工关系HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 通知联调</div>
+      <div class="sop-steps">通知IT开通账号（邮件+OA）→ 通知行政准备工位/资产 → 通知直属上级安排工作</div>
+      <div class="sop-who">责任人：员工关系HR</div>
+    </div>
+    <div class="mini-flow" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--s-200)">
+      <div class="mini-node">Offer确认</div><div class="mini-arr">→</div>
+      <div class="mini-node">信息采集</div><div class="mini-arr">→</div>
+      <div class="mini-node">HR审核</div><div class="mini-arr">→</div>
+      <div class="mini-node">档案创建</div><div class="mini-arr">→</div>
+      <div class="mini-node">联调通知</div>
+    </div>
+  </div>
+
+  <!-- SOP 2 -->
+  <div class="card">
+    <div class="card-title">SOP-02 考勤月结</div>
+    <div class="sop-item">
+      <div class="sop-title">① 异常数据排查（每月1-3日）</div>
+      <div class="sop-steps">导出考勤异常报表 → 逐条联系员工/上级确认原因 → 系统内完成补卡/修正</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 假期余额核对</div>
+      <div class="sop-steps">确认年假、调休、病假等余额与实际情况一致 → 修正系统数据</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 考勤数据冻结（每月4日）</div>
+      <div class="sop-steps">确认考勤数据无误后 → 系统内"月结锁定" → 数据推送至薪酬模块</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 复核确认</div>
+      <div class="sop-steps">HR负责人复核月考勤汇总表 → 签字确认 → 归档</div>
+      <div class="sop-who">复核人：HR负责人</div>
+    </div>
+    <div class="highlight-box" style="margin-top:8px">
+      <strong>⚠ 关键提醒：</strong>考勤月结截止日为每月4日，逾期未结将延迟全员薪酬核算。若4日为节假日则顺延至下一个工作日。
+    </div>
+  </div>
+
+  <!-- SOP 3 -->
+  <div class="card">
+    <div class="card-title">SOP-03 月度薪酬核算</div>
+    <div class="sop-item">
+      <div class="sop-title">① 数据准备（每月5-7日）</div>
+      <div class="sop-steps">确认考勤已月结 → 检查当月入离职人员 → 检查异动(调岗/调薪)人员 → 确认社保公积金基数</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 系统核算</div>
+      <div class="sop-steps">北森系统内启动"月度薪酬计算" → 自动导入考勤、社保、个税数据 → 生成薪资计算表</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 个别调整 & 审核</div>
+      <div class="sop-steps">如有特殊情况（补发/扣款）手动调整 → 提交HR负责人审核</div>
+      <div class="sop-who">操作：薪酬HR → 审核：HR负责人</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 工资条发布（每月10日前）</div>
+      <div class="sop-steps">审核通过后 → 系统生成工资条 → 推送到员工APP/邮箱 → HR确认推送成功</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="danger-box" style="margin-top:8px">
+      <strong>🚫 红线：</strong>薪酬核算结果在正式发布前属于高度机密。核算期间不得向任何非直接相关人员透露数据。如有员工咨询，统一回复"薪酬发放日可查"。
+    </div>
+  </div>
+
+  <!-- SOP 4 -->
+  <div class="card">
+    <div class="card-title">SOP-04 试用期目标对齐</div>
+    <div class="sop-item">
+      <div class="sop-title">① 发起（入职后一周内）</div>
+      <div class="sop-steps">绩效HR在系统创建试用期目标表单 → 通知导师和新员工填写<br><em>当前状态：以附件上传，待优化为结构化表单</em></div>
+      <div class="sop-who">责任人：绩效HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 填写目标（当月+次月+下下月）</div>
+      <div class="sop-steps">导师与新员工面谈 → 确定三个月的目标 → 逐月填写 → 双方确认</div>
+      <div class="sop-who">责任人：新员工 + 导师</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 月度回顾 & 调整</div>
+      <div class="sop-steps">每月底导师与新员工1v1回顾 → 目标是否需要调整 → 在系统/附件中更新</div>
+      <div class="sop-who">责任人：导师</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 试用期结束评估</div>
+      <div class="sop-steps">三个月目标完成情况汇总 → 作为转正评估的核心依据 → 归档</div>
+      <div class="sop-who">责任人：绩效HR + 导师</div>
+    </div>
+    <div class="highlight-box" style="margin-top:8px">
+      <strong>🔥 当前待优化：</strong>试用期目标对齐应从"附件上传"改为"结构化表单"，实现数据在线填写、存储和追溯。此为P0优先级。
+    </div>
+  </div>
+
+  <!-- SOP 5 -->
+  <div class="card">
+    <div class="card-title">SOP-05 员工离职办理</div>
+    <div class="sop-item">
+      <div class="sop-title">① 离职申请审批</div>
+      <div class="sop-steps">员工系统提交离职 → 直属上级审批 → HR确认 → 确定最后工作日</div>
+      <div class="sop-who">发起：员工 → 审批：上级/HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 多部门交接流转（并行）</div>
+      <div class="sop-steps">IT：资产回收+账号冻结 → 行政：工位/门禁注销 → 财务：费用清算 → 直属上级：工作交接确认</div>
+      <div class="sop-who">协调：员工关系HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 薪酬结算（最后工作日次日）</div>
+      <div class="sop-steps">计算当月工作天数薪酬 → 年假折算 → 加班费结算 → 生成离职结算单</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 收尾操作</div>
+      <div class="sop-steps">社保公积金减员（当月15日前操作）→ 出具离职证明 → 员工档案归档 → IT账号注销</div>
+      <div class="sop-who">责任人：员工关系HR + IT</div>
+    </div>
+    <div class="danger-box" style="margin-top:8px">
+      <strong>🚫 时效性红线：</strong>社保减员必须在最后工作日当月15日前完成操作！超过15日则次月才能减员，公司需多缴纳一个月社保。
+    </div>
+  </div>
+
+  <!-- SOP 6 -->
+  <div class="card">
+    <div class="card-title">SOP-06 组织架构调整</div>
+    <div class="sop-item">
+      <div class="sop-title">① 申请</div>
+      <div class="sop-steps">部门负责人提交组织架构调整申请 → 说明调整原因/方案/时间 → HR负责人初审</div>
+      <div class="sop-who">发起：部门负责人 → 初审：HR负责人</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 审批</div>
+      <div class="sop-steps">HR负责人+管理层审批 → 涉及跨组织（200/400）变更需IT确认ERP同步方案</div>
+      <div class="sop-who">审批：HR负责人 + 管理层</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 系统执行（HR+IT并行）</div>
+      <div class="sop-steps">HR：北森系统内修改组织架构/汇报线/岗位编制 → IT：同步更新ERP部门数据</div>
+      <div class="sop-who">HR：HR负责人 → IT：IT负责人</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 验证 & 通知</div>
+      <div class="sop-steps">验证EHR与ERP数据一致 → 通知受影响员工和相关部门 → 更新组织架构图</div>
+      <div class="sop-who">验证：HR + IT → 通知：HR</div>
+    </div>
+  </div>
+
+  <!-- SOP 7 -->
+  <div class="card">
+    <div class="card-title">SOP-07 绩效评估流程</div>
+    <div class="sop-item">
+      <div class="sop-title">① 方案配置（评估周期开始前）</div>
+      <div class="sop-steps">绩效HR配置评估周期/评分规则/权重/评估人关系 → HR负责人确认</div>
+      <div class="sop-who">责任人：绩效HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 目标录入</div>
+      <div class="sop-steps">员工/上级在系统中录入考核目标 → 双方确认 → 锁定</div>
+      <div class="sop-who">责任人：员工 + 直属上级</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 评估打分</div>
+      <div class="sop-steps">自评 → 上级评分 → 隔级确认 → HR汇总 → 校准会（如有）</div>
+      <div class="sop-who">责任人：全员按角色参与</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 结果下发 & 面谈</div>
+      <div class="sop-steps">绩效结果下发 → 员工确认 → 面对面绩效沟通 → 结果归档 → （如需）联动薪酬调薪</div>
+      <div class="sop-who">责任人：直属上级 + HR</div>
+    </div>
+  </div>
+
+  <!-- SOP 8 -->
+  <div class="card">
+    <div class="card-title">SOP-08 月/季度数据报表</div>
+    <div class="sop-item">
+      <div class="sop-title">① 月度人事报表</div>
+      <div class="sop-steps">每月5日前生成：在岗人数、入离职统计、异动统计 → 发送HR负责人</div>
+      <div class="sop-who">责任人：员工关系HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 月度薪酬报表</div>
+      <div class="sop-steps">每月15日前生成：薪酬汇总、社保公积金汇总、个税申报 → 发送HR负责人+财务Jessie总</div>
+      <div class="sop-who">责任人：薪酬HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 季度绩效汇总</div>
+      <div class="sop-steps">每季度结束后5个工作日内：绩效分布、试用期转正率、培训完成率 → 发送HR负责人+管理层</div>
+      <div class="sop-who">责任人：绩效HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 报表归档</div>
+      <div class="sop-steps">所有报表存入腾讯文档指定文件夹，纸质版需HR负责人签字</div>
+      <div class="sop-who">责任人：各模块HR</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APPROVAL RULES ═══ -->
+<div class="section-label">
+  <span class="icon">✍️</span>
+  <span class="text">五、审批流规则</span>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">审批层级对照</div>
+    <table class="data-table">
+      <tr><th>审批事项</th><th>一级审批</th><th>二级审批</th><th>三级审批</th></tr>
+      <tr><td>入职Offer</td><td>直属上级</td><td>HR负责人</td><td>—</td></tr>
+      <tr><td>请假（≤3天）</td><td>直属上级</td><td>—</td><td>—</td></tr>
+      <tr><td>请假（>3天）</td><td>直属上级</td><td>部门负责人</td><td>HR负责人</td></tr>
+      <tr><td>加班申请</td><td>直属上级</td><td>—</td><td>—</td></tr>
+      <tr><td>调薪</td><td>直属上级</td><td>部门负责人</td><td>HR负责人+管理层</td></tr>
+      <tr><td>转正</td><td>直属上级</td><td>HR负责人</td><td>—</td></tr>
+      <tr><td>离职</td><td>直属上级</td><td>部门负责人</td><td>HR负责人</td></tr>
+      <tr><td>组织架构调整</td><td>部门负责人</td><td>HR负责人</td><td>管理层</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">审批时效要求</div>
+    <table class="data-table">
+      <tr><th>类型</th><th>时效要求</th></tr>
+      <tr><td>日常审批（请假/加班/出差）</td><td>24小时内完成</td></tr>
+      <tr><td>入职/转正审批</td><td>48小时内完成</td></tr>
+      <tr><td>离职审批</td><td>3个工作日内完成</td></tr>
+      <tr><td>调薪/组织架构审批</td><td>5个工作日内完成</td></tr>
+      <tr><td>超时未审批</td><td>系统自动提醒→HR手动催办→48小时仍无响应升级至上一级</td></tr>
+    </table>
+    <div class="sop-item" style="margin-top:12px">
+      <div class="sop-title">审批人不在岗怎么办？</div>
+      <div class="sop-steps">
+        • 审批人请假/出差需提前在系统设置"审批代理人"<br>
+        • 未设置代理人导致审批卡顿，由HR手动转交至上一级<br>
+        • 系统管理员（IT）有权限强制转交超时审批
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHANGE MANAGEMENT ═══ -->
+<div class="section-label">
+  <span class="icon">🔧</span>
+  <span class="text">六、系统变更管理制度</span>
+  <span class="badge">改配置必须走流程</span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="mini-flow" style="justify-content:center;margin-bottom:12px">
+    <div class="mini-node">提出变更需求</div><div class="mini-arr">→</div>
+    <div class="mini-node">HR负责人初审</div><div class="mini-arr">→</div>
+    <div class="mini-node" style="background:var(--y-bg);color:var(--y-d);border-color:var(--y)">IT评估影响面</div><div class="mini-arr">→</div>
+    <div class="mini-node">管理层审批</div><div class="mini-arr">→</div>
+    <div class="mini-node" style="background:var(--g-bg);color:var(--g-d);border-color:var(--g)">执行变更</div><div class="mini-arr">→</div>
+    <div class="mini-node" style="background:var(--b-bg);color:var(--b-d);border-color:var(--b)">验证 & 记录</div>
+  </div>
+  <table class="data-table">
+    <tr><th style="width:160px">变更类型</th><th>是否需要审批</th><th>审批人</th><th>执行人</th></tr>
+    <tr><td>新增/删除自定义字段</td><td>需要</td><td>HR负责人</td><td>IT</td></tr>
+    <tr><td>修改审批流</td><td>需要</td><td>HR负责人</td><td>IT</td></tr>
+    <tr><td>修改薪酬公式/规则</td><td>需要</td><td>HR负责人+管理层</td><td>IT</td></tr>
+    <tr><td>角色权限调整</td><td>需要</td><td>HR负责人</td><td>IT</td></tr>
+    <tr><td>批量数据导入</td><td>需要</td><td>HR负责人</td><td>HR/IT</td></tr>
+    <tr><td>系统接口（API）变更</td><td>需要</td><td>HR负责人+管理层</td><td>IT</td></tr>
+    <tr><td>普通数据录入（单条）</td><td>不需要</td><td>—</td><td>对应HR</td></tr>
+    <tr><td>报表导出（常规）</td><td>不需要</td><td>—</td><td>对应HR</td></tr>
+  </table>
+</div>
+
+<!-- ═══ EXCEPTION HANDLING ═══ -->
+<div class="section-label">
+  <span class="icon">🚨</span>
+  <span class="text">七、异常处理流程</span>
+</div>
+
+<div class="grid-3" style="margin-bottom:12px">
+  <div class="card" style="border-left:4px solid var(--r)">
+    <div class="card-title">🔴 薪酬数据错误</div>
+    <div class="sop-steps" style="font-size:12px;line-height:1.6;color:var(--s-600)">
+      <strong>触发：</strong>工资条发放后发现金额错误<br>
+      <strong>处理：</strong><br>
+      1. 薪酬HR立即暂停后续发放<br>
+      2. 排查原因（系统公式/数据源/人为）<br>
+      3. 汇报HR负责人+财务Jessie总<br>
+      4. 制定补发/扣回方案<br>
+      5. 通知受影响员工（统一口径）<br>
+      6. 修复系统数据<br>
+      <strong>时限：</strong>发现后2小时内响应
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid var(--y)">
+    <div class="card-title">🟡 考勤数据缺失/异常</div>
+    <div class="sop-steps" style="font-size:12px;line-height:1.6;color:var(--s-600)">
+      <strong>触发：</strong>考勤月结时发现大面积数据缺失<br>
+      <strong>处理：</strong><br>
+      1. 确认是打卡设备问题还是系统同步问题<br>
+      2. 如是设备问题→联系行政/IT修复<br>
+      3. 如是系统问题→IT排查日志<br>
+      4. 启动手工补录流程（需员工+上级确认）<br>
+      5. 暂缓月结，数据补全后再锁定
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid var(--b)">
+    <div class="card-title">🔵 系统宕机/不可用</div>
+    <div class="sop-steps" style="font-size:12px;line-height:1.6;color:var(--s-600)">
+      <strong>触发：</strong>北森系统长时间不可访问<br>
+      <strong>处理：</strong><br>
+      1. IT确认问题范围（全员/部分用户）<br>
+      2. 联系北森技术支持 → 获取恢复时间<br>
+      3. HR通知各部门：预计恢复时间+替代方案<br>
+      4. 关键节点（如发薪日）→ 启动手工应急预案<br>
+      5. 恢复后验证数据完整性<br>
+      <strong>通知模板：</strong>腾讯文档存有备查
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REGULAR AUDIT ═══ -->
+<div class="section-label">
+  <span class="icon">🔍</span>
+  <span class="text">八、定期检查与审计</span>
+  <span class="badge">必查清单</span>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">📅 月度必查（每月5日前）</div>
+    <div class="check-item"><div class="check-box"></div>在岗人数与花名册数据一致</div>
+    <div class="check-item"><div class="check-box"></div>当月入职/离职数据完整录入</div>
+    <div class="check-item"><div class="check-box"></div>考勤月结是否按时完成</div>
+    <div class="check-item"><div class="check-box"></div>薪酬核算是否在10日前完成</div>
+    <div class="check-item"><div class="check-box"></div>社保公积金增减员已操作</div>
+    <div class="check-item"><div class="check-box"></div>月度人事报表已发送</div>
+  </div>
+  <div class="card">
+    <div class="card-title">📊 季度必查（每季度末）</div>
+    <div class="check-item"><div class="check-box"></div>EHR与ERP部门数据一致性比对</div>
+    <div class="check-item"><div class="check-box"></div>合同到期预警清单（续签/不续签）</div>
+    <div class="check-item"><div class="check-box"></div>试用期到期预警清单</div>
+    <div class="check-item"><div class="check-box"></div>绩效评估流程是否按时完成</div>
+    <div class="check-item"><div class="check-box"></div>培训记录完整性检查</div>
+    <div class="check-item"><div class="check-box"></div>系统用户权限审查（离职人员权限已收回）</div>
+    <div class="check-item"><div class="check-box"></div>季度绩效/人事报表已发送管理层</div>
+  </div>
+</div>
+
+<!-- ═══ HANDOVER ═══ -->
+<div class="section-label">
+  <span class="icon">🔄</span>
+  <span class="text">九、HR人员交接制度 🔥</span>
+  <span class="badge" style="background:var(--r)">核心防断层</span>
+</div>
+
+<div class="danger-box" style="margin-bottom:12px">
+  <strong>🚨 问题背景：</strong>上一位HR离职后，现HR团队不熟悉系统操作，导致流程断层。此制度专为防止同类问题再次发生。
+</div>
+
+<div class="grid-2" style="margin-bottom:12px">
+  <div class="card" style="border:2px solid var(--r)">
+    <div class="card-title">📋 交接清单（离职HR必交）</div>
+    <div class="check-item"><div class="check-box" style="border-color:var(--r)"></div><strong>1. 系统操作文档</strong> — 按本规范8项SOP逐项录制操作视频或截图流程（至少录前5项）</div>
+    <div class="check-item"><div class="check-box" style="border-color:var(--r)"></div><strong>2. 账号与密码</strong> — 移交所有HR系统及相关第三方平台账号清单（不含密码明文，走IT重置）</div>
+    <div class="check-item"><div class="check-box" style="border-color:var(--r)"></div><strong>3. 待办事项清单</strong> — 列出所有未完成的审批、待处理入离职、进行中的项目</div>
+    <div class="check-item"><div class="check-box" style="border-color:var(--r)"></div><strong>4. 关键联系人</strong> — 北森技术支持、社保局、公积金中心、IT对口人联系方式</div>
+    <div class="check-item"><div class="check-box" style="border-color:var(--r)"></div><strong>5. 数据归档位置</strong> — 腾讯文档/云盘中所有HR相关文件的位置索引</div>
+    <div class="check-item"><div class="check-box" style="border-color:var(--r)"></div><strong>6. 遗留问题清单</strong> — 当前系统/数据中已知但未解决的问题</div>
+    <div class="check-item"><div class="check-box" style="border-color:var(--r)"></div><strong>7. 操作日志</strong> — 最近1个月的关键操作记录摘要</div>
+  </div>
+  <div class="card">
+    <div class="card-title">⏱️ 交接流程</div>
+    <div class="sop-item">
+      <div class="sop-title">阶段① 提前通知（离职前30天）</div>
+      <div class="sop-steps">HR负责人收到离职信息 → 确定接任人选 → 制定交接计划</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">阶段② 在岗交接（离职前15天）</div>
+      <div class="sop-steps">离职HR按"交接清单"逐项整理 → 带接任HR实操关键流程（至少完成1个完整月结周期）</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">阶段③ 复核签收（离职前3天）</div>
+      <div class="sop-steps">HR负责人对照清单逐项验收 → 接任HR签名确认 → 离职HR方可办理最后手续</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">阶段④ 后续跟踪（离职后1个月）</div>
+      <div class="sop-steps">接任HR独立完成一个月度周期 → HR负责人确认无断层 → 交接正式关闭</div>
+    </div>
+    <div class="highlight-box" style="margin-top:8px">
+      <strong>🔑 关键原则：</strong>交接验收不通过 → 离职HR不可办完离职手续。HR负责人有权暂缓《离职证明》出具直至交接完成。
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 附则 ═══ -->
+<div class="section-label">
+  <span class="icon">📌</span>
+  <span class="text">十、附则</span>
+</div>
+
+<div class="card">
+  <table class="data-table">
+    <tr><th style="width:120px">条款</th><th>内容</th></tr>
+    <tr><td>制度版本</td><td>V1.0，2026年7月13日生效</td></tr>
+    <tr><td>制定人</td><td>杰德瑞恩J（IT负责人）</td></tr>
+    <tr><td>批准人</td><td>待HR负责人确认</td></tr>
+    <tr><td>修订周期</td><td>每半年复审一次，或遇重大系统变更时即时修订</td></tr>
+    <tr><td>培训要求</td><td>所有HR入职第一周内完成本制度学习，由HR负责人确认并签字</td></tr>
+    <tr><td>配套文件</td><td>《HR系统全流程排查》流程页（hr-system-process.html）、腾讯文档·HR操作视频库</td></tr>
+    <tr><td>违规处理</td><td>违反数据操作红线、未经审批修改系统配置，按公司信息安全制度处理</td></tr>
+  </table>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 · HR系统操作规范制度 V1.0 ｜ 杰德瑞恩J 制定 ｜ 2026年7月
+</div>
+
+</div>
+</body>
+</html>

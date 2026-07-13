@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR系统全流程梳理 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;--o-d:#9a3412;
+  --c:#06b6d4;--c-bg:#ecfeff;--c-d:#155e75;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+/* ── Header ── */
+.header{
+  background:linear-gradient(135deg,#1e1b4b,#312e81,#4338ca);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#a5b4fc;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#c7d2fe;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.3);border-color:rgba(139,92,246,.5);color:#fff}
+
+/* ── Alert Banner ── */
+.alert-banner{
+  background:linear-gradient(135deg,#fef3c7,#fef9c3);border:1.5px solid var(--y);
+  border-radius:10px;padding:12px 16px;font-size:12px;color:var(--y-d);
+  margin-bottom:16px;display:flex;align-items:center;gap:8px
+}
+.alert-banner .alert-icon{font-size:18px;flex-shrink:0}
+
+/* ── Stats ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat-value{font-size:24px;font-weight:700;line-height:1}
+.stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
+
+/* ── Section ── */
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:24px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--p);color:#fff;padding:2px 8px;border-radius:10px}
+
+/* ── Grid ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+
+/* ── Card ── */
+.card{background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
+.card .card-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card .card-sub{font-size:11px;color:var(--s-400);margin-bottom:10px}
+
+/* ── Main Process Flow ── */
+.flow-container{overflow-x:auto;padding:8px 0}
+.flow-row{display:flex;align-items:flex-start;gap:8px;min-width:max-content;padding:12px 4px}
+.flow-phase{flex-shrink:0;width:145px;text-align:center}
+.flow-phase-node{
+  border-radius:14px;padding:16px 10px 12px;position:relative;
+  border:2px solid;transition:transform .15s,box-shadow .15s;cursor:default;
+  min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center
+}
+.flow-phase-node:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.flow-phase-node .phase-emoji{font-size:24px;margin-bottom:4px}
+.flow-phase-node .phase-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.flow-phase-node .phase-steps{font-size:10px;line-height:1.4}
+.flow-arrow{display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--s-400);font-weight:700;flex-shrink:0;padding-top:35px;width:24px}
+
+/* Phase colors */
+.phase-purple{background:var(--p-bg);border-color:var(--p)}.phase-purple .phase-name{color:var(--p-d)}
+.phase-blue{background:var(--b-bg);border-color:var(--b)}.phase-blue .phase-name{color:var(--b-d)}
+.phase-cyan{background:var(--c-bg);border-color:var(--c)}.phase-cyan .phase-name{color:var(--c-d)}
+.phase-green{background:var(--g-bg);border-color:var(--g)}.phase-green .phase-name{color:var(--g-d)}
+.phase-orange{background:var(--o-bg);border-color:var(--o)}.phase-orange .phase-name{color:var(--o-d)}
+.phase-yellow{background:var(--y-bg);border-color:var(--y)}.phase-yellow .phase-name{color:var(--y-d)}
+.phase-red{background:var(--r-bg);border-color:var(--r)}.phase-red .phase-name{color:var(--r-d)}
+.phase-pink{background:#fce7f3;border-color:#ec4899}.phase-pink .phase-name{color:#9d174d}
+
+/* ── Checkpoint Table ── */
+.check-table{width:100%;border-collapse:collapse;font-size:12px}
+.check-table th{padding:10px 12px;background:var(--s-100);color:var(--s-600);font-weight:600;text-align:left;border-bottom:2px solid var(--s-200);white-space:nowrap}
+.check-table td{padding:9px 12px;border-bottom:1px solid var(--s-100);color:var(--s-600);vertical-align:top}
+.check-table tr:hover td{background:var(--s-50)}
+.check-table .check-col{width:36px;text-align:center}
+.check-table .status-col{width:80px}
+.check-table .who-col{width:100px}
+.check-table .status-badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600}
+.status-ok{background:var(--g-bg);color:var(--g-d)}
+.status-issue{background:var(--r-bg);color:var(--r-d)}
+.status-unknown{background:var(--y-bg);color:var(--y-d)}
+.status-na{background:var(--s-100);color:var(--s-400)}
+.checkbox{width:16px;height:16px;border:2px solid var(--s-400);border-radius:3px;display:inline-block;cursor:pointer;vertical-align:middle;transition:all .15s}
+.checkbox.checked{background:var(--p);border-color:var(--p);position:relative}
+.checkbox.checked::after{content:'✔';position:absolute;top:-1px;left:2px;color:#fff;font-size:10px}
+
+/* ── Sub-flow ── */
+.sub-flow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11px;padding:6px 0}
+.sub-flow-node{padding:4px 10px;border-radius:4px;font-weight:600;white-space:nowrap}
+.sub-flow-arr{color:var(--s-400);font-size:12px}
+
+/* ── Issue card ── */
+.issue-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;font-size:12px;border-bottom:1px solid var(--s-100)}
+.issue-item:last-child{border:none}
+.issue-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.issue-dot.r{background:var(--r)}.issue-dot.y{background:var(--y)}.issue-dot.p{background:var(--p)}.issue-dot.g{background:var(--g)}
+
+/* ── Role Table ── */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{padding:8px 10px;background:var(--s-100);color:var(--s-600);font-weight:600;text-align:left;border-bottom:2px solid var(--s-200)}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--s-100);color:var(--s-600)}
+.data-table tr:hover td{background:var(--s-50)}
+
+/* ── Module detail card ── */
+.mod-detail{border-left:3px solid;padding:4px 0 4px 12px;margin-bottom:8px}
+.mod-detail .mod-step{font-size:11px;padding:3px 0;color:var(--s-600);display:flex;align-items:center;gap:6px}
+.mod-detail .mod-step .step-num{font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── Tabs ── */
+.tab-bar{display:flex;gap:4px;margin-bottom:0;padding:2px;background:var(--s-100);border-radius:10px}
+.tab-btn{padding:8px 16px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--s-600);transition:all .15s;white-space:nowrap}
+.tab-btn.active{background:#fff;color:var(--p-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* ── Print-friendly ── */
+@media print{
+  body{background:#fff}
+  .header{background:#1e1b4b!important;-webkit-print-color-adjust:exact}
+  .card{border:1px solid #e2e8f0;break-inside:avoid}
+  .flow-container{overflow-x:visible}
+}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .stats-row,.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .header{padding:18px 20px}
+  .header h1{font-size:18px}
+  .tab-bar{overflow-x:auto}
+}
+
+/* ── Legend ── */
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:4px}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-left">
+    <h1>👥 HR系统全流程梳理</h1>
+    <div class="sub">北森(Beisen) HR SaaS · 组织管理 + 人事全生命周期 · 系统负责人：杰德瑞恩J</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="hr-system-policy.html">📜 操作规范</a>
+    <a href="company-informatization.html">🔄 信息化全景</a>
+    <a href="erp-center.html">📦 ERP中心</a>
+    <a href="plm-center.html">🔧 PLM中心</a>
+    <a href="erp-procurement.html">📥 采购管理</a>
+    <a href="company-intro.html">📋 公司背景</a>
+  </nav>
+</header>
+
+<!-- ═══ ALERT ═══ -->
+<div class="alert-banner">
+  <span class="alert-icon">💡</span>
+  <div>
+    <strong>使用说明：</strong>本页面覆盖北森HR系统从"入职"到"离职"的全流程节点。请带着HR团队逐项对照，标记每个节点的<strong>系统操作是否畅通、是否有卡点</strong>。红色 🔴 节点请优先排查。
+    &nbsp;|&nbsp; <a href="hr-system-policy.html" style="color:var(--y-d);font-weight:700;text-decoration:underline">📜 配套规范：查看《HR系统操作规范制度》</a>
+  </div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--p)">8</div>
+    <div class="stat-label">主流程阶段</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--b)">42</div>
+    <div class="stat-label">全流程检查节点</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--y)">北森 Beisen</div>
+    <div class="stat-label">HR 系统品牌</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--r)">上线晚·需补课</div>
+    <div class="stat-label">当前状态</div>
+  </div>
+</div>
+
+<!-- ═══ FLOW: 员工全生命周期 ═══ -->
+<div class="section-label">
+  <span class="icon">🔁</span>
+  <span class="text">员工全生命周期流程总览</span>
+  <span class="badge">8大阶段</span>
+</div>
+
+<div class="card" style="margin-bottom:12px;overflow-x:auto">
+  <div class="flow-container">
+    <div class="flow-row">
+      <!-- Phase 1: 招聘入职 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-blue">
+          <div class="phase-emoji">🎯</div>
+          <div class="phase-name">1.招聘入职</div>
+          <div class="phase-steps">需求→发布→筛选<br>→面试→Offer→<br>信息采集→入职报到</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Phase 2: 组织人事 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-purple">
+          <div class="phase-emoji">📋</div>
+          <div class="phase-name">2.组织人事</div>
+          <div class="phase-steps">组织架构维护<br>→岗位编制→员工<br>档案→合同管理</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Phase 3: 考勤管理 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-cyan">
+          <div class="phase-emoji">⏰</div>
+          <div class="phase-name">3.考勤管理</div>
+          <div class="phase-steps">排班规则→打卡<br>→请假/加班→<br>出差→考勤月结</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Phase 4: 薪酬管理 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-green">
+          <div class="phase-emoji">💰</div>
+          <div class="phase-name">4.薪酬管理</div>
+          <div class="phase-steps">薪资方案→社保<br>公积金→个税→<br>薪酬核算→工资条</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Phase 5: 绩效管理 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-orange">
+          <div class="phase-emoji">📊</div>
+          <div class="phase-name">5.绩效管理</div>
+          <div class="phase-steps">目标设定→过程<br>反馈→评估打分<br>→绩效面谈→结果</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Phase 6: 培训发展 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-yellow">
+          <div class="phase-emoji">📚</div>
+          <div class="phase-name">6.培训发展</div>
+          <div class="phase-steps">培训需求→计划<br>→课程安排→执行<br>→培训记录→评估</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Phase 7: 异动管理 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-pink">
+          <div class="phase-emoji">🔄</div>
+          <div class="phase-name">7.异动管理</div>
+          <div class="phase-steps">转正→调岗→<br>调薪→晋升→<br>内部竞聘→交接</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- Phase 8: 离职管理 -->
+      <div class="flow-phase">
+        <div class="flow-phase-node phase-red">
+          <div class="phase-emoji">🚪</div>
+          <div class="phase-name">8.离职管理</div>
+          <div class="phase-steps">离职申请→交接<br>→审批→工资结算<br>→社保减员→归档</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 全流程检查清单 ═══ -->
+<div class="section-label">
+  <span class="icon">✅</span>
+  <span class="text">全流程检查清单（逐项排查）</span>
+  <span class="badge">42个节点</span>
+</div>
+
+<!-- Legend -->
+<div class="card" style="margin-bottom:10px;padding:10px 16px">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--g)"></div> 已跑通</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--y)"></div> 待确认/疑似有问题</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--r)"></div> 明确卡点/待解决</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--s-400)"></div> 未启用/不适用</div>
+  </div>
+</div>
+
+<!-- PHASE 1: 招聘入职 -->
+<div class="section-label">
+  <span class="icon">🎯</span>
+  <span class="text">阶段 1：招聘入职</span>
+  <span class="badge">6个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.1</td>
+      <td><strong>招聘需求创建</strong></td>
+      <td>HR在系统发起招聘需求申请，含部门/岗位/人数/薪资预算</td>
+      <td>HR / 部门负责人</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.2</td>
+      <td><strong>职位发布 & 简历筛选</strong></td>
+      <td>系统发布职位至招聘渠道，回收简历，HR筛选</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.3</td>
+      <td><strong>面试安排 & 评价</strong></td>
+      <td>系统安排面试日程，面试官提交评价</td>
+      <td>HR / 面试官</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.4</td>
+      <td><strong>Offer 审批 & 发放</strong></td>
+      <td>系统内发起Offer审批，通过后发放</td>
+      <td>HR / 审批人</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.5</td>
+      <td><strong>入职信息采集</strong></td>
+      <td>候选人扫码/链接填写入职信息（证件、学历、银行、紧急联系人）</td>
+      <td>候选人 / HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.6</td>
+      <td><strong>入职确认 & 报到</strong></td>
+      <td>HR确认信息→生成员工档案→分配工号/账号→通知IT/行政</td>
+      <td>HR / IT / 行政</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- PHASE 2: 组织人事 -->
+<div class="section-label">
+  <span class="icon">📋</span>
+  <span class="text">阶段 2：组织人事</span>
+  <span class="badge">5个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>2.1</td>
+      <td><strong>组织架构维护</strong></td>
+      <td>创建/调整部门、汇报线，与ERP组织同步匹配</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 关注与ERP 43部门对齐</td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>2.2</td>
+      <td><strong>岗位编制管理</strong></td>
+      <td>设定岗位编制数、岗位说明书、职级体系</td>
+      <td>HR / 部门负责人</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>2.3</td>
+      <td><strong>员工档案管理</strong></td>
+      <td>维护基础信息（姓名/电话/学历/银行）、信息变更申请</td>
+      <td>HR / 员工本人</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>2.4</td>
+      <td><strong>合同管理</strong></td>
+      <td>劳动合同签订/续签/变更记录，到期预警</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>2.5</td>
+      <td><strong>花名册导出 & 报表</strong></td>
+      <td>随时导出花名册、在职人数统计、月度人事报表</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- PHASE 3: 考勤管理 -->
+<div class="section-label">
+  <span class="icon">⏰</span>
+  <span class="text">阶段 3：考勤管理</span>
+  <span class="badge">6个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>3.1</td>
+      <td><strong>排班规则设置</strong></td>
+      <td>设置工作日历、班次、打卡地点/时间</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>3.2</td>
+      <td><strong>员工打卡</strong></td>
+      <td>APP/刷卡/GPS打卡，数据实时同步至系统</td>
+      <td>全体员工</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>3.3</td>
+      <td><strong>请假申请 & 审批</strong></td>
+      <td>员工系统提交请假（年假/事假/病假/婚假），按职级走审批</td>
+      <td>员工 / 上级</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>3.4</td>
+      <td><strong>加班申请 & 调休</strong></td>
+      <td>系统提交加班申请→审批→生成加班记录→调休余额</td>
+      <td>员工 / 上级</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>3.5</td>
+      <td><strong>出差管理</strong></td>
+      <td>出差申请→审批→差旅记录→考勤标记</td>
+      <td>员工 / 上级</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>3.6</td>
+      <td><strong>考勤月结</strong></td>
+      <td>月度考勤汇总→异常处理→确认→推送薪酬系统</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 关键：考勤数据能否正确推至薪酬模块？</td>
+    </tr>
+  </table>
+</div>
+
+<!-- PHASE 4: 薪酬管理 -->
+<div class="section-label">
+  <span class="icon">💰</span>
+  <span class="text">阶段 4：薪酬管理</span>
+  <span class="badge">6个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>4.1</td>
+      <td><strong>薪资方案配置</strong></td>
+      <td>设定薪资结构（基本工资/岗位/绩效/津贴/补贴）、计算公式</td>
+      <td>HR / 财务</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>4.2</td>
+      <td><strong>社保增员/减员</strong></td>
+      <td>每月社保增减员名单提交、基数申报、费用核算</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>4.3</td>
+      <td><strong>公积金管理</strong></td>
+      <td>每月公积金增减员、基数调整、费用核算</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>4.4</td>
+      <td><strong>个税计算</strong></td>
+      <td>系统自动计税（专项附加扣除、累计预扣），与税务申报对接</td>
+      <td>系统自动</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>4.5</td>
+      <td><strong>薪酬核算</strong></td>
+      <td>导入考勤数据→计算薪资→审核→生成工资表</td>
+      <td>HR / 上级</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 关键一步，出错影响全公司</td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>4.6</td>
+      <td><strong>工资条发放</strong></td>
+      <td>系统生成工资条→推送员工APP/邮件查看</td>
+      <td>HR / 系统自动</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- PHASE 5: 绩效管理 -->
+<div class="section-label">
+  <span class="icon">📊</span>
+  <span class="text">阶段 5：绩效管理（⚠ 重点排查）</span>
+  <span class="badge">7个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>5.1</td>
+      <td><strong>绩效模板/方案配置</strong></td>
+      <td>HR设定考核周期、评分规则、权重、评估人关系</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>5.2</td>
+      <td><strong>目标设定</strong></td>
+      <td>员工/上级在系统中填写绩效目标（OKR/KPI）</td>
+      <td>员工 / 上级</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>5.3</td>
+      <td><strong>试用期目标对齐 ⚠</strong></td>
+      <td><strong>填写当月+次月+下下月目标（当前以附件上传，非结构化）</strong></td>
+      <td>新员工 / 导师</td>
+      <td><span class="status-badge status-issue">🔴 卡点</span></td><td>🔥 当前最大痛点：附件上传模式，应走结构化表单填写</td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>5.4</td>
+      <td><strong>过程反馈 & 沟通</strong></td>
+      <td>1v1面谈记录、过程评价、目标调整（系统是否支持？）</td>
+      <td>员工 / 上级</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>5.5</td>
+      <td><strong>绩效评估打分</strong></td>
+      <td>自评→上级评→隔级确认→HR汇总</td>
+      <td>全员</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>5.6</td>
+      <td><strong>绩效结果确认 & 面谈</strong></td>
+      <td>绩效结果下发→员工确认→绩效面谈→结果归档</td>
+      <td>上级 / 员工</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>5.7</td>
+      <td><strong>绩效与薪酬联动</strong></td>
+      <td>绩效结果是否自动对接薪酬模块（调薪/奖金）</td>
+      <td>HR / 系统</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- PHASE 6: 培训发展 -->
+<div class="section-label">
+  <span class="icon">📚</span>
+  <span class="text">阶段 6：培训发展</span>
+  <span class="badge">4个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>6.1</td>
+      <td><strong>培训需求收集</strong></td>
+      <td>部门/个人提交培训需求，HR汇总</td>
+      <td>全员 / HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>6.2</td>
+      <td><strong>培训计划 & 课程管理</strong></td>
+      <td>制订年度/季度培训计划，管理课程库、讲师库</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>6.3</td>
+      <td><strong>培训签到 & 记录</strong></td>
+      <td>培训签到、考试/测评、成绩归档</td>
+      <td>HR / 讲师</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>6.4</td>
+      <td><strong>培训效果评估</strong></td>
+      <td>满意度调查、知识考核、行为转化评估</td>
+      <td>HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- PHASE 7: 异动管理 -->
+<div class="section-label">
+  <span class="icon">🔄</span>
+  <span class="text">阶段 7：异动管理</span>
+  <span class="badge">4个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>7.1</td>
+      <td><strong>转正管理</strong></td>
+      <td>试用期到期预警→转正评估→审批→转正生效（联动组织/薪酬）</td>
+      <td>上级 / HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 试用期目标对齐(5.3)直接影响转正评估</td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>7.2</td>
+      <td><strong>调岗流程</strong></td>
+      <td>调岗申请→新/旧部门审批→组织架构更新→考勤/薪酬联动</td>
+      <td>上级 / HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>7.3</td>
+      <td><strong>调薪/晋升</strong></td>
+      <td>调薪申请→审批→薪酬模块生效→历史记录</td>
+      <td>上级 / HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>7.4</td>
+      <td><strong>内部竞聘</strong></td>
+      <td>内部职位发布→员工申请→面试→调动→异动记录</td>
+      <td>HR / 员工</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- PHASE 8: 离职管理 -->
+<div class="section-label">
+  <span class="icon">🚪</span>
+  <span class="text">阶段 8：离职管理</span>
+  <span class="badge">4个节点</span>
+</div>
+<div class="card" style="overflow-x:auto">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>8.1</td>
+      <td><strong>离职申请 & 审批</strong></td>
+      <td>员工提交离职申请→上级→HR→合规审批</td>
+      <td>员工 / 上级 / HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>8.2</td>
+      <td><strong>离职交接（多部门）</strong></td>
+      <td>系统流转：IT负责→行政资产→财务→HR→直属上级交接确认</td>
+      <td>各相关部门</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>8.3</td>
+      <td><strong>工资结算 & 离职证明</strong></td>
+      <td>系统自动计算离职当月薪酬→出具离职证明→财务结算</td>
+      <td>HR / 财务</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>8.4</td>
+      <td><strong>社保减员 & 账号注销 & 归档</strong></td>
+      <td>社保公积金减员→IT账号注销→员工档案归档</td>
+      <td>HR / IT</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 社保减员时效性强，晚了会多缴一个月</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══ ISSUES + CONTACTS ═══ -->
+<div class="section-label">
+  <span class="icon">🔥</span>
+  <span class="text">当前已知问题 & 关键角色</span>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">⚠️ HR系统已知痛点</div>
+    <div class="card-sub">排查过程中优先关注</div>
+    <div class="issue-item">
+      <div class="issue-dot r"></div>
+      <div><strong>试用期目标对齐（节点5.3）</strong><br>当前以附件上传形式，非结构化。应优化为系统表单：当月+次月+下下月三个月目标在线填写。</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot y"></div>
+      <div><strong>HR人员交接断层</strong><br>上一位HR离职后，现HR团队不熟悉系统操作，需要系统性培训。</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot y"></div>
+      <div><strong>EHR与ERP组织数据对齐</strong><br>EHR 43个部门 vs ERP金蝶双组织（200+400），需确保HR系统数据准确。</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot p"></div>
+      <div><strong>考勤→薪酬数据贯通</strong><br>北森考勤数据能否自动推送至薪酬核算？还是手动导出导入？</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot p"></div>
+      <div><strong>绩效→薪酬联动</strong><br>绩效结果是否自动影响调薪/奖金计算？</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">👥 关键角色与分工</div>
+    <div class="card-sub">HR系统日常运维相关人员</div>
+    <table class="data-table">
+      <tr><th style="width:80px">角色</th><th>职责</th><th>涉及模块</th></tr>
+      <tr><td>HR负责人</td><td>系统总体管理、权限配置、数据审批</td><td>全部</td></tr>
+      <tr><td>招聘HR</td><td>招聘流程、Offer审批、入职办理</td><td>阶段1</td></tr>
+      <tr><td>员工关系HR</td><td>档案、合同、异动、离职</td><td>阶段2/7/8</td></tr>
+      <tr><td>薪酬HR</td><td>考勤月结、薪酬核算、社保公积金</td><td>阶段3/4</td></tr>
+      <tr><td>绩效HR</td><td>绩效方案、目标对齐、评估流程</td><td>阶段5</td></tr>
+      <tr><td>IT负责人</td><td>系统运维、账号管理、组织数据对齐</td><td>杰德瑞恩J</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ NEXT STEPS ═══ -->
+<div class="section-label">
+  <span class="icon">📋</span>
+  <span class="text">排查后行动清单</span>
+</div>
+
+<div class="card">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>行动项</th><th>说明</th><th>优先级</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>A1</td>
+      <td>逐项排查42个节点，标记状态</td>
+      <td>带着HR团队，打开北森系统逐一过，红点记录具体卡点</td>
+      <td><span class="status-badge status-issue">P0 立即</span></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>A2</td>
+      <td>试用期目标对齐表优化</td>
+      <td>从附件上传改为系统表单结构化填写（当月+次月+下下月）</td>
+      <td><span class="status-badge status-issue">P0 立即</span></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>A3</td>
+      <td>HR系统基础操作培训（带流程讲解）</td>
+      <td>按本流程逐阶段培训HR，确认每人均可独立操作</td>
+      <td><span class="status-badge status-unknown">P1 本周</span></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>A4</td>
+      <td>考勤→薪酬数据自动化验证</td>
+      <td>测试考勤数据能否自动推送薪酬，确认不需要手动导出</td>
+      <td><span class="status-badge status-unknown">P1 本周</span></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>A5</td>
+      <td>EHR与ERP组织数据比对</td>
+      <td>确保HR系统43个部门与ERP双组织架构一致</td>
+      <td><span class="status-badge status-unknown">P2 两周内</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 · HR系统全流程梳理 ｜ 杰德瑞恩J 出品 ｜ 更新于 2026年7月
+</div>
+
+</div>
+</body>
+</html>
