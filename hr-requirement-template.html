@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR系统需求收集模板 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:#fff;color:var(--s-700);min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:20px 24px}
+
+/* ── Header ── */
+.header{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:20px 32px;color:#fff;margin-bottom:20px}
+.header h1{font-size:20px;font-weight:700}
+.header .sub{font-size:12px;color:#a5b4fc;margin-top:4px}
+.header .usage{font-size:11px;color:#c7d2fe;margin-top:6px;line-height:1.5}
+
+/* ── Section ── */
+.section-label{display:flex;align-items:center;gap:6px;margin-bottom:8px;margin-top:20px}
+.section-label .text{font-size:14px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--p);color:#fff;padding:2px 8px;border-radius:10px}
+
+/* ── Info card ── */
+.info-card{background:var(--y-bg);border:1.5px solid var(--y);border-radius:10px;padding:12px 16px;font-size:11px;color:var(--y-d);margin-bottom:14px;line-height:1.6}
+
+/* ── Template table ── */
+.temp-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:8px}
+.temp-table th{background:var(--s-100);color:var(--s-600);font-weight:600;text-align:center;padding:8px 6px;border:1px solid var(--s-200);font-size:10px}
+.temp-table td{padding:8px 6px;border:1px solid var(--s-200);vertical-align:top;color:var(--s-700)}
+.temp-table .row-num{text-align:center;font-weight:700;color:var(--s-400);width:30px}
+.temp-table .row-module{width:70px;text-align:center}
+.temp-table .row-pain{width:auto;min-width:120px}
+.temp-table .row-current{width:auto;min-width:100px}
+.temp-table .row-desire{width:auto;min-width:140px}
+.temp-table .row-form{width:80px;text-align:center}
+.temp-table .row-role{width:70px;text-align:center}
+.temp-table .row-prio{width:55px;text-align:center}
+.temp-table .row-result{width:75px;text-align:center;background:#f8fafc}
+.temp-table .row-note{width:80px}
+.temp-table .empty-row td{height:50px;color:#d1d5db;text-align:center;font-size:10px}
+
+/* ── Color tags ── */
+.tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600}
+.tag-green{background:var(--g-bg);color:var(--g-d)}
+.tag-yellow{background:var(--y-bg);color:var(--y-d)}
+.tag-red{background:var(--r-bg);color:var(--r-d)}
+.tag-blue{background:var(--b-bg);color:var(--b-d)}
+.tag-gray{background:var(--s-100);color:var(--s-400)}
+
+/* ── Priority badges ── */
+.prio{display:inline-block;padding:1px 8px;border-radius:8px;font-size:10px;font-weight:700}
+.prio-p0{background:var(--r);color:#fff}
+.prio-p1{background:var(--y);color:var(--y-d)}
+.prio-p2{background:var(--b);color:#fff}
+
+/* ── Instructions ── */
+.instructions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.instr-card{padding:10px 12px;border-radius:8px;font-size:11px;line-height:1.5}
+.instr-card h4{font-size:12px;font-weight:700;margin-bottom:4px}
+.instr-card.purple{background:var(--p-bg);color:var(--p-d);border:1px solid var(--p)}
+.instr-card.green{background:var(--g-bg);color:var(--g-d);border:1px solid var(--g)}
+.instr-card.blue{background:var(--b-bg);color:var(--b-d);border:1px solid var(--b)}
+.instr-card.orange{background:#fff7ed;color:#9a3412;border:1px solid #f97316}
+
+/* ── Code table ── */
+.code-table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:14px}
+.code-table th,.code-table td{padding:4px 8px;border:1px solid var(--s-200);text-align:center}
+.code-table th{background:var(--s-100);color:var(--s-600);font-weight:600}
+
+/* ── Print ── */
+@media print{
+  body{font-size:9pt}
+  .header{background:#1e1b4b!important;-webkit-print-color-adjust:exact;padding:12px 20px}
+  .temp-table td,.temp-table th{border:1px solid #ccc!important}
+  .empty-row td{height:40px}
+  .no-print{display:none!important}
+  .container{padding:10px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <h1>📋 HR系统需求收集表</h1>
+  <div class="sub">橙子自动化 · 北森(Beisen) · 目的：收集HR所有系统需求，一次性提交给顾问评估"能实现/不能实现"</div>
+  <div class="usage">
+    <strong>使用方法：</strong>① 每个HR按自己负责的模块填写 → ② 每周汇总一次 → ③ 约顾问会议一次性过清单 → ④ 顾问标注结论后，IT按标签排期处理
+  </div>
+</header>
+
+<!-- ═══ INSTRUCTIONS ═══ -->
+<div class="section-label">
+  <span class="icon">💡</span>
+  <span class="text">填写说明</span>
+</div>
+
+<div class="instructions">
+  <div class="instr-card purple">
+    <h4>🎯 写什么</h4>
+    <div>任何"系统让我不爽"的事：操作太慢/还在用Excel/流程有漏洞/审批太久了/字段不够/查数据麻烦</div>
+  </div>
+  <div class="instr-card green">
+    <h4>✍️ 怎么写</h4>
+    <div>只说"现状是什么 → 我想要什么样"即可，不需要懂技术。举例："现在招人要填纸质单，我想要系统里有电子申请表单"</div>
+  </div>
+  <div class="instr-card blue">
+    <h4>🔢 优先级怎么定</h4>
+    <div>P0=不发工资/招不了人/违规 → P1=效率低/风险大 → P2=体验优化/锦上添花</div>
+  </div>
+  <div class="instr-card orange">
+    <h4>📄 交到哪里</h4>
+    <div>填好后交给IT（杰德瑞恩J），IT统一整理后约北森顾问会议一次性评审</div>
+  </div>
+</div>
+
+<!-- ═══ QUICK REFERENCE ═══ -->
+<div class="section-label">
+  <span class="icon">🏷️</span>
+  <span class="text">编码与标签速查</span>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+  <table class="code-table">
+    <tr><th colspan="2">模块编码</th></tr>
+    <tr><td>REC</td><td>招聘管理</td></tr>
+    <tr><td>ORG</td><td>组织人事</td></tr>
+    <tr><td>ATT</td><td>考勤管理</td></tr>
+    <tr><td>PAY</td><td>薪酬管理</td></tr>
+    <tr><td>PERF</td><td>绩效管理</td></tr>
+    <tr><td>TRN</td><td>培训发展</td></tr>
+    <tr><td>CHG</td><td>异动管理</td></tr>
+    <tr><td>EXT</td><td>离职管理</td></tr>
+    <tr><td>RPT</td><td>报表统计</td></tr>
+  </table>
+  <table class="code-table">
+    <tr><th colspan="2">顾问结论标签</th></tr>
+    <tr><td><span class="tag tag-green">✅ 原生支持</span></td><td>系统开箱就有，直接启用</td></tr>
+    <tr><td><span class="tag tag-blue">⚙️ 需配置</span></td><td>后台设置一下即可，IT可做</td></tr>
+    <tr><td><span class="tag tag-yellow">❓ 需沟通</span></td><td>涉及业务流程变更/多系统对接，需讨论</td></tr>
+    <tr><td><span class="tag tag-gray">💲 需定制</span></td><td>需额外开发费用/二开</td></tr>
+    <tr><td><span class="tag tag-red">❌ 不支持</span></td><td>系统无法实现，需变通/替代方案</td></tr>
+  </table>
+</div>
+
+<!-- ═══ TEMPLATE FORM ═══ -->
+<div class="section-label">
+  <span class="icon">📝</span>
+  <span class="text">需求填写表</span>
+  <span class="badge">每行填一条需求</span>
+</div>
+
+<div class="no-print info-card">
+  <strong>🖨️ 打印提示：</strong>可直接打印本页，手写填写。或复制表格到 Excel 填写。<br>
+  建议每人至少填 <strong>3 条</strong>，多的不限。少写一条，可能下个版本才能做。
+</div>
+
+<table class="temp-table">
+  <thead>
+    <tr>
+      <th style="width:28px">#</th>
+      <th style="width:52px">模块</th>
+      <th>痛点 / 问题描述</th>
+      <th style="width:100px">当前做法</th>
+      <th style="width:130px">期望的系统流程</th>
+      <th style="width:70px">涉及表单/字段</th>
+      <th style="width:65px">涉及角色</th>
+      <th style="width:50px">优先级</th>
+      <th style="width:70px">顾问结论 ⬇</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Row 1 -->
+    <tr>
+      <td class="row-num">1</td>
+      <td class="row-module"><span style="font-size:10px;color:var(--s-400)">例：REC</span></td>
+      <td class="row-pain"><span style="color:var(--s-400)">例：现在招人要填纸质单，HR收到后手动录入系统，太慢了且容易抄错</span></td>
+      <td class="row-current"><span style="color:var(--s-400)">例：部门填Excel→打印签字→HR收到后录入北森</span></td>
+      <td class="row-desire"><span style="color:var(--s-400)">例：部门在系统里填招聘需求电子表单，自动流转审批，审批通过自动生成招聘任务</span></td>
+      <td class="row-form"><span style="color:var(--s-400)">招聘需求表</span></td>
+      <td class="row-role"><span style="color:var(--s-400)">部门负责人<br>HR</span></td>
+      <td class="row-prio"><span class="prio prio-p1">P1</span></td>
+      <td class="row-result" style="color:var(--s-400);font-size:9px">待顾问确认</td>
+      <td class="row-note"><span style="color:var(--s-400);font-size:9px">—</span></td>
+    </tr>
+    <!-- Row 2 -->
+    <tr>
+      <td class="row-num">2</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 3 -->
+    <tr>
+      <td class="row-num">3</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 4 -->
+    <tr>
+      <td class="row-num">4</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 5 -->
+    <tr>
+      <td class="row-num">5</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 6 -->
+    <tr>
+      <td class="row-num">6</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 7 -->
+    <tr>
+      <td class="row-num">7</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 8 -->
+    <tr>
+      <td class="row-num">8</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 9 -->
+    <tr>
+      <td class="row-num">9</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+    <!-- Row 10 -->
+    <tr>
+      <td class="row-num">10</td>
+      <td class="row-module"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="row-prio"></td>
+      <td class="row-result" style="font-size:9px;color:var(--s-400)">待顾问确认</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="font-size:10px;color:var(--s-400);margin-bottom:14px">⬆ 如果超过10条需求，打印多页即可。每条需求单独一行，不要合并。</div>
+
+<!-- ═══ 示例填写参考 ═══ -->
+<div class="section-label">
+  <span class="icon">🎯</span>
+  <span class="text">填写参考示例（按HR角色）</span>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+  <!-- 招聘HR -->
+  <div style="background:var(--b-bg);border:1px solid var(--b);border-radius:8px;padding:10px 12px">
+    <div style="font-size:12px;font-weight:700;color:var(--b-d);margin-bottom:6px">👤 招聘HR 可写的需求</div>
+    <div style="font-size:10px;color:var(--s-600);line-height:1.7">
+      • 招聘需求表想加几个字段：期望到岗日期、紧急程度<br>
+      • 面试评价表现在的选项不够细，想改评分维度<br>
+      • 现在面试安排靠微信沟通，想要系统发通知<br>
+      • Offer审批流程太长，想简化<br>
+      • 想统计各渠道投递量和入职转化率
+    </div>
+  </div>
+  <!-- 薪酬HR -->
+  <div style="background:var(--g-bg);border:1px solid var(--g);border-radius:8px;padding:10px 12px">
+    <div style="font-size:12px;font-weight:700;color:var(--g-d);margin-bottom:6px">👤 薪酬HR 可写的需求</div>
+    <div style="font-size:10px;color:var(--s-600);line-height:1.7">
+      • 考勤数据现在要手动导出再导入薪酬模块<br>
+      • 社保基数每年调整时，批量修改麻烦<br>
+      • 工资条能否自动按部门群发<br>
+      • 加班调休余额想加到工资条里显示<br>
+      • 薪酬计算逻辑想加一个"工龄津贴"项
+    </div>
+  </div>
+  <!-- 员工关系HR -->
+  <div style="background:var(--y-bg);border:1px solid var(--y);border-radius:8px;padding:10px 12px">
+    <div style="font-size:12px;font-weight:700;color:var(--y-d);margin-bottom:6px">👤 员工关系HR 可写的需求</div>
+    <div style="font-size:10px;color:var(--s-600);line-height:1.7">
+      • 合同到期前系统能不能自动发提醒通知<br>
+      • 员工档案想加一个"紧急联系人电话"字段<br>
+      • 离职交接流程想加一个IT资产回收的节点<br>
+      • 花名册导出格式不满足现有报表要求<br>
+      • 现在入职信息采集还是用纸质表格
+    </div>
+  </div>
+  <!-- 绩效HR -->
+  <div style="background:var(--p-bg);border:1px solid var(--p);border-radius:8px;padding:10px 12px">
+    <div style="font-size:12px;font-weight:700;color:var(--p-d);margin-bottom:6px">👤 绩效HR 可写的需求</div>
+    <div style="font-size:10px;color:var(--s-600);line-height:1.7">
+      • 试用期目标现在用附件上传，想改为系统内填写<br>
+      • 绩效评估想支持360度评价（同事+下属评价）<br>
+      • 绩效结果能否直接影响到薪酬调整<br>
+      • 绩效面谈记录想在系统中留档<br>
+      • 需要季度绩效分布报表图表
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AFTER CONSULTANT ═══ -->
+<div class="section-label">
+  <span class="icon">📊</span>
+  <span class="text">顾问会议后——汇总看板</span>
+</div>
+
+<div class="info-card" style="background:var(--g-bg);border-color:var(--g);color:var(--g-d)">
+  <strong>📌 顾问评审后的行动参考：</strong><br>
+  ✅ <strong>原生支持</strong> → 直接启用，安排1小时培训HR操作<br>
+  ⚙️ <strong>需配置</strong> → IT排期配置，完成后通知HR测试验收<br>
+  ❓ <strong>需沟通</strong> → 内部讨论确定方案，再约顾问二次沟通<br>
+  💲 <strong>需定制</strong> → 评估预算和ROI，决定是否投入<br>
+  ❌ <strong>不支持</strong> → 寻找变通方案（系统外流程/更换工具/调整内部流程）
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div style="text-align:center;padding:20px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:20px">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+</div>
+
+</div>
+</body>
+</html>
