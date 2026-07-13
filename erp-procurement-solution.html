@@ -20,100 +20,91 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 .header{
   background:linear-gradient(135deg,#065f46,#047857,#059669);
-  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  border-radius:16px;padding:20px 28px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
   position:relative;overflow:hidden;
 }
-.header::after{
-  content:'';position:absolute;top:-50%;right:-10%;
-  width:400px;height:400px;
-  background:radial-gradient(circle,rgba(16,185,129,.2),transparent 70%);border-radius:50%;
-}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.2),transparent 70%);border-radius:50%}
 .header-left{position:relative;z-index:1}
 .header h1{font-size:22px;font-weight:700}
 .header .sub{font-size:12px;color:#a7f3d0;margin-top:4px}
 .header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
-.header-nav a{
-  font-size:12px;padding:6px 14px;border-radius:8px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
-  color:#a7f3d0;text-decoration:none;transition:all .2s;white-space:nowrap
-}
+.header-nav a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#a7f3d0;text-decoration:none;transition:all .2s;white-space:nowrap}
 .header-nav a:hover{background:rgba(16,185,129,.3);color:#fff}
 
-.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:28px}
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:32px}
+.section-label .icon{font-size:18px}
 .section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--g);color:#fff;padding:2px 8px;border-radius:10px}
 
 .card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:12px}
 
-/* ── TO-BE flow ── */
-.tobe-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:14px 0;font-size:11px;overflow-x:auto}
-.tobe-node{padding:8px 14px;border-radius:6px;font-weight:600;text-align:center;min-width:90px}
-.tobe-arr{color:var(--s-400);font-weight:700;font-size:16px}
-.tobe-g{background:var(--g-bg);border:1.5px solid var(--g);color:var(--g-d)}
-.tobe-b{background:var(--b-bg);border:1.5px solid var(--b);color:var(--b-d)}
-.tobe-y{background:var(--y-bg);border:1.5px solid var(--y);color:var(--y-d)}
-.tobe-star{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid var(--y);color:var(--y-d);position:relative}
-.tobe-star::after{content:'⭐ 关键';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--y-d);white-space:nowrap}
+/* ── Tables ── */
+.data-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.data-table th,.data-table td{padding:10px 12px;border:1px solid var(--s-200);text-align:left;vertical-align:top}
+.data-table th{background:var(--s-100);color:var(--s-600);font-weight:600;font-size:11px}
+.data-table .col-title{font-weight:700;color:var(--s-800);white-space:nowrap}
 
-/* ── Step cards ── */
-.solution-step{
-  display:grid;grid-template-columns:56px 1fr;gap:16px;
-  padding:14px 0;border-bottom:1px solid var(--s-100);
+/* ── Impact cards ── */
+.dept-grid{display:flex;flex-direction:column;gap:10px}
+.dept-card{
+  border-radius:10px;padding:16px 20px;border:2px solid;
+  display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:start;
 }
-.solution-step:last-child{border:none}
-.step-num{
-  width:40px;height:40px;border-radius:50%;font-weight:700;font-size:16px;
-  display:flex;align-items:center;justify-content:center;color:#fff;
-  flex-shrink:0
-}
-.step-num.g{background:linear-gradient(135deg,var(--g),var(--g-d))}
-.step-num.b{background:linear-gradient(135deg,var(--b),var(--b-d))}
-.step-num.y{background:linear-gradient(135deg,var(--y),#d97706)}
-.step-num.p{background:linear-gradient(135deg,var(--p),var(--p-d))}
+.dept-card .dept-header{font-size:14px;font-weight:700;text-align:center}
+.dept-card .dept-header .mood{font-size:24px;display:block;margin-bottom:2px}
+.dept-card .dept-body{font-size:12px;line-height:1.7;color:var(--s-600)}
+.dept-card .dept-body strong{color:var(--s-800)}
 
-.step-body h4{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:4px}
-.step-body p{font-size:12px;color:var(--s-600);line-height:1.7;margin-bottom:6px}
-.step-action{
-  font-size:11px;padding:6px 12px;border-radius:6px;margin:6px 0;display:inline-block;
-}
-.step-action.blue{background:var(--b-bg);color:var(--b-d)}
-.step-action.green{background:var(--g-bg);color:var(--g-d)}
-.step-action.yellow{background:var(--y-bg);color:var(--y-d);border:1px solid var(--y)}
-.step-action.red{background:var(--r-bg);color:var(--r-d)}
+.dept-blue{border-color:var(--b);background:var(--b-bg)}.dept-blue .dept-header{color:var(--b-d)}
+.dept-green{border-color:var(--g);background:var(--g-bg)}.dept-green .dept-header{color:var(--g-d)}
+.dept-yellow{border-color:var(--y);background:var(--y-bg)}.dept-yellow .dept-header{color:var(--y-d)}
+.dept-purple{border-color:var(--p);background:var(--p-bg)}.dept-purple .dept-header{color:var(--p-d)}
+.dept-orange{border-color:var(--o);background:var(--o-bg)}.dept-orange .dept-header{color:var(--o-d)}
+.dept-red{border-color:var(--r);background:var(--r-bg)}.dept-red .dept-header{color:var(--r-d)}
 
-/* ── Compare table ── */
+/* ── Compare grid ── */
 .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.compare-col{
-  border-radius:10px;padding:16px;border:2px solid;
-}
+.compare-col{border-radius:10px;padding:16px 18px;border:2px solid}
 .compare-col.bad{background:var(--r-bg);border-color:var(--r)}
-.compare-col.bad h4{color:var(--r-d)}
+.compare-col.bad h4{color:var(--r-d);margin-bottom:8px;font-size:13px}
 .compare-col.good{background:var(--g-bg);border-color:var(--g)}
-.compare-col.good h4{color:var(--g-d)}
-.compare-col ul{list-style:none;font-size:12px;line-height:1.8;color:var(--s-700)}
+.compare-col.good h4{color:var(--g-d);margin-bottom:8px;font-size:13px}
+.compare-col ul{list-style:none;font-size:12px;line-height:2;color:var(--s-700)}
 .compare-col ul li::before{content:'• ';font-weight:700}
 
-/* ── Precondition box ── */
-.precon{
-  background:var(--y-bg);border:1.5px solid var(--y);border-radius:10px;
-  padding:14px 16px;font-size:12px;color:var(--s-700);line-height:1.6;margin-bottom:12px;
-}
-.precon h4{color:var(--y-d);font-size:13px;margin-bottom:4px}
-.precon ul{list-style:none;padding-left:0}
-.precon ul li{padding:2px 0}
-.precon ul li::before{content:'✅ '}
+/* ── Highlight boxes ── */
+.hl-box{border-radius:10px;padding:14px 16px;font-size:12px;line-height:1.6;margin-bottom:10px}
+.hl-box h4{font-size:13px;margin-bottom:4px}
+.hl-box.red{background:var(--r-bg);border:1.5px solid var(--r);color:var(--s-700)}.hl-box.red h4{color:var(--r-d)}
+.hl-box.green{background:var(--g-bg);border:1.5px solid var(--g);color:var(--s-700)}.hl-box.green h4{color:var(--g-d)}
+.hl-box.yellow{background:var(--y-bg);border:1.5px solid var(--y);color:var(--s-700)}.hl-box.yellow h4{color:var(--y-d)}
+.hl-box.blue{background:var(--b-bg);border:1.5px solid var(--b);color:var(--s-700)}.hl-box.blue h4{color:var(--b-d)}
+
+/* ── Timeline ── */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--s-200)}
+.tl-step{position:relative;margin-bottom:14px;padding-left:18px}
+.tl-step::before{content:'';position:absolute;left:-20px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--g);border:3px solid var(--g-bg)}
+.tl-step h4{font-size:13px;font-weight:700;color:var(--s-800);margin-bottom:2px}
+.tl-step p{font-size:11px;color:var(--s-400)}
+
+/* ── KPI cards ── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.kpi-card{background:#fff;border-radius:10px;padding:16px 14px;border:1px solid var(--s-200);text-align:center}
+.kpi-card .kpi-val{font-size:20px;font-weight:700;margin-bottom:2px}
+.kpi-card .kpi-label{font-size:10px;color:var(--s-400)}
 
 .section-nav{display:flex;gap:12px;align-items:center;font-size:12px;margin-top:20px;padding:12px 16px;background:#fff;border-radius:10px;border:1px solid var(--s-200)}
 .section-nav .nav-label{color:var(--s-400)}
 .section-nav a{font-weight:600;text-decoration:none;padding:4px 10px;border-radius:6px}
-.section-nav a.solution{background:var(--g-bg);color:var(--g-d);border:1px solid var(--g)}
-.section-nav a.analysis{color:var(--o-d)}
 
 .footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
 
 @media(max-width:768px){
   .header{padding:18px 20px}.header h1{font-size:18px}
-  .compare-grid{grid-template-columns:1fr}
+  .compare-grid,.kpi-row{grid-template-columns:1fr}
+  .dept-card{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -123,143 +114,389 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 <header class="header">
   <div class="header-left">
     <h1>📋 解决方案：采购订单合并下推</h1>
-    <div class="sub">TO-BE 方案 · 物控勾选多行 → 一键合并生成 PO · 涉及 ERP 配置 + 流程变更</div>
+    <div class="sub">多部门沟通专用 · 含各部门影响分析、财务现金流影响、操作复杂度对比</div>
   </div>
   <nav class="header-nav">
-    <a href="erp-procurement.html">← 返回采购管理</a>
-    <a href="erp-procurement-analysis.html">🔍 看解析</a>
+    <a href="erp-procurement.html">← 采购管理</a>
+    <a href="erp-procurement-analysis.html">🔍 业务解析</a>
     <a href="erp-center.html">📦 ERP中心</a>
   </nav>
 </header>
 
 <div class="section-nav">
-  <span class="nav-label">📍 你在：</span>
-  <a href="erp-procurement.html">采购管理</a> →
-  <a href="erp-procurement-solution.html" class="solution">解决方案</a>（当前页）
+  <span class="nav-label">📍</span>
+  <a href="erp-procurement.html">采购管理</a> → <strong style="color:var(--g-d)">解决方案</strong>
   <span style="color:var(--s-400)">|</span>
-  <a href="erp-procurement-analysis.html" class="analysis">查看业务解析 →</a>
+  <a href="erp-procurement-analysis.html" style="color:var(--o-d)">查看业务解析 →</a>
 </div>
 
-<!-- ═══ 1: TO-BE 流程 ═══ -->
-<div class="section-label"><span class="text">🔁 1. 目标业务流程（TO-BE）</span></div>
-
-<div class="card" style="overflow-x:auto">
-  <div class="tobe-flow">
-    <div class="tobe-node tobe-b">项目A/B/C<br>提交需求</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-g">物控审核<br>采购申请</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-star">勾选3行<br>→ 合并下推</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-g">生成1张<br>合并PO</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-b">采购统一<br>询价下单</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-g">供应商<br>一次送货</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-g">仓库一次<br>收货入库</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-y">各项目<br>按需领料</div>
-    <div class="tobe-arr">→</div>
-    <div class="tobe-node tobe-b">财务按领料<br>分摊成本</div>
-  </div>
-  <div style="text-align:center;font-size:10px;color:var(--s-400);margin-top:6px">
-    ⭐ 核心改造点：物控勾选多行 → 合并下推生成 1 张 PO（替代原来逐行下推 N 张 PO）
-  </div>
+<!-- ══════ 1. 一页纸摘要 ══════ -->
+<div class="section-label">
+  <span class="icon">📄</span>
+  <span class="text">一、一页纸高管摘要（汇报用）</span>
 </div>
 
-<!-- ═══ 2: 对比 ═══ -->
-<div class="section-label"><span class="text">📊 2. 现况 vs 目标对比</span></div>
-
-<div class="compare-grid">
-  <div class="compare-col bad">
-    <h4>❌ 现况（AS-IS）</h4>
-    <ul>
-      <li>物控逐行下推 → 3张PO</li>
-      <li>物控操作 ~30 分钟</li>
-      <li>采购分开询价3次 → 无议价权</li>
-      <li>仓库分3次收货 ~6 小时</li>
-      <li>供应商逐个跟单3条</li>
-      <li>财务按3张PO分别核算</li>
-    </ul>
-  </div>
-  <div class="compare-col good">
-    <h4>✅ 目标（TO-BE）</h4>
-    <ul>
-      <li>物控勾选多行 → 合并1张PO</li>
-      <li>物控操作 ~5 分钟</li>
-      <li>采购统一询价 → 量大议价权</li>
-      <li>仓库一次收货 ~2 小时</li>
-      <li>供应商跟1单即可</li>
-      <li>财务按领料单分摊成本</li>
-    </ul>
-  </div>
+<div class="hl-box green">
+  <h4>📌 核心结论</h4>
+  <p>将 ERP 采购订单从"按项目逐行下推"改为<strong>"勾选多行→合并下推为一张PO"</strong>，可同时提升物控效率 80%、恢复 ~15% 议价权、减少仓库收货频次 70%。<strong>无需二开</strong>（需顾问确认），涉及 5 个部门的流程协同调整，无额外系统投入。</p>
 </div>
 
-<!-- ═══ 3: 实施步骤 ═══ -->
-<div class="section-label"><span class="text">🛠️ 3. 实施步骤（分4步）</span></div>
+<div class="kpi-row">
+  <div class="kpi-card"><div class="kpi-val" style="color:var(--g)">-80%</div><div class="kpi-label">物控下推操作耗时</div></div>
+  <div class="kpi-card"><div class="kpi-val" style="color:var(--b)">~15%</div><div class="kpi-label">议价空间恢复</div></div>
+  <div class="kpi-card"><div class="kpi-val" style="color:var(--g)">-70%</div><div class="kpi-label">仓库收货次数</div></div>
+  <div class="kpi-card"><div class="kpi-val" style="color:var(--p)">0元</div><div class="kpi-label">额外系统投入（待确认）</div></div>
+</div>
+
+<!-- ══════ 2. TO-BE 详细流程 ══════ -->
+<div class="section-label">
+  <span class="icon">🔁</span>
+  <span class="text">二、目标流程详解（TO-BE）</span>
+</div>
 
 <div class="card">
-  <div class="solution-step">
-    <div class="step-num g">1</div>
-    <div class="step-body">
-      <h4>确认 ERP 能力：金蝶云星空是否支持"合并下推"</h4>
-      <p>核心问题：在采购申请列表中，是否支持<strong>批量勾选多行 → 下推时自动合并为一张采购订单</strong>？</p>
-      <span class="step-action yellow">⚠ 优先确认：这是技术前提，若ERP不支持，后续步骤全部作废</span>
-      <p style="font-size:11px;color:var(--s-400)">→ 联系金蝶顾问，确认"合并下推"功能是否可用；若需要二开，获取开发周期和报价</p>
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px 0;font-size:11px;overflow-x:auto;margin-bottom:12px">
+    <div style="padding:6px 10px;border-radius:5px;background:var(--b-bg);border:1.5px solid var(--b);color:var(--b-d);font-weight:600">各项目提需求</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 10px;border-radius:5px;background:var(--b-bg);border:1.5px solid var(--b);color:var(--b-d);font-weight:600">物控审核</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 12px;border-radius:5px;background:var(--y-bg);border:2px solid var(--y);color:var(--y-d);font-weight:700">⭐勾选→合并下推</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 10px;border-radius:5px;background:var(--g-bg);border:1.5px solid var(--g);color:var(--g-d);font-weight:600">1张合并PO</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 10px;border-radius:5px;background:var(--o-bg);border:1.5px solid var(--o);color:var(--o-d);font-weight:600">采购统一询价</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 10px;border-radius:5px;background:var(--g-bg);border:1.5px solid var(--g);color:var(--g-d);font-weight:600">一次送货+入库</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 10px;border-radius:5px;background:var(--p-bg);border:1.5px solid var(--p);color:var(--p-d);font-weight:600">项目按需领料</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:6px 10px;border-radius:5px;background:var(--b-bg);border:1.5px solid var(--b);color:var(--b-d);font-weight:600">财务按领料分摊</div>
+  </div>
+
+  <table class="data-table">
+    <tr><th style="width:3%">#</th><th style="width:14%">步骤</th><th style="width:28%">变更前（AS-IS）</th><th style="width:28%">变更后（TO-BE）</th><th style="width:15%">变化说明</th><th style="width:12%">涉及岗位</th></tr>
+    <tr>
+      <td>1</td><td>各项目提交需求</td>
+      <td>按项目独立提交，互不知晓</td>
+      <td class="col-title" style="color:var(--g-d)">同左（无变化）</td>
+      <td>—</td><td>项目经理</td>
+    </tr>
+    <tr>
+      <td style="background:var(--y-bg)">2</td><td style="background:var(--y-bg);font-weight:700">物控审核 + 识别共物料</td>
+      <td>逐一打开申请，逐个下推</td>
+      <td class="col-title" style="color:var(--g-d)">按"物料编码"筛选重复项 → 勾选多行 → 一次性合并下推</td>
+      <td style="font-weight:700;color:var(--r-d)">操作次数从 N 次降到 1 次</td><td><strong>物控</strong></td>
+    </tr>
+    <tr>
+      <td style="background:var(--y-bg)">3</td><td style="background:var(--y-bg);font-weight:700">生成采购订单</td>
+      <td>产生 N 张独立 PO</td>
+      <td class="col-title" style="color:var(--g-d)">产生 1 张合并 PO（总量 = 各项目之和）</td>
+      <td style="font-weight:700;color:var(--r-d)">PO 数量降为 1</td><td><strong>物控</strong></td>
+    </tr>
+    <tr>
+      <td style="background:var(--o-bg)">4</td><td style="background:var(--o-bg);font-weight:700">采购询价/下单</td>
+      <td>N 次独立询价，量小无议价权</td>
+      <td class="col-title" style="color:var(--g-d)">1 次询价，量大可谈折扣。询价前需确认供应商是否愿意分批发货给不同项目</td>
+      <td style="font-weight:700;color:var(--g-d)">议价空间 ~15%</td><td><strong>采购</strong></td>
+    </tr>
+    <tr>
+      <td>5</td><td>供应商送货</td>
+      <td>N 次分批送货</td>
+      <td class="col-title" style="color:var(--g-d)">1 次批量送货至公共库存</td>
+      <td style="font-weight:700;color:var(--g-d)">送货频次降为 1</td><td>供应商</td>
+    </tr>
+    <tr>
+      <td style="background:var(--p-bg)">6</td><td style="background:var(--p-bg);font-weight:700">仓库收货入库</td>
+      <td>N 次收货、检验、入库</td>
+      <td class="col-title" style="color:var(--g-d)">1 次收货入库到"公共库存"，按 PO 行号记录批次</td>
+      <td style="font-weight:700;color:var(--g-d)">收货效率 +70%</td><td><strong>仓库</strong></td>
+    </tr>
+    <tr>
+      <td>7</td><td>项目领料</td>
+      <td>各自 PO 对应各自库存</td>
+      <td class="col-title" style="color:var(--g-d)">各项目从公共库存按需领料，系统自动记录领料量</td>
+      <td>需要 ERP 支持公共库存</td><td>各项目</td>
+    </tr>
+    <tr>
+      <td style="background:var(--b-bg)">8</td><td style="background:var(--b-bg);font-weight:700">财务核算</td>
+      <td>按 PO 单独核算，每张 PO 一个成本对象</td>
+      <td class="col-title" style="color:var(--g-d)">按<strong>项目领料比例</strong>自动分摊合并 PO 的成本到各项目</td>
+      <td>核算规则从"按PO"变为"按领料量"</td><td><strong>财务</strong></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════ 3. 各部门影响分析 ══════ -->
+<div class="section-label">
+  <span class="icon">🏢</span>
+  <span class="text">三、各部门影响分析（跨部门沟通用）</span>
+  <span class="badge">6个部门</span>
+</div>
+
+<div class="dept-grid">
+  <!-- 物控 -->
+  <div class="dept-card dept-green">
+    <div class="dept-header">
+      <span class="mood">📋</span>
+      <span>物控</span>
+      <div style="font-size:10px;font-weight:400;margin-top:2px;color:var(--g-d)">✅ 受益最大</div>
+    </div>
+    <div class="dept-body">
+      <strong>操作变化：</strong>从"逐行打开→下推→重复N次"变为"<strong>勾选多行→一键合并下推</strong>"。操作时长从 ~30分钟 降为 ~5分钟。<br><br>
+      <strong>新增职责：</strong>需要判断哪些物料可以合并（物料编码相同 + 规格一致 + 品牌一致）。合并前需确认交付日期差异 ≤7天。<br><br>
+      <strong>复杂度变化：</strong> ⬇⬇ 大幅下降。原有的机械重复操作被消除，增加的"判断是否可合并"是一个值得花时间做的高价值决策，不是低价值操作。<br><br>
+      <strong>⚠ 潜在风险：</strong>若错误合并了规格不一致的物料，可能导致采购下单后货不对板。需建立"合并前检查清单"和"合并审批规则"。
     </div>
   </div>
 
-  <div class="solution-step">
-    <div class="step-num b">2</div>
-    <div class="step-body">
-      <h4>ERP 配置：开启合并下推 + 配置合并规则</h4>
-      <p>若 ERP 原生支持合并下推，需要配置合并条件：</p>
-      <span class="step-action blue">合并条件示例：物料编码相同 AND 规格型号一致 AND 品牌相同 → 方可合并下推</span>
-      <span class="step-action blue">若规格/品牌不一致 → 不可合并（防止采购错误规格的物料）</span>
+  <!-- 采购 -->
+  <div class="dept-card dept-orange">
+    <div class="dept-header">
+      <span class="mood">🏭</span>
+      <span>采购</span>
+      <div style="font-size:10px;font-weight:400;margin-top:2px;color:var(--o-d)">⚡ 议价权大增</div>
+    </div>
+    <div class="dept-body">
+      <strong>操作变化：</strong>从"N张PO、N次询价"变为"1张PO、1次询价"。<strong>量大后议价空间预估 10-20%。</strong><br><br>
+      <strong>新增职责：</strong>合并 PO 的订单金额变大，供应商选择需更慎重——需要提前建立供应商分级体系（战略级/主力级/备选级），避免过度依赖单一供应商。<br><br>
+      <strong>复杂度变化：</strong>⬇ 下降。询价次数减少，但单次议价的谈判深度需要增加（提前准备供应商历史合作数据、市场比价）<br><br>
+      <strong>⚠ 潜在风险：</strong>合并 PO 金额较大，若供应商交付延期或质量问题，影响面同步放大（原来只影响1个项目，现在影响多个项目）。
     </div>
   </div>
 
-  <div class="solution-step">
-    <div class="step-num y">3</div>
-    <div class="step-body">
-      <h4>流程变更：制定"采购申请合并下推"标准作业 SOP</h4>
-      <p>需要梳理：① 物控合并下推的判断标准（哪些物料可合并、哪些不可以） ② 跨项目物料的成本归集规则（公共库存 + 项目领料） ③ 审批流变更（合并PO的审批人/审批链）</p>
-      <span class="step-action yellow">⚠ 涉及5个部门协同：工程（选型归一）、物控（判断+操作）、采购（统一询价）、仓库（一次入库）、财务（按领料分摊）</span>
+  <!-- 仓库 -->
+  <div class="dept-card dept-purple">
+    <div class="dept-header">
+      <span class="mood">📦</span>
+      <span>仓库</span>
+      <div style="font-size:10px;font-weight:400;margin-top:2px;color:var(--p-d)">⬆ 效率提升</div>
+    </div>
+    <div class="dept-body">
+      <strong>操作变化：</strong>从"N次收货（检验→入库→上架）"变为"1次收货"。单次收货量变大，但总次数下降 70%。<br><br>
+      <strong>新增职责：</strong>收货后物料进入"公共库存"（非项目专属库存），后续需要支持各项目按需领料的出库操作。仓库需要区分"公共库存"和"项目库存"两种库存类型。<br><br>
+      <strong>复杂度变化：</strong>⬇ 下降。收货次数减少是直接利好。新增的"公共库存管理"需要 ERP 支持，但操作上不会额外增加仓库负担。<br><br>
+      <strong>⚠ 潜在风险：</strong>公共库存中的物料被多项目共用时，若某项目领料量超出其分配额度，可能造成其他项目缺料。需要设定"最低安全库存预警"。
     </div>
   </div>
 
-  <div class="solution-step">
-    <div class="step-num p">4</div>
-    <div class="step-body">
-      <h4>培训 & 试运行 → 正式推广</h4>
-      <p>选 2-3 个重点物控人员试点 1 个月 → 收集问题 → 调整 SOP → 全部门推广</p>
-      <span class="step-action green">试点验收标准：月合并PO数 ≥ 5张 → 物控节省 ≥ 50% 下推操作 → 采购议价节约 ≥ 5%</span>
+  <!-- 财务 -->
+  <div class="dept-card dept-red">
+    <div class="dept-header">
+      <span class="mood">💰</span>
+      <span>财务</span>
+      <div style="font-size:10px;font-weight:400;margin-top:2px;color:var(--r-d)">⚠ 核算规则变更</div>
+    </div>
+    <div class="dept-body">
+      <strong>操作变化：</strong>当前财务按 PO 单独核算，每张 PO 对应一个成本对象 → 合并后，1张 PO 对应多个项目的物料，核算规则变为<strong>"按领料比例分摊"</strong>。需要 ERP 支持此核算逻辑。<br><br>
+      <strong>现金流影响：</strong><br>
+      ① <strong style="color:var(--r-d)">资金占用增加：</strong>合并采购意味着物控需提前备 1-2 个月的共用料库存（预估增加流动资金占用 ~XX 万，需物控提供预测数据）。<br>
+      ② <strong style="color:var(--g-d)">议价节省：</strong>集中采购获得的折扣，可部分抵消库存资金成本。<br>
+      ③ <strong style="color:var(--y-d)">需关注：</strong>财务需评估"1个月库存周转 vs 2个月库存周转"对应的现金流差异，提前告知管理层。<br><br>
+      <strong>复杂度变化：</strong>⬆<strong> 短期上升。</strong>成本分摊规则从简单（1PO→1项目）变为复杂（1PO→多项目→按领料量分摊）。但系统自动化后，操作本身不会增加人力负担。需要财务在方案上线前验证分摊逻辑的正确性。<br><br>
+      <strong>⚠ 财务特别关注：</strong>① 分摊逻辑是否支持部分领料（项目只领了分配量的80%）时按实际领料分摊？② 剩余库存的财务处理（计提减值？）③ 需要在月末结账前完成所有领料操作，否则成本无法准确性归集。
+    </div>
+  </div>
+
+  <!-- 工程/PLM -->
+  <div class="dept-card dept-blue">
+    <div class="dept-header">
+      <span class="mood">🔧</span>
+      <span>工程 / PLM</span>
+      <div style="font-size:10px;font-weight:400;margin-top:2px;color:var(--b-d)">📐 间接影响</div>
+    </div>
+    <div class="dept-body">
+      <strong>影响说明：</strong>合并下推的技术前提是<strong>物料规格/品牌统一</strong>——多项目若用同一类物料但规格不统一（如A项目指定品牌A，B项目指定品牌B），则无法合并。需要在 PLM 侧推动选型归一并建立"标准物料库"。<br><br>
+      <strong>复杂度变化：</strong>⬆<strong> 新增工作量。</strong>工程需建立物料选型规范，定义哪些物料可以采用统一规格。这是一个长期任务，不是方案上线的前提——可以先从已统一的物料开始合并，逐步扩大到更多品类。<br><br>
+      <strong>关键里程碑：</strong>第1个月：选取3类已统一的物料先跑通；第3个月：扩展到10类物料。
+    </div>
+  </div>
+
+  <!-- 项目经理 -->
+  <div class="dept-card dept-yellow">
+    <div class="dept-header">
+      <span class="mood">👤</span>
+      <span>项目经理</span>
+      <div style="font-size:10px;font-weight:400;margin-top:2px;color:var(--y-d)">🔍 感知较小</div>
+    </div>
+    <div class="dept-body">
+      <strong>变化说明：</strong>项目经理的操作流程不变——仍然按项目提交物料需求。合并下推发生在物控环节，对项目经理透明。<br><br>
+      <strong>唯一需要感知的：</strong>领料方式从"项目专属库存直接取"变为"从公共库存领料"（在线填领料单即可），操作无本质变化。<br><br>
+      <strong>复杂度变化：</strong>⬇ 无变化。项目经理需要知情，但不涉及操作变更。<br><br>
+      <strong>⚠ 需沟通：</strong>需告知项目经理"合并采购后物料备货时间可能缩短（因为物控提前备了公共库存），但要注意：若某项紧急需求超过了公共库存量，物控需要单独补采，时间会延长。
     </div>
   </div>
 </div>
 
-<!-- ═══ 4: 前提条件 ═══ -->
-<div class="section-label"><span class="text">✅ 4. 成功前提条件</span></div>
-
-<div class="precon">
-  <h4>以下条件需同时满足，合并下推方案才能真正落地：</h4>
-  <ul>
-    <li>1. ERP（金蝶云星空）支持批量勾选 + 合并下推（或二开实现）</li>
-    <li>2. 工程完成选型归一（不同品牌/规格的物料不能强行合并）</li>
-    <li>3. 物料主数据中的规格/品牌字段完整无缺失（作为合并判定的依据）</li>
-    <li>4. 公共库存 + 项目领料 + 财务分摊 的完整业务流程经顾问验证可行</li>
-    <li>5. 物控、采购、仓库、财务 4 个岗位的 SOP 完成编撰</li>
-  </ul>
+<div class="hl-box yellow" style="margin-top:10px">
+  <h4>📊 部门影响汇总</h4>
+  <table class="data-table">
+    <tr><th style="width:10%">部门</th><th style="width:8%">操作复杂度</th><th style="width:10%">新增工作量</th><th>主要变化</th><th style="width:12%">主要风险</th></tr>
+    <tr>
+      <td class="col-title">物控</td><td style="color:var(--g);font-weight:700">⬇⬇ 大降</td><td>判断"可合并性"</td><td>操作从 N 次降到 1 次</td><td>错误合并规格不一致物料</td>
+    </tr>
+    <tr>
+      <td class="col-title">采购</td><td style="color:var(--g);font-weight:700">⬇ 下降</td><td>供应商分级 + 深度谈判</td><td>议价权 +15%，单次谈判金额变大</td><td>单一供应商交付风险</td>
+    </tr>
+    <tr>
+      <td class="col-title">仓库</td><td style="color:var(--g);font-weight:700">⬇ 下降</td><td>公共库存管理</td><td>收货次数 -70%</td><td>项目超额领料</td>
+    </tr>
+    <tr>
+      <td class="col-title" style="color:var(--r-d)">财务</td><td style="color:var(--r);font-weight:700">⬆ 短期上升</td><td>验证分摊逻辑</td><td>核算规则从按PO → 按领料比例</td><td style="color:var(--r-d)">现金流 + 库存资金占用</td>
+    </tr>
+    <tr>
+      <td class="col-title">工程</td><td style="color:var(--y);font-weight:700">⬆ 新增</td><td>选型归一</td><td>建立标准物料库</td><td>进度依赖 PLM 推进</td>
+    </tr>
+    <tr>
+      <td class="col-title">项目经理</td><td style="color:var(--g);font-weight:700">— 无变化</td><td>无</td><td>领料方式微调，需知情</td><td>需告知备货逻辑变化</td>
+    </tr>
+  </table>
 </div>
 
-<div class="section-nav" style="justify-content:end">
-  <span class="nav-label">看完方案了，想了解根源？</span>
-  <a href="erp-procurement-analysis.html" class="analysis" style="background:var(--o-bg);border:1px solid var(--o);color:var(--o-d)">🔍 业务解析 → 为什么发生？</a>
+<!-- ══════ 4. 财务专项 ══════ -->
+<div class="section-label">
+  <span class="icon">💰</span>
+  <span class="text">四、财务专项分析（给财务和领导看）</span>
+</div>
+
+<div class="card">
+  <table class="data-table">
+    <tr><th style="width:18%">关注点</th><th>当前状态</th><th>合并后变化</th><th style="width:12%">影响方向</th></tr>
+    <tr>
+      <td class="col-title">库存资金占用</td>
+      <td>按项目逐批采购，库存随用随买</td>
+      <td>物控需提前备 1-2 个月共用料库存 → 库存周转天数上升</td>
+      <td style="color:var(--r);font-weight:700">⚠ 增加</td>
+    </tr>
+    <tr>
+      <td class="col-title">现金流压力</td>
+      <td>小批量多频次付款</td>
+      <td>单次付款金额变大 → 需财务提前规划月度付款节奏</td>
+      <td style="color:var(--r);font-weight:700">⚠ 需关注</td>
+    </tr>
+    <tr>
+      <td class="col-title">采购成本节约</td>
+      <td>无批量折扣</td>
+      <td>合并后单品类采购额增加 → 议价空间约 10-20%（需采购提供历史数据测算）</td>
+      <td style="color:var(--g);font-weight:700">✅ 节约</td>
+    </tr>
+    <tr>
+      <td class="col-title">成本核算复杂度</td>
+      <td>1PO→1项目，简单</td>
+      <td>1PO→多项目，按领料比例分摊 → 需 ERP 支持自动分摊</td>
+      <td style="color:var(--y);font-weight:700">⚠ 短期复杂</td>
+    </tr>
+    <tr>
+      <td class="col-title">剩余库存处理</td>
+      <td>无 — 按项目采购无余量</td>
+      <td>合并采购可能有余量（如项目B取消了需求）→ 需建立<strong>库存计提减值政策</strong></td>
+      <td style="color:var(--r);font-weight:700">⚠ 新增风险</td>
+    </tr>
+  </table>
+
+  <div class="hl-box yellow" style="margin-top:10px">
+    <h4>📊 给财务的测算建议</h4>
+    <p>
+      ① <strong>先算一笔账：</strong>让物控提供"近6个月共用料月均采购额"M，乘以议价节约率15%，得到月省金额。对比库存资金多占用的利息成本（M×2个月×资金成本率），看净省多少。
+    </p>
+    <p style="margin-top:6px">
+      ② <strong>提前规划：</strong>合并采购实施后，首月会一次性提前备货 1-2 个月的量，一次性资金流出约 2M。财务需在当月做好付款计划，避免现金流紧张。
+    </p>
+    <p style="margin-top:6px">
+      ③ <strong>核算验证：</strong>提议上线前做一次"模拟核算"——用已发生的3张PO数据，按合并逻辑重新分摊，对比差异，确保分摊公式正确。
+    </p>
+  </div>
+</div>
+
+<!-- ══════ 5. 实施时间线 ══════ -->
+<div class="section-label">
+  <span class="icon">📅</span>
+  <span class="text">五、实施计划</span>
+</div>
+
+<div class="card">
+  <div class="timeline">
+    <div class="tl-step">
+      <h4>阶段 1：顾问确认（本周）</h4>
+      <p>确认金蝶云星空是否支持"批量勾选→合并下推"功能。若支持原生实现 → 立即推进配置；若需二开 → 获取报价+排期。</p>
+    </div>
+    <div class="tl-step">
+      <h4>阶段 2：ERP 配置 + 财务逻辑验证（第 1-2 周）</h4>
+      <p>配置合并下推条件（物料编码+规格+品牌一致）。财务同步验证"按领料分摊"核算逻辑是否准确。</p>
+    </div>
+    <div class="tl-step">
+      <h4>阶段 3：选 3 类物料试点（第 3-4 周）</h4>
+      <p>从已统一规格的 3 类物料开始试点。物控测试合并下推流程，采购测试议价效果，仓库测试公共库入库+项目领料。</p>
+    </div>
+    <div class="tl-step">
+      <h4>阶段 4：问题收集 + SOP 编撰（第 5-6 周）</h4>
+      <p>收集试点过程中的问题，编撰各岗位 SOP。财务正式确认核算逻辑无误。</p>
+    </div>
+    <div class="tl-step">
+      <h4>阶段 5：扩展到 10 类物料 + 供应商分级（第 7-8 周）</h4>
+      <p>将合并范围扩展到 10 类物料，采购同步建立供应商分级体系（战略级/主力级/备选级）。</p>
+    </div>
+    <div class="tl-step">
+      <h4>阶段 6：全面推广 + 月度复盘（第 3 个月起）</h4>
+      <p>全品类推广，月度复盘合并PO数量、议价节省、仓库效率、财务准确率。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 6. 风险 ══════ -->
+<div class="section-label">
+  <span class="icon">⚠️</span>
+  <span class="text">六、风险与应对</span>
+</div>
+
+<div class="card">
+  <table class="data-table">
+    <tr><th>风险</th><th>影响</th><th>概率</th><th>应对措施</th></tr>
+    <tr>
+      <td>ERP 不支持合并下推</td>
+      <td>方案无法落地</td>
+      <td>低（需顾问确认）</td>
+      <td>先在阶段1确认，若需要二开则评估 ROI 再决定</td>
+    </tr>
+    <tr>
+      <td>错误合并规格不一致物料</td>
+      <td>采购下单后货不对板</td>
+      <td>中</td>
+      <td>合并前检查清单（物料编码+规格+品牌三重校验）+ 物控主管复核</td>
+    </tr>
+    <tr>
+      <td>单一供应商交付延期/质量问题</td>
+      <td>影响多个项目</td>
+      <td>中</td>
+      <td>建立供应商分级，主力级至少保留2家；关键物料保留备选供应商</td>
+    </tr>
+    <tr>
+      <td>公共库存被某项目超额领料</td>
+      <td>其他项目缺料</td>
+      <td>低</td>
+      <td>ERP 设置最低安全库存预警；超额领料需上级审批</td>
+    </tr>
+    <tr>
+      <td>财务核算分摊不准</td>
+      <td>项目成本失真</td>
+      <td>低</td>
+      <td>上线前模拟核算3次验证；首次正式月结手工复核</td>
+    </tr>
+    <tr>
+      <td>物控人员不熟悉新流程</td>
+      <td>操作出错或效率不升反降</td>
+      <td>中</td>
+      <td>阶段3试点期配专人带教；SOP编撰+录制操作视频</td>
+    </tr>
+  </table>
+</div>
+
+<div class="section-nav" style="justify-content:end;margin-top:20px">
+  <span class="nav-label">也看看根源分析：</span>
+  <a href="erp-procurement-analysis.html" style="background:var(--o-bg);border:1px solid var(--o);color:var(--o-d);font-weight:600">🔍 业务解析 →</a>
 </div>
 
 <div class="footer">
-  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+  橙子自动化 · 信息化项目组 · 物流/采购/仓库/财务/工程 协力推进 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
 </div>
 
 </div>
