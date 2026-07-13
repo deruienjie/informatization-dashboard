@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EHR 系统中心 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+/* ── Header ── */
+.header{
+  background:linear-gradient(135deg,#1e1b4b,#312e81,#4338ca);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#a5b4fc;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#c7d2fe;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.3);border-color:rgba(139,92,246,.5);color:#fff}
+
+/* ── Stats ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat-value{font-size:24px;font-weight:700;line-height:1}
+.stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
+
+/* ── Section ── */
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:20px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--p);color:#fff;padding:2px 8px;border-radius:10px}
+
+/* ── Grid ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+
+/* ── Card ── */
+.card{background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
+.card .card-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+
+/* ── Module nav cards ── */
+.mod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.mod-card{
+  border-radius:12px;padding:20px 16px;border:2px solid;
+  position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;
+  text-decoration:none;display:block;
+}
+.mod-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.mod-card .mod-icon{font-size:28px;margin-bottom:6px}
+.mod-card h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.mod-card p{font-size:11px;line-height:1.5}
+.mod-card .mod-badge{position:absolute;top:10px;right:10px;font-size:9px;padding:3px 8px;border-radius:8px;font-weight:600}
+
+.mod-purple{background:var(--p-bg);border-color:var(--p)}.mod-purple h4{color:var(--p-d)}.mod-purple p{color:var(--s-600)}.mod-purple .mod-badge{background:var(--p);color:#fff}
+.mod-blue{background:var(--b-bg);border-color:var(--b)}.mod-blue h4{color:var(--b-d)}.mod-blue p{color:var(--s-600)}.mod-blue .mod-badge{background:var(--b);color:#fff}
+.mod-green{background:var(--g-bg);border-color:var(--g)}.mod-green h4{color:var(--g-d)}.mod-green p{color:var(--s-600)}.mod-green .mod-badge{background:var(--g);color:#fff}
+.mod-yellow{background:var(--y-bg);border-color:var(--y)}.mod-yellow h4{color:var(--y-d)}.mod-yellow p{color:var(--s-600)}.mod-yellow .mod-badge{background:var(--y);color:var(--y-d)}
+.mod-red{background:var(--r-bg);border-color:var(--r)}.mod-red h4{color:var(--r-d)}.mod-red p{color:var(--s-600)}.mod-red .mod-badge{background:var(--r);color:#fff}
+
+/* ── Issue item ── */
+.issue-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12px;border-bottom:1px solid var(--s-100)}
+.issue-item:last-child{border:none}
+.issue-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.issue-dot.r{background:var(--r)}.issue-dot.y{background:var(--y)}.issue-dot.p{background:var(--p)}.issue-dot.g{background:var(--g)}
+
+/* ── Data table ── */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{padding:8px 10px;background:var(--s-100);color:var(--s-600);font-weight:600;text-align:left;border-bottom:2px solid var(--s-200)}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--s-100);color:var(--s-600)}
+.data-table tr:hover td{background:var(--s-50)}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .stats-row,.grid-2,.grid-3,.mod-grid{grid-template-columns:1fr}
+  .header{padding:18px 20px}
+  .header h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-left">
+    <h1>👥 EHR 系统中心</h1>
+    <div class="sub">北森(Beisen) HR SaaS · 全生命周期管理 · 系统负责人：杰德瑞恩J</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="company-informatization.html">🔄 信息化全景</a>
+    <a href="erp-center.html">📦 ERP中心</a>
+    <a href="plm-center.html">🔧 PLM中心</a>
+    <a href="company-intro.html">📋 公司背景</a>
+  </nav>
+</header>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--p)">北森 Beisen</div>
+    <div class="stat-label">EHR 品牌</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--b)">47</div>
+    <div class="stat-label">全流程检查节点</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--y)">9</div>
+    <div class="stat-label">标准操作SOP</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--r)">上线晚·需补课</div>
+    <div class="stat-label">当前状态</div>
+  </div>
+</div>
+
+<!-- ═══ MODULES ═══ -->
+<div class="section-label">
+  <span class="icon">🧩</span>
+  <span class="text">EHR 功能模块</span>
+  <span class="badge">4个子模块</span>
+</div>
+
+<div class="mod-grid">
+  <a href="hr-system-process.html" class="mod-card mod-purple">
+    <span class="mod-badge">47节点</span>
+    <div class="mod-icon">🔁</div>
+    <h4>全流程排查</h4>
+    <p>招聘→组织→考勤→薪酬→绩效→培训→异动→离职。逐项检查系统操作是否畅通，标记卡点。</p>
+  </a>
+  <a href="hr-system-policy.html" class="mod-card mod-blue">
+    <span class="mod-badge">9项SOP</span>
+    <div class="mod-icon">📋</div>
+    <h4>操作SOP手册</h4>
+    <p>入职/考勤月结/薪酬核算/试用期目标/离职/招聘管理等9项标准操作流程，按步骤执行。</p>
+  </a>
+  <a href="hr-system-policy.html#role" class="mod-card mod-green">
+    <span class="mod-badge">参考</span>
+    <div class="mod-icon">🔐</div>
+    <h4>角色权限 & 数据标准</h4>
+    <p>7角色×15操作项权限矩阵、命名编码规则、5条数据操作红线，确保操作合规。</p>
+  </a>
+  <a href="hr-system-policy.html#check" class="mod-card mod-yellow">
+    <span class="mod-badge">必查</span>
+    <div class="mod-icon">📅</div>
+    <h4>定期检查清单</h4>
+    <p>月度6项+季度7项必查清单，确保数据准确、流程按时、权限合规。</p>
+  </a>
+</div>
+
+<!-- ═══ QUICK OVERVIEW ═══ -->
+<div class="section-label">
+  <span class="icon">🗺️</span>
+  <span class="text">HR系统模块速览</span>
+</div>
+
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title">🎯 招聘管理</div>
+    <div class="issue-item"><div class="issue-dot p"></div>需求申请→审批→多渠道发布</div>
+    <div class="issue-item"><div class="issue-dot y"></div>简历筛选→面试安排→评价</div>
+    <div class="issue-item"><div class="issue-dot g"></div>测评背调→Offer→入职衔接</div>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 组织人事</div>
+    <div class="issue-item"><div class="issue-dot p"></div>架构维护→编制→档案</div>
+    <div class="issue-item"><div class="issue-dot p"></div>合同管理→花名册</div>
+    <div class="issue-item"><div class="issue-dot y"></div>⚠ 与ERP 43部门对齐</div>
+  </div>
+  <div class="card">
+    <div class="card-title">⏰ 考勤 + 💰 薪酬</div>
+    <div class="issue-item"><div class="issue-dot p"></div>排班→打卡→请假→月结</div>
+    <div class="issue-item"><div class="issue-dot y"></div>薪酬核算→工资条→社保</div>
+    <div class="issue-item"><div class="issue-dot r"></div>⚠ 考勤→薪酬数据贯通</div>
+  </div>
+  <div class="card">
+    <div class="card-title">📊 绩效管理</div>
+    <div class="issue-item"><div class="issue-dot p"></div>目标设定→评估打分→面谈</div>
+    <div class="issue-item"><div class="issue-dot r"></div>🔥 试用期目标对齐（附件→结构化）</div>
+    <div class="issue-item"><div class="issue-dot y"></div>绩效与薪酬联动</div>
+  </div>
+  <div class="card">
+    <div class="card-title">📚 培训 + 🚪 离职</div>
+    <div class="issue-item"><div class="issue-dot p"></div>培训需求→计划→执行</div>
+    <div class="issue-item"><div class="issue-dot p"></div>离职申请→交接→结算</div>
+    <div class="issue-item"><div class="issue-dot r"></div>⚠ 社保减员时效性</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🔄 交接制度</div>
+    <div class="issue-item"><div class="issue-dot r"></div>🔥 上一位HR离职→现团队不熟悉</div>
+    <div class="issue-item"><div class="issue-dot p"></div>7项交接清单→4阶段流程</div>
+    <div class="issue-item"><div class="issue-dot g"></div>防止再次断层</div>
+  </div>
+</div>
+
+<!-- ═══ KEY FOCUS ═══ -->
+<div class="section-label">
+  <span class="icon">🔥</span>
+  <span class="text">当前重点关注</span>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">⚠️ 待解决问题</div>
+    <div class="issue-item">
+      <div class="issue-dot r"></div>
+      <div><strong>试用期目标对齐</strong> — 附件上传→结构化表单（P0）</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot y"></div>
+      <div><strong>HR团队培训</strong> — 按全流程47节点带HR逐项实操</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot y"></div>
+      <div><strong>考勤→薪酬自动化</strong> — 验证数据是否自动推送</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot p"></div>
+      <div><strong>EHR与ERP组织对齐</strong> — 43部门双组织一致性</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">👥 关键角色</div>
+    <table class="data-table">
+      <tr><th style="width:80px">角色</th><th>职责</th></tr>
+      <tr><td>HR负责人</td><td>系统总体管理、权限配置、数据审批</td></tr>
+      <tr><td>招聘HR</td><td>招聘全流程（需求→Offer→入职）</td></tr>
+      <tr><td>员工关系HR</td><td>档案、合同、异动、离职</td></tr>
+      <tr><td>薪酬HR</td><td>考勤月结、薪酬核算、社保公积金</td></tr>
+      <tr><td>绩效HR</td><td>绩效方案、目标对齐、评估流程</td></tr>
+      <tr><td>IT负责人</td><td>系统运维、账号管理、组织数据对齐（杰德瑞恩J）</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 · EHR 系统中心 ｜ 杰德瑞恩J 出品 ｜ 更新于 2026年7月
+</div>
+
+</div>
+</body>
+</html>
