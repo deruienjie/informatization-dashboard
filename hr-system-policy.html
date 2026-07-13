@@ -261,7 +261,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 <div class="section-label">
   <span class="icon">📋</span>
   <span class="text">四、关键操作标准流程（SOP）</span>
-  <span class="badge">8项核心SOP</span>
+  <span class="badge">9项核心SOP</span>
 </div>
 
 <div class="grid-2">
@@ -485,6 +485,60 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   </div>
 </div>
 
+  <!-- SOP 9: 招聘管理 -->
+  <div class="card">
+    <div class="card-title">SOP-09 招聘管理全流程</div>
+    <div class="sop-item">
+      <div class="sop-title">① 招聘需求创建与审批（部门→HR→管理层）</div>
+      <div class="sop-steps">部门负责人在北森系统"招聘管理→需求申请"中填写：部门/岗位/编制编号/人数/薪资预算/紧急程度/期望到岗日期 → 提交后走审批链：直属上级→HR负责人→（超预算加财务）→审批通过后关联编制数据</div>
+      <div class="sop-who">发起：部门负责人 → 审批：直属上级/HR负责人/财务</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">② 职位发布（审批通过后24小时内）</div>
+      <div class="sop-steps">招聘HR在系统创建职位JD → 选择发布渠道（BOSS直聘/猎聘/内推/校招等）→ 系统自动同步至各渠道并追踪数据 → JD模板由HR负责人统一审核确保合规</div>
+      <div class="sop-who">责任人：招聘HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">③ 简历筛选 & 面试安排</div>
+      <div class="sop-steps">系统回收简历至人才库 → 招聘HR按JD要求初筛 → 标记状态（通过/淘汰/储备）→ 选定面试官 → 系统发送面试邀请（含会议链接/时间/地点）→ 系统自动同步面试官日历</div>
+      <div class="sop-who">责任人：招聘HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">④ 面试评价标准</div>
+      <div class="sop-steps">面试官在系统内逐项评分：专业能力/沟通表达/团队匹配/稳定性 → 填写综合评价 → 明确建议（通过/淘汰/待定）→ 多轮面试需汇总全部评价后决策 → 初试淘汰不进入复试</div>
+      <div class="sop-who">责任人：面试官 → 汇总：招聘HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">⑤ 测评 & 背调（Offer前）</div>
+      <div class="sop-steps">系统发送在线测评（性格/能力/价值观）→ 候选人按时完成 → 系统生成测评报告 → HR审核风险项 → 如有背调需求，HR发起后录入背调结果 → 测评+背调全部通过后方可发起Offer</div>
+      <div class="sop-who">责任人：招聘HR</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">⑥ Offer审批与发放</div>
+      <div class="sop-steps">HR在系统创建Offer → 确认薪资/职级/试用期/入职日期/直属上级 → 提交审批（审批链见第五章）→ 审批通过后系统自动发送电子Offer → 候选人线上确认/拒绝 → 确认后自动触发入职信息采集流程</div>
+      <div class="sop-who">操作：招聘HR → 审批：按审批链</div>
+    </div>
+    <div class="sop-item">
+      <div class="sop-title">⑦ 招聘数据追踪（每周更新）</div>
+      <div class="sop-steps">HR每周更新招聘漏斗：各岗位投递量/初筛通过率/面试到场率/Offer接受率/人均招聘周期 → 月度汇总报告发送HR负责人+管理层</div>
+      <div class="sop-who">责任人：招聘HR</div>
+    </div>
+    <div class="mini-flow" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--s-200)">
+      <div class="mini-node">需求申请</div><div class="mini-arr">→</div>
+      <div class="mini-node">审批</div><div class="mini-arr">→</div>
+      <div class="mini-node">职位发布</div><div class="mini-arr">→</div>
+      <div class="mini-node">筛选面试</div><div class="mini-arr">→</div>
+      <div class="mini-node">测评背调</div><div class="mini-arr">→</div>
+      <div class="mini-node">Offer审批</div><div class="mini-arr">→</div>
+      <div class="mini-node">入职衔接</div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px">
+      <strong>⚠ 关键提醒：</strong>Offer审批必须在测评/背调通过之后进行，避免Offer发出后才发现候选人背调不通过。招聘需求编号需与岗位编制联动，超编需求系统应自动拦截。
+    </div>
+  </div>
+
+</div>
+
 <!-- ═══ APPROVAL RULES ═══ -->
 <div class="section-label">
   <span class="icon">✍️</span>
@@ -496,6 +550,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     <div class="card-title">审批层级对照</div>
     <table class="data-table">
       <tr><th>审批事项</th><th>一级审批</th><th>二级审批</th><th>三级审批</th></tr>
+      <tr><td>招聘需求（超预算）</td><td>部门负责人</td><td>HR负责人</td><td>财务Jessie总</td></tr>
       <tr><td>入职Offer</td><td>直属上级</td><td>HR负责人</td><td>—</td></tr>
       <tr><td>请假（≤3天）</td><td>直属上级</td><td>—</td><td>—</td></tr>
       <tr><td>请假（>3天）</td><td>直属上级</td><td>部门负责人</td><td>HR负责人</td></tr>

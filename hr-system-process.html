@@ -203,7 +203,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     <div class="stat-label">主流程阶段</div>
   </div>
   <div class="stat-card">
-    <div class="stat-value" style="color:var(--b)">42</div>
+    <div class="stat-value" style="color:var(--b)">47</div>
     <div class="stat-label">全流程检查节点</div>
   </div>
   <div class="stat-card">
@@ -230,8 +230,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
       <div class="flow-phase">
         <div class="flow-phase-node phase-blue">
           <div class="phase-emoji">🎯</div>
-          <div class="phase-name">1.招聘入职</div>
-          <div class="phase-steps">需求→发布→筛选<br>→面试→Offer→<br>信息采集→入职报到</div>
+          <div class="phase-name">1.招聘管理</div>
+          <div class="phase-steps">需求→审批→发布<br>→筛选→面试→评<br>价→Offer→入职</div>
         </div>
       </div>
       <div class="flow-arrow">→</div>
@@ -305,7 +305,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 <div class="section-label">
   <span class="icon">✅</span>
   <span class="text">全流程检查清单（逐项排查）</span>
-  <span class="badge">42个节点</span>
+  <span class="badge">47个节点</span>
 </div>
 
 <!-- Legend -->
@@ -318,56 +318,150 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   </div>
 </div>
 
-<!-- PHASE 1: 招聘入职 -->
+<!-- ═══ PHASE 1: 招聘管理 ═══ -->
 <div class="section-label">
   <span class="icon">🎯</span>
-  <span class="text">阶段 1：招聘入职</span>
-  <span class="badge">6个节点</span>
+  <span class="text">阶段 1：招聘管理</span>
+  <span class="badge">11个节点</span>
 </div>
-<div class="card" style="overflow-x:auto">
+
+<!-- 招聘子流程 -->
+<div class="card" style="margin-bottom:10px;overflow-x:auto">
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:8px 0;font-size:11px">
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--b-bg);border:1px solid var(--b);color:var(--b-d)">需求申请</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--b-bg);border:1px solid var(--b);color:var(--b-d)">职位发布</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--y-bg);border:1px solid var(--y);color:var(--y-d)">简历筛选</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--y-bg);border:1px solid var(--y);color:var(--y-d)">面试安排</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--o-bg);border:1px solid var(--o);color:var(--o-d)">面试评价</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--o-bg);border:1px solid var(--o);color:var(--o-d)">测评/背调</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)">Offer审批</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)">Offer发放</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--p-bg);border:1px solid var(--p);color:var(--p-d)">信息采集</div>
+    <span style="color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:5px 10px;border-radius:5px;font-weight:600;background:var(--p-bg);border:1px solid var(--p);color:var(--p-d)">入职报到</div>
+  </div>
+  <div style="text-align:center;font-size:10px;color:var(--s-400);margin-top:4px">
+    🔵 需求与发布 &nbsp;→&nbsp; 🟡 筛选与面试 &nbsp;→&nbsp; 🟠 评估与背调 &nbsp;→&nbsp; 🟢 Offer与入职 &nbsp;→&nbsp; 🟣 衔接组织人事
+  </div>
+</div>
+
+<!-- 1A: 招聘需求 & 职位 -->
+<div class="section-label" style="margin-top:12px">
+  <span class="icon">📝</span>
+  <span class="text">1A. 招聘需求 & 职位管理</span>
+  <span class="badge" style="background:var(--b)">3个节点</span>
+</div>
+<div class="card" style="overflow-x:auto;margin-bottom:10px">
   <table class="check-table">
     <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
     <tr>
       <td class="check-col"><span class="checkbox"></span></td><td>1.1</td>
       <td><strong>招聘需求创建</strong></td>
-      <td>HR在系统发起招聘需求申请，含部门/岗位/人数/薪资预算</td>
-      <td>HR / 部门负责人</td>
-      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+      <td>部门负责人在北森发起招聘需求申请：含部门、岗位、编制核对、人数、薪资预算范围、紧急程度、到岗日期</td>
+      <td>部门负责人</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 需与编制数据联动，超编需求应拦截</td>
     </tr>
     <tr>
       <td class="check-col"><span class="checkbox"></span></td><td>1.2</td>
-      <td><strong>职位发布 & 简历筛选</strong></td>
-      <td>系统发布职位至招聘渠道，回收简历，HR筛选</td>
-      <td>HR</td>
+      <td><strong>需求审批</strong></td>
+      <td>直属上级→部门负责人→HR负责人→（超预算则加财务审批）。审批通过后自动关联岗位编制</td>
+      <td>审批链</td>
       <td><span class="status-badge status-unknown">待确认</span></td><td></td>
     </tr>
     <tr>
       <td class="check-col"><span class="checkbox"></span></td><td>1.3</td>
-      <td><strong>面试安排 & 评价</strong></td>
-      <td>系统安排面试日程，面试官提交评价</td>
-      <td>HR / 面试官</td>
-      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+      <td><strong>职位发布 & 渠道管理</strong></td>
+      <td>HR在系统创建职位JD→选择发布渠道（BOSS直聘/猎聘/内推/校招）→系统追踪各渠道投递量</td>
+      <td>招聘HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 系统是否支持多渠道一键发布？</td>
     </tr>
+  </table>
+</div>
+
+<!-- 1B: 筛选与面试 -->
+<div class="section-label" style="margin-top:12px">
+  <span class="icon">🔍</span>
+  <span class="text">1B. 简历筛选 & 面试管理</span>
+  <span class="badge" style="background:var(--y)">4个节点</span>
+</div>
+<div class="card" style="overflow-x:auto;margin-bottom:10px">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
     <tr>
       <td class="check-col"><span class="checkbox"></span></td><td>1.4</td>
-      <td><strong>Offer 审批 & 发放</strong></td>
-      <td>系统内发起Offer审批，通过后发放</td>
-      <td>HR / 审批人</td>
+      <td><strong>简历收集 & 初筛</strong></td>
+      <td>系统自动回收各渠道简历至人才库→HR按关键词/技能标签初筛→标记"通过/待定/淘汰"</td>
+      <td>招聘HR</td>
       <td><span class="status-badge status-unknown">待确认</span></td><td></td>
     </tr>
     <tr>
       <td class="check-col"><span class="checkbox"></span></td><td>1.5</td>
-      <td><strong>入职信息采集</strong></td>
-      <td>候选人扫码/链接填写入职信息（证件、学历、银行、紧急联系人）</td>
-      <td>候选人 / HR</td>
+      <td><strong>面试安排</strong></td>
+      <td>HR在系统选择面试官→发送面试邀请（含时间/地点/视频链接）→系统自动生成面试日程</td>
+      <td>招聘HR</td>
       <td><span class="status-badge status-unknown">待确认</span></td><td></td>
     </tr>
     <tr>
       <td class="check-col"><span class="checkbox"></span></td><td>1.6</td>
-      <td><strong>入职确认 & 报到</strong></td>
-      <td>HR确认信息→生成员工档案→分配工号/账号→通知IT/行政</td>
-      <td>HR / IT / 行政</td>
+      <td><strong>面试评价</strong></td>
+      <td>面试官在系统填写评价表（评分+文字意见）→HR查看汇总→决定是否进入下一轮</td>
+      <td>面试官 / 招聘HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 是否支持多轮面试评价汇总？</td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.7</td>
+      <td><strong>测评 & 背调</strong></td>
+      <td>系统发送在线测评（性格/能力）→系统回收测评报告→HR发起背调（如有）→背调结果录入</td>
+      <td>招聘HR / 第三方</td>
       <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- 1C: Offer与入职衔接 -->
+<div class="section-label" style="margin-top:12px">
+  <span class="icon">🎉</span>
+  <span class="text">1C. Offer管理 & 入职衔接</span>
+  <span class="badge" style="background:var(--g)">4个节点</span>
+</div>
+<div class="card" style="overflow-x:auto;margin-bottom:10px">
+  <table class="check-table">
+    <tr><th class="check-col">✓</th><th>#</th><th>检查节点</th><th>系统操作说明</th><th class="who-col">责任人</th><th class="status-col">状态</th><th>备注/问题描述</th></tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.8</td>
+      <td><strong>Offer审批</strong></td>
+      <td>HR在系统生成Offer→填写薪资/入职日期/试用期→走审批链（直属上级→HR负责人→财务）</td>
+      <td>招聘HR / 审批人</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.9</td>
+      <td><strong>Offer发放 & 确认</strong></td>
+      <td>审批通过→系统自动发送电子Offer→候选人线上确认/拒绝→状态实时更新</td>
+      <td>招聘HR / 候选人</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 系统是否自动追踪Offer接受率？</td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.10</td>
+      <td><strong>入职信息采集</strong></td>
+      <td>候选人接受Offer→系统自动发送入职信息采集链接→填写证件/学历/银行卡/紧急联系人→HR审核</td>
+      <td>候选人 / 招聘HR</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 信息采集字段是否齐全？是否支持电子签？</td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="checkbox"></span></td><td>1.11</td>
+      <td><strong>入职报到 & 档案创建</strong></td>
+      <td>HR确认信息无误→系统自动生成员工档案→分配工号→通知IT开通账号→通知行政准备工位</td>
+      <td>招聘HR / IT / 行政</td>
+      <td><span class="status-badge status-unknown">待确认</span></td><td>⚠ 入职后数据是否自动流转到组织人事模块？</td>
     </tr>
   </table>
 </div>
