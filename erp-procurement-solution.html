@@ -279,6 +279,39 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     </div>
   </div>
 
+  <!-- 仓库：怎么找料 -->
+  <div class="dept-card dept-purple" style="margin-top:10px">
+    <div class="dept-header">
+      <span class="mood">🔍</span>
+      <span>仓库核心疑问</span>
+      <div style="font-size:10px;font-weight:400;margin-top:2px;color:var(--p-d)">几百种物料怎么找？</div>
+    </div>
+    <div class="dept-body">
+      <strong>痛点：</strong>一台机器大几百种物料，不按项目号分区的话，领料时仓库要从公共库存里大海捞针，找料半天找不到。<br><br>
+
+      <strong>答案：公共库存按"物料编码 + 物理库位"管理，不按项目号找料。</strong><br><br>
+
+      当前按"项目号"分区存放 → 同一个物料可能分布在项目A区、项目B区、项目C区，仓库需要跑三个地方找同一种料。<br><br>
+      公共库存改为按<strong>"物料类别 + 固定库位"</strong>存放：所有步进电机都在 D01 区、所有导轨都在 D02 区、所有螺丝垫片都在 D03 区。<br><br>
+
+      <strong>领料时系统打印领料单，直接告诉仓库"去 D01-03-12 号位取 5 台步进电机"——仓库不需要思考、不需要记忆、不需要找，照着单子走过去拿。</strong><br><br>
+
+      <strong>所以效率不降反升：</strong><br>
+      ✅ 同一种物料只放在一个地方 → 仓库不用跑多处<br>
+      ✅ 新物料入库自动归位固定库位 → 没有"找空位"的问题<br>
+      ✅ 盘点按库位逐一过 → 一个物料只盘点一次<br>
+      ✅ 新人上手快 → "D01区取步进电机"比"3号项目的电机在哪个角落？"好记 10 倍<br><br>
+
+      <strong>前置条件（仓库需做的）：</strong><br>
+      ① 按物料类别重新规划货架区域，贴库位编码标签（约 2-3 天）<br>
+      ② 在 ERP 中为每种物料录入"默认库位"（约 1-2 天）<br>
+      ③ 首批库存按新库位迁仓（可选周末/晚间进行，约 1 天）
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 财务专项 ══════ -->
+
   <!-- 财务 -->
   <div class="dept-card dept-red">
     <div class="dept-header">
