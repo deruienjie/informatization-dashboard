@@ -231,6 +231,89 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════ -->
+<!-- 🔧 系统能力验证 — HR说"我要X"，怎么知道系统能不能？ -->
+<!-- ═══════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5,#f0fdf4);border:2px solid var(--g);border-radius:14px;padding:20px 24px;margin-bottom:16px;margin-top:16px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <span style="font-size:22px">🔧</span>
+    <span style="font-size:16px;font-weight:700;color:var(--g-d)">系统能力验证 — HR说"我要X"，你怎么判断系统能不能实现？</span>
+  </div>
+  <p style="font-size:12px;color:var(--g-d);margin-bottom:14px;line-height:1.6">
+    <strong>核心原则：谁提需求谁验证，你说我听，但必须开系统操作一次。</strong>HR跟你说"我要一个招聘需求申请表单，让用户关联职位"——你不需要知道北森能不能做，但你知道<u>怎么验证</u>。
+  </p>
+
+  <!-- 验证流程 -->
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;padding:10px 0;margin-bottom:14px">
+    <div style="padding:8px 14px;border-radius:6px;background:var(--g-bg);border:1.5px solid var(--g);font-size:11px;font-weight:700;color:var(--g-d);text-align:center">
+      📝 记下HR需求<br><span style="font-weight:400;font-size:10px">具体到菜单/字段</span>
+    </div>
+    <span style="font-size:16px;color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:8px 14px;border-radius:6px;background:var(--b-bg);border:1.5px solid var(--b);font-size:11px;font-weight:700;color:var(--b-d);text-align:center">
+      🔍 打开系统找入口<br><span style="font-weight:400;font-size:10px">看有没有这个功能</span>
+    </div>
+    <span style="font-size:16px;color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:8px 14px;border-radius:6px;background:var(--y-bg);border:1.5px solid var(--y);font-size:11px;font-weight:700;color:var(--y-d);text-align:center">
+      🧪 试操作一次<br><span style="font-weight:400;font-size:10px">能不能完成这个动作</span>
+    </div>
+    <span style="font-size:16px;color:var(--s-400);font-weight:700">→</span>
+    <div style="padding:8px 14px;border-radius:6px;background:var(--p-bg);border:1.5px solid var(--p);font-size:11px;font-weight:700;color:var(--p-d);text-align:center">
+      📊 打标签归类<br><span style="font-weight:400;font-size:10px">原生/配置/不能</span>
+    </div>
+  </div>
+
+  <!-- 真实案例演示 -->
+  <div style="background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--s-200);margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:var(--s-800);margin-bottom:8px">🎯 真实案例：HR说"我要改招聘需求表单，让用户关联职位，没有职位就新建"</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <tr style="background:var(--g-bg)">
+        <th style="padding:6px 10px;text-align:left;color:var(--g-d);border-bottom:1.5px solid var(--g);width:30%">HR的需求</th>
+        <th style="padding:6px 10px;text-align:left;color:var(--g-d);border-bottom:1.5px solid var(--g);width:40%">验证方法（打开系统，做一遍）</th>
+        <th style="padding:6px 10px;text-align:left;color:var(--g-d);border-bottom:1.5px solid var(--g);width:30%">打标签</th>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9"><strong>1. 修改招聘需求表</strong><br><span style="color:var(--s-400)">增加字段、改布局</span></td>
+        <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9">进北森后台 → 设置 → 表单设计 → 找到招聘需求模板 → 看是否能拖拽字段</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9"><span id="tag-result-1" style="padding:2px 8px;border-radius:6px;background:#f1f5f9;color:#94a3b8">待验证</span></td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9"><strong>2. 关联职位字段</strong><br><span style="color:var(--s-400)">字段类型=关联数据</span></td>
+        <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9">表单设计 → 添加字段 → 看有无"关联对象"类型 → 能否选择"职位"作为关联对象</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9"><span id="tag-result-2" style="padding:2px 8px;border-radius:6px;background:#f1f5f9;color:#94a3b8">待验证</span></td>
+      </tr>
+      <tr>
+        <td style="padding:6px 10px"><strong>3. 无职位→新建职位</strong><br><span style="color:var(--s-400)">同一界面内创建</span></td>
+        <td style="padding:6px 10px">关联字段旁有没有"新增"按钮 → 或是否需要跳转到另一个页面新建</td>
+        <td style="padding:6px 10px"><span id="tag-result-3" style="padding:2px 8px;border-radius:6px;background:#f1f5f9;color:#94a3b8">待验证</span></td>
+      </tr>
+    </table>
+    <div style="margin-top:8px;font-size:10px;color:var(--s-400)">
+      ⬆ 每次HR提需求，你就按这个格式写一条，打开系统验证，打标签。不猜、不讨论、试了再说。
+    </div>
+  </div>
+
+  <!-- 4种标签说明 -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+    <div style="padding:8px;border-radius:6px;background:var(--g-bg);text-align:center;font-size:10px;font-weight:600;color:var(--g-d)">
+      ✅ 原生支持<br><span style="font-weight:400;color:var(--s-600)">开箱即用</span>
+    </div>
+    <div style="padding:8px;border-radius:6px;background:var(--b-bg);text-align:center;font-size:10px;font-weight:600;color:var(--b-d)">
+      ⚙ 需配置<br><span style="font-weight:400;color:var(--s-600)">后台设置即可</span>
+    </div>
+    <div style="padding:8px;border-radius:6px;background:var(--y-bg);text-align:center;font-size:10px;font-weight:600;color:var(--y-d)">
+      ❓ 需确认<br><span style="font-weight:400;color:var(--s-600)">查文档/问官方</span>
+    </div>
+    <div style="padding:8px;border-radius:6px;background:var(--r-bg);text-align:center;font-size:10px;font-weight:600;color:var(--r-d)">
+      ❌ 不支持<br><span style="font-weight:400;color:var(--s-600)">变通方案/替代</span>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;font-size:11px;color:var(--g-d);line-height:1.6;padding:8px 10px;background:rgba(255,255,255,.5);border-radius:8px">
+    <strong>🔑 核心原则：</strong>HR需求必须可操作、可验证。她说"我要改个表单"，你问"打开系统，模板管理在哪找？我看看有没有自定义字段"。<br>
+    <strong>如果HR说"我不确定，"那你俩一起打开北森后台→设置→表单设计，5分钟就知道能不能。</strong> 不需要猜。
+  </div>
+</div>
+
 <!-- ═══ MODULES ═══ -->
 <div class="section-label">
   <span class="icon">🧩</span>
