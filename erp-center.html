@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERP 项目实施中心 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+/* ── Header ── */
+.header{
+  background:linear-gradient(135deg,#0f172a,#1e293b,#065f46);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+
+/* ── Stats ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat-value{font-size:24px;font-weight:700;line-height:1}
+.stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
+
+/* ── Section ── */
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:20px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--g);color:#fff;padding:2px 8px;border-radius:10px}
+
+/* ── Grid ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+
+/* ── Card ── */
+.card{background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
+.card .card-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card .card-sub{font-size:11px;color:var(--s-400);margin-bottom:10px}
+
+/* ── Module cards ── */
+.mod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.mod-card{border-radius:10px;padding:14px 16px;border:1.5px solid;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.mod-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.mod-card.green{background:var(--g-bg);border-color:var(--g)}
+.mod-card.blue{background:var(--b-bg);border-color:var(--b)}
+.mod-card h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.mod-card.green h4{color:var(--g-d)}.mod-card.blue h4{color:var(--b-d)}
+.mod-card p{font-size:11px;color:var(--s-600);line-height:1.5}
+.mod-card .mod-badge{position:absolute;top:8px;right:8px;font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600}
+.mod-card.green .mod-badge{background:var(--g);color:#fff}
+.mod-card.blue .mod-badge{background:var(--b);color:#fff}
+
+/* ── Flow ── */
+.flow-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;padding:12px 0}
+.flow-node{padding:8px 12px;border-radius:6px;font-size:11px;font-weight:600;text-align:center;min-width:56px}
+.flow-node.g{background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)}
+.flow-node.b{background:var(--b-bg);border:1px solid var(--b);color:var(--b-d)}
+.flow-node.y{background:var(--y-bg);border:1px solid var(--y);color:var(--y-d)}
+.flow-arr{color:var(--s-400);font-size:14px;font-weight:700}
+
+/* ── Issue list ── */
+.issue-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12px;border-bottom:1px solid var(--s-100)}
+.issue-item:last-child{border:none}
+.issue-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.issue-dot.r{background:var(--r)}.issue-dot.y{background:var(--y)}.issue-dot.g{background:var(--g)}.issue-dot.b{background:var(--b)}
+
+/* ── Timeline ── */
+.tl-steps{position:relative;padding:0 0 0 24px}
+.tl-steps::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--s-200)}
+.tl-step{position:relative;margin-bottom:12px;padding-left:16px}
+.tl-step::before{content:'';position:absolute;left:-20px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid}
+.tl-step.done::before{background:var(--g);border-color:var(--g)}
+.tl-step.now::before{background:var(--b);border-color:var(--b);animation:pulse 2s ease-in-out infinite}
+.tl-step.wait::before{background:#fff;border-color:var(--s-400)}
+@keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+.tl-step .s-title{font-size:12px;font-weight:600;color:var(--s-700)}
+.tl-step .s-desc{font-size:10px;color:var(--s-400);margin-top:1px}
+
+/* ── Key data ── */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{padding:8px 10px;background:var(--s-100);color:var(--s-600);font-weight:600;text-align:left;border-bottom:2px solid var(--s-200)}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--s-100);color:var(--s-600)}
+.data-table tr:hover td{background:var(--s-50)}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .stats-row,.grid-2,.grid-4,.mod-grid{grid-template-columns:1fr}
+  .header{padding:18px 20px}
+  .header h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-left">
+    <h1>📦 ERP 项目实施中心</h1>
+    <div class="sub">橙子自动化 · 金蝶云星空 ERP · 已上线运行 · 系统负责人：杰德瑞恩J</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="company-informatization.html">🔄 信息化全景</a>
+    <a href="plm-center.html">🔧 PLM中心</a>
+    <a href="company-intro.html">📋 公司背景</a>
+    <a href="erp-procurement.html">📥 采购管理</a>
+  </nav>
+</header>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--g)">🟢 正常运行</div>
+    <div class="stat-label">系统状态</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--b)">4</div>
+    <div class="stat-label">上线模块</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--g)">金蝶云星空</div>
+    <div class="stat-label">ERP 品牌</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" style="color:var(--y)">2025年</div>
+    <div class="stat-label">上线时间</div>
+  </div>
+</div>
+
+<!-- ═══ MODULES ═══ -->
+<div class="section-label">
+  <span class="icon">🧩</span>
+  <span class="text">ERP 模块总览</span>
+  <span class="badge">4个模块已上线</span>
+</div>
+
+<div class="mod-grid">
+  <div class="mod-card green">
+    <span class="mod-badge">✅ 已上线</span>
+    <h4>📋 销售模块</h4>
+    <p>销售订单 → 发货通知 → 应收账款闭环管理。<br>与 CRM 客户线索/合同数据对接，销售全流程线上化。</p>
+  </div>
+  <div class="mod-card green">
+    <span class="mod-badge">✅ 已上线</span>
+    <h4>📥 采购模块</h4>
+    <p>采购申请 → 采购订单 → 应付账款。<br>支持共用料合并采购模式（详见采购管理页）。</p>
+  </div>
+  <div class="mod-card green">
+    <span class="mod-badge">✅ 已上线</span>
+    <h4>📦 库存模块</h4>
+    <p>库存台账 · 出入库管理 · 安全库存预警。<br>支持公共库存 + 项目领料成本归集。</p>
+  </div>
+  <div class="mod-card green">
+    <span class="mod-badge">✅ 已上线</span>
+    <h4>💰 财务模块</h4>
+    <p>总账 · 成本核算 · 财务报表。<br>项目级成本归集，月末可对账。</p>
+  </div>
+</div>
+
+<!-- ═══ DATA FLOW ═══ -->
+<div class="section-label">
+  <span class="icon">🔄</span>
+  <span class="text">ERP 数据流转</span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="flow-row">
+    <div class="flow-node b">CRM<br><small>客户合同</small></div>
+    <div class="flow-arr">→</div>
+    <div class="flow-node g">销售模块<br><small>订单管理</small></div>
+    <div class="flow-arr">→</div>
+    <div class="flow-node g">采购模块<br><small>采购计划</small></div>
+    <div class="flow-arr">→</div>
+    <div class="flow-node g">库存模块<br><small>出入库</small></div>
+    <div class="flow-arr">→</div>
+    <div class="flow-node g">财务模块<br><small>成本核算</small></div>
+  </div>
+  <div style="text-align:center;margin-top:6px;font-size:10px;color:var(--s-400)">
+    业务流程：CRM 获客 → 销售下单 → 采购备料 → 库存收发 → 财务结算 → 数据闭环
+    <span style="margin-left:12px;color:var(--g);font-weight:600">⬆ PLM 即将接入：产品配置/BOM/变更</span>
+    <span style="margin-left:12px;color:var(--y);font-weight:600">⬆ APS 即将接入：排产/库存可用量</span>
+  </div>
+</div>
+
+<!-- ═══ GRID: ISSUES + TEAM ═══ -->
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">⚠️ 当前重点问题</div>
+    <div class="card-sub">ERP 项目推进中需关注的卡点</div>
+    <div class="issue-item">
+      <div class="issue-dot y"></div>
+      <div>共用料合并采购 — 需确认 ERP 是否支持公共库存功能（已出方案，待验证）</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot y"></div>
+      <div>物料编码 — 一物多码问题仍在清理，PLM 上线前需完成清洗</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot r"></div>
+      <div>员工导入规范 — 编码/手机号等数字字段不可 AI 生成，需用户提供</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot b"></div>
+      <div>PLM↔ERP 对接 — BOM 下发、产品配置、物料主数据同步方案待确定</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot g"></div>
+      <div>金蝶 PLM 服务器预算：5.3万（10核/128G/12T/16G显卡）</div>
+    </div>
+    <div class="issue-item">
+      <div class="issue-dot y"></div>
+      <div>43 个部门跨双组织对齐（橙子贵州 200 + 广东艾富瑞 400）</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">👥 关键角色</div>
+    <div class="card-sub">ERP 项目相关人员</div>
+    <table class="data-table">
+      <tr><th style="width:80px">角色</th><th>人员</th><th>职责</th></tr>
+      <tr><td>项目领导</td><td>黄亮、王嘉璐</td><td>整体决策</td></tr>
+      <tr><td>IT负责人/PM</td><td>杰德瑞恩J</td><td>ERP 运维与项目推进</td></tr>
+      <tr><td>财务审批</td><td>Jessie总（CFO）、李曼</td><td>费用审批、成本核算</td></tr>
+      <tr><td>财务对接</td><td>李曼</td><td>费用审批、备用金核算</td></tr>
+      <tr><td>关键用户</td><td>陆基、谭亮、古凯梅等</td><td>7 人关键用户团队</td></tr>
+      <tr><td>实施方</td><td>金蝶顾问团队</td><td>系统实施与支持</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ PROJECT TIMELINE ═══ -->
+<div class="section-label">
+  <span class="icon">📅</span>
+  <span class="text">ERP 项目实施里程碑</span>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">✅ 已完成</div>
+    <div class="tl-steps">
+      <div class="tl-step done"><div class="s-title">ERP 系统上线（2025年）</div><div class="s-desc">金蝶云星空 ERP 正式上线运行</div></div>
+      <div class="tl-step done"><div class="s-title">销售/采购/库存/财务 4 模块上线</div><div class="s-desc">核心业务模块全部投入使用</div></div>
+      <div class="tl-step done"><div class="s-title">跨组织财务核算配置</div><div class="s-desc">橙子贵州 200 + 广东艾富瑞 400 双组织</div></div>
+      <div class="tl-step done"><div class="s-title">员工导入规范建立</div><div class="s-desc">明确编码规则、字段约束</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">🔄 进行中 / 规划中</div>
+    <div class="tl-steps">
+      <div class="tl-step now"><div class="s-title">共用料合并采购模式落地</div><div class="s-desc">物控/工程/采购/仓库/财务 5 部门沟通推进中</div></div>
+      <div class="tl-step now"><div class="s-title">物料数据清洗（迎接 PLM）</div><div class="s-desc">一物多码合并、规格补全、BOM 校准</div></div>
+      <div class="tl-step wait"><div class="s-title">PLM↔ERP 对接（近期）</div><div class="s-desc">BOM 下发、产品配置、变更管理</div></div>
+      <div class="tl-step wait"><div class="s-title">APS 智能排产（明年）</div><div class="s-desc">物料需求计划 + 库存可用量对接</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ KEY DOCUMENTS ═══ -->
+<div class="section-label">
+  <span class="icon">📄</span>
+  <span class="text">关键文档</span>
+  <span class="badge">腾讯文档</span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <table class="data-table">
+    <tr><th style="width:40px">#</th><th>文档名称</th><th>说明</th><th>来源</th></tr>
+    <tr><td>1</td><td>采购合并方案-共用料管理模式</td><td>业务流程与沟通策略</td><td>腾讯文档</td></tr>
+    <tr><td>2</td><td>ERP 问题清单</td><td>系统已知问题追踪</td><td>腾讯文档</td></tr>
+    <tr><td>3</td><td>ERP 审批流清单</td><td>各模块审批流程配置</td><td>腾讯文档</td></tr>
+    <tr><td>4</td><td>ERP 云星空用户清单</td><td>系统用户与权限分配</td><td>腾讯文档</td></tr>
+    <tr><td>5</td><td>客户相关字段集成 ERP 清单</td><td>CRM↔ERP 字段映射</td><td>腾讯文档</td></tr>
+    <tr><td>6</td><td>ERP 业务流程（20250916）</td><td>流程图版本</td><td>腾讯文档</td></tr>
+    <tr><td>7</td><td>金蝶答疑演示会议纪要</td><td>答疑问题记录</td><td>腾讯文档</td></tr>
+  </table>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 · ERP 实施中心 ｜ 杰德瑞恩J 出品 ｜ 更新于 2026年7月
+</div>
+
+</div>
+</body>
+</html>

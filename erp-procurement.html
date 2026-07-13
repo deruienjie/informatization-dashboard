@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERP 采购管理 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+/* ── Header ── */
+.header{
+  background:linear-gradient(135deg,#0f172a,#1e293b,#065f46);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+
+/* ── Section ── */
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:20px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;padding:2px 8px;border-radius:10px;color:#fff}
+.bg-g{background:var(--g)}.bg-y{background:var(--y)}.bg-b{background:var(--b)}.bg-r{background:var(--r)}
+
+/* ── Grids ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+
+/* ── Card ── */
+.card{background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
+.card .card-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card .card-sub{font-size:11px;color:var(--s-400);margin-bottom:10px}
+
+/* ── Flow Diagram ── */
+.flow-wrap{display:flex;align-items:center;gap:2px;flex-wrap:wrap;justify-content:center;padding:16px 0}
+.fn{padding:10px 14px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;min-width:80px;position:relative}
+.fn small{display:block;font-size:9px;font-weight:400;opacity:.7;margin-top:2px}
+.fn-green{background:var(--g-bg);border:2px solid var(--g);color:var(--g-d)}
+.fn-blue{background:var(--b-bg);border:2px solid var(--b);color:var(--b-d)}
+.fn-yellow{background:var(--y-bg);border:2px solid var(--y);color:var(--y-d)}
+.fn-red{background:var(--r-bg);border:2px dashed var(--r);color:var(--r-d)}
+.fa{color:var(--s-400);font-size:18px;font-weight:700;padding:0 4px}
+.fa-b{color:var(--g);font-size:16px}
+
+/* ── Table ── */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{padding:8px 10px;background:var(--s-100);color:var(--s-600);font-weight:600;text-align:left;border-bottom:2px solid var(--s-200)}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--s-100);color:var(--s-600)}
+.data-table tr:hover td{background:var(--s-50)}
+
+/* ── Gap cards ── */
+.gap-card{border-radius:10px;padding:14px 16px;border:2px solid;margin-bottom:8px}
+.gap-card.green{border-color:var(--g);background:var(--g-bg)}
+.gap-card.yellow{border-color:var(--y);background:var(--y-bg)}
+.gap-card .gc-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.gap-card.green .gc-title{color:var(--g-d)}
+.gap-card.yellow .gc-title{color:var(--y-d)}
+.gap-card .gc-desc{font-size:11px;color:var(--s-600);line-height:1.6}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .header{padding:18px 20px}
+  .header h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-left">
+    <h1>📥 ERP · 采购与共用料管理</h1>
+    <div class="sub">共用料合并采购方案 · 2026-06-29 更新 · 物控提出 → 多部门推进中</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="erp-center.html">📦 ERP 中心</a>
+    <a href="company-informatization.html">🔄 信息化全景</a>
+    <a href="plm-center.html">🔧 PLM中心</a>
+    <a href="company-intro.html">📋 公司背景</a>
+  </nav>
+</header>
+
+<!-- ═══ THE PROBLEM ═══ -->
+<div class="section-label">
+  <span class="icon">🎯</span>
+  <span class="text">背景：为什么需要共用料合并采购？</span>
+</div>
+
+<div class="grid-2">
+  <div class="card" style="border-left:3px solid var(--r)">
+    <div class="card-title">❌ 现状痛点</div>
+    <div style="font-size:12px;color:var(--s-600);line-height:2">
+      <div>🔴 同一个料下 10 张 PO，采购重复劳动</div>
+      <div>🔴 供应商分 10 次发货，物流成本高</div>
+      <div>🔴 仓库收 10 次货，效率低</div>
+      <div>✅ 但各项目账清清楚楚（唯一优势）</div>
+    </div>
+  </div>
+  <div class="card" style="border-left:3px solid var(--g)">
+    <div class="card-title">🟢 目标：共用料管理模式</div>
+    <div style="font-size:12px;color:var(--s-600);line-height:2">
+      <div>✅ 共用料合并采购 → 一张 PO 搞定</div>
+      <div>✅ 入公共库存 → 仓库一次收货</div>
+      <div>✅ 各项目领料时归属成本</div>
+      <div>✅ 财务按项目维度核算，账目不乱</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ABC CLASSIFICATION ═══ -->
+<div class="section-label">
+  <span class="icon">📊</span>
+  <span class="text">物料 ABC 分级策略</span>
+  <span class="badge bg-y">不同物料不同策略</span>
+</div>
+
+<div class="grid-3">
+  <div class="gap-card yellow">
+    <div class="gc-title">A 类 · 高价值/长交期</div>
+    <div class="gc-desc">
+      <strong>典型物料：</strong>伺服电机、减速机<br>
+      <strong>策略：</strong>按单采购，不入共用库，不提前囤<br>
+      <strong>核心理由：</strong>单价高，压资金，适合项目化采购
+    </div>
+  </div>
+  <div class="gap-card green">
+    <div class="gc-title">B 类 · 中价值/通用件</div>
+    <div class="gc-desc">
+      <strong>典型物料：</strong>导轨、丝杆<br>
+      <strong>策略：</strong>共用料 + 滚动预测（1-2 月量）<br>
+      <strong>核心理由：</strong>通用性强，合并批量有议价空间
+    </div>
+  </div>
+  <div class="gap-card green">
+    <div class="gc-title">C 类 · 低价值/标准件</div>
+    <div class="gc-desc">
+      <strong>典型物料：</strong>螺丝、垫片、标准件<br>
+      <strong>策略：</strong>共用料 + 批量采购 或 VMI<br>
+      <strong>核心理由：</strong>价值低但量大，最适合 VMI 让供应商压货
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PROCESS FLOW ═══ -->
+<div class="section-label">
+  <span class="icon">🔄</span>
+  <span class="text">目标业务流程</span>
+  <span class="badge bg-g">TO-BE 共用料管理模式</span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="flow-wrap">
+    <div class="fn fn-green">工程<br><small>物料分类</small></div>
+    <div class="fa">→</div>
+    <div class="fn fn-blue">物控<br><small>汇总需求</small></div>
+    <div class="fa">→</div>
+    <div class="fn fn-green">采购<br><small>合并下单</small></div>
+    <div class="fa">→</div>
+    <div class="fn fn-yellow">供应商<br><small>一次性发货</small></div>
+    <div class="fa">→</div>
+    <div class="fn fn-green">仓库<br><small>入公共库存</small></div>
+    <div class="fa">→</div>
+    <div class="fn fn-blue">各项目<br><small>领料出库</small></div>
+    <div class="fa">→</div>
+    <div class="fn fn-green">财务<br><small>成本归集</small></div>
+  </div>
+  <div style="text-align:center;margin-top:8px;font-size:10px;color:var(--s-400)">
+    A 类料按单采购，不入共用库 ｜ B/C 类料走共用料合并采购
+  </div>
+</div>
+
+<!-- ═══ COMMUNICATION STRATEGY ═══ -->
+<div class="section-label">
+  <span class="icon">💬</span>
+  <span class="text">部门沟通路线图（第一轮）</span>
+  <span class="badge bg-b">摸清顾虑 → 带数据汇报</span>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">1️⃣ 工程部 · 第 1 刀</div>
+    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+      <strong>聊什么：</strong>请你帮我把现有物料清单过一遍，区分共用料和专用料<br>
+      <strong>他可能说：</strong>"这个工作量不小啊，我们人手不够"<br>
+      <strong>你要传递：</strong>共用料分类做一次，以后采购效率翻倍，对工程也有好处<br>
+      <strong>带回信息：</strong>工程需要 <span style="color:var(--r);font-weight:600">__XX 工时__</span> 才能完成分类，是否给资源？
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">2️⃣ 物控 · 第 2 刀</div>
+    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+      <strong>聊什么：</strong>你领导提的合并采购需求，我们按共用料模式来落地<br>
+      <strong>他可能说：</strong>"全厂汇总需求怎么算？销售预测不准咋办"<br>
+      <strong>你要传递：</strong>共用料可以设安全库存兜底，不怕预测不准<br>
+      <strong>关键点：</strong>未来共用料按全厂汇总需求提，不用按项目分单提
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">3️⃣ 采购部 · 第 3 刀（最容易）</div>
+    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+      <strong>聊什么：</strong>以后共用料可以合并下 PO 了，不用一个料开 10 张<br>
+      <strong>他可能说：</strong>"太好了，早就该这样"<br>
+      <strong>注意：</strong>采购大概率是最支持的一方，可以成为你的盟友 ✅
+    </div>
+  </div>
+  <div class="card" style="border:2px solid var(--y)">
+    <div class="card-title">4️⃣ 仓库 · 第 4 刀（最核心）</div>
+    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+      <strong>聊什么：</strong>共用料入公共库存，各项目通过领料出库来分账<br>
+      <strong>他可能说：</strong>"系统支持吗？" / "领料单要录项目号？"<br>
+      <strong>你要传递：</strong>收货一次搞定，比现在收 10 次简单多了<br>
+      <strong>关键问题：</strong>ERP 是否支持公共库存 + 领料挂项目号？<br>
+      <span style="color:var(--y-d);font-weight:600">⚠ 这是系统能力卡点，需 IT 验证</span>
+    </div>
+  </div>
+  <div class="card" style="grid-column:1/-1">
+    <div class="card-title">5️⃣ 财务部 · 第 5 刀</div>
+    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+      <strong>聊什么：</strong>共用料采购入公共库存，项目领料时成本才归属到项目。月底采购总额 = 各项目领用 + 库存余额来对账<br>
+      <strong>他可能说：</strong>"项目成本不准怎么办？月底结账对不上谁负责？"<br>
+      <strong>你要传递：</strong>这是标准制造业会计流程，不是特例。领料单带项目号就能保证成本归集准确<br>
+      <strong>带回信息：</strong>① ERP 能否按项目维度查领料成本？② 月底对账谁来做？
+    </div>
+  </div>
+</div>
+
+<!-- ═══ THREE BOTTLENECKS ═══ -->
+<div class="section-label">
+  <span class="icon">🧩</span>
+  <span class="text">三个卡点 · 需要领导决策</span>
+  <span class="badge bg-y">数据准备完毕后汇报</span>
+</div>
+
+<div class="grid-3">
+  <div class="gap-card yellow">
+    <div class="gc-title">卡点 A：物料分类（工程部）</div>
+    <div class="gc-desc">
+      <strong>✅ 加人：</strong>工程抽调人集中 2 周搞定 — 占工程资源<br>
+      <strong>❌ 不加人：</strong>慢慢来 — 方案推进延迟 1-2 个月<br>
+      <strong>折中：</strong>只分 A 类和 C 类，B 类模糊 — 精度不够可能返工
+    </div>
+  </div>
+  <div class="gap-card yellow">
+    <div class="gc-title">卡点 B：ERP 系统能力（IT/仓库）</div>
+    <div class="gc-desc">
+      <strong>✅ 已有公共库存：</strong>启用配置 — 几乎无代价<br>
+      <strong>⚠️ 需配置：</strong>找实施方确认 — 少量实施费<br>
+      <strong>❌ 不支持：</strong>二次开发 或 "一单多项目行"（看 PO 行项目拆分能力）<br>
+      <strong>备份方案：</strong>线下 Excel + 系统后补录
+    </div>
+  </div>
+  <div class="gap-card yellow">
+    <div class="gc-title">卡点 C：资金占用（财务/领导）</div>
+    <div class="gc-desc">
+      <strong>现状：</strong>提前几个月买，库存资金积压高<br>
+      <strong>共用料后：</strong>A 类按单不囤，C 类 VMI 供应商扛库存<br>
+      <strong>给领导的建议：</strong>先估算目前压了多少库存资金，合并采购后议价空间有多大，VMI 能释放多少现金
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ESCALATION TEMPLATE ═══ -->
+<div class="section-label">
+  <span class="icon">📝</span>
+  <span class="text">汇报模板（给领导）</span>
+  <span class="badge bg-b">第一轮沟通后使用</span>
+</div>
+
+<div class="card" style="border-left:3px solid var(--b);margin-bottom:12px">
+  <div style="font-size:12px;color:var(--s-600);line-height:2;padding:8px 4px">
+    领导，关于采购合并的需求，我跑了一圈，情况是这样的：<br><br>
+    业务上：可以走"共用料管理模式"，共用料合并采购入公共库存，各项目领用时再分摊成本，财务能核算清楚。<br><br>
+    但现在有三个卡点需要您拍板：<br>
+    ① <strong>工程部</strong>：需要把物料分成"共用料"和"专用料"，大概需要 <span style="color:var(--r)">__人/__天</span>，能不能批这个人力？<br>
+    ② <strong>ERP 系统</strong>：仓库说收货入公共库存这个功能，我得找实施方确认系统支不支持。如果不支持，需要追加一笔开发费用，大概 <span style="color:var(--r)">__万</span>。<br>
+    ③ <strong>资金问题</strong>：一次买几个月料压现金的问题，共用料模式只能缓解一部分（标准件合并买、高价值料按单买）。如果想彻底解决，可以谈 VMI 让供应商压货。<br><br>
+    我的建议：先解决 ① 和 ②，③ 作为下一步优化。您看行不行？
+  </div>
+</div>
+
+<!-- ═══ ACTION LIST ═══ -->
+<div class="section-label">
+  <span class="icon">✅</span>
+  <span class="text">行动清单</span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <table class="data-table">
+    <tr><th style="width:40px">#</th><th>干什么</th><th>找谁</th><th>预计耗时</th></tr>
+    <tr><td>1</td><td>确认 ERP 是否支持公共库存 + 领料挂项目号</td><td>IT/实施方</td><td>1-2 天</td></tr>
+    <tr><td>2</td><td>跟工程部聊物料分类工作量</td><td>工程主管</td><td>半天</td></tr>
+    <tr><td>3</td><td>估算目前提前备料压了多少资金</td><td>财务/物控</td><td>1 天</td></tr>
+    <tr><td>4</td><td>带着①②③数据找领导决策</td><td>领导</td><td>半小时</td></tr>
+    <tr><td>5</td><td>领导拍板后推进第二轮详细沟通</td><td>全部门</td><td>—</td></tr>
+  </table>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 · 采购管理 ｜ 杰德瑞恩J 出品 ｜ 更新于 2026年7月 ｜ 本页内容源自《采购合并方案-共用料管理模式》腾讯文档
+</div>
+
+</div>
+</body>
+</html>
