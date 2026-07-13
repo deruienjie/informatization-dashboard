@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>问题详情 · ERP采购与共用料管理</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;--o-d:#9a3412;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#064e3b,#065f46,#047857);
+  border-radius:16px;padding:20px 28px;color:#fff;margin-bottom:14px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  position:relative;overflow:hidden;
+}
+.header-left{position:relative;z-index:1}
+.breadcrumb{font-size:11px;color:#a7f3d0;margin-bottom:4px}
+.breadcrumb a{color:#a7f3d0;text-decoration:none}
+.breadcrumb a:hover{color:#fff;text-decoration:underline}
+.header h1{font-size:20px;font-weight:700}
+.header .sub{font-size:12px;color:#a7f3d0;margin-top:4px}
+.header-nav{display:flex;gap:6px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:11px;padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#a7f3d0;text-decoration:none}
+.header-nav a:hover{background:rgba(16,185,129,.2);color:#fff}
+
+/* ── 顶部问题卡 ── */
+.problem-summary{
+  background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);
+  margin-bottom:14px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
+}
+.problem-summary.priority-p0{border-left:5px solid var(--r)}
+.problem-summary.priority-p1{border-left:5px solid var(--y)}
+.problem-summary.priority-p2{border-left:5px solid var(--b)}
+.summary-prio{padding:10px 14px;border-radius:8px;font-weight:700;font-size:14px;color:#fff;text-align:center}
+.summary-prio.p0{background:var(--r)}
+.summary-prio.p1{background:var(--y);color:var(--y-d)}
+.summary-prio.p2{background:var(--b)}
+.summary-title{font-size:16px;font-weight:700;color:var(--s-800);margin-bottom:4px}
+.summary-desc{font-size:12px;color:var(--s-600);line-height:1.5}
+.summary-meta{display:flex;gap:10px;font-size:10px;color:var(--s-400);flex-wrap:wrap;margin-top:6px}
+.summary-meta .meta{padding:2px 8px;background:var(--s-100);border-radius:6px}
+.status-tag{font-size:11px;padding:4px 10px;border-radius:8px;background:var(--y-bg);color:var(--y-d);font-weight:600}
+
+/* ── Tab 切换 ── */
+.tab-bar{
+  display:flex;gap:0;background:#fff;border-radius:12px 12px 0 0;
+  padding:0 12px;border:1px solid var(--s-200);border-bottom:none;
+}
+.tab-btn{
+  padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;
+  border:none;background:transparent;color:var(--s-400);
+  border-bottom:3px solid transparent;transition:all .15s;
+  display:flex;align-items:center;gap:6px;
+}
+.tab-btn:hover{color:var(--s-700)}
+.tab-btn.active{color:var(--p-d);border-bottom-color:var(--p);background:var(--p-bg);border-radius:8px 8px 0 0}
+.tab-content{display:none;background:#fff;border-radius:0 12px 12px 12px;padding:20px 24px;border:1px solid var(--s-200)}
+.tab-content.active{display:block}
+
+/* ── 方案页样式 ── */
+.plan-section{margin-bottom:18px}
+.plan-section h3{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.plan-section p{font-size:12px;color:var(--s-600);line-height:1.7;margin-bottom:8px}
+.plan-callout{
+  background:linear-gradient(135deg,#f0f9ff,#ecfeff);
+  border:1px solid var(--b);border-left:4px solid var(--b);
+  border-radius:8px;padding:12px 16px;font-size:12px;color:var(--s-700);line-height:1.6;margin-bottom:10px;
+}
+.plan-callout.success{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-color:var(--g);border-left-color:var(--g)}
+.plan-callout.warn{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:var(--y);border-left-color:var(--y)}
+.plan-callout.danger{background:linear-gradient(135deg,#fef2f2,#fee2e2);border-color:var(--r);border-left-color:var(--r)}
+
+.compare-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px}
+.compare-table th,.compare-table td{padding:8px 12px;border:1px solid var(--s-200);text-align:left;vertical-align:top}
+.compare-table th{background:var(--s-100);color:var(--s-600);font-weight:600;font-size:11px}
+.compare-table .bad{color:var(--r-d);background:var(--r-bg)}
+.compare-table .good{color:var(--g-d);background:var(--g-bg)}
+
+/* ── 指引页样式 ── */
+.guide-step{
+  display:grid;grid-template-columns:48px 1fr;gap:14px;
+  padding:12px 0;border-bottom:1px solid var(--s-100);
+}
+.guide-step:last-child{border:none}
+.step-num{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--p),var(--b));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;flex-shrink:0
+}
+.step-content h4{font-size:13px;font-weight:700;color:var(--s-800);margin-bottom:4px}
+.step-content p{font-size:12px;color:var(--s-600);line-height:1.6;margin-bottom:6px}
+.step-content .step-action{font-size:11px;color:var(--b-d);background:var(--b-bg);padding:6px 10px;border-radius:6px;margin-bottom:6px}
+.step-content .step-warning{font-size:11px;color:var(--r-d);background:var(--r-bg);padding:6px 10px;border-radius:6px;margin-bottom:6px}
+.step-content .step-tip{font-size:11px;color:var(--g-d);background:var(--g-bg);padding:6px 10px;border-radius:6px;margin-bottom:6px}
+
+.checkpoint{
+  background:var(--y-bg);border:1.5px solid var(--y);border-radius:10px;
+  padding:14px 18px;margin:14px 0;font-size:12px;color:var(--y-d);
+}
+.checkpoint strong{color:var(--y-d)}
+
+/* ── 右侧固定导航 ── */
+.layout{display:grid;grid-template-columns:1fr 260px;gap:14px}
+.side-nav{position:sticky;top:14px}
+.side-card{background:#fff;border-radius:12px;padding:14px;border:1px solid var(--s-200);margin-bottom:10px}
+.side-card h4{font-size:12px;font-weight:700;color:var(--s-800);margin-bottom:8px}
+.side-link{
+  display:block;padding:6px 10px;font-size:11px;border-radius:6px;color:var(--s-600);
+  text-decoration:none;margin-bottom:2px;transition:all .15s;
+}
+.side-link:hover{background:var(--g-bg);color:var(--g-d)}
+.side-link.active{background:var(--g);color:#fff;font-weight:600}
+
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .side-nav{position:static}
+  .problem-summary{grid-template-columns:1fr;text-align:center}
+  .header{padding:16px 20px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-left">
+    <div class="breadcrumb">
+      <a href="erp-procurement.html">📦 ERP · 采购与共用料管理</a> / 详情
+    </div>
+    <h1 id="problem-title">问题详情</h1>
+    <div class="sub" id="problem-sub">点击左侧问题查看详情</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="erp-procurement.html">← 返回问题列表</a>
+    <a href="erp-center.html">📦 ERP中心</a>
+  </nav>
+</header>
+
+<!-- ═══ 顶部问题卡（动态填充） ═══ -->
+<div class="problem-summary" id="problem-summary">
+  <div class="summary-prio" id="prio-tag">P0</div>
+  <div>
+    <div class="summary-title" id="summary-title">问题标题</div>
+    <div class="summary-desc" id="summary-desc">问题描述</div>
+    <div class="summary-meta" id="summary-meta"></div>
+  </div>
+  <div class="status-tag">🔄 推进中</div>
+</div>
+
+<!-- ═══ 双 Tab ═══ -->
+<div class="layout">
+<div>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="plan">📋 方案页（给HR看）</button>
+    <button class="tab-btn" data-tab="guide">🛠️ 指引页（教操作）</button>
+  </div>
+
+  <div class="tab-content active" id="tab-plan">
+    <!-- 方案内容动态填充 -->
+  </div>
+
+  <div class="tab-content" id="tab-guide">
+    <!-- 指引内容动态填充 -->
+  </div>
+</div>
+
+<!-- 侧边导航 -->
+<aside class="side-nav">
+  <div class="side-card">
+    <h4>🔴 P0 紧急问题</h4>
+    <a href="#common-material" class="side-link" data-problem="common-material">共用料合并采购</a>
+    <a href="#supplier-pool" class="side-link" data-problem="supplier-pool">供应商集中议价</a>
+    <a href="#warehouse-fee" class="side-link" data-problem="warehouse-fee">仓库合并收货</a>
+  </div>
+  <div class="side-card">
+    <h4>🟡 P1 重要问题</h4>
+    <a href="#material-abc" class="side-link" data-problem="material-abc">物料ABC分级</a>
+    <a href="#public-inventory" class="side-link" data-problem="public-inventory">公共库存模式</a>
+    <a href="#po-merge" class="side-link" data-problem="po-merge">PO合并审批</a>
+    <a href="#eng-spec" class="side-link" data-problem="eng-spec">工程选型归一</a>
+  </div>
+  <div class="side-card">
+    <h4>🔵 P2 一般问题</h4>
+    <a href="#supplier-vmi" class="side-link" data-problem="supplier-vmi">VMI模式探索</a>
+    <a href="#report-dash" class="side-link" data-problem="report-dash">节省金额报表</a>
+  </div>
+</aside>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 · ERP采购详情 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+</div>
+
+</div>
+
+<script>
+// ─── 问题数据 ───
+const problems = {
+  'common-material': {
+    prio: 'P0', prioClass: 'p0',
+    title: '同一个料下10张PO，采购重复劳动',
+    desc: '同一物料被多项目同时申请 → 物控收到10张分散PO → 逐个询价/下单/跟单，重复6倍以上工作量。每月发生10次以上。',
+    meta: ['📍 影响：物控/采购', '⏱ 每月耗时：~30工时', '💰 浪费：人月成本+议价权流失', '🔥 状态：方案已设计，待5部门确认'],
+    plan: `
+      <div class="plan-section">
+        <h3>🎯 问题本质</h3>
+        <p>当前模式下，每个项目独立申请采购 → 同一物料被拆成N张PO → 物控、采购、仓库三方都重复劳动，议价权也被稀释。</p>
+        <div class="plan-callout danger">
+          <strong>痛点量化：</strong>每月10次合并机会 × 每次重复3个环节 × 每环节~1小时 = <strong>每月30+工时浪费</strong>，且因分散议价损失约15%的议价空间。
+        </div>
+      </div>
+
+      <div class="plan-section">
+        <h3>📋 解决方案：共用料合并采购模式</h3>
+        <p>物控在系统中识别"多项目共需物料" → 合并为<strong>一张大PO</strong> → 供应商一次送货 → 仓库一次性入库 → 各项目按需领料，财务按领料比例分摊成本。</p>
+        <div class="plan-callout success">
+          <strong>预期收益：</strong>物控工作量从10次降到1次，议价空间提升~15%，仓库收货效率提升~80%。
+        </div>
+      </div>
+
+      <div class="plan-section">
+        <h3>📊 现状 vs 目标对比</h3>
+        <table class="compare-table">
+          <tr><th style="width:120px">维度</th><th class="bad">现状（AS-IS）</th><th class="good">目标（TO-BE）</th></tr>
+          <tr><td>采购单数</td><td class="bad">每月10+张PO</td><td class="good">每月1张大PO</td></tr>
+          <tr><td>物控工作量</td><td class="bad">~30工时/月</td><td class="good">~5工时/月</td></tr>
+          <tr><td>议价空间</td><td class="bad">分散议价，无折扣</td><td class="good">集中议价，~15%议价权</td></tr>
+          <tr><td>仓库收货</td><td class="bad">分10次收货</td><td class="good">合并1次收货</td></tr>
+          <tr><td>财务核算</td><td class="bad">按PO分摊，复杂</td><td class="good">按领料比例分摊，自动</td></tr>
+        </table>
+      </div>
+
+      <div class="plan-section">
+        <h3>🔑 关键支撑（成功前提）</h3>
+        <p>① <strong>ERP支持公共库存+项目领料</strong>（需顾问验证）；② <strong>工程选型归一</strong>（PLM侧推动）；③ <strong>5部门职责明确</strong>（工程/物控/采购/仓库/财务）。</p>
+      </div>
+    `,
+    guide: `
+      <div class="checkpoint">
+        🎯 <strong>本指引教你：</strong>作为物控，如何在系统中识别可合并的采购需求并发起合并流程。看完本指引你能独立完成一次"发现共物料→合并PO→跟单→入库确认"的完整操作。
+      </div>
+
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>登录ERP → 进入"采购管理"</h4>
+          <p>路径：金蝶云星空 → 供应链 → 采购管理 → 采购申请列表</p>
+          <div class="step-action">📌 路径参考：财务/HR视角可能不同，本指引以物控角色演示</div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>按"物料编码"分组，识别多项目共需物料</h4>
+          <p>筛选条件：申请日期近7天、状态="待审核"、数量>1</p>
+          <div class="step-action">💡 在"申请列表"右上角点"自定义筛选"→ 添加条件"物料编码重复次数>1"</div>
+          <div class="step-tip">✅ Tip：先把所有待合并的物料用Excel导出备查，下一步会用到</div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>对每条共物料，确认"是否可合并"</h4>
+          <p>检查项：规格型号完全一致？品牌要求一致？交付日期差异在7天内？预算归属？</p>
+          <div class="step-warning">⚠ 关键判断：若任一项不一致（如A项目要品牌A，B项目要品牌B），不可强行合并！</div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>创建合并PO（在ERP中下推）</h4>
+          <p>选中的"采购申请"行 → 工具栏点"下推"→"采购订单"→ 在弹出框中：合并来源选所有相关申请、供应商先空着（议价后再填）→ 保存为"待议价"状态</p>
+          <div class="step-action">📌 关键：PO要保存为"待议价"，不要直接生成"已审核"</div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>议价 → 选定供应商 → 完善PO</h4>
+          <p>给3家以上供应商发询价单 → 收集报价 → 比价 → 选定最优 → 回PO填入供应商、单价、税率 → 走审批</p>
+          <div class="step-tip">✅ Tip：议价结果录入"议价记录"附件，留作未来议价参考</div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h4>PO审批通过 → 通知供应商发货</h4>
+          <p>审批通过后状态变"已批准" → 系统自动通知供应商（如果配置了）→ 否则手动通知 → 确认交付日期</p>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <h4>到货 → 仓库入库 → 各项目领料</h4>
+          <p>供应商一次送货到仓库 → 仓库按PO号一次入库 → 库存进"公共库存" → 各项目按需创建领料单 → 财务按领料量自动分摊成本到各项目</p>
+          <div class="step-warning">⚠ 易错点：仓库入库时必须勾选"公共库存"，否则会按项目分库存放，违背合并初衷</div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        ✅ <strong>完成检查：</strong>本月合并PO ≥ 3张 → 物控节省~10工时 → 议价节省~5% → 下月复制流程。<br>
+        ❌ <strong>未达预期：</strong>回看Step3的"是否可合并"判断，是否规格不一致的物料被强行合并了？
+      </div>
+    `
+  },
+
+  'supplier-pool': {
+    prio: 'P0', prioClass: 'p0',
+    title: '供应商分散议价，物流成本高',
+    desc: '10个项目各找各的供应商，分散议价，无量价无折扣。每次都要重新走一遍询价→比价→议价流程。',
+    meta: ['📍 影响：采购/财务', '⏱ 议价周期：5-7天/次', '💰 议价权流失：~15%', '🔥 状态：方案已设计'],
+    plan: `
+      <div class="plan-section">
+        <h3>🎯 问题本质</h3>
+        <p>供应商管理"散、乱、差"——同一个物料可能同时跟5家以上供应商合作，每家量都不大，议价时供应商看你单子小不愿意给折扣。</p>
+        <div class="plan-callout danger">
+          <strong>量化损失：</strong>议价权每损失10% → 假设月采购额100万 → 每月多付10万 → <strong>年损失120万</strong>。
+        </div>
+      </div>
+      <div class="plan-section">
+        <h3>📋 解决方案：供应商分级 + 战略合作</h3>
+        <p>对每类物料，保留2-3家主力供应商 → 集中量给主力 → 谈年度框架协议 → 锁定价格和服务水平。</p>
+        <div class="plan-callout success">
+          <strong>预期：</strong>主力供应商年合作额可超100万 → 自然获得15-20%折扣 → 议价周期从5-7天降到1-2天。
+        </div>
+      </div>
+      <div class="plan-section">
+        <h3>📊 供应商分级策略</h3>
+        <table class="compare-table">
+          <tr><th>级别</th><th>合作策略</th><th>数量</th><th>折扣</th></tr>
+          <tr><td>🌟 战略级</td><td>年框架协议 / 价格锁定 / 优先供货</td><td>每类物料1家</td><td>15-20%</td></tr>
+          <tr><td>🟢 主力级</td><td>季度议价 / 集中订单</td><td>每类物料2-3家</td><td>8-12%</td></tr>
+          <tr><td>🟡 备选级</td><td>应急使用 / 不主动下单</td><td>不限</td><td>0%</td></tr>
+        </table>
+      </div>
+    `,
+    guide: `
+      <div class="checkpoint">🎯 <strong>本指引教你：</strong>作为采购，如何建立供应商分级体系并谈判框架协议。</div>
+      <div class="guide-step"><div class="step-num">1</div><div class="step-content">
+        <h4>导出近6个月供应商交易数据</h4>
+        <p>路径：供应链 → 供应商管理 → 交易明细 → 时间范围：近180天 → 导出Excel</p>
+      </div></div>
+      <div class="guide-step"><div class="step-num">2</div><div class="step-content">
+        <h4>按"物料类别"汇总每家供应商的总额</h4>
+        <p>在Excel中透视：行=供应商+物料类别，值=采购额</p>
+        <div class="step-tip">✅ Tip：找出每类物料Top3供应商，这就是潜在"战略级"</div>
+      </div></div>
+      <div class="guide-step"><div class="step-num">3</div><div class="step-content">
+        <h4>约谈Top供应商，谈框架协议</h4>
+        <p>准备材料：年采购量预测、议价区间、对方历史合作金额 → 提报"年合作目标量+折扣方案"</p>
+        <div class="step-warning">⚠ 关键：必须给对方一个明确的"量承诺"，否则只给零星折扣</div>
+      </div></div>
+      <div class="guide-step"><div class="step-num">4</div><div class="step-content">
+        <h4>签订年度框架协议（在ERP中维护）</h4>
+        <p>协议签订后 → 供应商档案维护"战略级"标签 → 同步到采购策略表</p>
+      </div></div>
+    `
+  },
+
+  'material-abc': {
+    prio: 'P1', prioClass: 'p1',
+    title: 'ABC物料分级策略不清晰',
+    desc: '所有物料按同一模式采购，导致A类高价值长交期物料的紧急性被忽视。',
+    meta: ['📍 影响：物控/采购/仓库', '💡 不同物料不同策略', '🔥 状态：方案已设计'],
+    plan: `
+      <div class="plan-section">
+        <h3>📋 ABC分级策略</h3>
+        <p>按"价值+交期"两维度把物料分为三级，对应不同的采购策略。</p>
+        <table class="compare-table">
+          <tr><th>级别</th><th>典型物料</th><th>策略</th><th>核心理由</th></tr>
+          <tr><td>🟠 A类·高价值/长交期</td><td>精密电机、减速机</td><td>按单采购，不共共用</td><td>价值高/单价高/货值低/适合项目化采购</td></tr>
+          <tr><td>🟢 B类·中价值/通用件</td><td>导轨、丝杆</td><td>共用料 + 滚动预测 (1-2月量)</td><td>通用性强/合并有议价空间</td></tr>
+          <tr><td>🟢 C类·低价值/标准件</td><td>螺丝、垫片、铭牌</td><td>通用料 + 批量采购 + 最适合VMI</td><td>价值低但量大/适合年度框架/能减仓出价值</td></tr>
+        </table>
+        <div class="plan-callout success">
+          <strong>关键：</strong>不是所有物料都适合合并采购！A类强行合并反而增加资金占用风险。
+        </div>
+      </div>
+    `,
+    guide: `
+      <div class="checkpoint">🎯 <strong>本指引教你：</strong>如何为每种物料打ABC标签并应用对应策略。</div>
+      <div class="guide-step"><div class="step-num">1</div><div class="step-content">
+        <h4>导出物料主数据</h4>
+        <p>路径：基础资料 → 物料 → 导出全部 → Excel</p>
+      </div></div>
+      <div class="guide-step"><div class="step-num">2</div><div class="step-content">
+        <h4>按"价值×交期"两维度分类</h4>
+        <p>公式：<code>ABC级别 = 价值等级 × 交期等级</code></p>
+        <div class="step-action">A类 = 高价值(单价>5000 或 月用量>10万) AND 长交期(>30天)</div>
+        <div class="step-action">B类 = 中价值 + 中短交期</div>
+        <div class="step-action">C类 = 低价值 + 短交期 或 高频通用件</div>
+      </div></div>
+      <div class="guide-step"><div class="step-num">3</div><div class="step-content">
+        <h4>批量打标签（在ERP中维护）</h4>
+        <p>导入模板 → 填ABC级别 → ERP批量更新物料的"采购策略"字段</p>
+        <div class="step-warning">⚠ 注意：需要先在ERP中创建"采购策略"自定义字段</div>
+      </div></div>
+    `
+  },
+
+  'public-inventory': {
+    prio: 'P1', prioClass: 'p1',
+    title: '公共库存功能待验证',
+    desc: 'ERP是否支持公共库存+各项目领料的成本归集，需要顾问确认。',
+    meta: ['📍 影响：ERP配置/财务核算', '⏱ 待顾问评估', '🔥 状态：方案待评估'],
+    plan: `
+      <div class="plan-section">
+        <h3>📋 需要验证的能力</h3>
+        <p>共用料合并采购的"成本归集"逻辑依赖ERP支持"公共库存+项目领料"模式。这不是配置问题，是<strong>业务流程问题</strong>。</p>
+        <div class="plan-callout warn">
+          <strong>关键问题：</strong>① 物料入库到"公共库存"是否可配置？② 项目领料时是否能自动从公共库存扣减并归集到项目成本？③ 多个项目共用料的剩余库存如何处理？
+        </div>
+      </div>
+      <div class="plan-section">
+        <h3>📊 验证要点（问北森顾问）</h3>
+        <table class="compare-table">
+          <tr><th>问题</th><th>期望答案</th></tr>
+          <tr><td>是否支持"公共库存"概念？</td><td>支持</td></tr>
+          <tr><td>项目领料是否可归集到项目？</td><td>支持</td></tr>
+          <tr><td>是否需要定制开发？</td><td>不需要</td></tr>
+        </table>
+      </div>
+    `,
+    guide: `
+      <div class="checkpoint">🎯 <strong>本指引教你：</strong>如何跟北森顾问沟通"公共库存"能力的验证。</div>
+      <div class="guide-step"><div class="step-num">1</div><div class="step-content">
+        <h4>准备业务场景描述文档</h4>
+        <p>用一段话写清楚业务场景：合并采购→入库公共库存→各项目领料→财务按领料量分摊</p>
+      </div></div>
+      <div class="guide-step"><div class="step-num">2</div><div class="step-content">
+        <h4>约顾问会议：单点验证</h4>
+        <p>会议目标：明确告知"能/不能"实现 + 实现的成本（配置/开发/外采）</p>
+        <div class="step-action">📌 准备好的问题列表（见本页"验证要点"）</div>
+      </div></div>
+      <div class="guide-step"><div class="step-num">3</div><div class="step-content">
+        <h4>记录结论到需求收集表</h4>
+        <p>顾问结论回填到"顾问结论"列：✅支持/⚙需配置/💲需定制/❌不支持</p>
+      </div></div>
+    `
+  },
+
+  'po-merge': {
+    prio: 'P1', prioClass: 'p1',
+    title: 'PO合并审批流程待设计',
+    desc: '从"项目→单独PO"改为"多项目合并PO"，需要重新设计审批流和成本归集规则。',
+    meta: ['📍 影响：流程/IT/财务', '⏱ 涉及5个部门沟通'],
+    plan: `
+      <div class="plan-section">
+        <h3>📋 流程改造方案</h3>
+        <p>从"项目→单独PO" → "多项目合并PO"，需要重新设计审批流和成本归集规则。</p>
+        <div class="plan-callout warn">⚠ 涉及5个部门职责调整：工程/物控/采购/仓库/财务，必须联合评审。</div>
+      </div>
+    `,
+    guide: `<div class="checkpoint">详见<a href="erp-procurement.html">主页面</a>整体流程图</div>`
+  },
+
+  'eng-spec': {
+    prio: 'P1', prioClass: 'p1',
+    title: '工程规格统一 / 选型归一',
+    desc: '多项目用同一类物料但规格/品牌不统一，无法合并采购。需要PLM侧推动选型归一。',
+    meta: ['📍 影响：工程/PLM'],
+    plan: `<div class="plan-section"><h3>📋 选型归一是合并基础</h3><p>先选型归一再合并采购，否则强行合并会导致项目间争议。</p></div>`,
+    guide: `<div class="checkpoint">详见 PLM 中心</div>`
+  },
+
+  'supplier-vmi': {
+    prio: 'P2', prioClass: 'p2',
+    title: 'VMI模式探索',
+    desc: 'A类物料试行供应商管理库存（VMI），降低库存资金占用。',
+    meta: ['📍 影响：采购/仓库/供应商'],
+    plan: `<div class="plan-section"><h3>💡 长期方向</h3><p>C类标准件适合VMI（供应商管理库存），库存放在供应商但随时可调用。</p></div>`,
+    guide: `<div class="checkpoint">建议在合并采购成熟后启动</div>`
+  },
+
+  'report-dash': {
+    prio: 'P2', prioClass: 'p2',
+    title: '采购合并节省金额报表',
+    desc: '每月展示合并采购节省的成本，量化价值，便于汇报。',
+    meta: ['📍 影响：管理层/财务'],
+    plan: `<div class="plan-section"><h3>📊 价值量化</h3><p>每月自动统计"合并后实付金额 vs 分散采购理论金额"，差值就是节省。</p></div>`,
+    guide: `<div class="checkpoint">依赖合并采购稳定运行后才有数据</div>`
+  }
+};
+
+// ─── 渲染逻辑 ───
+const params = new URLSearchParams(window.location.search);
+const id = params.get('id') || 'common-material';
+const data = problems[id];
+
+if (data) {
+  // 标题
+  document.getElementById('problem-title').textContent = '📦 ' + data.title;
+  document.getElementById('problem-sub').textContent = 'ERP采购与共用料管理 · 问题详情';
+  // 顶部卡
+  document.getElementById('prio-tag').textContent = data.prio;
+  document.getElementById('prio-tag').className = 'summary-prio ' + data.prioClass;
+  document.getElementById('summary-title').textContent = data.title;
+  document.getElementById('summary-desc').textContent = data.desc;
+  document.getElementById('summary-meta').innerHTML = data.meta.map(m => `<span class="meta">${m}</span>`).join('');
+  // 文档标题
+  document.title = data.title + ' · ERP采购详情';
+  // Tab内容
+  document.getElementById('tab-plan').innerHTML = data.plan;
+  document.getElementById('tab-guide').innerHTML = data.guide;
+  // 侧边高亮
+  document.querySelectorAll('.side-link').forEach(link => {
+    if (link.dataset.problem === id) link.classList.add('active');
+  });
+  // 调整左边框颜色
+  const sum = document.getElementById('problem-summary');
+  sum.classList.add('priority-' + data.prioClass);
+}
+
+// Tab 切换
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
