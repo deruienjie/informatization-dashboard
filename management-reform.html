@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理变革中心 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#0f172a,#1e293b,#3c3489);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
+
+.section-title{font-size:15px;font-weight:500;color:var(--s-800);margin-bottom:12px}
+.section-sub{font-size:12px;color:var(--s-400);margin-bottom:16px}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center}
+.stat-value{font-size:24px;font-weight:700;color:var(--s-800);line-height:1}
+.stat-value.purple{color:var(--p-d)}
+.stat-value.green{color:var(--g-d)}
+.stat-value.blue{color:var(--b-d)}
+.stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
+
+/* Cards grid */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+
+.reform-card{
+  background:#fff;border-radius:14px;padding:20px;
+  border:1px solid var(--s-200);text-decoration:none;color:inherit;
+  transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;
+  cursor:pointer;display:block;
+}
+.reform-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.reform-card.active{border:2px solid var(--p)}
+.reform-card.pending{border:1px dashed var(--s-200);opacity:.7}
+.reform-card.pending:hover{opacity:1}
+
+.reform-card .badge{
+  position:absolute;top:-5px;right:10px;
+  padding:2px 10px;border-radius:0 0 6px 6px;font-size:9px;font-weight:500;color:#fff;
+}
+.badge-active{background:var(--p)}
+.badge-plan{background:var(--s-400)}
+
+.reform-card .icon{font-size:32px;margin-bottom:10px}
+.reform-card h3{font-size:14px;font-weight:600;color:var(--s-800);margin-bottom:6px}
+.reform-card .desc{font-size:12px;color:var(--s-600);line-height:1.6;margin-bottom:10px}
+.reform-card .tags{display:flex;gap:6px;flex-wrap:wrap}
+.reform-card .tags span{
+  padding:2px 8px;border-radius:4px;font-size:10px;font-weight:500;
+}
+.tag-active{background:var(--p-bg);color:var(--p-d)}
+.tag-plan{background:var(--s-100);color:var(--s-400)}
+.tag-green-t{background:var(--g-bg);color:var(--g-d)}
+.tag-blue-t{background:var(--b-bg);color:var(--b-d)}
+.tag-yellow-t{background:var(--y-bg);color:var(--y-d)}
+
+/* Current topic detail */
+.topic-detail{
+  background:#fff;border-radius:14px;padding:24px;
+  border:1px solid var(--s-200);margin-bottom:20px
+}
+.topic-detail .topic-header{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+  padding-bottom:14px;border-bottom:1px solid var(--s-200)
+}
+.topic-detail .topic-header h2{font-size:16px;font-weight:600;color:var(--s-800)}
+.topic-detail .topic-header .status{
+  font-size:10px;padding:3px 10px;border-radius:4px;background:var(--p-bg);color:var(--p-d);font-weight:500
+}
+
+/* Flow timeline */
+.flow-row{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  background:var(--s-50);padding:12px 16px;border-radius:10px;margin-bottom:10px;
+  font-size:12px;
+}
+.flow-step{
+  padding:4px 10px;border-radius:6px;font-size:11px;
+  white-space:nowrap;
+}
+.flow-old{background:var(--r-bg);color:var(--r-d)}
+.flow-new{background:var(--g-bg);color:var(--g-d)}
+.flow-mid{background:var(--b-bg);color:var(--b-d)}
+.flow-sys{background:var(--p-bg);color:var(--p-d)}
+.flow-arrow{color:var(--s-400);font-size:12px;flex-shrink:0}
+
+.change-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px
+}
+.change-item{
+  background:var(--s-50);border-radius:10px;padding:14px 16px;
+  border:1px solid var(--s-200)
+}
+.change-item .change-title{font-size:12px;font-weight:600;color:var(--s-700);margin-bottom:6px}
+.change-item ul{list-style:none;font-size:11px;color:var(--s-600);line-height:1.8}
+.change-item ul li::before{content:'▪ ';color:var(--s-400)}
+
+.footer{text-align:center;padding:16px 24px;color:var(--s-400);font-size:11px}
+
+@media (max-width:768px){
+  .container{padding:12px}
+  .header{padding:16px;flex-direction:column;align-items:flex-start}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .cards-grid{grid-template-columns:1fr}
+  .change-grid{grid-template-columns:1fr}
+  .flow-row{font-size:11px;padding:10px}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+  <div class="header-left">
+    <h1>⚙️ 管理变革中心</h1>
+    <p class="sub">追踪公司各业务线的管理模式升级与流程优化</p>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="erp-center.html">📦 ERP</a>
+    <a href="plm-center.html">🔧 PLM</a>
+    <a href="ehr-center.html">👥 EHR</a>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value purple">3</div>
+    <div class="stat-label">变革项目</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value green">1</div>
+    <div class="stat-label">进行中</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value blue">2</div>
+    <div class="stat-label">规划中</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">30%</div>
+    <div class="stat-label">整体进度</div>
+  </div>
+</div>
+
+<!-- Reform Cards -->
+<div class="cards-grid">
+
+  <a href="reform-material.html" class="reform-card active">
+    <div class="badge badge-active">进行中</div>
+    <div class="icon">📦</div>
+    <h3>物料管理模式转型</h3>
+    <div class="desc">项目制 → 物料制转型。工程标准化、采购合并下单、仓库按物料品类分区、共用件集中备库。</div>
+    <div class="tags">
+      <span class="tag-active">当前</span>
+      <span class="tag-green-t">工程标准化</span>
+      <span class="tag-blue-t">采购改革</span>
+    </div>
+  </a>
+
+  <div class="reform-card pending">
+    <div class="badge badge-plan">规划中</div>
+    <div class="icon">📋</div>
+    <h3>采购业务变革</h3>
+    <div class="desc">采购流程优化、供应商管理体系、定价策略调整、采购协同平台建设。</div>
+    <div class="tags">
+      <span class="tag-plan">待启动</span>
+      <span class="tag-yellow-t">供应商管理</span>
+      <span class="tag-blue-t">定价策略</span>
+    </div>
+  </div>
+
+  <div class="reform-card pending">
+    <div class="badge badge-plan">规划中</div>
+    <div class="icon">🚚</div>
+    <h3>供应链体系升级</h3>
+    <div class="desc">多仓协同管理、物流优化、多地交付标准化流程、库存策略调整。</div>
+    <div class="tags">
+      <span class="tag-plan">待启动</span>
+      <span class="tag-green-t">多仓协同</span>
+      <span class="tag-yellow-t">物流优化</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Current Active Topic Detail -->
+<div class="topic-detail">
+  <div class="topic-header">
+    <h2>📦 物料管理模式转型 <span style="font-size:12px;font-weight:400;color:var(--s-400)">（项目制 → 物料制）</span></h2>
+    <span class="status">进行中 30%</span>
+  </div>
+
+  <div style="margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--s-400);margin-bottom:4px">
+      <span>整体进度</span>
+      <span>30%</span>
+    </div>
+    <div style="height:5px;background:var(--s-200);border-radius:3px;overflow:hidden">
+      <div style="width:30%;height:100%;background:var(--p);border-radius:3px"></div>
+    </div>
+  </div>
+
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin:14px 0 8px">业务流程全景</div>
+
+  <div class="flow-row">
+    <span class="flow-old">各项目独立BOM</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-new">标准化BOM</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-mid">MRP运算合并同物料</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-sys">按物料汇总下单</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-new">物料制仓储分区</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-new">按齐套领用</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+    <div style="background:var(--r-bg);border-radius:10px;padding:12px 14px;border:1px solid #fca5a5">
+      <div style="font-size:12px;font-weight:500;color:var(--r-d);margin-bottom:6px">⚠️ 现状（项目制）</div>
+      <ul style="font-size:11px;color:var(--s-600);line-height:1.8;list-style:none;padding:0">
+        <li>▪ 工程按项目出BOM，同物料重复出现</li>
+        <li>▪ 采购同物料多行，供应商散单</li>
+        <li>▪ 仓库按项目堆放，物料锁死在项目里</li>
+        <li>▪ 共用件无法通用，天天协调催料</li>
+      </ul>
+    </div>
+    <div style="background:var(--g-bg);border-radius:10px;padding:12px 14px;border:1px solid #6ee7b7">
+      <div style="font-size:12px;font-weight:500;color:var(--g-d);margin-bottom:6px">✅ 未来（物料制）</div>
+      <ul style="font-size:11px;color:var(--s-600);line-height:1.8;list-style:none;padding:0">
+        <li>▪ 工程标准化，物料精简50%</li>
+        <li>▪ 采购按物料合并，阶梯价更优</li>
+        <li>▪ 仓库按品类分区，超市式管理</li>
+        <li>▪ 共用件集中备库，按排产领用</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin-bottom:8px">系统变更清单</div>
+  <div class="change-grid">
+    <div class="change-item">
+      <div class="change-title" style="color:var(--b-d)">ERP 采购模块</div>
+      <ul>
+        <li>采购申请单新增"共用/专用"字段</li>
+        <li>同项目同物料自动合并</li>
+        <li>跨项目同物料分行不同交期</li>
+      </ul>
+    </div>
+    <div class="change-item">
+      <div class="change-title" style="color:var(--g-d)">ERP 仓储模块</div>
+      <ul>
+        <li>仓库位重新规划（物料制）</li>
+        <li>共用件区域设置</li>
+        <li>多地入库防错机制</li>
+      </ul>
+    </div>
+    <div class="change-item">
+      <div class="change-title" style="color:var(--y-d)">工程 PLM</div>
+      <ul>
+        <li>每周合并2款物料</li>
+        <li>BOM标准化</li>
+        <li>共用件统一推进</li>
+      </ul>
+    </div>
+    <div class="change-item">
+      <div class="change-title" style="color:var(--p-d)">悟空 APS</div>
+      <ul>
+        <li>MRP运算逻辑调整</li>
+        <li>按物料制跑排产</li>
+        <li>齐套检查优化</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;text-align:center">
+    <a href="reform-material.html" style="display:inline-block;padding:8px 20px;background:var(--p);color:#fff;border-radius:8px;text-decoration:none;font-size:12px;font-weight:500">查看完整详情 →</a>
+  </div>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
+</div>
+
+</div>
+</body>
+</html>
