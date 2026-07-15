@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT部门全景 · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --c:#0ea5e9;--c-bg:#e0f2fe;--c-d:#0369a1;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1340px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#0f172a,#1e293b,#065f46);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+
+.section-title{font-size:16px;font-weight:600;color:var(--s-800);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--s-200)}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:12px;padding:14px 12px;border:1px solid var(--s-200);text-align:center}
+.stat-card .num{font-size:20px;font-weight:700;line-height:1}
+.stat-card .lbl{font-size:10px;color:var(--s-400);margin-top:4px}
+.c-green{color:var(--g-d)}.c-blue{color:var(--b-d)}.c-purple{color:var(--p-d)}.c-red{color:var(--r-d)}.c-amber{color:var(--y-d)}.c-cyan{color:var(--c-d)}
+
+/* Module Grid */
+.modules-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.module-card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--s-200);transition:transform .2s,box-shadow .2s}
+.module-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.module-card .card-head{padding:14px 16px 10px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--s-100)}
+.module-card .card-head .icon{font-size:22px}
+.module-card .card-head .name{font-size:13px;font-weight:600;flex:1}
+.module-card .card-body{padding:10px 16px 14px}
+.module-card .card-body .item{font-size:11px;color:var(--s-600);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;justify-content:space-between;align-items:center}
+.module-card .card-body .item:last-child{border-bottom:none}
+.module-card .card-body .item .tag{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:500}
+.module-card .card-body .item .tag-on{background:var(--g-bg);color:var(--g-d)}
+.module-card .card-body .item .tag-ing{background:var(--y-bg);color:var(--y-d)}
+.module-card .card-body .item .tag-plan{background:#f1f5f9;color:var(--s-400)}
+.module-card .card-body .item .tag-future{background:var(--c-bg);color:var(--c-d)}
+.module-card .card-foot{background:var(--s-50);padding:8px 16px;font-size:10px;color:var(--s-400);border-top:1px solid var(--s-100)}
+.module-card .card-foot strong{color:var(--s-600)}
+
+/* Color accents */
+.border-blue{border-color:#b5d4f4}.head-blue .name{color:var(--b-d)}.head-blue{border-color:var(--b-bg)}
+.border-teal{border-color:#9fe1cb}.head-teal .name{color:var(--g-d)}.head-teal{border-color:var(--g-bg)}
+.border-coral{border-color:#f5c4b3}.head-coral .name{color:#993c1d}.head-coral{border-color:#fce7e0}
+.border-pink{border-color:#f4c0d1}.head-pink .name{color:#993556}.head-pink{border-color:#fbeaf0}
+.border-amber{border-color:#fde68a}.head-amber .name{color:#92400e}.head-amber{border-color:#fef3c7}
+.border-cyan{border-color:#a5f3fc}.head-cyan .name{color:#0369a1}.head-cyan{border-color:#cffafe}
+.border-green{border-color:#bbf7d0}.head-green .name{color:#065f46}.head-green{border-color:#dcfce7}
+.border-gray{border-color:#d3d1c7}.head-gray .name{color:#444441}.head-gray{border-color:#f1efe8}
+
+/* Detail section */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.detail-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid var(--s-200)}
+.detail-card h4{font-size:12px;font-weight:600;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--s-100)}
+.detail-card ul{list-style:none;font-size:11px;line-height:1.9;color:var(--s-600)}
+.detail-card ul li::before{content:'· ';color:var(--s-400)}
+
+.footer{text-align:center;padding:20px 24px;color:var(--s-400);font-size:11px}
+
+@media (max-width:768px){
+  .container{padding:12px}
+  .header{padding:16px;flex-direction:column;align-items:flex-start;gap:10px}
+  .stats-row{grid-template-columns:repeat(3,1fr)}
+  .modules-grid{grid-template-columns:1fr 1fr}
+  .detail-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+  <div class="header-left">
+    <h1>💻 橙子自动化 · IT 部门全景</h1>
+    <p class="sub">IT团队2人 · 全公司信息化建设与运维 · 人人都能找到的IT家底清单</p>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="erp-center.html">📦 ERP</a>
+    <a href="plm-center.html">🔧 PLM</a>
+    <a href="ehr-center.html">👥 EHR</a>
+    <a href="management-reform.html">⚙️ 变革</a>
+    <a href="it-panorama.html" class="active">💻 IT全景</a>
+  </div>
+</div>
+
+<!-- Stats Overview -->
+<div class="stats-row">
+  <div class="stat-card"><div class="num c-blue">6</div><div class="lbl">管理系统</div></div>
+  <div class="stat-card"><div class="num c-amber">6</div><div class="lbl">网络设备类</div></div>
+  <div class="stat-card"><div class="num c-green">~50</div><div class="lbl">IT资产项</div></div>
+  <div class="stat-card"><div class="num c-purple">4</div><div class="lbl">协同平台</div></div>
+  <div class="stat-card"><div class="num c-red">5</div><div class="lbl">制度待建</div></div>
+  <div class="stat-card"><div class="num c-cyan">4</div><div class="lbl">机房设备类</div></div>
+</div>
+
+<!-- 8 Module Cards -->
+<div class="modules-grid">
+
+  <!-- 1. 信息系统 -->
+  <div class="module-card border-blue">
+    <div class="card-head head-blue"><span class="icon">📊</span><span class="name">信息系统</span></div>
+    <div class="card-body">
+      <div class="item"><span>ERP（金蝶云星空）</span><span class="tag tag-on">已上线</span></div>
+      <div class="item"><span>PLM（金蝶PLM）</span><span class="tag tag-ing">推进中</span></div>
+      <div class="item"><span>EHR（北森HR SaaS）</span><span class="tag tag-on">已上线</span></div>
+      <div class="item"><span>CRM</span><span class="tag tag-plan">待确认</span></div>
+      <div class="item"><span>APS</span><span class="tag tag-plan">待定</span></div>
+      <div class="item"><span>空调集中控制平台</span><span class="tag tag-future">未来</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>贾德润南</strong> · 共6个系统</div>
+  </div>
+
+  <!-- 2. 网络基础设施 -->
+  <div class="module-card border-teal">
+    <div class="card-head head-teal"><span class="icon">🌐</span><span class="name">网络基础设施</span></div>
+    <div class="card-body">
+      <div class="item"><span>网络架构 / 拓扑图</span></div>
+      <div class="item"><span>交换机 / 路由器</span></div>
+      <div class="item"><span>VPN / 远程访问</span></div>
+      <div class="item"><span>无线网络（WiFi）</span></div>
+      <div class="item"><span>互联网接入 / 带宽</span></div>
+      <div class="item"><span>专线 / VPN组网</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>IT团队</strong> · 共6类网络设备</div>
+  </div>
+
+  <!-- 3. IT资产管理 -->
+  <div class="module-card border-coral">
+    <div class="card-head head-coral"><span class="icon">🖥️</span><span class="name">IT资产管理</span></div>
+    <div class="card-body">
+      <div class="item"><span>硬件资产台账</span><span class="tag tag-plan">待建</span></div>
+      <div class="item"><span>软件许可管理</span><span class="tag tag-plan">待建</span></div>
+      <div class="item"><span>资产采购 / 入库 / 领用</span><span class="tag tag-plan">待建</span></div>
+      <div class="item"><span>资产报废 / 处置</span><span class="tag tag-plan">待建</span></div>
+      <div class="item"><span>定期盘点</span><span class="tag tag-plan">待建</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>IT团队</strong> · 5项流程待建立</div>
+  </div>
+
+  <!-- 4. 协同办公平台 -->
+  <div class="module-card border-pink">
+    <div class="card-head head-pink"><span class="icon">📱</span><span class="name">协同办公平台</span></div>
+    <div class="card-body">
+      <div class="item"><span>钉钉（审批 / 通讯录 / 消息）</span></div>
+      <div class="item"><span>企业邮箱管理</span></div>
+      <div class="item"><span>共享网盘 / 文件服务器</span></div>
+      <div class="item"><span>加密系统</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>IT团队</strong> · 共4项</div>
+  </div>
+
+  <!-- 5. 制度与安全 -->
+  <div class="module-card border-amber">
+    <div class="card-head head-amber"><span class="icon">🔒</span><span class="name">制度与信息安全</span></div>
+    <div class="card-body">
+      <div class="item"><span>IT管理制度 / 规范</span><span class="tag tag-plan">待制定</span></div>
+      <div class="item"><span>操作SOP / 管理办法</span><span class="tag tag-plan">待制定</span></div>
+      <div class="item"><span>信息安全策略</span><span class="tag tag-plan">待制定</span></div>
+      <div class="item"><span>数据备份与灾备</span><span class="tag tag-plan">待制定</span></div>
+      <div class="item"><span>账号权限管理</span><span class="tag tag-plan">待制定</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>IT团队</strong> · 5项制度待建</div>
+  </div>
+
+  <!-- 6. 机房与基础设施 -->
+  <div class="module-card border-cyan">
+    <div class="card-head head-cyan"><span class="icon">🏠</span><span class="name">机房与基础设施</span></div>
+    <div class="card-body">
+      <div class="item"><span>服务器 / 存储设备</span><span class="tag tag-plan">台账待建</span></div>
+      <div class="item"><span>机房环境监控</span></div>
+      <div class="item"><span>UPS不间断电源</span></div>
+      <div class="item"><span>精密空调 / 温控</span></div>
+      <div class="item"><span>消防 / 动环</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>IT团队</strong> · 共5类</div>
+  </div>
+
+  <!-- 7. 终端与运维 -->
+  <div class="module-card border-green">
+    <div class="card-head head-green"><span class="icon">🛠️</span><span class="name">终端与运维</span></div>
+    <div class="card-body">
+      <div class="item"><span>PC / 笔记本 / 打印机</span></div>
+      <div class="item"><span>Helpdesk 工单</span><span class="tag tag-plan">待建</span></div>
+      <div class="item"><span>远程支持</span></div>
+      <div class="item"><span>软件安装 / 系统重装</span></div>
+      <div class="item"><span>员工入 / 离职IT流程</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>IT团队</strong> · 每日运维</div>
+  </div>
+
+  <!-- 8. 项目与供应商管理 -->
+  <div class="module-card border-gray">
+    <div class="card-head head-gray"><span class="icon">📋</span><span class="name">项目与供应商管理</span></div>
+    <div class="card-body">
+      <div class="item"><span>新厂搬迁IT项目</span><span class="tag tag-ing">进行中</span></div>
+      <div class="item"><span>ERP / PLM 系统实施</span><span class="tag tag-ing">进行中</span></div>
+      <div class="item"><span>IT供应商管理</span></div>
+      <div class="item"><span>采购询价比价</span></div>
+      <div class="item"><span>合同 / 验收管理</span></div>
+    </div>
+    <div class="card-foot">负责人：<strong>贾德润南</strong> · 2个项目进行中</div>
+  </div>
+
+</div>
+
+<!-- Detail: What to do next -->
+<div class="section-title">📌 钉钉智能表格搭建计划</div>
+<div class="detail-grid">
+  <div class="detail-card">
+    <h4 style="color:var(--y-d)">第一阶段 · 摸底（4张台账表）</h4>
+    <ul>
+      <li><strong>信息系统台账</strong>：系统名 / 供应商 / 版本 / 状态 / 负责人 / 合同到期 / 费用</li>
+      <li><strong>IT资产台账</strong>：分类 / 品牌型号 / SN码 / 购入日 / 价格 / 使用人 / 位置 / 状态</li>
+      <li><strong>机房设备台账</strong>：设备类型 / 品牌型号 / IP地址 / 维保周期 / 备注</li>
+      <li><strong>网络设备台账</strong>：类型 / 品牌 / 端口数 / IP网段 / 位置 / 上联设备</li>
+    </ul>
+  </div>
+  <div class="detail-card">
+    <h4 style="color:var(--b-d)">第二阶段 · 建流程（2张流程表）</h4>
+    <ul>
+      <li><strong>资产采购流程表</strong>：申请日期 / 申请人 / 资产名称 / 数量 / 预算 / 供应商 / 审批状态</li>
+      <li><strong>资产变动流程表</strong>：变动类型（领用/归还/调拨/报废）/ 资产SN / 经手人 / 日期 / 备注</li>
+    </ul>
+    <div style="margin-top:8px;font-size:10px;color:var(--s-400)">可与钉钉审批流打通</div>
+  </div>
+  <div class="detail-card">
+    <h4 style="color:var(--g-d)">第三阶段 · 常态化（2张管理表）</h4>
+    <ul>
+      <li><strong>IT制度文件清单</strong>：制度名称 / 分类 / 版本 / 发布日 / 负责人 / 文件链接 / 状态</li>
+      <li><strong>IT运维工单表</strong>：报修人 / 问题描述 / 分类 / 紧急程度 / 处理人 / 状态 / 结果</li>
+    </ul>
+  </div>
+  <div class="detail-card">
+    <h4 style="color:var(--p-d)">🔍 摸底行动指南</h4>
+    <ul>
+      <li><strong>信息系统</strong>：你清楚ERP/PLM/EHR → 直接填；CRM → 问销售部</li>
+      <li><strong>IT资产</strong>：和同事逐台抄SN码，品牌型号，使用人</li>
+      <li><strong>机房/网络</strong>：直接进机房看，拍照片挂钉钉文档</li>
+      <li><strong>制度文件</strong>：翻钉钉文档/共享文件夹，没有就先列待制定清单</li>
+      <li><strong>系统费用</strong>：问财务李曼</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
+</div>
+
+</div>
+</body>
+</html>
