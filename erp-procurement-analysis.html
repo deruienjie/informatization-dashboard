@@ -89,6 +89,25 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 @media(max-width:768px){
   .header{padding:18px 20px}.header h1{font-size:18px}
 }
+
+/* ── Dropdown Menu ── */
+.nav-item{position:relative;display:inline-block}
+.nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
+.nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:4px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.nav-item:hover .dropdown{display:block}
+.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
+.nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
+.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
+.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
+.nav-item .dropdown .sub a:hover{color:#34d399}
+.nav-item .dropdown .divider{height:1px;background:#334155;margin:4px 6px}
+/* ── Breadcrumb ── */
+.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
+.breadcrumb a{color:#60a5fa;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
+.breadcrumb .sep{color:var(--s-400)}
+.breadcrumb .current{color:var(--s-200);font-weight:500}
 </style>
 </head>
 <body>
@@ -100,10 +119,35 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     <div class="sub">为什么同一个物料会被分拆成N张采购订单？· 根源分析 · 教你看懂这个业务问题</div>
   </div>
   <nav class="header-nav">
-    <a href="erp-procurement.html">← 返回采购管理</a>
-    <a href="erp-procurement-solution.html">📋 看方案</a>
-    <a href="erp-center.html">📦 ERP中心</a>
-      <a href="it-panorama.html">💻 IT全景</a>
+    <a href="index.html">🏠 首页</a>
+    <div class="nav-item">
+    <a href="erp-center.html">📦 ERP</a>
+    <div class="dropdown">
+      <a href="erp-procurement.html">📥 采购管理</a>
+      <a href="erp-finance.html">💰 财务业务场景</a>
+      <div class="sub">
+        <a href="erp-finance.html">工单结案与在制材料</a>
+        <a href="erp-finance.html">汇率与应付单处理</a>
+      </div>
+    </div>
+  </div>
+    <a href="plm-center.html">🔧 PLM</a>
+    <div class="nav-item">
+    <a href="ehr-center.html">👥 EHR</a>
+    <div class="dropdown">
+      <a href="hr-system-process.html">流程排查</a>
+      <a href="hr-system-policy.html">制度政策</a>
+      <a href="hr-requirement-template.html">需求模板</a>
+    </div>
+  </div>
+    <div class="nav-item">
+    <a href="management-reform.html">⚙️ 变革</a>
+    <div class="dropdown">
+      <a href="reform-material.html">📦 物料管理转型</a>
+    </div>
+  </div>
+    <a href="it-panorama.html">💻 IT全景</a>
+      <a href="site-map.html" style="margin-left:auto;background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3)" title="全站导航">🗺️</a>
   </nav>
 </header>
 
@@ -237,6 +281,10 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
       <td>~30 天/年</td>
     </tr>
   </table>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">🏠 首页</a><span class="sep">›</span><a href="erp-center.html">📦 ERP</a><span class="sep">›</span><a href="erp-procurement.html">📥 采购管理</a><span class="sep">›</span><span class="current">采购分析</span>
 </div>
 
 <div class="section-nav" style="justify-content:end">

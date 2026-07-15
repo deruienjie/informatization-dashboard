@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全站地图 · 橙子自动化</title>
+<style>
+:root{--g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;--y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;--b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;--r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;--p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;--c:#0ea5e9;--c-bg:#e0f2fe;--c-d:#0369a1;--s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:20px 24px}
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a,.header-nav .nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap}
+.header-nav a:hover,.header-nav .nav-item>a:hover{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
+.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
+.breadcrumb a{color:#60a5fa;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
+.breadcrumb .sep{color:var(--s-400)}
+.breadcrumb .current{color:var(--s-200);font-weight:500}
+
+.nav-item{position:relative;display:inline-block}
+.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:4px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.nav-item:hover .dropdown{display:block}
+.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px}
+.nav-item .dropdown a:hover{background:rgba(139,92,246,.15);color:#a78bfa}
+.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
+.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
+.nav-item .dropdown .sub a:hover{color:#a78bfa}
+
+.section-title{font-size:15px;font-weight:600;color:var(--s-800);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--s-200)}
+.tree-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.tree-col{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200)}
+.tree-col h3{font-size:13px;font-weight:600;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--s-100)}
+.tree-item{font-size:11px;line-height:2;color:var(--s-600)}
+.tree-item a{color:var(--b-d);text-decoration:none}
+.tree-item a:hover{text-decoration:underline;color:var(--g-d)}
+.tree-item .indent{padding-left:16px;font-size:10px;color:var(--s-400)}
+.tree-item .indent2{padding-left:32px;font-size:10px;color:var(--s-400)}
+.tree-item .label{display:inline-block;padding:0 6px;border-radius:3px;font-size:9px;margin-left:4px;font-weight:500}
+.label-green{background:var(--g-bg);color:var(--g-d)}
+.label-blue{background:var(--b-bg);color:var(--b-d)}
+.label-amber{background:var(--y-bg);color:var(--y-d)}
+.label-purple{background:var(--p-bg);color:var(--p-d)}
+
+.footer{text-align:center;padding:20px 24px;color:var(--s-400);font-size:11px}
+
+@media (max-width:768px){
+  .container{padding:12px}
+  .header{padding:16px;flex-direction:column;align-items:flex-start}
+  .tree-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="header-left">
+    <h1>🗺️ 全站地图</h1>
+    <p class="sub">橙子自动化 · 信息化展示平台 · 完整页面导航树</p>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <div class="nav-item">
+      <a href="erp-center.html">📦 ERP</a>
+      <div class="dropdown">
+        <a href="erp-procurement.html">📥 采购管理</a>
+        <a href="erp-finance.html">💰 财务业务场景</a>
+        <div class="sub">
+          <a href="erp-finance.html">工单结案与在制材料</a>
+          <a href="erp-finance.html">汇率与应付单处理</a>
+        </div>
+      </div>
+    </div>
+    <a href="plm-center.html">🔧 PLM</a>
+    <div class="nav-item">
+      <a href="ehr-center.html">👥 EHR</a>
+      <div class="dropdown">
+        <a href="hr-system-process.html">流程排查</a>
+        <a href="hr-system-policy.html">制度政策</a>
+        <a href="hr-requirement-template.html">需求模板</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="management-reform.html">⚙️ 变革</a>
+      <div class="dropdown">
+        <a href="reform-material.html">📦 物料管理转型</a>
+      </div>
+    </div>
+    <a href="it-panorama.html">💻 IT全景</a>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">🏠 首页</a><span class="sep">›</span><span class="current">🗺️ 全站地图</span>
+</div>
+
+<div class="section-title">📂 全部页面导航</div>
+
+<div class="tree-grid">
+
+  <div class="tree-col">
+    <h3 style="color:var(--g-d)">📦 ERP 项目实施中心</h3>
+    <div class="tree-item">
+      <div>┗ <a href="erp-center.html">ERP总览</a></div>
+      <div class="indent">├ <a href="erp-procurement.html">采购管理</a></div>
+      <div class="indent2">├ <a href="erp-procurement-detail.html">采购详情</a></div>
+      <div class="indent2">├ <a href="erp-procurement-analysis.html">采购分析</a></div>
+      <div class="indent2">├ <a href="erp-procurement-solution.html">采购方案</a></div>
+      <div class="indent2">└ <a href="erp-procurement-warehouse.html">仓库管理</a></div>
+      <div class="indent">└ <a href="erp-finance.html">💰 财务业务场景</a></div>
+      <div class="indent2">├ 工单结案与在制材料 <span class="label label-green">已整理</span></div>
+      <div class="indent2">└ 汇率与应付单处理 <span class="label label-green">已整理</span></div>
+    </div>
+  </div>
+
+  <div class="tree-col">
+    <h3 style="color:var(--p-d)">👥 EHR 系统中心</h3>
+    <div class="tree-item">
+      <div>┗ <a href="ehr-center.html">EHR总览</a></div>
+      <div class="indent">├ <a href="hr-system-process.html">流程排查</a></div>
+      <div class="indent">├ <a href="hr-system-policy.html">制度政策</a></div>
+      <div class="indent">└ <a href="hr-requirement-template.html">需求模板</a></div>
+    </div>
+
+    <h3 style="color:var(--y-d);margin-top:16px">🔧 PLM 项目实施中心</h3>
+    <div class="tree-item">
+      <div>┗ <a href="plm-center.html">PLM总览</a></div>
+    </div>
+  </div>
+
+  <div class="tree-col">
+    <h3 style="color:var(--p-d)">⚙️ 管理变革中心</h3>
+    <div class="tree-item">
+      <div>┗ <a href="management-reform.html">变革总览</a></div>
+      <div class="indent">└ <a href="reform-material.html">📦 物料管理转型</a></div>
+    </div>
+
+    <h3 style="color:var(--g-d);margin-top:16px">💻 IT 部门全景</h3>
+    <div class="tree-item">
+      <div>┗ <a href="it-panorama.html">IT全景</a></div>
+    </div>
+  </div>
+
+  <div class="tree-col">
+    <h3 style="color:var(--b-d)">🏠 其他页面</h3>
+    <div class="tree-item">
+      <div>├ <a href="index.html">首页</a></div>
+      <div>├ <a href="company-informatization.html">企业信息化全景</a></div>
+      <div>├ <a href="company-intro.html">公司背景与产品</a></div>
+      <div>└ <span style="color:var(--s-800)">🗺️ 全站地图</span> <span class="label label-amber">当前</span></div>
+    </div>
+
+    <div style="margin-top:12px;padding:10px;background:#f1f5f9;border-radius:8px;font-size:10px;color:var(--s-400)">
+      📌 共 <strong style="color:var(--s-600)">18</strong> 个页面 · 点击页名即可跳转
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
+</div>
+
+</div>
+</body>
+</html>
