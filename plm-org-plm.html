@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>部门 × PLM 关联分析 · 橙子自动化 PLM</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --or:#f97316;--or-bg:#fff3e0;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1440px;margin:0 auto;padding:16px 20px}
+
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:20px 28px;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:20px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:3px}
+.header-nav{display:flex;gap:6px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:11px;padding:5px 12px;border-radius:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:.2s;white-space:nowrap}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
+
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.stat-card{background:#fff;border-radius:10px;padding:12px 16px;border:1px solid var(--s-200);text-align:center}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.stat-value{font-size:22px;font-weight:700}
+.stat-label{font-size:9px;color:var(--s-400);margin-top:2px}
+
+.dept-grid{display:grid;gap:12px}
+.dept-card{background:#fff;border-radius:14px;border:1px solid var(--s-200);overflow:hidden;transition:.25s}
+.dept-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.dept-header{padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--s-100)}
+.dept-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.dept-name{font-size:17px;font-weight:700;color:var(--s-800)}
+.dept-count{font-size:12px;color:var(--s-400)}
+.dept-body{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dept-section h4{font-size:12px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.dept-section p{font-size:11px;color:var(--s-600);line-height:1.7}
+.dept-tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600;margin-right:4px}
+.dept-roles{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.dept-role{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600}
+
+.quote-card{background:linear-gradient(135deg,var(--p-bg),#faf5ff);border:1px solid var(--p);border-radius:12px;padding:16px 20px;margin-top:14px}
+.quote-card h3{font-size:14px;font-weight:700;color:var(--p-d);margin-bottom:12px}
+.quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.quote-item{background:#fff;border-radius:8px;padding:12px;text-align:center;font-size:11px;line-height:1.5;color:var(--s-600)}
+.quote-item strong{display:block;color:var(--s-800);margin-bottom:4px}
+
+.flow-viz{background:#fff;border-radius:14px;border:1px solid var(--s-200);padding:24px;margin-top:14px;text-align:center}
+.flow-viz h3{font-size:14px;margin-bottom:16px;color:var(--s-800)}
+.flow-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:8px 0}
+.flow-node{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700}
+.flow-arrow{font-size:20px;color:var(--s-400);font-weight:700}
+.flow-pre{background:var(--b-bg);border:2px solid var(--b);color:var(--b-d)}
+.flow-pm{background:var(--or-bg);border:2px solid var(--or);color:#c2410c}
+.flow-sw{background:var(--g-bg);border:2px solid var(--g);color:var(--g-d)}
+.flow-test{background:var(--r-bg);border:2px solid var(--r);color:var(--r-d)}
+.flow-label{font-size:9px;color:var(--s-400);margin-top:8px;text-align:center}
+
+.breadcrumb{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--s-400);padding:12px 0;border-top:1px solid var(--s-200);margin-top:16px}
+.breadcrumb a{color:var(--b);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="header-left">
+    <h1>👥 部门 × PLM 关联分析</h1>
+    <div class="sub">来源：产品部门分析 · 了解业务部门是成功实施 PLM 的第一步</div>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="plm-center.html">📋 PLM中心</a>
+    <a href="plm-business-flow.html">📊 业务流程</a>
+    <a href="plm-requirements.html">📝 需求清单</a>
+    <a href="plm-org-plm.html" class="active">👥 部门关联</a>
+    <a href="plm-product-matrix.html">🏗️ 产品矩阵</a>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-value" style="color:var(--p)">5</div><div class="stat-label">研发部门</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--b)">43</div><div class="stat-label">总人数</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--g)">✓</div><div class="stat-label">PLM 关联已分析</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--or)">✓</div><div class="stat-label">沟通切入点已梳理</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--r)">4</div><div class="stat-label">核心协同流</div></div>
+</div>
+
+<!-- 协作流视觉 -->
+<div class="flow-viz">
+  <h3>🔗 典型新产品开发协作流</h3>
+  <div class="flow-row">
+    <div class="flow-node flow-pre">🧪 预研研发部<br><small>新技术探索</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-pm">📐 飞针/ICT 产品部<br><small>产品化设计</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-sw">💻 软件研发部<br><small>配套软件开发</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-test">🔬 测试研发部<br><small>全面验证</small></div>
+  </div>
+  <div class="flow-label">
+    PLM 需以统一的产品型号/项目串联这 5 个部门的数据——"机械图纸 + BOM + 软件包 + 测试报告"
+  </div>
+</div>
+
+<!-- 部门卡片 -->
+<div class="dept-grid" style="margin-top:14px">
+
+<!-- 软件研发部 -->
+<div class="dept-card">
+  <div class="dept-header">
+    <div class="dept-icon" style="background:var(--b-bg)">💻</div>
+    <div><div class="dept-name">软件研发部 <span class="dept-count">(12人)</span></div></div>
+  </div>
+  <div class="dept-body">
+    <div class="dept-section">
+      <h4>📌 核心职能</h4>
+      <p>开发设备中运行的<b>控制软件、人机界面、算法</b>——这是设备的"大脑"。</p>
+      <h4 style="margin-top:10px">🔑 PLM 关键需求</h4>
+      <p>① 管理软件版本——代码/安装包/配置文件<b>需与硬件版本严格绑定</b><br>② 需求与Bug管理——需与硬件变更联动<br>③ 集成——可能需与 Git 等开发工具打通</p>
+    </div>
+    <div class="dept-section">
+      <h4>💬 沟通切入点</h4>
+      <p style="color:var(--b-d);font-style:italic;background:var(--b-bg);padding:8px 12px;border-radius:8px">
+      "我们如何确保发给客户的设备，其软件版本与硬件图纸 100% 对应，避免出现软件装不上的问题？"</p>
+      <div class="dept-roles" style="margin-top:10px">
+        <span class="dept-role" style="background:var(--b-bg);color:var(--b)">文档管理</span>
+        <span class="dept-role" style="background:var(--g-bg);color:var(--g)">物料管理</span>
+        <span class="dept-role" style="background:var(--p-bg);color:var(--p)">项目管理</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 预研研发部 -->
+<div class="dept-card">
+  <div class="dept-header">
+    <div class="dept-icon" style="background:var(--p-bg)">🧪</div>
+    <div><div class="dept-name">预研研发部 <span class="dept-count">(5人)</span></div></div>
+  </div>
+  <div class="dept-body">
+    <div class="dept-section">
+      <h4>📌 核心职能</h4>
+      <p>负责<b>前沿技术探索、原型验证、新模块开发</b>——着眼于未来。</p>
+      <h4 style="margin-top:10px">🔑 PLM 关键需求</h4>
+      <p>① 项目管理——管理预研项目的<b>过程文档和技术成果</b><br>② 知识库——将预研成果转化为可复用的模块或知识条目<br>③ 权限控制——预研初期数据可能需要保密</p>
+    </div>
+    <div class="dept-section">
+      <h4>💬 沟通切入点</h4>
+      <p style="color:var(p-d);font-style:italic;background:var(--p-bg);padding:8px 12px;border-radius:8px">
+      "预研的技术成果，如何能顺畅地传递给产品部门，变成实际的产品模块，避免重复发明轮子？"</p>
+      <div class="dept-roles" style="margin-top:10px">
+        <span class="dept-role" style="background:var(--p-bg);color:var(--p)">项目管理</span>
+        <span class="dept-role" style="background:var(--y-bg);color:var(--y-d)">PDM扩展</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 飞针产品部 -->
+<div class="dept-card">
+  <div class="dept-header">
+    <div class="dept-icon" style="background:var(--g-bg)">🎯</div>
+    <div><div class="dept-name">飞针产品部 <span class="dept-count">(10人)</span></div></div>
+  </div>
+  <div class="dept-body">
+    <div class="dept-section">
+      <h4>📌 核心职能</h4>
+      <p>飞针测试设备的<b>产品化研发</b>——将技术转化为稳定、可批量交付的产品线。</p>
+      <h4 style="margin-top:10px">🔑 PLM 关键需求</h4>
+      <p>① <b>BOM管理核心</b>——负责该产品线所有机型 BOM 的搭建与维护<br>② 变更管理——是工程变更流程的<b>主要发起者</b><br>③ 资料发布——输出全套生产、调试文档</p>
+    </div>
+    <div class="dept-section">
+      <h4>💬 沟通切入点</h4>
+      <p style="color:var(g-d);font-style:italic;background:var(--g-bg);padding:8px 12px;border-radius:8px">
+      "飞针设备有多个型号，PLM 如何帮我们管好不同型号的 BOM 和图纸，确保生产和售后拿到的是对的版本？"</p>
+      <div class="dept-roles" style="margin-top:10px">
+        <span class="dept-role" style="background:var(--g-bg);color:var(--g)">BOM管理</span>
+        <span class="dept-role" style="background:var(--r-bg);color:var(--r)">变更管理</span>
+        <span class="dept-role" style="background:var(--b-bg);color:var(--b)">文档管理</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ICT产品部 -->
+<div class="dept-card">
+  <div class="dept-header">
+    <div class="dept-icon" style="background:var(--or-bg)">🔬</div>
+    <div><div class="dept-name">ICT产品部 <span class="dept-count">(2人)</span></div></div>
+  </div>
+  <div class="dept-body">
+    <div class="dept-section">
+      <h4>📌 核心职能</h4>
+      <p>在线测试设备(ICT)的<b>产品化研发</b>——另一条独立但管理逻辑相似的产品线。</p>
+      <h4 style="margin-top:10px">🔑 PLM 关键需求</h4>
+      <p>与飞针产品部相似——BOM管理、变更管理、资料发布。<br>可与飞针共用模块，为<b>"标准化"和"模块化"</b>打基础。</p>
+    </div>
+    <div class="dept-section">
+      <h4>💬 沟通切入点</h4>
+      <p style="color:#c2410c;font-style:italic;background:var(--or-bg);padding:8px 12px;border-radius:8px">
+      "与飞针产品线是否有共用模块？PLM 能否帮助我们提取可复用的通用件，降低两个产品线的维护成本？"</p>
+      <div class="dept-roles" style="margin-top:10px">
+        <span class="dept-role" style="background:var(--g-bg);color:var(--g)">BOM管理</span>
+        <span class="dept-role" style="background:var(--p-bg);color:var(--p)">产品管理</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 测试研发部 -->
+<div class="dept-card">
+  <div class="dept-header">
+    <div class="dept-icon" style="background:var(--r-bg)">🧾</div>
+    <div><div class="dept-name">测试研发部 <span class="dept-count">(14人)</span></div></div>
+  </div>
+  <div class="dept-body">
+    <div class="dept-section">
+      <h4>📌 核心职能</h4>
+      <p>负责为全班产品开发<b>测试程序、搭建测试平台、制定测试标准</b>——确保设备出厂质量。</p>
+      <h4 style="margin-top:10px">🔑 PLM 关键需求</h4>
+      <p>① 测试数据管理——测试用例、测试报告需与<b>具体产品版本关联</b><br>② 问题追踪——发现的缺陷需<b>反馈给设计部门形成闭环</b><br>③ 权限——报告需被查阅但不能被修改</p>
+    </div>
+    <div class="dept-section">
+      <h4>💬 沟通切入点</h4>
+      <p style="color:var(r-d);font-style:italic;background:var(--r-bg);padding:8px 12px;border-radius:8px">
+      "测试出的问题，如何能快速、准确地通知到设计工程师，并且确保他们修改的是正确的版本，然后回来复测？"</p>
+      <div class="dept-roles" style="margin-top:10px">
+        <span class="dept-role" style="background:var(--r-bg);color:var(--r)">PDM扩展</span>
+        <span class="dept-role" style="background:var(--b-bg);color:var(--b)">文档管理</span>
+        <span class="dept-role" style="background:var(--y-bg);color:var(--y-d)">变更管理</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- 实施启示 -->
+<div class="quote-card">
+  <h3>🚀 PLM 实施关键启示</h3>
+  <div class="quote-grid">
+    <div class="quote-item">
+      <strong>🤝 协同平台</strong>
+      PLM 必须设计流程，让 5 个部门的数据围绕统一产品型号/项目关联，打破部门墙。
+    </div>
+    <div class="quote-item">
+      <strong>⚙️ 配置管理</strong>
+      自动化设备出货状态 = 硬件BOM + 软件版本 + 测试程序版本。PLM 必须记录这个完整的"配置快照"。
+    </div>
+    <div class="quote-item">
+      <strong>🔒 权限规划</strong>
+      预研部初期需保密 → 产品部BOM是关键资产 → 测试部报告可查不可改。三层权限体系必须在 PLM 中精细设计。
+    </div>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">首页</a><span>›</span>
+  <a href="plm-center.html">PLM中心</a><span>›</span>
+  <span>部门关联</span>
+</div>
+</div>
+</body>
+</html>

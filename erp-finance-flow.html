@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>财务业务流程图解 · ERP · 橙子自动化</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --or:#f97316;--or-bg:#fff3e0;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:16px 20px}
+
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#065f46);border-radius:16px;padding:20px 28px;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:20px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:3px}
+.header-nav{display:flex;gap:6px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:11px;padding:5px 12px;border-radius:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:.2s;white-space:nowrap}
+.header-nav a:hover,.header-nav a.active{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+
+/* Scenario Card */
+.scenario{border-radius:16px;overflow:hidden;margin-bottom:20px;border:1px solid var(--s-200);background:#fff}
+.scenario-header{padding:18px 24px;display:flex;align-items:center;gap:14px}
+.scenario-header .num{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0}
+.scenario-header .title{font-size:16px;font-weight:700;color:var(--s-800)}
+.scenario-header .tag{font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600;margin-left:auto}
+.s1{background:var(--b-bg);color:var(--b-d)}.s1 .num{background:var(--b)}
+.s2{background:var(--g-bg);color:var(--g-d)}.s2 .num{background:var(--g)}
+.s3{background:var(--or-bg);color:#c2410c}.s3 .num{background:var(--or)}
+.s4{background:var(--p-bg);color:var(--p-d)}.s4 .num{background:var(--p)}
+
+.scenario-body{padding:16px 24px 20px}
+
+/* Story Box */
+.story-box{background:var(--s-50);border-radius:10px;padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.8;border-left:4px solid var(--b)}
+.story-box .who{font-size:10px;color:var(--s-400);margin-bottom:4px}
+.story-box .highlight{background:var(--y-bg);padding:2px 6px;border-radius:4px;font-weight:600;color:var(--y-d)}
+
+/* Timeline */
+.tl{display:flex;gap:4px;overflow-x:auto;padding:8px 0;margin-bottom:16px}
+.tl-step{flex:0 0 auto;min-width:130px;text-align:center;padding:12px 10px;border-radius:10px;border:1px solid var(--s-200);background:#fff;transition:.2s}
+.tl-step .ts-date{font-size:9px;color:var(--s-400);margin-bottom:4px}
+.tl-step .ts-action{font-size:11px;font-weight:700;color:var(--s-700);margin-bottom:3px}
+.tl-step .ts-account{font-size:9px;color:var(--s-400);line-height:1.4}
+.tl-arrow{flex:0 0 auto;display:flex;align-items:center;padding:0 2px;font-size:16px;color:var(--s-400);font-weight:700}
+
+/* Journal Entry */
+.je{background:#1e293b;color:#e2e8f0;border-radius:10px;padding:16px 18px;font-family:"SF Mono","Menlo","Consolas",monospace;font-size:12px;line-height:2;margin-bottom:14px;overflow-x:auto}
+.je .dr{color:#34d399}.je .cr{color:#f87171}
+.je .note{color:#64748b;font-size:10px;margin-left:12px}
+
+/* Tips */
+.tip-box{padding:12px 16px;border-radius:10px;font-size:11px;line-height:1.6;margin-top:10px}
+.tip-box.warn{background:var(--y-bg);border:1px solid var(--y);color:var(--y-d)}
+.tip-box.info{background:var(--b-bg);border:1px solid var(--b);color:var(--b-d)}
+.tip-box.good{background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)}
+
+/* Two col */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+
+/* Card mini */
+.mini-card{background:var(--s-50);border-radius:10px;padding:14px 16px;border:1px solid var(--s-200)}
+.mini-card h4{font-size:12px;font-weight:700;margin-bottom:6px;color:var(--s-800)}
+.mini-card p{font-size:11px;color:var(--s-600);line-height:1.7}
+.mini-card ul{font-size:11px;color:var(--s-600);padding-left:16px;line-height:1.8}
+
+/* Comparison */
+.compare-table{width:100%;font-size:11px;border-collapse:collapse;margin-top:8px}
+.compare-table th{background:var(--s-100);padding:8px 10px;text-align:left;font-weight:600;color:var(--s-600);font-size:10px}
+.compare-table td{padding:8px 10px;border-bottom:1px solid var(--s-100)}
+.compare-table tr:nth-child(even) td{background:var(--s-50)}
+
+.breadcrumb{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--s-400);padding:12px 0;border-top:1px solid var(--s-200);margin-top:16px}
+.breadcrumb a{color:var(--b);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="header-left">
+    <h1>💰 财务业务流程图解</h1>
+    <div class="sub">用橙子自动化真实业务场景讲解金蝶星空财务处理</div>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="erp-center.html">📦 ERP</a>
+    <a href="erp-finance.html">📖 财务场景</a>
+    <a href="erp-finance-flow.html" class="active">💡 流程图解</a>
+  </div>
+</div>
+
+<!-- ═══════════ SCENARIO 1 ═══════════ -->
+<div class="scenario s1">
+<div class="scenario-header">
+  <div class="num">1</div>
+  <div class="title">正常采购到付款 — 全过程</div>
+  <div class="tag" style="background:var(--b-bg);color:var(--b-d)">最常用的流程</div>
+</div>
+<div class="scenario-body">
+
+<div class="story-box">
+  <div class="who">📅 2026年5月 · 橙子贵州公司</div>
+  采购部买了 <span class="highlight">70个探针模块</span>，单价100元/个。
+  仓库5月10日入库，金蝶自动记账。月底供应商开来 <span class="highlight">70个全量发票</span>，金额吻合。
+  付款，月结对账，<span style="color:var(--g);font-weight:700">平了 ✓</span>。
+</div>
+
+<div class="tl">
+  <div class="tl-step"><div class="ts-date">5月10日</div><div class="ts-action">📥 采购入库</div><div class="ts-account">借：原材料<br>贷：应付暂估</div></div>
+  <div class="tl-arrow">→</div>
+  <div class="tl-step"><div class="ts-date">5月25日</div><div class="ts-action">📄 收到发票</div><div class="ts-account">借：应付暂估<br>借：进项税<br>贷：应付账款</div></div>
+  <div class="tl-arrow">→</div>
+  <div class="tl-step"><div class="ts-date">5月31日</div><div class="ts-action">📊 月结核算</div><div class="ts-account">应付暂估=0 ✓<br>应付账款=发票金额 ✓</div></div>
+  <div class="tl-arrow">→</div>
+  <div class="tl-step"><div class="ts-date">6月</div><div class="ts-action">💳 付款</div><div class="ts-account">借：应付账款<br>贷：银行存款</div></div>
+</div>
+
+<div class="je">
+<span style="color:#94a3b8;font-size:10px">// 5月10日 入库时自动生成</span><br>
+<span class="dr">借：原材料</span>&emsp;&emsp;&emsp;&emsp;&ensp;7,000.00<span class="note">→ 存货增加</span><br>
+<span class="cr">&emsp;&emsp;贷：应付暂估</span>&emsp;&emsp;7,000.00<span class="note">→ 临时欠供应商的（还没到票）</span><br><br>
+<span style="color:#94a3b8;font-size:10px">// 5月25日 收到发票后</span><br>
+<span class="dr">借：应付暂估</span>&emsp;&emsp;&emsp;&emsp;7,000.00<span class="note">→ 冲掉暂估</span><br>
+<span class="dr">借：应交税费-进项税</span>&ensp;910.00<span class="note">→ 可抵扣的增值税</span><br>
+<span class="cr">&emsp;&emsp;贷：应付账款</span>&emsp;&emsp;7,910.00<span class="note">→ 正式应付</span>
+</div>
+
+<div class="tip-box good">✅ <b>一切顺利的条件：</b>入库金额 = 发票金额 = 应付金额。三者一致，系统自动对平。</div>
+
+</div></div>
+
+<!-- ═══════════ SCENARIO 2 ═══════════ -->
+<div class="scenario s2">
+<div class="scenario-header">
+  <div class="num">2</div>
+  <div class="title">部分开票 + 金额差 0.1 元</div>
+  <div class="tag" style="background:var(--g-bg);color:var(--g-d)">今天刚解决的</div>
+</div>
+<div class="scenario-body">
+
+<div class="story-box">
+  <div class="who">📅 2026年5月 · 橙子贵州公司（真实发生）</div>
+  采购部买了 <span class="highlight">70个探针模块</span>，5月入库。<br>
+  <span style="color:var(--r);font-weight:700">⚠️ 供应商只开了其中26个的发票！</span>（剩下44个还没开）<br>
+  更麻烦的是：发票金额是对的，但金蝶自动生成的<b>应付单比发票多了 0.1 元</b>。<br>
+  系统自动生成了一条 -0.1 元的差额调整应付单 → <b>但没有生成成本调整单</b> → 账不平！
+</div>
+
+<div class="two-col">
+  <div class="mini-card" style="border-left:4px solid var(--r)">
+    <h4>🔴 问题出在哪？</h4>
+    <p>发票（正确）≠ 应付单（多了0.1元）<br>
+    系统生成了 -0.1 的调整单<br>
+    但<span style="color:var(--r);font-weight:700">没有自动生成成本调整单</span></p>
+  </div>
+  <div class="mini-card" style="border-left:4px solid var(--b)">
+    <h4>🔵 为什么没生成？</h4>
+    <p><b>5月入库 + 5月发票 = 同期间</b><br>
+    金蝶规则：同期间不自动生成成本调整单<br>
+    成本直接以发票单价为准核算<br>
+    <span style="color:var(--b);font-weight:700">跨期间（如5月入库/6月发票）才会自动生成</span></p>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="mini-card">
+    <h4>📊 各账户状态</h4>
+    <p>✅ 存货（原材料）：对的<br>
+    ✅ 发票：对的<br>
+    ✅ 入库凭证：对的<br>
+    ❌ <b>应付暂估</b>：-0.1元挂在那<br>
+    ❌ 应付对账：不平</p>
+  </div>
+  <div class="mini-card">
+    <h4>🔧 怎么修的？</h4>
+    <p>1. 手工做一笔凭证：<br>
+    <code style="background:#1e293b;color:#34d399;padding:2px 6px;border-radius:3px">借：主营成本 / 贷：暂估应付（-0.1）</code><br>
+    2. 勾选「不应生成」+ 删除凭证<br>
+    3. 重新审核增值税发票</p>
+  </div>
+</div>
+
+<div class="tip-box warn">⚠️ <b>还能怎么办？</b>他们问了：能不能把应付单金额修改权限放开？<br>
+→ <b>不行。</b>组织间结算的应付单金额 = 应收单金额，强控的。必须先改应收单，应收改完自动反写应付。这是系统安全机制，不是 bug。</div>
+
+</div></div>
+
+<!-- ═══════════ SCENARIO 3 ═══════════ -->
+<div class="scenario s3">
+<div class="scenario-header">
+  <div class="num">3</div>
+  <div class="title">同期间 vs 跨期间 — 什么时候自动生成成本调整单？</div>
+  <div class="tag" style="background:var(--or-bg);color:#c2410c">关键差异</div>
+</div>
+<div class="scenario-body">
+
+<table class="compare-table">
+<tr>
+  <th></th>
+  <th style="background:var(--b-bg);color:var(--b-d)">同期间</th>
+  <th style="background:var(--g-bg);color:var(--g-d)">跨期间</th>
+</tr>
+<tr>
+  <td><b>举例</b></td>
+  <td>5月入库 + 5月发票</td>
+  <td>5月入库 + 6月发票</td>
+</tr>
+<tr>
+  <td><b>成本怎么算</b></td>
+  <td>直接以<b>发票单价</b>作为最终成本</td>
+  <td>5月按入库单价暂估<br>6月发票到了，差额需调整</td>
+</tr>
+<tr>
+  <td><b>自动生成成本调整单？</b></td>
+  <td>❌ <b>不会</b></td>
+  <td>✅ <b>会自动生成</b></td>
+</tr>
+<tr>
+  <td><b>入库时</b></td>
+  <td>借：原材料 10元<br>&emsp;贷：暂估应付 10元</td>
+  <td>借：原材料 10元<br>&emsp;贷：暂估应付 10元</td>
+</tr>
+<tr>
+  <td><b>发票时</b></td>
+  <td>借：暂估应付 9元（发票价）<br>&emsp;贷：应付账款 9元<br><br>成本直接=9元</td>
+  <td>借：暂估应付 9元（发票价）<br>&emsp;贷：应付账款 9元<br><br><span style="color:var(--r);font-weight:700">+ 自动生成成本调整单</span><br>借：存货 1元（负数）<br>&emsp;贷：暂估应付 1元（负数）</td>
+</tr>
+<tr>
+  <td><b>对账结果</b></td>
+  <td>暂估对账不平 ← <b>需手工调整</b></td>
+  <td>自动生成调整单 → 对平</td>
+</tr>
+</table>
+
+<div class="tip-box info" style="margin-top:12px">
+💡 <b>一句话记：</b>同期间系统不自动调成本，要手工补凭证；跨期间系统会自动生成成本调整单。判断标准 = 入库月份 ≠ 发票月份 还是 入库月份 = 发票月份。
+</div>
+
+</div></div>
+
+<!-- ═══════════ SCENARIO 4 ═══════════ -->
+<div class="scenario s4">
+<div class="scenario-header">
+  <div class="num">4</div>
+  <div class="title">工单结案 — 75颗物料用了66颗，剩下的9颗去哪了？</div>
+  <div class="tag" style="background:var(--p-bg);color:var(--p-d)">成本虚高</div>
+</div>
+<div class="scenario-body">
+
+<div class="story-box">
+  <div class="who">📅 之前真实案例</div>
+  生产部领了 <span class="highlight">75颗物料</span> 去做一个工单。<br>
+  实际用掉 <span class="highlight">66颗</span>，9颗没用掉（在生产线上的在制品）。<br>
+  但工单直接<span style="color:var(--r);font-weight:700">手工结案</span>了！<br>
+  <span style="color:var(--r);font-weight:700">系统把没用完的9颗全算成了"损耗" → 成本虚高了！</span>
+</div>
+
+<div class="je">
+<span style="color:#94a3b8;font-size:10px">// 应该怎么做：</span><br>
+<span class="dr">借：生产成本</span>&emsp;&emsp;&emsp;&ensp;66颗 × 单价<span class="note">→ 实际消耗</span><br>
+<span class="cr">&emsp;&emsp;贷：原材料</span>&emsp;&emsp;&emsp;66颗 × 单价<span class="note">→ 从库存减少</span><br>
+&emsp;&emsp;<span style="color:#64748b">剩余9颗 ← 退库或用在下个工单</span><br><br>
+<span style="color:#94a3b8;font-size:10px">// 实际结算时（手工结案的坑）：</span><br>
+<span style="color:var(--r)">系统直接把75颗全部算进生产成本 → 成本虚高了9颗的价格！</span>
+</div>
+
+<div class="tip-box warn">⚠️ <b>教训：</b>工单结案前必须先处理在制品。没用完的物料要么退库、要么转到下个工单。不能直接手工结案——系统会把差额全部当成"损耗"吃掉利润。</div>
+
+</div></div>
+
+<!-- ═══════════ SCENARIO 5 ═══════════ -->
+<div class="scenario s1">
+<div class="scenario-header">
+  <div class="num">5</div>
+  <div class="title">外币对账 — 欧元为什么永远对不平？</div>
+  <div class="tag" style="background:var(--b-bg);color:var(--b-d)">系统设计的坑</div>
+</div>
+<div class="scenario-body">
+
+<div class="story-box">
+  <div class="who">📅 真实问题 · 应付科目200欧元</div>
+  业务系统取的是<b>记账本位币（人民币）</b><br>
+  凭证做的是<b>外币（欧元）</b><br>
+  <span style="color:var(--r);font-weight:700">→ 对账界面永远两条线，期初永远显示有余额</span>
+</div>
+
+<div class="compare-table">
+<tr><th>系统模块</th><th>用的币种</th><th>来源</th></tr>
+<tr><td>业务系统</td><td><b>本位币（人民币）</b></td><td>取数来源：入库勾稽表（只能是本位币）</td></tr>
+<tr><td>总账凭证</td><td><b>欧元</b></td><td>财务手工/自动生成的凭证</td></tr>
+<tr><td>对账界面</td><td><b>按币别分别对</b></td><td>人民币和欧元分开显示，无法合并</td></tr>
+</table>
+
+<div class="two-col" style="margin-top:12px">
+  <div class="mini-card" style="border-left:4px solid var(--r)">
+    <h4>🔴 为什么平不了？</h4>
+    <p>暂估应付科目的余额来源是<b>入库勾稽表</b><br>
+    入库勾稽表只支持<b>记账本位币</b><br>
+    所以：暂估应付永远没有外币余额<br>
+    但对账又是按币别对的 → 无解</p>
+  </div>
+  <div class="mini-card" style="border-left:4px solid var(--b)">
+    <h4>🔵 怎么办？</h4>
+    <p>方案1：接受两条线显示（不影响后续账务）<br>
+    方案2：做一笔总账凭证人工调平<br>
+    <code style="background:#1e293b;color:#e2e8f0;padding:2px 6px;border-radius:3px">借：应付（本位币）/ 贷：应付（本位币）</code><br>
+    但不推荐——调完和直接进本位币没区别</p>
+  </div>
+</div>
+
+</div></div>
+
+<!-- ═══════════ CHEAT SHEET ═══════════ -->
+<div class="scenario" style="border:2px solid var(--y);background:var(--y-bg)">
+<div class="scenario-body">
+  <h3 style="font-size:15px;color:var(--y-d);margin-bottom:12px">📌 速查：系统凭证自动生成规则</h3>
+  <table class="compare-table">
+  <tr><th>业务环节</th><th>借</th><th>贷</th><th>谁生成的</th></tr>
+  <tr><td><b>采购入库</b></td><td>原材料/存货</td><td>应付暂估</td><td>入库单审核时自动</td></tr>
+  <tr><td><b>收到发票</b></td><td>应付暂估 + 进项税</td><td>应付账款</td><td>发票审核时自动</td></tr>
+  <tr><td><b>成本调整(跨期)</b></td><td>存货/主营成本</td><td>暂估应付</td><td>跨期自动生成调整单</td></tr>
+  <tr><td><b>付款</b></td><td>应付账款</td><td>银行存款</td><td>付款单审核时自动</td></tr>
+  <tr><td><b>采购退货</b></td><td>应付暂估</td><td>原材料</td><td>退货单审核时自动</td></tr>
+  </table>
+
+  <div class="tip-box info" style="margin-top:12px">
+  💡 <b>橙子自动化的特殊设置：</b>应付单<b>不生成凭证</b>。暂估在采购入库环节进，应付单只用来推发票。所以如果应付单金额 ≠ 发票金额，对账就会不平——因为没有凭证兜底。
+  </div>
+</div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">首页</a><span>›</span>
+  <a href="erp-center.html">ERP中心</a><span>›</span>
+  <a href="erp-finance.html">财务场景</a><span>›</span>
+  <span>流程图解</span>
+</div>
+</div>
+</body>
+</html>

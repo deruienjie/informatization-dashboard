@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLM需求全景 · 橙子自动化 PLM</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --or:#f97316;--or-bg:#fff3e0;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1440px;margin:0 auto;padding:16px 20px}
+
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:20px 28px;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:20px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:3px}
+.header-nav{display:flex;gap:6px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:11px;padding:5px 12px;border-radius:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:.2s;white-space:nowrap}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.stat-card{background:#fff;border-radius:10px;padding:12px 16px;border:1px solid var(--s-200);text-align:center}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.stat-value{font-size:22px;font-weight:700}
+.stat-label{font-size:9px;color:var(--s-400);margin-top:2px}
+
+.filter-bar{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border-radius:16px;border:1px solid var(--s-200);background:#fff;font-size:11px;cursor:pointer;transition:.2s;font-weight:600;color:var(--s-600)}
+.filter-btn:hover{background:var(--s-100)}
+.filter-btn.active{background:var(--p);color:#fff;border-color:var(--p)}
+
+.req-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:8px}
+.req-card{background:#fff;border-radius:10px;border:1px solid var(--s-200);padding:14px 16px;transition:.2s}
+.req-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.req-num{font-size:10px;color:var(--s-400);font-weight:700}
+.req-title{font-size:13px;font-weight:700;color:var(--s-800);margin:4px 0}
+.req-detail{display:flex;gap:8px;flex-wrap:wrap;font-size:10px;margin-top:6px}
+.req-tag{padding:2px 8px;border-radius:8px;font-weight:600}
+.tag-cat{background:var(--b-bg);color:var(--b)}
+.tag-person{background:var(--g-bg);color:var(--g)}
+.tag-module{background:var(--p-bg);color:var(--p)}
+.tag-solved{background:var(--g-bg);color:var(--g-d)}
+.tag-value{background:var(--y-bg);color:var(--y-d);margin-top:6px;display:block;padding:6px 10px;border-radius:6px;line-height:1.5}
+
+.highlight-box{background:linear-gradient(135deg,var(--p-bg),#faf5ff);border:1px solid var(--p);border-radius:12px;padding:16px 20px;margin-bottom:12px}
+.highlight-box h3{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--p-d)}
+
+.breadcrumb{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--s-400);padding:12px 0;border-top:1px solid var(--s-200);margin-top:16px}
+.breadcrumb a{color:var(--b);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="header-left">
+    <h1>📋 PLM 需求全景</h1>
+    <div class="sub">来源：PLM需求清单-new · 33条真实需求，逐一确认解决方案</div>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="plm-center.html">📋 PLM中心</a>
+    <a href="plm-business-flow.html">📊 业务流程</a>
+    <a href="plm-requirements.html" class="active">📝 需求清单</a>
+    <a href="plm-org-plm.html">👥 部门关联</a>
+    <a href="plm-product-matrix.html">🏗️ 产品矩阵</a>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-value" style="color:var(--p)">33</div><div class="stat-label">需求总量</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--g)">27</div><div class="stat-label">金蝶可解决</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--b)">8</div><div class="stat-label">涉及人员</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--y)">5</div><div class="stat-label">核心模块覆盖</div></div>
+</div>
+
+<div class="highlight-box">
+  <h3>💡 高价值需求案例</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;line-height:1.6">
+    <div>
+      <div style="font-weight:700;color:var(--r);margin-bottom:4px">🔥 闭环式 ECN 与 ERP 库存联动</div>
+      <div style="color:var(--s-600)">工程师修改零件时，系统自动调取金蝶 ERP 即时库存弹窗提示：<br>"该零件在 ERP 中尚有 50 件库存，总价值 5000 元"<br>强制工程师决定旧料处理方式，直接减少呆滞料损失</div>
+    </div>
+    <div>
+      <div style="font-weight:700;color:var(--b);margin-bottom:4px">🔍 零部件"查重"与标准化库</div>
+      <div style="color:var(--s-600)">申请新料号时强制执行相似度检索：<br>"库房中已有 3 个相似轴承，是否确认申请新号？"<br>从源头控制物料多样性，提升采购议价能力</div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" onclick="filter('all')">全 部</button>
+  <button class="filter-btn" onclick="filter('文档管理')">📄 文档管理</button>
+  <button class="filter-btn" onclick="filter('物料管理')">📦 物料管理</button>
+  <button class="filter-btn" onclick="filter('项目管理')">📊 项目管理</button>
+  <button class="filter-btn" onclick="filter('工作流')">🔄 工作流</button>
+  <button class="filter-btn" onclick="filter('变更管理')">🔀 变更管理</button>
+  <button class="filter-btn" onclick="filter('SW集成')">🖥️ SW集成</button>
+  <button class="filter-btn" onclick="filter('PDM扩展')">📋 PDM扩展</button>
+  <button class="filter-btn" onclick="filter('BOM管理')">🏗️ BOM管理</button>
+</div>
+
+<div class="req-grid" id="reqGrid"></div>
+
+<div class="breadcrumb">
+  <a href="index.html">首页</a><span>›</span>
+  <a href="plm-center.html">PLM中心</a><span>›</span>
+  <span>需求清单</span>
+</div>
+</div>
+
+<script>
+const reqs = [
+  {id:1,title:'图纸资料的管控，涉及人员异动对保存和归档不好',cat:'历史需求',person:'',module:'文档管理',solved:true,solution:'研发图文档统一保存在PLM系统，人员变动对系统资料存档不影响'},
+  {id:2,title:'设计开发时工程师想消耗呆滞但没有权限看库存',cat:'',person:'',module:'物料管理',solved:true,solution:'PLM物料上可查看物料库存、是否呆滞、采购周期的信息'},
+  {id:3,title:'新产品物料成本修改后要有对比，给管理者开放权限',cat:'',person:'',module:'BOM管理/物料管理',solved:true,solution:'产品BOM上搭建好系统可自动计算整个产品材料成本'},
+  {id:4,title:'汇总物料及BOM走钉钉流程，手工录入内部下单需简化',cat:'',person:'',module:'工作流',solved:true,solution:'新物料申请直接在PLM申请，审批完成后物料自动创建并推送到ERP'},
+  {id:5,title:'项目计划节点到工程师需自动提醒，时间进度可管控',cat:'',person:'',module:'项目管理',solved:true,solution:'项目可管控计划，任务开始和延迟会有邮件和消息通知'},
+  {id:6,title:'设计人员电脑出问题导致资料丢失',cat:'',person:'',module:'文档管理',solved:true,solution:'研发图文档统一保存在PLM系统，客户端电脑好坏不影响'},
+  {id:7,title:'研发工时录入、立项到结项扭转、审批流在系统进行',cat:'',person:'',module:'PDM对象扩展',solved:true,solution:'产品生命周期内的流程都可以在PLM系统上实现管理'},
+  {id:9,title:'标准产品升级时客户所有模块配置版本对应（硬件+软件+电子）',cat:'',person:'',module:'文档管理',solved:true,solution:'PLM系统可对文档/物料/BOM做版本管理，前台只显示最新有效版本'},
+  {id:10,title:'客户订制/选配需求从前期需求管理到研发管理',cat:'',person:'',module:'PDM对象扩展',solved:true,solution:'可在PLM上规划需求单，需求单可以跟项目关联'},
+  {id:11,title:'产品系列和型号多，SOP/调试/规范等资料归集给生产调用',cat:'',person:'',module:'文档管理',solved:true,solution:'物料和产品可直接跟对应图纸/SOP/规格书关联，共享到ERP'},
+  {id:12,title:'产品的多版本图纸、BOM等无法一一对应',cat:'',person:'',module:'文档管理',solved:true,solution:'系统内图纸和BOM都会有版本管理，历史版本可查'},
+  {id:13,title:'跨部门使用消息或邮件沟通容易漏发信息',cat:'结构设计',person:'谭亮',module:'工作流',solved:true,solution:'跨部门沟通审批后续可通过PLM流程进行关联'},
+  {id:14,title:'设变需要及时通知跨部门同事（电气、软件、电测）',cat:'结构设计',person:'谭亮',module:'变更管理',solved:true,solution:'设变流程可考虑增加对应部门审核，系统可直接发送邮件通知'},
+  {id:15,title:'设变后需钉钉走申请，需在PLM中申请',cat:'结构设计',person:'谭亮',module:'变更管理',solved:true,solution:'PLM上线后设变流程在PLM进行管理，审批可推送到钉钉'},
+  {id:16,title:'生产装配问题表目前在线下需线上化',cat:'结构设计',person:'谭亮',module:'PDM对象扩展',solved:true,solution:'可在PLM创建生产装配问题收集表'},
+  {id:17,title:'各种产品相关文件需统一归档绑定产品，目前全部分散',cat:'结构设计',person:'谭亮',module:'文档管理',solved:true,solution:'物料和产品在PLM上都可以直接跟图纸/SOP/规格书关联'},
+  {id:18,title:'各方需求比较分散需要一个端口给出',cat:'软件',person:'蔡素红',module:'',solved:false,solution:'客户内部需要统一规划'},
+  {id:19,title:'需要系统统一管理需求源和项目',cat:'软件',person:'蔡素红',module:'项目管理',solved:true,solution:'在PLM建立需求单，统一在PLM上管理录入'},
+  {id:20,title:'软件版本和产品需要绑定',cat:'软件',person:'蔡素红',module:'文档管理/物料管理',solved:true,solution:'软件资料与成品料号建立关联关系'},
+  {id:21,title:'文档比较散，后续上线系统管控',cat:'自动化',person:'余帝学',module:'文档管理',solved:true,solution:'通过PLM统一管理研发文档'},
+  {id:22,title:'项目计划需要在系统线上化，所有部门可以同时共享',cat:'自动化',person:'余帝学',module:'项目管理',solved:true,solution:'项目计划在PLM通过项目模块管理，有权限人员均可在线实时查看'},
+  {id:23,title:'文件和图纸资料需线上化多人协同编辑，避免多人一起编辑导致乱套',cat:'自动化',person:'余帝学',module:'文档管理',solved:true,solution:'文件检出后系统会自动锁定，不允许其他人检出修改'},
+  {id:24,title:'无法查库存、查价格、来料分布，需要PLM可以查到',cat:'自动化',person:'余帝学',module:'物料管理',solved:true,solution:'可以把ERP的物料价格、库存、采购周期数据同步到PLM物料上'},
+  {id:25,title:'实现需求统一入口管理，减少沟通成本',cat:'业务中心',person:'罗鸿雨',module:'',solved:false,solution:'客户内部需要统一规划'},
+  {id:26,title:'支持项目计划线上化，实时共享进度与变更',cat:'业务中心',person:'罗鸿雨',module:'项目管理',solved:true,solution:'项目计划在PLM通过项目模块管理'},
+  {id:27,title:'打通ERP数据，自动同步物料交付状态',cat:'业务中心',person:'罗鸿雨',module:'物料管理',solved:true,solution:'PLM物料上可查看物料库存、呆滞、采购周期信息'},
+  {id:28,title:'建立问题库功能，关联历史问题记录',cat:'业务中心',person:'罗鸿雨',module:'PDM对象扩展',solved:true,solution:'可在PLM上建立问题库，关联项目管理，可统计汇总'},
+  {id:29,title:'需求变更统一系统管控',cat:'业务中心',person:'罗鸿雨',module:'PDM对象扩展',solved:true,solution:'在PLM建立需求单，需求更改需要变更流程'},
+  {id:30,title:'历史项目订单发包需复制功能，新项目直接复制改物料',cat:'自动化',person:'刘德俊',module:'项目管理/物料管理',solved:true,solution:'物料和BOM支持复制、派生等功能快速创建'},
+  {id:31,title:'没订单时可否提前走发包申请？能否关联预测订单？',cat:'自动化',person:'刘德俊',module:'项目管理',solved:true,solution:'支持没有订单发起采购申请单，不能关联预测订单'},
+  {id:32,title:'发包时采购端可否一键导出项目中部分模块打包外发',cat:'自动化',person:'刘德俊',module:'文档管理',solved:true,solution:'研发把物料跟图文档关联后采购在ERP可批量导出'},
+  {id:33,title:'多层级组件如何便捷导入系统？不要给工程增加工作量',cat:'自动化',person:'刘德俊',module:'SW集成',solved:true,solution:'图纸导入可通过压缩导入或集成方式导入'}
+];
+
+function renderReqs(filter) {
+  const f = filter || 'all';
+  const filtered = f==='all' ? reqs : reqs.filter(r=>r.module.includes(f));
+  let h = '';
+  filtered.forEach(r=>{
+    h += `<div class="req-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <span class="req-num">#${r.id}</span>
+        ${r.solved ? '<span style="font-size:10px;color:var(--g);font-weight:700">✅ 可解决</span>' : '<span style="font-size:10px;color:var(--r);font-weight:700">⚠️ 待规划</span>'}
+      </div>
+      <div class="req-title">${r.title}</div>
+      <div class="req-detail">
+        ${r.cat?`<span class="req-tag tag-cat">${r.cat}</span>`:''}
+        ${r.person?`<span class="req-tag tag-person">👤 ${r.person}</span>`:''}
+        ${r.module?r.module.split('/').map(m=>`<span class="req-tag tag-module">${m.trim()}</span>`).join(''):''}
+      </div>
+      <div class="tag-value">💡 <b>金蝶方案：</b>${r.solution}</div>
+    </div>`;
+  });
+  document.getElementById('reqGrid').innerHTML = h;
+}
+
+function filter(cat) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b=>{if(b.textContent.includes(cat==='all'?'全':cat))b.classList.add('active')});
+  renderReqs(cat);
+}
+
+renderReqs('all');
+</script>
+</body>
+</html>

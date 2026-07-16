@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全业务流程全景 · 橙子自动化 PLM</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --or:#f97316;--or-bg:#fff3e0;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1440px;margin:0 auto;padding:16px 20px}
+
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:20px 28px;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:20px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:3px}
+.header-nav{display:flex;gap:6px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:11px;padding:5px 12px;border-radius:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
+
+/* Tabs */
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;background:#fff;border-radius:12px;padding:6px;border:1px solid var(--s-200)}
+.tab{padding:8px 16px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--s-600);transition:.2s;white-space:nowrap}
+.tab:hover{background:var(--s-100)}
+.tab.active{background:var(--p);color:#fff}
+
+/* Flow content */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Flow stages */
+.flow-stages{display:flex;gap:4px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px}
+.flow-stage{padding:8px 12px;border-radius:8px;border:1px solid var(--s-200);background:#fff;font-size:11px;font-weight:600;white-space:nowrap;cursor:pointer;transition:.2s;min-width:fit-content}
+.flow-stage:hover{background:var(--s-100)}
+.flow-stage.active{border-color:var(--p);background:var(--p-bg);color:var(--p-d)}
+.flow-stage .num{font-size:9px;color:var(--s-400);display:block}
+
+/* Steps */
+.step-card{background:#fff;border-radius:10px;border:1px solid var(--s-200);padding:14px 18px;margin-bottom:8px;transition:.2s}
+.step-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.step-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.step-code{font-size:10px;color:var(--s-400);font-weight:600;background:var(--s-100);padding:3px 8px;border-radius:6px}
+.step-task{font-size:13px;font-weight:700;color:var(--s-800)}
+.step-detail{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;line-height:1.6}
+.step-field{display:flex;flex-direction:column;padding:4px 8px;background:var(--s-50);border-radius:5px}
+.step-field-label{font-size:9px;color:var(--s-400);font-weight:600}
+.step-field-value{color:var(--s-700);font-size:11px}
+.step-redline{background:var(--r-bg);border-left:3px solid var(--r);padding:6px 10px;border-radius:4px;font-size:10px;margin-top:8px;color:var(--r-d);font-weight:600}
+
+/* Summary card */
+.summary-card{background:#fff;border-radius:12px;border:1px solid var(--s-200);padding:18px 22px;margin-bottom:12px}
+.summary-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:6px}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.summary-item{font-size:12px;text-align:center;padding:10px;background:var(--s-50);border-radius:8px}
+.summary-val{font-size:20px;font-weight:700}
+.summary-label{font-size:10px;color:var(--s-400);margin-top:2px}
+
+.breadcrumb{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--s-400);padding:12px 0;border-top:1px solid var(--s-200);margin-top:16px}
+.breadcrumb a{color:var(--b);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <h1>📊 全业务流程全景</h1>
+    <div class="sub">来源：橙子产品研发、供应链业务流程 · 橙子自动化 PLM 项目</div>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="plm-center.html">📋 PLM中心</a>
+    <a href="plm-business-flow.html" class="active">📊 业务流程</a>
+    <a href="plm-requirements.html">📝 需求清单</a>
+    <a href="plm-org-plm.html">👥 部门关联</a>
+    <a href="plm-product-matrix.html">🏗️ 产品矩阵</a>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="summary-card">
+  <div class="summary-title">📋 业务流程总览</div>
+  <div class="summary-grid">
+    <div class="summary-item"><div class="summary-val" style="color:var(--b)">6</div><div class="summary-label">业务线条</div></div>
+    <div class="summary-item"><div class="summary-val" style="color:var(--g)">50+</div><div class="summary-label">标准流程节点</div></div>
+    <div class="summary-item"><div class="summary-val" style="color:var(--r)">30+</div><div class="summary-label">准入红线</div></div>
+    <div class="summary-item"><div class="summary-val" style="color:var(--p)">4</div><div class="summary-label">执行部门</div></div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs" id="tabBar">
+  <button class="tab active" onclick="switchTab('auto')">🤖 自动化业务</button>
+  <button class="tab" onclick="switchTab('std')">📐 研发标准产品</button>
+  <button class="tab" onclick="switchTab('custom')">🎯 定制交付产品</button>
+  <button class="tab" onclick="switchTab('testrd')">🔬 测试研发</button>
+  <button class="tab" onclick="switchTab('sw')">💻 软件业务</button>
+  <button class="tab" onclick="switchTab('sc')">📦 供应链生产</button>
+</div>
+
+<!-- ====== 自动化业务 ====== -->
+<div class="tab-content active" id="tab-auto">
+<div class="flow-stages" id="stages-auto"></div>
+<div id="steps-auto"></div>
+</div>
+
+<!-- ====== 研发标准产品 ====== -->
+<div class="tab-content" id="tab-std">
+<div class="flow-stages" id="stages-std"></div>
+<div id="steps-std"></div>
+</div>
+
+<!-- ====== 定制交付 ====== -->
+<div class="tab-content" id="tab-custom">
+<div class="flow-stages" id="stages-custom"></div>
+<div id="steps-custom"></div>
+</div>
+
+<!-- ====== 测试研发 ====== -->
+<div class="tab-content" id="tab-testrd">
+<div class="flow-stages" id="stages-testrd"></div>
+<div id="steps-testrd"></div>
+</div>
+
+<!-- ====== 软件业务 ====== -->
+<div class="tab-content" id="tab-sw">
+<div class="flow-stages" id="stages-sw"></div>
+<div id="steps-sw"></div>
+</div>
+
+<!-- ====== 供应链生产 ====== -->
+<div class="tab-content" id="tab-sc">
+<div class="flow-stages" id="stages-sc"></div>
+<div id="steps-sc"></div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">首页</a><span>›</span>
+  <a href="plm-center.html">PLM中心</a><span>›</span>
+  <span>业务流程</span>
+</div>
+</div>
+
+<script>
+const flows = {
+  auto: {
+    title:'自动化业务流程',
+    stages:[
+      {id:'线索管理',name:'线索管理',steps:[
+        {code:'1.1',task:'收集和生成线索',dept:'综合部-销售开发',output:'业务线索管理表/销帮帮',redline:'与公司产品、战略不匹配线索'},
+        {code:'1.2',task:'验证线索',dept:'综合部-销售开发',output:'-',redline:'未在30天内跟进记录的线索'},
+        {code:'1.3',task:'跟踪/培育线索',dept:'综合部-销售开发',output:'-',redline:'无任何沟通/进展记录'},
+        {code:'1.4',task:'线索转机会',dept:'综合部-销售开发',output:'-',redline:'线索价值低、非目标市场禁止转入商机'}
+      ]},
+      {id:'商机验证',name:'商机验证',steps:[
+        {code:'2.1',task:'商务调研',dept:'综合部-销售开发',output:'-',redline:'客户无明确采购时间/预算禁止进入技术评估'},
+        {code:'2.2',task:'技术可行性评估',dept:'综合部-销售/产品/自动化',output:'-',redline:'技术风险不可控禁止进入机会决策'},
+        {code:'2.3',task:'机会点决策',dept:'综合部-销售/产品/自动化',output:'-',redline:'预期利润率低于门槛禁止进入资源匹配'},
+        {code:'2.4',task:'资源匹配',dept:'产品部/自动化业务中心',output:'-',redline:'无资源可匹配禁止进入需求分析'}
+      ]},
+      {id:'标前引导',name:'标前引导',steps:[
+        {code:'3.1',task:'需求分析',dept:'综合部-销售开发',output:'-',redline:'客户无明确的技术需求文件禁止进入竞争策略'},
+        {code:'3.2',task:'竞争策略',dept:'综合部-销售开发',output:'-',redline:'信息未对齐禁止进入方案报价'}
+      ]},
+      {id:'方案报价',name:'方案报价',steps:[
+        {code:'4.1',task:'技术需求确定',dept:'综合部-销售/产品',output:'技术需求表',redline:'关键性能指标未明确禁止进入方案'},
+        {code:'4.2',task:'解决方案确定',dept:'产品部-机械/电控',output:'XXX设备方案',redline:'方案未通过内部/客户评审禁止进入报价'},
+        {code:'4.3',task:'制定报价/竞标策略',dept:'综合部-销售/产品/自动化',output:'成本预估表、报价审批',redline:'毛利率低于产品要求需CEO特批'},
+        {code:'4.4',task:'制定最终议价策略',dept:'综合部-销售/产品/自动化',output:'-',redline:'议价毛利率低于要求需CEO特批'}
+      ]},
+      {id:'谈判签约',name:'谈判与签约',steps:[
+        {code:'5.1',task:'商务谈判',dept:'综合部-销售/自动化/商务',output:'XXX商务合同',redline:'合同核心条款未达成一致禁止进入评审'},
+        {code:'5.2',task:'合同拟定与评审',dept:'自动化业务中心',output:'XXX商务合同',redline:'合同条款未通过法务审核禁止签订'},
+        {code:'5.3',task:'技术协议签订',dept:'综合部-销售/产品/自动化/商务',output:'技术协议需求表',redline:'技术协议未经技术总监和客户方共同签字'},
+        {code:'5.4',task:'合同签订',dept:'综合部-销售/自动化/商务',output:'商务合同+技术协议',redline:'合同未完成双方盖章禁止立项'}
+      ]},
+      {id:'立项启动',name:'立项启动',steps:[
+        {code:'6.1',task:'立项申请&设定目标',dept:'综合部-销售/产品/项目管理',output:'设备发包文件、立项申请表',redline:'立项申请未通过审批禁止启动'},
+        {code:'6.2',task:'项目组组建',dept:'产品部/综合部-项目管理',output:'立项申请表',redline:'核心成员资源缺失禁止启动'},
+        {code:'6.3',task:'设计目标分解',dept:'综合部-项目管理',output:'XXX项目计划表',redline:'里程碑未覆盖关键路径禁止启动'},
+        {code:'6.4',task:'设定项目预算',dept:'产品部-机械/电控/视觉',output:'项目成本概算表',redline:'项目预算超概算金额需重新对齐'}
+      ]},
+      {id:'设计评审',name:'设计评审',steps:[
+        {code:'7.1',task:'定版方案确认',dept:'产品部-机械/电控',output:'xxx设备方案',redline:'定版方案未通过评审禁止进入结构细化'},
+        {code:'7.2',task:'结构细化设计',dept:'产品部-机械',output:'xxx设备3D',redline:'图纸未经产品组组长审核禁止进入评审'},
+        {code:'7.3',task:'结构评审',dept:'产品部-机械',output:'xxx设备3D评审表',redline:'发现较大技术风险未解决禁止交叉评审'},
+        {code:'7.4',task:'交叉评审',dept:'机械/电气/视觉联合',output:'评审表',redline:'各部门有未解决冲突项禁止进入BOM评审'},
+        {code:'7.5',task:'电气设计',dept:'产品部-电控',output:'电气原理图+BOM清单',redline:'图纸未经产品组组长审核禁止通过'},
+        {code:'7.6',task:'视觉设计',dept:'综合部-视觉应用',output:'xxx设备视觉方案',redline:'方案未经组长审核禁止通过'},
+        {code:'7.7',task:'BOM成本优化评审',dept:'产品部-机械/电控/视觉',output:'成本评审表',redline:'BOM优化后毛利率低于接单毛利需CEO审批'}
+      ]},
+      {id:'BOM发包',name:'BOM发包评审',steps:[
+        {code:'8.1',task:'BOM&2D图纸审核',dept:'产品部-机械/电控/视觉',output:'2D评审表',redline:'BOM和图纸未经组长审批禁止发包'},
+        {code:'8.2',task:'BOM发包',dept:'产品部-机械/电控/视觉',output:'BOM清单',redline:'物料交期超项目计划需预警'}
+      ]},
+      {id:'产品定义',name:'产品定义',steps:[
+        {code:'11.1',task:'市场需求调研与分析',dept:'产品部-产品负责人',output:'市场调研报告',redline:''},
+        {code:'11.2',task:'产品定位',dept:'产品部-产品负责人',output:'产品需求书',redline:''},
+        {code:'11.3',task:'核心功能',dept:'产品部-产品负责人',output:'产品需求书',redline:''}
+      ]},
+      {id:'产品立项',name:'产品立项',steps:[
+        {code:'12.1',task:'方案与可行性评估',dept:'产品部-产品负责人',output:'产品方案介绍、成本概算表',redline:''},
+        {code:'12.2',task:'业务可行性评估',dept:'产品部-产品负责人',output:'业务可行性评估报告',redline:''},
+        {code:'12.3',task:'研发立项',dept:'产品部-产品负责人',output:'研发立项报告',redline:'会议评审通过'},
+        {code:'12.4',task:'项目计划',dept:'产品部-产品负责人',output:'产品开发计划',redline:'OA审批通过'},
+        {code:'12.5',task:'风险识别',dept:'产品部-产品负责人',output:'技术风险评估',redline:''},
+        {code:'12.6',task:'核心模块预研',dept:'产品部-产品负责人',output:'模块预研申请',redline:'审批人回复同意后启动'}
+      ]},
+      {id:'样机验收',name:'样机验收',steps:[
+        {code:'14.1',task:'功能验收报告及结论',dept:'产品部-产品负责人',output:'样机验收报告+技术规格考核表',redline:''},
+        {code:'14.2',task:'结项评审结论表',dept:'产品部-产品负责人',output:'结项评审',redline:'审批人回复同意后归档'}
+      ]},
+      {id:'产品发布',name:'产品发布',steps:[
+        {code:'15.1',task:'编制产品宣传资料',dept:'产品部-产品负责人',output:'宣传彩页+介绍+视频',redline:''},
+        {code:'15.2',task:'编制产品配置清单',dept:'产品部-产品负责人',output:'产品配置清单',redline:''},
+        {code:'15.3',task:'确定产品定价策略',dept:'产品部-产品负责人',output:'产品定价策略',redline:'OA审批通过'}
+      ]}
+    ]},
+  
+  std: {
+    title:'研发标准产品流程',
+    stages:[
+      {id:'产品规划',name:'产品规划',steps:[
+        {code:'1.1',task:'规划拟研发方向',dept:'测试产品部-产品部负责人',output:'产品规划评估报告',redline:'经筛选分析为无效线索禁止立项'}
+      ]},
+      {id:'研发立项',name:'研发立项',steps:[
+        {code:'2.1',task:'立项申请',dept:'测试产品部-产品部负责人',output:'产品研发立项申请',redline:'与公司发展方向不符禁止通过'},
+        {code:'2.2',task:'产品定义',dept:'测试产品部-产品部负责人',output:'立项报告+研发预算+技术规格书',redline:'资料不完整不清晰禁止提交'},
+        {code:'2.3',task:'立项资料初审',dept:'产品部负责人+CTO',output:'关键问题及回复',redline:'资料不完整/关键问题无回复禁止通过'},
+        {code:'2.4',task:'研发立项评审',dept:'产品部负责人+经管会',output:'立项评审结论',redline:'资料不完整规范禁止通过'},
+        {code:'2.5',task:'立项启动',dept:'产品部+研发管理',output:'项目计划表+任务分解表',redline:'项目计划节点不合理禁止通过'}
+      ]},
+      {id:'设计阶段',name:'设计阶段',steps:[
+        {code:'3.1',task:'总体方案设计',dept:'机械/电气/测试/视觉/软件',output:'整体方案',redline:'整体方案不完整禁止提交'},
+        {code:'3.2',task:'总体方案评审',dept:'产品负责人+各专业',output:'方案评审结论',redline:'方案不合理禁止通过'},
+        {code:'3.3',task:'机械详细设计',dept:'测试产品部-机械',output:'机械设计3D',redline:'未完成详细设计禁止发起评审'},
+        {code:'3.4',task:'电气详细设计',dept:'测试产品部-电气',output:'电气布局设计',redline:'未完成详细设计禁止发起评审'},
+        {code:'3.5',task:'电测硬件设计',dept:'测试研发部',output:'Layout图+原理图',redline:'未完成详细设计禁止发起评审'},
+        {code:'3.6',task:'视觉设计',dept:'预研研发部-视觉',output:'视觉设计',redline:'未完成详细设计禁止发起评审'},
+        {code:'3.7',task:'软件设计',dept:'软件研发部',output:'软件设计',redline:'未完成详细设计禁止发起评审'},
+        {code:'3.8',task:'详细设计评审',dept:'全专业',output:'详细设计评审结论',redline:'设计不符合要求禁止通过'},
+        {code:'3.9',task:'详细设计修改定版',dept:'全专业',output:'3D/2D/BOM/SOP/精度要求',redline:'资料不完整/有遗留问题禁止提交'}
+      ]},
+      {id:'研发结项',name:'研发结项',steps:[
+        {code:'6.1',task:'研发验收申请',dept:'产品部负责人+CTO',output:'验收初审结论',redline:'测试数据不完整禁止通过'},
+        {code:'6.2',task:'研发结项评审',dept:'产品部负责人+经管会',output:'研发评审结案',redline:'测试数据不完整禁止通过'}
+      ]},
+      {id:'产品发布',name:'产品发布',steps:[
+        {code:'7.1',task:'产品文档完善',dept:'产品工程师+产品负责人',output:'操作说明书+维护保养手册+配置清单',redline:'资料不完整禁止通过'},
+        {code:'7.2',task:'产品认证',dept:'产品负责人',output:'相关认证证书',redline:'未取得合规销售认证禁止通过'},
+        {code:'7.3',task:'产品发布',dept:'产品负责人+销售部',output:'宣传资料+宣传视频',redline:'宣传资料不完整禁止通过'}
+      ]},
+      {id:'产品转产',name:'产品转产',steps:[
+        {code:'8.1',task:'设计标准化',dept:'测试研发部',output:'3D/2D/BOM/SOP',redline:'未达到成本/工艺优化要求禁止提交'},
+        {code:'8.2',task:'标准化评审',dept:'测试研发部',output:'标准化评审结论',redline:'未达到成本/工艺优化要求禁止通过'},
+        {code:'8.3',task:'设计定稿冻结',dept:'测试研发部',output:'最终版本设计资料',redline:'评审问题点未完全关闭禁止通过'},
+        {code:'8.4',task:'完成转产流程',dept:'测试研发部+供应链物控',output:'转产申请表+会签资料',redline:'资料不完整/未会签禁止通过'}
+      ]},
+      {id:'产品迭代',name:'产品迭代',steps:[
+        {code:'10.1',task:'信息收集',dept:'-',output:'-',redline:''},
+        {code:'10.2',task:'版本迭代',dept:'测试研发部',output:'3D/2D/BOM/SOP等（须走ECN变更）',redline:'无有效优化禁止通过'}
+      ]}
+    ]},
+
+  custom: {
+    title:'定制交付产品流程',
+    stages:[
+      {id:'立项启动',name:'立项启动',steps:[
+        {code:'1.1',task:'立项启动',dept:'测试业务中心-交付项目管理',output:'项目计划表+任务分解表',redline:'项目计划节点不合理禁止通过'}
+      ]},
+      {id:'设计阶段',name:'设计阶段',steps:[
+        {code:'2.1',task:'总体方案设计',dept:'测试产品中心-研发',output:'整体方案',redline:'整体方案不完整禁止提交'},
+        {code:'2.2',task:'总体方案评审',dept:'测试产品中心-研发',output:'方案评审结论',redline:'方案不合理禁止通过'},
+        {code:'2.3-7',task:'机械/电气/电测/视觉/软件设计',dept:'各专业',output:'各专业详细设计',redline:'未完成禁止发起评审'},
+        {code:'2.8',task:'详细设计评审',dept:'研发团队+研发管理',output:'详细设计评审结论',redline:'设计不符合要求禁止通过'},
+        {code:'2.9',task:'详细设计修改定版',dept:'研发团队',output:'3D/2D/BOM/SOP/视觉/软件',redline:'资料不完整禁止提交'}
+      ]},
+      {id:'样机制作',name:'样机制作调试',steps:[
+        {code:'3.1',task:'下单请购样机物料',dept:'测试产品中心-研发',output:'（接供应链交付流程）',redline:'请购资料不完整禁止通过'},
+        {code:'3.10',task:'设计改进',dept:'研发团队',output:'更新设计资料',redline:'请购资料不完整禁止通过'},
+        {code:'3.11',task:'改进验证',dept:'研发团队',output:'异常问题记录表',redline:'无改善措施/无改善效果禁止通过'}
+      ]},
+      {id:'测试验证',name:'样机测试验证',steps:[
+        {code:'4.1',task:'测量功能验证',dept:'测试业务中心-解决方案部',output:'测量功能验证结论',redline:'验证结果NG禁止通过'},
+        {code:'4.2',task:'TV&CV策略测试验证',dept:'测试业务中心-解决方案部',output:'策略测试验证结论',redline:'验证结果NG禁止通过'},
+        {code:'4.3',task:'整机性能验证',dept:'测试业务中心-解决方案部',output:'整机性能验证结论',redline:'验证结果NG禁止通过'},
+        {code:'4.4',task:'老化测试',dept:'测试业务中心-解决方案部',output:'老化性能验证结论',redline:'验证结果NG禁止通过'}
+      ]},
+      {id:'品检出货',name:'品检出货',steps:[
+        {code:'5.1',task:'品检',dept:'品质部',output:'品检报告',redline:''},
+        {code:'5.2',task:'出货',dept:'-',output:'发货通知单',redline:''}
+      ]}
+    ]},
+
+  testrd: {
+    title:'测试研发流程',
+    stages:[
+      {id:'需求评估',name:'需求评估',steps:[
+        {code:'1.1',task:'需求评估',dept:'售前、研发',output:'客户/市场需求规格书',redline:'信用等级高风险需上传预付款承诺函'}
+      ]},
+      {id:'项目预研',name:'项目预研',steps:[
+        {code:'2.1',task:'前期资料收集',dept:'研发',output:'行业和技术现状分析',redline:'未通过准入评审屏蔽后续报价'},
+        {code:'2.2',task:'技术方案初步研究',dept:'研发',output:'技术方案分析',redline:'预估毛利率低于25%需总经理特批'},
+        {code:'2.3',task:'技术方案实验论证',dept:'研发',output:'实验验证报告',redline:''},
+        {code:'2.4',task:'技术方案路线确定',dept:'研发',output:'预研结论报告',redline:''}
+      ]},
+      {id:'立项审批',name:'立项审批',steps:[
+        {code:'3.1',task:'确定项目技术指标',dept:'研发',output:'技术规格书',redline:''},
+        {code:'3.2',task:'确定研发预算',dept:'研发',output:'研发预算',redline:''},
+        {code:'3.3',task:'立项启动',dept:'研发/品质/市场',output:'立项报告+评审结论',redline:''}
+      ]},
+      {id:'方案设计',name:'总体方案设计',steps:[
+        {code:'4.1',task:'关键技术点拆解',dept:'研发',output:'关键技术点分析报告',redline:''},
+        {code:'4.2',task:'关键器件选型',dept:'研发',output:'关键器件选型表',redline:'关键性能指标未选择标准参数禁止下推'},
+        {code:'4.3',task:'核心信号链路设计',dept:'研发',output:'核心信号链设计报告',redline:''},
+        {code:'4.4',task:'电源架构设计',dept:'研发',output:'电源架构设计书',redline:''}
+      ]},
+      {id:'详细设计',name:'详细设计',steps:[
+        {code:'5.1',task:'硬件原理图设计',dept:'研发',output:'硬件原理图',redline:''},
+        {code:'5.2',task:'PCB设计',dept:'研发',output:'PCB发包文档',redline:''},
+        {code:'5.3',task:'FPGA程序设计',dept:'研发',output:'FPGA程序代码',redline:''},
+        {code:'5.4',task:'ARM程序设计',dept:'研发',output:'ARM程序代码',redline:''}
+      ]},
+      {id:'调试',name:'调试',steps:[
+        {code:'6.1',task:'实验室调试',dept:'研发',output:'实验室调试记录报告',redline:''},
+        {code:'7.1',task:'机台调试',dept:'生产/调试/研发',output:'机台调试记录报告',redline:''}
+      ]},
+      {id:'结案',name:'研发结案',steps:[
+        {code:'8.1',task:'研发结案',dept:'研发/产品',output:'项目结案报告',redline:''}
+      ]}
+    ]},
+
+  sw: {
+    title:'软件业务流程',
+    stages:[
+      {id:'需求收集',name:'需求收集',steps:[
+        {code:'1.1',task:'收集软件功能需求',dept:'软件部门-软件工程师',output:'需求规格书',redline:''}
+      ]},
+      {id:'项目立项',name:'项目立项',steps:[
+        {code:'2.1',task:'准备立项资料',dept:'软件部门-软件工程师',output:'立项报告+评审结论+预算+技术规格书',redline:'文件齐全'},
+        {code:'2.2',task:'召开立项会议',dept:'软件部门-软件工程师',output:'-',redline:''},
+        {code:'2.3',task:'制定项目计划',dept:'软件部门-软件工程师',output:'项目计划表',redline:'OA研发立项通过审批'}
+      ]},
+      {id:'开发阶段',name:'开发阶段',steps:[
+        {code:'3.1',task:'架构设计',dept:'软件部门-软件工程师',output:'软件架构/接口定义/程序文件',redline:''},
+        {code:'3.2',task:'任务拆解',dept:'软件部门-软件工程师',output:'-',redline:''},
+        {code:'3.3',task:'模块开发',dept:'软件部门-软件工程师',output:'-',redline:''},
+        {code:'3.4',task:'模块测试',dept:'软件部门-软件工程师',output:'-',redline:''}
+      ]},
+      {id:'测试验证',name:'测试验证',steps:[
+        {code:'4.1',task:'系统联调',dept:'软件部门-软件工程师',output:'调试问题记录表',redline:'测试通过'},
+        {code:'4.2',task:'上机测试',dept:'软件部门-软件工程师',output:'-',redline:''}
+      ]},
+      {id:'发布上线',name:'发布上线',steps:[
+        {code:'5.1',task:'制作安装包',dept:'软件部门-软件工程师',output:'软件安装包+操作手册',redline:'调试未通过'},
+        {code:'5.2',task:'编写操作手册',dept:'软件部门-软件工程师',output:'软件安装包+操作手册',redline:''}
+      ]}
+    ]},
+
+  sc: {
+    title:'供应链生产流程',
+    stages:[
+      {id:'供应链交付',name:'供应链交付',steps:[
+        {code:'1.1',task:'项目主计划任务分解',dept:'物控-物料控制',output:'项目主计划',redline:'未接收到设计目标分解邮件禁止执行'},
+        {code:'1.2',task:'物料进度/异常决策汇报',dept:'物控-物料控制',output:'项目交付物料跟进表',redline:'未接收到BOM发包禁止执行'},
+        {code:'1.3',task:'来料检/异常物料跟踪反馈',dept:'品质部-进料检验',output:'来料不良统计表+异常处理报告',redline:'符合标准'},
+        {code:'1.4',task:'装备采购金额反馈',dept:'采购-采购管理',output:'BOM清单价格表',redline:'采购金额超预算需预警'}
+      ]},
+      {id:'生产交付',name:'生产交付',steps:[
+        {code:'2.1',task:'生产任务卡',dept:'生产部-装配电工/钳工',output:'生产任务卡',redline:''},
+        {code:'2.2',task:'生产进度定期汇报',dept:'生产部-装配电工/钳工',output:'设备装配进度汇总',redline:'制程重大异常需预警'},
+        {code:'2.3',task:'制程&出货检/制程检问题跟踪',dept:'品质部-制程检验',output:'制程不良统计表+异常报告+安检清单',redline:'符合标准'},
+        {code:'2.4',task:'生产工时统计',dept:'生产部-装配电工/钳工',output:'项目月度工时统计表',redline:''}
+      ]},
+      {id:'转标准产品',name:'转标准产品',steps:[
+        {code:'3.4',task:'转产标准化BOM与图纸签核存档',dept:'物控-物料控制',output:'BOM与图纸标准化确认表',redline:'未完成转产申请文件签核禁止执行'},
+        {code:'3.5',task:'编制装配SOP',dept:'生产部',output:'钳工/电工作业指导书',redline:''},
+        {code:'3.6',task:'编制工艺调试SOP',dept:'调试部',output:'设备调试SOP',redline:''}
+      ]},
+      {id:'批量生产',name:'批量生产',steps:[
+        {code:'4.1',task:'预测/销售订单承接',dept:'物控-物料控制',output:'产品备机申请',redline:'未接收立项通知邮件禁止执行'},
+        {code:'4.2',task:'产品备机申请',dept:'物控-物料控制',output:'项目计划表',redline:'OA未审批通过禁止执行'},
+        {code:'4.3',task:'共用供应链交付流程',dept:'-',output:'-',redline:''},
+        {code:'4.4',task:'共用生产交付流程',dept:'-',output:'-',redline:''}
+      ]}
+    ]}
+};
+
+function renderFlow(key) {
+  const flow = flows[key];
+  let stagesHtml = '', stepsHtml = '';
+  flow.stages.forEach((stage,si) => {
+    stagesHtml += `<div class="flow-stage" onclick="scrollStage('${key}','${stage.id}')" id="stg-${key}-${si}">
+      <span class="num">${si+1}</span>${stage.name}
+    </div>`;
+    stepsHtml += `<div id="stg-content-${key}-${si}"><div style="font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:6px">${stage.name}（${stage.steps.length}个节点）</div>`;
+    stage.steps.forEach(s=>{
+      stepsHtml += `<div class="step-card">
+        <div class="step-header">
+          <span class="step-code">${s.code}</span>
+          <span class="step-task">${s.task}</span>
+        </div>
+        <div class="step-detail">
+          <div class="step-field"><span class="step-field-label">责任部门</span><span class="step-field-value">${s.dept}</span></div>
+          <div class="step-field"><span class="step-field-label">关键输出</span><span class="step-field-value">${s.output}</span></div>
+        </div>`;
+      if(s.redline) stepsHtml += `<div class="step-redline">🚫 ${s.redline}</div>`;
+      stepsHtml += `</div>`;
+    });
+    stepsHtml += `</div>`;
+  });
+  document.getElementById('stages-'+key).innerHTML = stagesHtml;
+  document.getElementById('steps-'+key).innerHTML = stepsHtml;
+}
+
+['auto','std','custom','testrd','sw','sc'].forEach(k => renderFlow(k));
+
+function switchTab(key) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+key).classList.add('active');
+  document.querySelectorAll(`.tab`).forEach(t=>{if(t.textContent.includes(key==='auto'?'自动化':key==='std'?'标准':key==='custom'?'定制':key==='testrd'?'测试研发':key==='sw'?'软件':key==='sc'?'供应链':'')) t.classList.add('active')});
+}
+
+function scrollStage(key,id) {
+  const el = document.getElementById(`stg-content-${key}-${flows[key].stages.findIndex(s=>s.id===id)}`);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>

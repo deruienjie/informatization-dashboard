@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公司产品矩阵 · 橙子自动化 PLM</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --or:#f97316;--or-bg:#fff3e0;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1440px;margin:0 auto;padding:20px 24px}
+
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap}
+.header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
+
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-desc{font-size:12px;color:var(--s-400);margin-bottom:16px}
+
+/* Stats bar */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.stat-card{background:#fff;border-radius:12px;padding:14px 16px;border:1px solid var(--s-200);text-align:center;transition:.2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.stat-value{font-size:22px;font-weight:700}
+.stat-label{font-size:11px;color:var(--s-400);margin-top:2px}
+
+/* Product grid */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px;margin-bottom:16px}
+
+.prod-card{background:#fff;border-radius:14px;border:1px solid var(--s-200);overflow:hidden;transition:.25s}
+.prod-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.prod-card-header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--s-100)}
+.prod-name{font-size:17px;font-weight:700;color:var(--s-800)}
+.prod-model{font-size:12px;color:var(--s-400);font-weight:400}
+.prod-status{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:600}
+.status-mass{background:var(--g-bg);color:var(--g)}
+.status-rd{background:var(--b-bg);color:var(--b)}
+.status-rdmass{background:var(--p-bg);color:var(--p-d)}
+.prod-card-body{padding:14px 20px}
+.prod-roles{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.role-item{display:flex;flex-direction:column;padding:6px 8px;border-radius:6px;background:var(--s-50);border:1px solid var(--s-100);font-size:12px;line-height:1.5}
+.role-label{font-size:10px;color:var(--s-400);text-transform:uppercase;font-weight:600}
+.role-name{font-weight:600;color:var(--s-700)}
+.role-name.external{color:var(--r);font-style:italic}
+
+/* Series section */
+.series-section{margin-bottom:20px}
+.series-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:12px}
+.series-card{background:#fff;border-radius:14px;border:1px solid var(--s-200);overflow:hidden;transition:.25s}
+.series-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.05)}
+.series-head{padding:16px 20px;border-bottom:1px solid var(--s-100);display:flex;align-items:center;gap:10px}
+.series-icon{font-size:24px}
+.series-name{font-size:16px;font-weight:700;color:var(--s-800)}
+.series-sub{font-size:11px;color:var(--s-400)}
+.series-body{padding:14px 20px}
+.series-ppl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 10px}
+.series-ppl-item{font-size:12px;line-height:1.6}
+.series-ppl-label{font-size:10px;color:var(--s-400);display:block}
+
+/* Footer breadcrumb */
+.breadcrumb{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--s-400);padding:12px 0;border-top:1px solid var(--s-200);margin-top:20px}
+.breadcrumb a{color:var(--b);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <h1>🏗️ 公司产品矩阵</h1>
+    <div class="sub">来源：公司产品明细清单 · 橙子自动化 PLM 项目</div>
+  </div>
+  <div class="header-nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="plm-center.html">📋 PLM中心</a>
+    <a href="plm-business-flow.html">📊 业务流程</a>
+    <a href="plm-requirements.html">📝 需求清单</a>
+    <a href="plm-org-plm.html">👥 部门关联</a>
+    <a href="plm-product-matrix.html" class="active">🏗️ 产品矩阵</a>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-value" style="color:var(--g)">10+</div><div class="stat-label">产品线覆盖</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--b)">5</div><div class="stat-label">在研产品</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--p)">5</div><div class="stat-label">量产产品</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--or)">25+</div><div class="stat-label">核心研发人员</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--y)">4</div><div class="stat-label">产品系列</div></div>
+</div>
+
+<!-- Product lines -->
+<div class="section-label"><span class="icon">📦</span><span class="text">产品明细</span></div>
+<div class="section-desc">按产品线展示每个型号的状态、负责人分配（结构/电气/电测/软件/交付）</div>
+
+<div class="prod-grid">
+
+<!-- M类 -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">M类 <span class="prod-model">X4 / X6</span></div></div>
+    <span class="prod-status status-mass">量产</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">谭亮</span></div>
+      <div class="role-item"><span class="role-label">电气</span><span class="role-name">曹锦文</span></div>
+      <div class="role-item"><span class="role-label">电测</span><span class="role-name">陆基</span></div>
+      <div class="role-item"><span class="role-label">软件</span><span class="role-name">陆基</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name">罗鸿雨</span></div>
+      <div class="role-item"><span class="role-label">系列</span><span class="role-name" style="color:var(--p)">飞针</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- E系列 -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">E系列 <span class="prod-model">X4 / X6 / X8</span></div></div>
+    <span class="prod-status status-rdmass" style="background:var(--p-bg);color:var(--p-d)">量产+研发</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">张海涛</span></div>
+      <div class="role-item"><span class="role-label">电气</span><span class="role-name">李飞飞</span></div>
+      <div class="role-item"><span class="role-label">电测</span><span class="role-name">桂振洲</span></div>
+      <div class="role-item"><span class="role-label">软件</span><span class="role-name">桂振洲</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name">罗鸿雨</span></div>
+      <div class="role-item"><span class="role-label">系列</span><span class="role-name" style="color:var(--b)">自动化</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- D系列 -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">D系列 <span class="prod-model">X2D</span></div></div>
+    <span class="prod-status status-mass">量产</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">余智</span></div>
+      <div class="role-item"><span class="role-label">电气</span><span class="role-name">周卓勇</span></div>
+      <div class="role-item"><span class="role-label">电测</span><span class="role-name">陆基</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name">罗鸿雨</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 光板系列 x2f -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">光板系列 <span class="prod-model">x2f 测软板</span></div></div>
+    <span class="prod-status status-mass">量产</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">陈杰</span></div>
+      <div class="role-item"><span class="role-label">电气</span><span class="role-name">周卓勇</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name">罗鸿雨</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 光板系列 x4s -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">光板系列 <span class="prod-model">x4s</span></div></div>
+    <span class="prod-status status-rd">研发中</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">陈杰</span></div>
+      <div class="role-item"><span class="role-label">协调</span><span class="role-name">古凯梅</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ICT -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">ICT <span class="prod-model">在线测试</span></div></div>
+    <span class="prod-status status-rd">研发中</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">黄涛</span></div>
+      <div class="role-item"><span class="role-label">协调</span><span class="role-name">古凯梅</span></div>
+      <div class="role-item"><span class="role-label">电气</span><span class="role-name">余智</span></div>
+      <div class="role-item"><span class="role-label">电测</span><span class="role-name">曹锦文</span></div>
+      <div class="role-item"><span class="role-label">软件</span><span class="role-name external">外部公司</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name">张兆佳 / 欧新莲</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 自动化烧录机 -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">自动化烧录机</div></div>
+    <span class="prod-status status-rd">研发中</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">谭群英</span></div>
+      <div class="role-item"><span class="role-label">协调</span><span class="role-name">古凯梅</span></div>
+      <div class="role-item"><span class="role-label">电气</span><span class="role-name">余智</span></div>
+      <div class="role-item"><span class="role-label">电测</span><span class="role-name">曹锦文</span></div>
+      <div class="role-item"><span class="role-label">软件</span><span class="role-name">谭群英</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name">宋浩田 / 张兆佳</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- X8L -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">X8L</div></div>
+    <span class="prod-status status-rd">研发中</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">古凯梅</span></div>
+      <div class="role-item"><span class="role-label">电气</span><span class="role-name external">外部公司 / 谭亮</span></div>
+      <div class="role-item"><span class="role-label">软件</span><span class="role-name">陆基</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name">柳伟 / 蔡素红</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 精密电容表 -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">精密电容表</div></div>
+    <span class="prod-status status-rd">研发中</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">古凯梅</span></div>
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">杨才宝</span></div>
+      <div class="role-item"><span class="role-label">电测</span><span class="role-name">曹锦文</span></div>
+      <div class="role-item"><span class="role-label">软件</span><span class="role-name">杨才宝</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 精密电容板卡 -->
+<div class="prod-card">
+  <div class="prod-card-header">
+    <div><div class="prod-name">精密电容板卡</div></div>
+    <span class="prod-status status-rd">研发中</span>
+  </div>
+  <div class="prod-card-body">
+    <div class="prod-roles">
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name">古凯梅</span></div>
+      <div class="role-item"><span class="role-label">结构</span><span class="role-name external">外部公司</span></div>
+      <div class="role-item"><span class="role-label">软件</span><span class="role-name external">外部公司</span></div>
+      <div class="role-item"><span class="role-label">交付</span><span class="role-name external">外部公司</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Product Series -->
+<div class="section-label"><span class="icon">🔗</span><span class="text">产品系列 &amp; 团队配置</span></div>
+<div class="section-desc">按系列汇总核心人员分布，涵盖采购、物控等支撑角色</div>
+
+<div class="series-grid">
+
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">🎯</span>
+    <div>
+      <div class="series-name">飞针系列</div>
+      <div class="series-sub">M类、光板系列</div>
+    </div>
+  </div>
+  <div class="series-body">
+    <div class="series-ppl">
+      <div class="series-ppl-item"><span class="series-ppl-label">软件</span>蔡素红</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">结构</span>谭亮</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电气</span>曹锦文</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电测</span>陆基</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">交付</span>罗鸿雨</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">采购</span>王文福</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">物控</span>李思思</div>
+    </div>
+  </div>
+</div>
+
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">⚙️</span>
+    <div>
+      <div class="series-name">自动化系列</div>
+      <div class="series-sub">E系列、自动化烧录机</div>
+    </div>
+  </div>
+  <div class="series-body">
+    <div class="series-ppl">
+      <div class="series-ppl-item"><span class="series-ppl-label">软件</span>余帝学</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">结构</span>余帝学</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电气</span>余帝学</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电测</span>余帝学</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">交付</span>刘德俊 / 罗彪</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">采购</span>王文福</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">物控</span>李思思</div>
+    </div>
+  </div>
+</div>
+
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">🔬</span>
+    <div>
+      <div class="series-name">ICT 系列</div>
+      <div class="series-sub">ICT 在线测试设备</div>
+    </div>
+  </div>
+  <div class="series-body">
+    <div class="series-ppl">
+      <div class="series-ppl-item"><span class="series-ppl-label">软件</span>刘德俊</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">结构</span>余帝学</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电气</span>周荣财</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电测</span>王嘉璐</div>
+    </div>
+  </div>
+</div>
+
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">👤</span>
+    <div>
+      <div class="series-name">飞针 M 类</div>
+      <div class="series-sub">M类产品的飞针业务线管理</div>
+    </div>
+  </div>
+  <div class="series-body">
+    <div class="series-ppl">
+      <div class="series-ppl-item"><span class="series-ppl-label">软件</span>古凯梅</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">结构</span>谭亮</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电气</span>陆基</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">电测</span>曹锦文</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">交付</span>蔡素红</div>
+      <div class="series-ppl-item"><span class="series-ppl-label">交付</span>罗鸿雨</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Management layer -->
+<div class="section-label" style="margin-top:20px"><span class="icon">🏢</span><span class="text">上级管理层</span></div>
+<div class="section-desc">各专业方向管理部门负责人</div>
+<div class="series-grid">
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">📐</span>
+    <div class="series-name">结构方向</div>
+  </div>
+  <div class="series-body"><div class="series-ppl"><div class="series-ppl-item"><span class="series-ppl-label">负责人</span>刘奎</div></div></div>
+</div>
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">⚡</span>
+    <div class="series-name">电气方向</div>
+  </div>
+  <div class="series-body"><div class="series-ppl"><div class="series-ppl-item"><span class="series-ppl-label">负责人</span>刘奎</div></div></div>
+</div>
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">📊</span>
+    <div class="series-name">电测方向</div>
+  </div>
+  <div class="series-body"><div class="series-ppl"><div class="series-ppl-item"><span class="series-ppl-label">负责人</span>杨才宝</div></div></div>
+</div>
+<div class="series-card">
+  <div class="series-head">
+    <span class="series-icon">💻</span>
+    <div class="series-name">软件方向</div>
+  </div>
+  <div class="series-body"><div class="series-ppl"><div class="series-ppl-item"><span class="series-ppl-label">负责人</span>蔡素红 / 龙俊锜</div></div></div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="breadcrumb">
+  <a href="index.html">首页</a><span>›</span>
+  <a href="plm-center.html">PLM中心</a><span>›</span>
+  <span>产品矩阵</span>
+</div>
+
+</div>
+</body>
+</html>
