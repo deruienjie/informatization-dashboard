@@ -173,6 +173,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
         <div class="sub">
           <a href="#case1">工单结案与在制材料</a>
           <a href="#case2">应付单下推发票金额</a>
+          <a href="#case3">付款申请单超额</a>
         </div>
       </div>
     </div>
@@ -246,6 +247,10 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     <div class="cat-body">
       <div class="entry" style="background:#d1fae5">
         <span>✅ 应付单下推发票金额不一致</span>
+        <span class="badge badge-done">已整理</span>
+      </div>
+      <div class="entry" style="background:#d1fae5">
+        <span>✅ 付款申请单下推显示超额</span>
         <span class="badge badge-done">已整理</span>
       </div>
       <div class="entry">
@@ -482,6 +487,89 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
   <div class="conclusion-box">
     <strong>💡 学习要点</strong>：这个案例的核心是<strong>理解 ERP 的"单据转换规则"决定了下推数据的准确性</strong>。默认模板为了灵活性做了公式重算，但对国内采购全额开票+财务手动核对场景，<strong>应该改为"取上游值"</strong>。以后财务说"下推后金额变了"，第一反应就是：确认单据转换规则的3个金额字段是不是配了公式重算。
+  </div>
+</div>
+
+<!-- Case 3: 付款申请单下推超额 -->
+<div class="detail-card" id="case3">
+
+  <div class="detail-head">
+    <h2>付款申请单下推付款单显示超额</h2>
+    <span class="status">已整理</span>
+  </div>
+
+  <div class="info-row">
+    <div class="info-box">
+      <strong>业务归属：</strong>应收应付管理 → 付款申请 → 付款单<br>
+      <strong>触发场景：</strong>退款申请单下推付款单时提示"超额、无法下推"，十几笔6月29日的单据都遇到<br>
+      <strong>核心问题：</strong><strong>两套付款入口共享同一个应付额度</strong>——旧流程（应付单→付款单）已占了一部分，新流程（应付单→付款申请单→付款单）再推，系统认为重复/超额
+    </div>
+    <div class="info-box">
+      <strong>IT要做什么：</strong><br>
+      ① 查旧流程遗留的付款单（未审核的那些）→ 作废/删除<br>
+      ② 确认所有付款统一从"付款申请单"下推<br>
+      ③ 系统配置禁用"应付单→付款单"直接入口<br>
+      ④ 过渡期内帮助财务逐单清理
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin-bottom:6px">时间线</div>
+  <div class="flow-box">
+    <div class="step">
+      <span class="tag tag-blue">6月30日前</span>
+      <span>旧流程：应付单 → 付款单（直接付了一部分）</span>
+    </div>
+    <div class="step" style="margin-top:4px">
+      <span class="tag tag-red">6月30日后</span>
+      <span>新流程：应付单 → 付款申请单 → 付款单（统一口径）</span>
+    </div>
+    <div class="step" style="margin-top:4px">
+      <span class="tag tag-red">现在</span>
+      <span>旧付款单占着额度没释放 → 新付款申请单被挡 → 超额 ❌</span>
+    </div>
+    <div style="margin-top:6px;font-size:10px;color:var(--s-400)">系统控制：同一笔应付单下推的所有付款金额之和不能超过应付金额本身。不管从哪个入口付的，全部累加。</div>
+  </div>
+
+  <!-- Root cause -->
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin-bottom:6px">根因</div>
+  <div class="info-row">
+    <div class="info-box" style="background:#fef2f2;border:0.5px solid #fecaca">
+      <strong>🔴 流程口径变更</strong><br>
+      6月30日起统一要求走 应付单→付款申请单→付款单。但旧流程应付单→付款单的历史数据还在——那些已下推（哪怕未审核）的付款单占用着应付额度。
+    </div>
+    <div class="info-box" style="background:#fef2f2;border:0.5px solid #fecaca">
+      <strong>🔴 金蝶额度控制</strong><br>
+      应付单有一个"可付金额 = 应付金额 - 已付金额"。旧付款单计入"已付"，新付款申请单计入"要付"。二者累加 ≥ 应付额 → 超额拦截。
+    </div>
+  </div>
+  <div class="info-box" style="background:#fef2f2;border:0.5px solid #fecaca;margin-bottom:10px">
+    <strong>🔴 分批支付的特殊性</strong><br>
+    采购经常不是整单付款，是分批付的。但分批付的所有批次必须<strong>走同一个入口</strong>——不能第一批走应付单直接推付款单，第二批走付款申请单。混着走系统无法归口统一核算。
+  </div>
+
+  <!-- Solution -->
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin-bottom:6px">解决方案</div>
+  <div class="info-row">
+    <div class="info-box" style="background:#f0fdf4;border:0.5px solid #bbf7d0">
+      <strong>✅ 短期（过渡清理）</strong><br>
+      ① 查出这十几笔单据关联的旧流程付款单<br>
+      ② <strong>未审核的付款单 → 作废/删除</strong><br>
+      ③ <strong>已审核的 → 反审核后冲销</strong>，从付款申请单重新推<br>
+      ④ 确认所有付款批次统一走"付款申请单"
+    </div>
+    <div class="info-box" style="background:#f0fdf4;border:0.5px solid #bbf7d0">
+      <strong>✅ 长期（系统配置）</strong><br>
+      路径：开发平台 → 业务流 → 应付单下推付款单<br>
+      禁用"应付单→付款单"入口<br>
+      只保留：应付单 → 付款申请单 → 付款单<br>
+      <br>
+      <strong>效果：</strong>以后不可能再从两个路径混着走，杜绝同类问题。
+    </div>
+  </div>
+
+  <div class="conclusion-box">
+    <strong>💡 学习要点</strong>：这个案例的核心是<strong>"流程口径变更导致的历史数据冲突"</strong>——不是系统Bug，是两套路径共享同一个额度池。以后遇到"下推超额"，第一反应就是查：<strong>这个上游单是不是被另外一个入口推过了？</strong> 尤其是流程改造过渡期，这种问题会集中爆发。
   </div>
 </div>
 
