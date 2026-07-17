@@ -19,12 +19,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .container{max-width:1340px;margin:0 auto;padding:20px 24px}
 
 /* ── Header ── */
-.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative;overflow:hidden}
+.header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative}
 .header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%}
 .header-left{position:relative;z-index:1}
 .header h1{font-size:22px;font-weight:700}
 .header .sub{font-size:12px;color:#94a3b8;margin-top:4px}
-.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav{display:flex;gap:8px;position:relative;z-index:10;flex-wrap:wrap}
 .header-nav a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap}
 .header-nav a:hover,.header-nav a.active{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#fff}
 
@@ -171,7 +171,6 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   <div class="header-left">
     <h1>🔧 PLM 项目实施中心</h1>
     <div class="sub">橙子自动化 · 金蝶云星空 PLM · 项目领导：黄亮、王嘉璐 · IT负责人/PM：杰德瑞恩J · 服务器预算 5.3万 · 关键用户 7人</div>
-    <a href="plm-kickoff.html" style="display:inline-block;margin-top:10px;padding:8px 22px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1e293b;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;border:2px solid rgba(255,255,255,.15);transition:transform .2s,box-shadow .2s;box-shadow:0 2px 12px rgba(251,191,36,.3)">🎯 启动会演示 →</a>
   </div>
   <nav class="header-nav">
     <a href="index.html">🏠 首页</a>
@@ -272,7 +271,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     <div class="fp-item"><span class="fp-name">📄 项目团队组建确认</span><span class="fp-st st-done">✅ 已完成</span></div>
     <div class="fp-item"><span class="fp-name">📄 数据断点识别清单</span><span class="fp-st st-done">✅ 已完成</span></div>
     <div class="fp-item"><span class="fp-name">📄 研发+供应链业务流程</span><span class="fp-st st-done">✅ 已完成</span></div>
-    <div class="fp-item"><span class="fp-name">📄 项目启动会 PPT</span><span class="fp-st st-done">✅ 已完成</span></div>
+    <div class="fp-item"><a href="plm-kickoff.html" style="text-decoration:none;color:inherit;display:contents"><span class="fp-name">📄 项目启动会 PPT</span><span class="fp-st st-done" style="color:var(--y-d);font-weight:700">🎯 点击查看 →</span></a></div>
     <div class="fp-item"><span class="fp-name">⏳ 阶段1-6 · 剩余16个文件</span><span class="fp-st st-wait">待启动</span></div>
     <div class="fp-bar"><div class="fp-fill" style="width:30%"></div></div>
     <div class="fp-num">30% 完成（7/23 文件已产出）</div>
