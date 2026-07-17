@@ -22,7 +22,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   background:linear-gradient(135deg,#0f172a,#1e293b,#065f46);
   border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
   display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
-  position:relative;overflow:hidden;
+  position:relative;
 }
 .header::after{
   content:'';position:absolute;top:-50%;right:-10%;
@@ -171,8 +171,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
         <a href="erp-procurement.html">📥 采购管理</a>
         <a href="erp-finance.html" style="color:#34d399">💰 财务业务场景</a>
         <div class="sub">
-          <a href="erp-finance.html">工单结案与在制材料</a>
-          <a href="erp-finance.html">汇率与应付单处理 🆕</a>
+          <a href="#case1">工单结案与在制材料</a>
+          <a href="#case2">应付单下推发票金额</a>
         </div>
       </div>
     </div>
@@ -244,6 +244,10 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   <div class="cat-card" style="border-color:#b5d4f4">
     <div class="cat-head" style="color:var(--b-d)">📨 应收应付管理</div>
     <div class="cat-body">
+      <div class="entry" style="background:#d1fae5">
+        <span>✅ 应付单下推发票金额不一致</span>
+        <span class="badge badge-done">已整理</span>
+      </div>
       <div class="entry">
         <span>采购发票匹配（三单匹配）</span>
         <span class="badge badge-empty">待补充</span>
@@ -317,7 +321,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 <!-- Current Case Detail -->
 <div class="section-title">📘 当前学习案例</div>
-<div class="detail-card">
+<div class="detail-card" id="case1">
 
   <div class="detail-head">
     <h2>工单结案与在制材料处理</h2>
@@ -374,6 +378,110 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
   <div class="conclusion-box">
     <strong>💡 学习要点</strong>：这个案例的核心是<strong>"手工结案会把在制材料强算成损耗"</strong>——这是ERP成本核算的一个常见坑。以后财务说"成本不对"，你可以先问一句："是不是手工结案的时候还有在制没退？"
+  </div>
+</div>
+
+<!-- Case 2: 应付单下推发票金额不一致 -->
+<div class="detail-card" id="case2">
+
+  <div class="detail-head">
+    <h2>应付单下推增值税发票金额不一致</h2>
+    <span class="status">已整理</span>
+  </div>
+
+  <div class="info-row">
+    <div class="info-box">
+      <strong>业务归属：</strong>应收应付管理 → 应付单下推增值税发票<br>
+      <strong>触发场景：</strong>应付单审核保存后，下推生成增值税发票时，金额字段（未税金额/税额/价税合计）出现不一致，财务需手动调整<br>
+      <strong>核心问题：</strong>下推时<strong>单据转换规则用"公式重算"而非"取上游值"</strong>——发票从原始单价×数量重新计算金额，财务在应付单上的手工调整全部丢失
+    </div>
+    <div class="info-box">
+      <strong>IT要做什么：</strong><br>
+      ① 确认应付单下推发票的单据转换规则是否配置了"公式计算"<br>
+      ② 将3个金额字段改为"取上游单据值"（不重算）<br>
+      ③ 测试验证：开AP单→下推发票，3个金额字段是否完全一致<br>
+      ④ 回访财务确认问题解决
+    </div>
+  </div>
+
+  <!-- Flow -->
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin-bottom:6px">业务流程</div>
+  <div class="flow-box">
+    <div class="step">
+      <span class="tag tag-blue">① 入库</span>
+      <span>采购收货入库 →</span>
+      <span class="tag tag-blue">② AP单</span>
+      <span>生成应付单，财务核对供应商发票后可能手工调金额 →</span>
+      <span class="tag tag-blue">③ 保存</span>
+      <span>应付单审核保存（3个金额已确认） →</span>
+      <span class="tag tag-red">④ 下推 ❌</span>
+      <span>→ 发票系统不复制确认值，而是从单价×数量重算</span>
+    </div>
+    <div style="margin-top:6px;font-size:10px;color:var(--s-400)">系统机制：发票系统拿到原始"单价×数量"重新跑计算，不走应付单已经舍入/手工调整过的最终金额</div>
+  </div>
+
+  <!-- Root Cause -->
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin-bottom:6px">根因分析</div>
+  <div class="info-row">
+    <div class="info-box" style="background:#fef2f2;border:0.5px solid #fecaca">
+      <strong>🔴 根因1：映射方向错</strong><br>
+      配置的是"公式重算"（发票金额从零算），而不是"取上游值"（原样复制应付单金额）
+    </div>
+    <div class="info-box" style="background:#fef2f2;border:0.5px solid #fecaca">
+      <strong>🔴 根因2：舍入偏差</strong><br>
+      金蝶内部用6位精度计算，但上一轮算税额时已在某一步做了2位舍入。发票从6位精度重新跑，舍入方向可能不同
+    </div>
+  </div>
+  <div class="info-box" style="background:#fef2f2;border:0.5px solid #fecaca;margin-bottom:10px">
+    <strong>🔴 根因3：手动调整丢失（最常见）</strong><br>
+    供应商发票与系统算出的值差0.01（双方舍入规则不同），财务手工改AP单金额对齐供应商发票。但下推发票时，发票系统拿"原始单价×数量"重新算，完全无视财务改过的值。
+  </div>
+
+  <!-- Solution -->
+  <div style="font-size:12px;font-weight:500;color:var(--s-700);margin-bottom:6px">解决方案</div>
+  <div class="info-row">
+    <div class="info-box" style="background:#f0fdf4;border:0.5px solid #bbf7d0">
+      <strong>✅ 核心改法：改单据转换规则</strong><br>
+      路径：开发平台 → 业务流 → 应付单下推增值税发票 → 单据转换规则<br>
+      将下面3个金额字段的映射从"公式"改为<strong>"取上游单据值"</strong>：<br>
+      · 未税金额 ← 应付单.未税金额<br>
+      · 税额 ← 应付单.税额<br>
+      · 价税合计 ← 应付单.价税合计<br>
+      <em style="font-size:10px;color:var(--s-400)">注意：只改金额字段，不改"单价"和"数量"</em>
+    </div>
+    <div class="info-box" style="background:#f0fdf4;border:0.5px solid #bbf7d0">
+      <strong>✅ 治本逻辑</strong><br>
+      应付单存的3个金额 = 财务最终确认的值（含任何手工调整）<br>
+      发票的3个金额 = 直接复制应付单的值（一分不差）<br>
+      <br>
+      <strong>区别：</strong><br>
+      取上游值 = 复制财务确认的最终结果<br>
+      公式重算 = 从原始数据重新跑，忽略人工调整
+    </div>
+  </div>
+  <div class="info-box" style="background:#f0fdf4;border:0.5px solid #bbf7d0;margin-bottom:10px">
+    <strong>✅ 额外排查清单（改完映射后再验）</strong><br>
+    ① 金额精度：确认单价/金额/税额精度≥2位（路径：系统建模→应付管理→参数设置）<br>
+    ② 单据参数：确认"税额计算采用四舍五入"规则统一<br>
+    ③ 外币单据：若是外币AP单，确认汇率已锁（有锁图标=已锁）<br>
+    ④ 部分开票：若是分批开票而非全额下推，金额不一致是正常业务逻辑
+  </div>
+
+  <!-- Tech deep-dive -->
+  <details style="margin-top:8px">
+    <summary style="cursor:pointer;font-size:12px;font-weight:500;color:var(--b-d);padding:8px;background:var(--b-bg);border-radius:8px">🔬 技术深挖：为什么"从零重算"会出错？（展开）</summary>
+    <div style="padding:12px;font-size:11px;color:var(--s-600);line-height:1.8">
+      <p><strong>核心矛盾：</strong>应付单存的3个金额 ≠ 从"单价×数量"直接算出的3个金额，因为应付单保存前经历了<strong>至少一轮舍入</strong>。</p>
+      <br>
+      <p><strong>举例：</strong>财务在AP单上手动把税额从751.71改成751.70（对齐供应商发票）。AP单保存的税额= <strong>751.70</strong>。</p>
+      <p>发票系统说："你和供应商发票对齐了OK，但我要从原始数据重算：单价×数量÷1.13×0.13 = 751.71。所以发票上显示 751.71，和你的AP单差0.01。"</p>
+      <br>
+      <p><strong>本质：</strong>配置选"公式计算" = 系统假定了"没人改过原始数据"。但实际业务中，财务经常需要手工对齐供应商发票——这些人工调整在"公式计算"路径下全部丢失。</p>
+    </div>
+  </details>
+
+  <div class="conclusion-box">
+    <strong>💡 学习要点</strong>：这个案例的核心是<strong>理解 ERP 的"单据转换规则"决定了下推数据的准确性</strong>。默认模板为了灵活性做了公式重算，但对国内采购全额开票+财务手动核对场景，<strong>应该改为"取上游值"</strong>。以后财务说"下推后金额变了"，第一反应就是：确认单据转换规则的3个金额字段是不是配了公式重算。
   </div>
 </div>
 
