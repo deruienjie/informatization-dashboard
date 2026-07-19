@@ -5,463 +5,722 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PLM项目启动会 · 橙子自动化</title>
 <style>
-:root{--g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;--y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;--b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;--r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;--p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;--or:#f97316;--or-bg:#fff3e0;--s-50:#f8fafc;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b}
+:root{--g:#10b981;--g2:#34d399;--y:#f59e0b;--y2:#fbbf24;--b:#3b82f6;--b2:#60a5fa;--r:#ef4444;--r2:#f87171;--p:#8b5cf6;--p2:#a78bfa;--or:#f97316;--s50:#f8fafc;--s200:#e2e8f0;--s400:#94a3b8;--s600:#475569;--s700:#334155;--s800:#1e293b;--s900:#0f172a}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-snap-type:y mandatory;overflow-x:hidden}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:#0f172a;color:#e2e8f0}
-
-/* Full-screen slides */
 .slide{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 48px;position:relative;overflow:hidden;scroll-snap-align:start}
-.slide::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;opacity:.03;background:radial-gradient(circle at 20% 50%,#3b82f6 0%,transparent 50%),radial-gradient(circle at 80% 20%,#10b981 0%,transparent 50%),radial-gradient(circle at 50% 80%,#8b5cf6 0%,transparent 50%)}
+.slide-inner{position:relative;z-index:1;max-width:1100px;width:100%}
+.slide-num{position:absolute;top:24px;right:48px;font-size:11px;color:#475569;font-weight:600;font-family:"SF Mono",monospace}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#475569;margin-bottom:12px}
 
 /* Slide backgrounds */
-.s1{background:linear-gradient(135deg,#0f172a,#1e293b,#0c1929)}
+.s0{background:linear-gradient(135deg,#0f172a,#1a2332,#0c1929)}
+.s1{background:linear-gradient(135deg,#0f172a,#1b1b2e,#0f172a)}
 .s2{background:linear-gradient(135deg,#0f172a,#1a2332,#0f172a)}
-.s3{background:linear-gradient(135deg,#0f172a,#172031,#0f172a)}
-.s4{background:linear-gradient(135deg,#0c1929,#162238,#0f172a)}
-.s5{background:linear-gradient(135deg,#0f172a,#1b2538,#0f172a)}
-.s6{background:linear-gradient(135deg,#0f172a,#1a2332,#0c1929)}
-.s7{background:linear-gradient(135deg,#0c1929,#1a2332,#0f172a)}
-.s8{background:linear-gradient(135deg,#0f172a,#1a2538,#0c1929)}
-
-.slide-inner{position:relative;z-index:1;max-width:1100px;width:100%}
-
-/* Slide counter */
-.slide-num{position:absolute;top:32px;right:48px;font-size:12px;color:#475569;font-weight:600;font-family:"SF Mono",monospace}
-
-/* Title styles */
-.big-title{font-size:56px;font-weight:800;line-height:1.15;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{font-size:20px;color:#64748b;line-height:1.6;max-width:700px}
-.divider{width:60px;height:4px;background:var(--g);border-radius:2px;margin:28px 0}
-
-/* Flow diagram - big for projection */
-.flow-container{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;padding:20px 0}
-.flow-node{background:linear-gradient(135deg,#1e293b,#334155);border:1px solid #475569;border-radius:16px;padding:28px 24px;text-align:center;min-width:140px;transition:all .3s}
-.flow-node:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
-.flow-node .fn-icon{font-size:40px;margin-bottom:8px}
-.flow-node .fn-name{font-size:16px;font-weight:700;color:#e2e8f0}
-.flow-node .fn-status{font-size:10px;padding:3px 10px;border-radius:12px;margin-top:6px;display:inline-block;font-weight:600}
-.st-online{background:rgba(16,185,129,.2);color:#34d399}
-.st-planning{background:rgba(245,158,11,.2);color:#fbbf24}
-.st-offline{background:rgba(239,68,68,.2);color:#f87171}
-.flow-arrow{font-size:24px;color:#475569;font-weight:700;padding:0 8px}
-
-/* Two column */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
-
-/* Pain point cards */
-.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
-.pain-card{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(239,68,68,.02));border:1px solid rgba(239,68,68,.2);border-radius:14px;padding:20px;transition:.2s}
-.pain-card:hover{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(239,68,68,.04))}
-.pain-card .pain-icon{font-size:28px;margin-bottom:8px}
-.pain-card .pain-title{font-size:15px;font-weight:700;color:#fca5a5;margin-bottom:6px}
-.pain-card .pain-desc{font-size:13px;color:#94a3b8;line-height:1.6}
-
-/* Timeline */
-.timeline{display:flex;gap:8px;margin-top:24px}
-.tl-phase{flex:1;background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(59,130,246,.02));border:1px solid rgba(59,130,246,.2);border-radius:14px;padding:20px;text-align:center}
-.tl-phase .ph-num{font-size:28px;font-weight:800;color:var(--b);margin-bottom:4px}
-.tl-phase .ph-title{font-size:14px;font-weight:700;color:#e2e8f0;margin-bottom:6px}
-.tl-phase .ph-desc{font-size:11px;color:#94a3b8;line-height:1.5}
-
-/* Value cards */
-.value-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.value-card{background:linear-gradient(135deg,rgba(16,185,129,.06),rgba(16,185,129,.01));border:1px solid rgba(16,185,129,.15);border-radius:14px;padding:24px}
-.value-card .vc-icon{font-size:32px;margin-bottom:10px}
-.value-card .vc-title{font-size:17px;font-weight:700;color:#34d399;margin-bottom:6px}
-.value-card .vc-desc{font-size:13px;color:#94a3b8;line-height:1.7}
+.s3{background:linear-gradient(135deg,#0c1929,#162238,#0f172a)}
+.s4{background:linear-gradient(135deg,#0f172a,#1b2538,#0f172a)}
+.s5{background:linear-gradient(135deg,#0f172a,#1a2332,#0c1929)}
+.s6{background:linear-gradient(135deg,#0c1929,#1a2332,#0f172a)}
+.s7{background:linear-gradient(135deg,#0f172a,#1a2538,#0c1929)}
 
 /* Nav dots */
-.nav-dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:10px}
-.nav-dots a{width:10px;height:10px;border-radius:50%;background:#334155;transition:all .3s;display:block}
-.nav-dots a:hover,.nav-dots a.active{background:var(--g);box-shadow:0 0 8px rgba(16,185,129,.5)}
+.nav-dots{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:8px}
+.nav-dots a{width:8px;height:8px;border-radius:50%;background:#334155;transition:all .3s;display:block;border:2px solid transparent}
+.nav-dots a:hover,.nav-dots a.active{background:var(--g);box-shadow:0 0 10px rgba(16,185,129,.5)}
+.nav-dots a.active{border-color:rgba(16,185,129,.3);transform:scale(1.3)}
 
-/* Highlight box */
-.hl-box{background:linear-gradient(135deg,rgba(139,92,246,.1),transparent);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:28px 32px;margin-top:24px}
-.hl-box h3{font-size:18px;font-weight:700;color:#c4b5fd;margin-bottom:12px}
-.hl-box p{font-size:14px;color:#94a3b8;line-height:1.8}
+/* Slide title - minimal */
+.slide-title{font-size:28px;font-weight:800;line-height:1.2;margin-bottom:4px}
+.slide-title.g{color:var(--g2)}
+.slide-title.b{color:var(--b2)}
+.slide-title.y{color:var(--y2)}
+.slide-title.r{color:var(--r2)}
+.slide-title.p{color:var(--p2)}
+.slide-sub{font-size:13px;color:#64748b;margin-bottom:24px}
 
-/* Button */
-.btn{border:none;padding:14px 36px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit;margin-top:28px;display:inline-block;text-decoration:none}
-.btn-primary{background:var(--g);color:#fff}
-.btn-primary:hover{background:#059669;box-shadow:0 8px 24px rgba(16,185,129,.3)}
-.btn-outline{background:transparent;border:1px solid #475569;color:#94a3b8}
-.btn-outline:hover{background:rgba(255,255,255,.05);color:#fff}
+/* Card minimal */
+.card-min{border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;background:rgba(255,255,255,.02);transition:.2s}
+.card-min:hover{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
 
-/* Big number highlight */
-.big-num{font-size:72px;font-weight:900;line-height:1}
-.big-num.g{color:var(--g)}
-.big-num.r{color:var(--r)}
-.big-num.b{color:var(--b)}
+/* Tag */
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:6px;font-weight:600}
+.tag-g{background:rgba(16,185,129,.15);color:var(--g2)}
+.tag-b{background:rgba(59,130,246,.15);color:var(--b2)}
+.tag-y{background:rgba(245,158,11,.15);color:var(--y2)}
+.tag-r{background:rgba(239,68,68,.15);color:var(--r2)}
+.tag-p{background:rgba(139,92,246,.15);color:var(--p2)}
 
-/* Responsive */
+/* Scroll hint */
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:10px;color:#475569;text-align:center;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
 @media(max-width:768px){
-  .slide{padding:40px 24px}
-  .big-title{font-size:32px}
-  .two-col{grid-template-columns:1fr}
-  .pain-grid{grid-template-columns:1fr}
-  .value-grid{grid-template-columns:1fr}
-  .timeline{flex-direction:column}
-  .flow-container{flex-direction:column}
+  .slide{padding:40px 20px}
+  .slide-title{font-size:22px}
+  .nav-dots{right:12px}
 }
 </style>
 </head>
 <body>
 
 <div class="nav-dots">
-  <a href="#s1" class="active" id="d1"></a>
+  <a href="#s0" class="active" id="d0"></a>
+  <a href="#s1" id="d1"></a>
   <a href="#s2" id="d2"></a>
   <a href="#s3" id="d3"></a>
   <a href="#s4" id="d4"></a>
   <a href="#s5" id="d5"></a>
   <a href="#s6" id="d6"></a>
   <a href="#s7" id="d7"></a>
-  <a href="#s8" id="d8"></a>
 </div>
 
-<!-- ═══════════ SLIDE 1: 数据死了 ═══════════ -->
+<!-- ═══════════ SLIDE 0: 远景图 ═══════════ -->
+<div class="slide s0" id="s0">
+  <div class="slide-num">00 / 08</div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label" style="color:#475569">Vision · 橙子自动化信息化全景</div>
+    <svg viewBox="0 0 1000 520" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- 背景 -->
+      <rect width="1000" height="520" fill="none"/>
+
+      <!-- ═══════ 左侧：现状 ═══════ -->
+      <rect x="30" y="70" width="190" height="380" rx="14" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.25)" stroke-width="1"/>
+      <text x="125" y="100" text-anchor="middle" fill="#f87171" font-size="16" font-weight="700">❌ 现状诊断</text>
+      <!-- 墓碑 -->
+      <rect x="55" y="120" width="60" height="72" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+      <text x="85" y="145" text-anchor="middle" font-size="22">💬</text>
+      <text x="85" y="172" text-anchor="middle" fill="#94a3b8" font-size="9">微信/钉钉</text>
+      <text x="85" y="184" text-anchor="middle" fill="#64748b" font-size="8">消息沉底</text>
+
+      <rect x="130" y="120" width="60" height="72" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+      <text x="160" y="145" text-anchor="middle" font-size="22">💻</text>
+      <text x="160" y="172" text-anchor="middle" fill="#94a3b8" font-size="9">个人电脑</text>
+      <text x="160" y="184" text-anchor="middle" fill="#64748b" font-size="8">人走图走</text>
+
+      <rect x="55" y="205" width="60" height="72" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+      <text x="85" y="230" text-anchor="middle" font-size="22">📧</text>
+      <text x="85" y="257" text-anchor="middle" fill="#94a3b8" font-size="9">邮件/钉盘</text>
+      <text x="85" y="269" text-anchor="middle" fill="#64748b" font-size="8">版本混乱</text>
+
+      <rect x="130" y="205" width="60" height="72" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+      <text x="160" y="230" text-anchor="middle" font-size="22">📋</text>
+      <text x="160" y="257" text-anchor="middle" fill="#94a3b8" font-size="9">纸质单据</text>
+      <text x="160" y="269" text-anchor="middle" fill="#64748b" font-size="8">签字跑腿</text>
+
+      <text x="125" y="348" text-anchor="middle" fill="#fc8181" font-size="28" font-weight="800">4大</text>
+      <text x="125" y="370" text-anchor="middle" fill="#fc8181" font-size="28" font-weight="800">信息孤岛</text>
+      <text x="125" y="395" text-anchor="middle" fill="#64748b" font-size="9">数据散落各处</text>
+      <text x="125" y="408" text-anchor="middle" fill="#64748b" font-size="9">不流动·不关联</text>
+      <text x="125" y="421" text-anchor="middle" fill="#64748b" font-size="9">不驱动决策</text>
+
+      <!-- 过渡箭头 -->
+      <defs>
+        <marker id="arrow-g" markerWidth="10" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#10b981"/></marker>
+        <marker id="arrow-b" markerWidth="10" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#3b82f6"/></marker>
+        <marker id="arrow-p" markerWidth="10" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#8b5cf6"/></marker>
+      </defs>
+      <line x1="225" y1="260" x2="270" y2="260" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-g)" stroke-dasharray="6,4"/>
+
+      <!-- ═══════ 中部：信息化三部曲 ═══════ -->
+      <rect x="280" y="70" width="440" height="380" rx="14" fill="rgba(16,185,129,.04)" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+      <text x="500" y="100" text-anchor="middle" fill="#34d399" font-size="16" font-weight="700">🛤️ 信息化三部曲</text>
+
+      <!-- ERP -->
+      <rect x="300" y="118" width="400" height="88" rx="10" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.25)" stroke-width="1.5"/>
+      <rect x="310" y="128" width="36" height="36" rx="8" fill="rgba(16,185,129,.15)"/>
+      <text x="328" y="152" text-anchor="middle" font-size="20">📦</text>
+      <text x="360" y="142" fill="#34d399" font-size="15" font-weight="700">✅ ERP · 已上线</text>
+      <text x="360" y="158" fill="#94a3b8" font-size="11">采购·库存·销售·财务 — 基础业务已跑通</text>
+      <text x="360" y="173" fill="#64748b" font-size="10">但研发数据不在系统里，BOM靠人工搬运</text>
+      <text x="310" y="196" fill="#f87171" font-size="9" font-weight="600">⛔ 信息断层：ERP 没有研发数据输入</text>
+
+      <!-- PLM -->
+      <rect x="300" y="218" width="400" height="88" rx="10" fill="rgba(139,92,246,.08)" stroke="rgba(139,92,246,.35)" stroke-width="2"/>
+      <rect x="310" y="228" width="36" height="36" rx="8" fill="rgba(139,92,246,.15)"/>
+      <text x="328" y="252" text-anchor="middle" font-size="20">🔧</text>
+      <text x="360" y="242" fill="#a78bfa" font-size="15" font-weight="700">🟡 PLM · 今日启动</text>
+      <text x="360" y="258" fill="#94a3b8" font-size="11">研发数据统一管理 → BOM/图纸/变更在线化</text>
+      <text x="360" y="273" fill="#94a3b8" font-size="10">打通 设计 → 生产 → 采购 数据链</text>
+      <text x="310" y="298" fill="#a78bfa" font-size="9" font-weight="600">🔑 承上启下：补全ERP缺失的研发数据</text>
+
+      <!-- APS -->
+      <rect x="300" y="318" width="400" height="72" rx="10" fill="rgba(245,158,11,.06)" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
+      <rect x="310" y="328" width="36" height="36" rx="8" fill="rgba(245,158,11,.12)"/>
+      <text x="328" y="352" text-anchor="middle" font-size="20">📅</text>
+      <text x="360" y="342" fill="#fbbf24" font-size="15" font-weight="700">🔴 APS · 规划中</text>
+      <text x="360" y="358" fill="#94a3b8" font-size="11">智能排产 → 解决交期不可控</text>
+      <text x="360" y="373" fill="#94a3b8" font-size="10">ERP + PLM 数据驱动精确排程</text>
+
+      <!-- 过渡箭头 -->
+      <line x1="725" y1="260" x2="770" y2="260" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-b)" stroke-dasharray="6,4"/>
+
+      <!-- ═══════ 右侧：AI ═══════ -->
+      <rect x="780" y="70" width="190" height="380" rx="14" fill="rgba(59,130,246,.04)" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+      <text x="875" y="100" text-anchor="middle" fill="#60a5fa" font-size="16" font-weight="700">🤖 AI 时代</text>
+
+      <!-- Step 1 -->
+      <rect x="795" y="120" width="160" height="70" rx="8" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+      <text x="875" y="143" text-anchor="middle" font-size="22">📊</text>
+      <text x="875" y="160" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">信息化</text>
+      <text x="875" y="175" text-anchor="middle" fill="#64748b" font-size="9">数据底座</text>
+
+      <!-- 阶梯箭头 -->
+      <text x="875" y="203" text-anchor="middle" fill="#475569" font-size="16">↓</text>
+
+      <rect x="795" y="215" width="160" height="70" rx="8" fill="rgba(59,130,246,.08)" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+      <text x="875" y="238" text-anchor="middle" font-size="22">🧠</text>
+      <text x="875" y="255" text-anchor="middle" fill="#60a5fa" font-size="11" font-weight="700">AI 化</text>
+      <text x="875" y="270" text-anchor="middle" fill="#64748b" font-size="9">数据训练</text>
+
+      <text x="875" y="298" text-anchor="middle" fill="#475569" font-size="16">↓</text>
+
+      <rect x="795" y="310" width="160" height="70" rx="8" fill="rgba(139,92,246,.08)" stroke="rgba(139,92,246,.2)" stroke-width="1"/>
+      <text x="875" y="333" text-anchor="middle" font-size="22">🚀</text>
+      <text x="875" y="350" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">AI 驱动</text>
+      <text x="875" y="365" text-anchor="middle" fill="#64748b" font-size="9">智能决策</text>
+
+      <text x="875" y="410" text-anchor="middle" fill="#60a5fa" font-size="11">⏱ 3年路线</text>
+      <text x="875" y="425" text-anchor="middle" fill="#64748b" font-size="9">效率提升10-100倍</text>
+
+      <!-- 底部标语 -->
+      <rect x="60" y="466" width="880" height="36" rx="18" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.15)" stroke-width="1"/>
+      <text x="500" y="490" text-anchor="middle" fill="#34d399" font-size="13" font-weight="600">PLM 是承上启下的关键一步 · 补上研发数据，ERP 和 AI 才能跑起来</text>
+    </svg>
+
+    <!-- 关键数字 - 极简 -->
+    <div style="display:flex;justify-content:center;gap:40px;margin-top:12px">
+      <div><div style="font-size:36px;font-weight:800;color:#34d399">3大</div><div style="font-size:11px;color:#64748b">信息化系统</div></div>
+      <div><div style="font-size:36px;font-weight:800;color:#a78bfa">1个</div><div style="font-size:11px;color:#64748b">关键缺口（PLM）</div></div>
+      <div><div style="font-size:36px;font-weight:800;color:#60a5fa">3年</div><div style="font-size:11px;color:#64748b">到AI驱动</div></div>
+    </div>
+    <div class="scroll-hint">↓ 滚动查看详情</div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 1: 数据现状诊断 ═══════════ -->
 <div class="slide s1" id="s1">
-  <div class="slide-num">01 / 06</div>
-  <div class="slide-inner">
-    <div class="big-title" style="font-size:64px">数据死了。</div>
-    <div class="subtitle">打开微信——聊天记录。<br>打开钉钉——审批单。<br>打开电脑——图纸、Excel、Word……</div>
-    <div class="divider" style="background:var(--r)"></div>
-
-    <!-- Dead data cemetery -->
-    <div style="display:flex;gap:16px;justify-content:center;margin:20px 0;flex-wrap:wrap">
-      <div style="background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));border:1px solid rgba(239,68,68,.25);border-radius:14px;padding:20px;text-align:center;min-width:150px">
-        <div style="font-size:32px;margin-bottom:6px">💬</div>
-        <div style="font-size:13px;font-weight:600;color:#fca5a5">微信/钉钉</div>
-        <div style="font-size:10px;color:#64748b;margin-top:4px">消息沉底<br>决策靠记忆</div>
-      </div>
-      <div style="background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));border:1px solid rgba(239,68,68,.25);border-radius:14px;padding:20px;text-align:center;min-width:150px">
-        <div style="font-size:32px;margin-bottom:6px">🖥️</div>
-        <div style="font-size:13px;font-weight:600;color:#fca5a5">个人电脑</div>
-        <div style="font-size:10px;color:#64748b;margin-top:4px">图纸/表格<br>人走数据走</div>
-      </div>
-      <div style="background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));border:1px solid rgba(239,68,68,.25);border-radius:14px;padding:20px;text-align:center;min-width:150px">
-        <div style="font-size:32px;margin-bottom:6px">📧</div>
-        <div style="font-size:13px;font-weight:600;color:#fca5a5">邮件/钉盘</div>
-        <div style="font-size:10px;color:#64748b;margin-top:4px">版本混乱<br>找不到最新</div>
-      </div>
-      <div style="background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));border:1px solid rgba(239,68,68,.25);border-radius:14px;padding:20px;text-align:center;min-width:150px">
-        <div style="font-size:32px;margin-bottom:6px">📋</div>
-        <div style="font-size:13px;font-weight:600;color:#fca5a5">纸质单据</div>
-        <div style="font-size:10px;color:#64748b;margin-top:4px">审批靠跑腿<br>签字找人</div>
-      </div>
-    </div>
-
-    <div style="text-align:center;font-size:28px;color:#64748b;margin:16px 0">↓</div>
-
-    <div style="text-align:center;font-size:20px;font-weight:700;color:#e2e8f0">
-      没有线上化 = <span style="color:var(--r);font-size:24px">死的</span><br>
-      <span style="font-size:14px;color:#64748b;font-weight:400">数据不流动、不关联、不能被调用、不能驱动决策</span>
-    </div>
-
-    <div class="hl-box" style="margin-top:16px;background:linear-gradient(135deg,rgba(16,185,129,.08),transparent);border-color:rgba(16,185,129,.25)">
-      <h3 style="color:#34d399">🎯 信息化的本质</h3>
-      <p>把散落在各处的<b style="color:#34d399">"死数据"</b>，搬到统一系统里 → <b style="color:#34d399">让数据活起来</b><br>
-      活的数据 = 自动流转 + 驱动流程 + 可追溯 + 可分析 + 可喂给 AI</p>
-    </div>
+  <div class="slide-num">01 / 08</div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">数据现状</div>
+    <div class="slide-title r">数据死了。</div>
+    <div class="slide-sub">4大信息孤岛，数据不流动、不关联、不驱动决策</div>
+    <svg viewBox="0 0 900 320" style="width:100%;max-width:900px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="320" fill="none"/>
+      <!-- 墓碑1 -->
+      <g transform="translate(40,30)">
+        <rect x="0" y="0" width="180" height="200" rx="12" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <rect x="65" y="15" width="50" height="70" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+        <text x="90" y="45" text-anchor="middle" font-size="28">💬</text>
+        <text x="90" y="60" text-anchor="middle" fill="#94a3b8" font-size="9">数据坟墓</text>
+        <text x="90" y="105" text-anchor="middle" fill="#f87171" font-size="14" font-weight="700">微信/钉钉</text>
+        <text x="90" y="125" text-anchor="middle" fill="#64748b" font-size="11">消息沉底</text>
+        <text x="90" y="142" text-anchor="middle" fill="#64748b" font-size="11">决策全靠记忆</text>
+        <text x="90" y="159" text-anchor="middle" fill="#64748b" font-size="11">翻聊天记录</text>
+        <line x1="20" y1="180" x2="160" y2="180" stroke="rgba(239,68,68,.15)" stroke-width="1"/>
+        <text x="90" y="195" text-anchor="middle" fill="#f87171" font-size="11" font-weight="600">❌ 无法追溯</text>
+      </g>
+      <!-- 墓碑2 -->
+      <g transform="translate(260,30)">
+        <rect x="0" y="0" width="180" height="200" rx="12" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <rect x="65" y="15" width="50" height="70" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+        <text x="90" y="45" text-anchor="middle" font-size="28">💻</text>
+        <text x="90" y="60" text-anchor="middle" fill="#94a3b8" font-size="9">数据坟墓</text>
+        <text x="90" y="105" text-anchor="middle" fill="#f87171" font-size="14" font-weight="700">个人电脑</text>
+        <text x="90" y="125" text-anchor="middle" fill="#64748b" font-size="11">本地图纸</text>
+        <text x="90" y="142" text-anchor="middle" fill="#64748b" font-size="11">人走数据走</text>
+        <text x="90" y="159" text-anchor="middle" fill="#64748b" font-size="11">接项目先找图</text>
+        <line x1="20" y1="180" x2="160" y2="180" stroke="rgba(239,68,68,.15)" stroke-width="1"/>
+        <text x="90" y="195" text-anchor="middle" fill="#f87171" font-size="11" font-weight="600">❌ 无法共享</text>
+      </g>
+      <!-- 墓碑3 -->
+      <g transform="translate(480,30)">
+        <rect x="0" y="0" width="180" height="200" rx="12" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <rect x="65" y="15" width="50" height="70" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+        <text x="90" y="45" text-anchor="middle" font-size="28">📧</text>
+        <text x="90" y="60" text-anchor="middle" fill="#94a3b8" font-size="9">数据坟墓</text>
+        <text x="90" y="105" text-anchor="middle" fill="#f87171" font-size="14" font-weight="700">邮件/云盘</text>
+        <text x="90" y="125" text-anchor="middle" fill="#64748b" font-size="11">版本混乱</text>
+        <text x="90" y="142" text-anchor="middle" fill="#64748b" font-size="11">找不到最新</text>
+        <text x="90" y="159" text-anchor="middle" fill="#64748b" font-size="11">靠猜"哪个版本"</text>
+        <line x1="20" y1="180" x2="160" y2="180" stroke="rgba(239,68,68,.15)" stroke-width="1"/>
+        <text x="90" y="195" text-anchor="middle" fill="#f87171" font-size="11" font-weight="600">❌ 版本失控</text>
+      </g>
+      <!-- 墓碑4 -->
+      <g transform="translate(700,30)">
+        <rect x="0" y="0" width="180" height="200" rx="12" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <rect x="65" y="15" width="50" height="70" rx="4" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1"/>
+        <text x="90" y="45" text-anchor="middle" font-size="28">📋</text>
+        <text x="90" y="60" text-anchor="middle" fill="#94a3b8" font-size="9">数据坟墓</text>
+        <text x="90" y="105" text-anchor="middle" fill="#f87171" font-size="14" font-weight="700">纸质单据</text>
+        <text x="90" y="125" text-anchor="middle" fill="#64748b" font-size="11">审批靠跑腿</text>
+        <text x="90" y="142" text-anchor="middle" fill="#64748b" font-size="11">签字到处找人</text>
+        <text x="90" y="159" text-anchor="middle" fill="#64748b" font-size="11">跨部门效率低</text>
+        <line x1="20" y1="180" x2="160" y2="180" stroke="rgba(239,68,68,.15)" stroke-width="1"/>
+        <text x="90" y="195" text-anchor="middle" fill="#f87171" font-size="11" font-weight="600">❌ 效率低下</text>
+      </g>
+      <!-- 底部标语 -->
+      <rect x="100" y="258" width="700" height="40" rx="10" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.15)" stroke-width="1"/>
+      <text x="450" y="275" text-anchor="middle" fill="#f87171" font-size="11">没有信息化的数据就是"死的"——不流动、不关联、不能被调用、不能驱动决策</text>
+      <text x="450" y="290" text-anchor="middle" fill="#34d399" font-size="12" font-weight="600">信息化的本质：把"死数据"救活</text>
+    </svg>
   </div>
 </div>
 
-<!-- ═══════════ SLIDE 2: AI时代 ═══════════ -->
+<!-- ═══════════ SLIDE 2: AI路线图 ═══════════ -->
 <div class="slide s2" id="s2">
-  <div class="slide-num">02 / 06</div>
-  <div class="slide-inner">
-    <div class="big-title">AI 的生命之源 = 数据</div>
-    <div class="subtitle">AI 已经不是"未来"。ChatGPT、DeepSeek、豆包……<br><span style="color:#34d399">AI 的能力取决于你喂给它的数据质量。</span></div>
-    <div class="divider"></div>
+  <div class="slide-num">02 / 08</div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">AI 路线</div>
+    <div class="slide-title b">AI 的生命之源 = 数据</div>
+    <div class="slide-sub">AI的能力取决于数据质量。三步走，从信息化到AI驱动</div>
+    <svg viewBox="0 0 900 340" style="width:100%;max-width:900px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="340" fill="none"/>
+      <!-- 阶梯3层 -->
+      <g transform="translate(50,20)">
+        <!-- 底层：信息化 -->
+        <rect x="0" y="200" width="800" height="70" rx="10" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.3)" stroke-width="1.5"/>
+        <rect x="340" y="178" width="120" height="28" rx="14" fill="rgba(16,185,129,.15)"/>
+        <text x="400" y="197" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">当前阶段</text>
+        <text x="60" y="235" text-anchor="middle" font-size="30">📊</text>
+        <text x="400" y="233" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="700">第一步：信息化</text>
+        <text x="400" y="255" text-anchor="middle" fill="#94a3b8" font-size="12">ERP + PLM + APS → 把所有业务数据收到系统里</text>
+      </g>
+      <!-- 中层 -->
+      <g transform="translate(150,15)">
+        <rect x="0" y="85" width="600" height="65" rx="10" fill="rgba(59,130,246,.08)" stroke="rgba(59,130,246,.25)" stroke-width="1"/>
+        <text x="40" y="122" text-anchor="middle" font-size="26">🧠</text>
+        <text x="300" y="118" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="700">第二步：AI 化</text>
+        <text x="300" y="137" text-anchor="middle" fill="#94a3b8" font-size="11">信息化积累的数据 → 训练懂橙子业务的AI模型</text>
+      </g>
+      <!-- 顶层 -->
+      <g transform="translate(250,10)">
+        <rect x="0" y="0" width="400" height="65" rx="10" fill="rgba(139,92,246,.08)" stroke="rgba(139,92,246,.25)" stroke-width="1"/>
+        <text x="30" y="37" text-anchor="middle" font-size="26">🚀</text>
+        <text x="200" y="33" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="700">第三步：AI 驱动</text>
+        <text x="200" y="52" text-anchor="middle" fill="#94a3b8" font-size="11">公司级AI智能体 · 效率提升10-100倍</text>
+      </g>
+      <!-- 阶梯箭头 -->
+      <text x="700" y="36" fill="#475569" font-size="20">→</text>
+      <text x="700" y="102" fill="#475569" font-size="20">→</text>
+      <text x="750" y="36" fill="#64748b" font-size="11">3年后</text>
+      <text x="750" y="102" fill="#64748b" font-size="11">1-2年后</text>
+      <text x="730" y="225" fill="#64748b" font-size="11">现在</text>
+    </svg>
 
-    <div class="two-col" style="margin-bottom:20px">
-      <div>
-        <div style="font-size:20px;font-weight:700;color:#a78bfa;margin-bottom:12px">🛤️ 橙子自动化的 AI 路线图</div>
-        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;color:#e2e8f0;line-height:1.7">
-          <div style="border:1px solid rgba(16,185,129,.3);border-radius:10px;padding:12px 16px;background:rgba(16,185,129,.05)">📊 <b style="color:#34d399">第一步：信息化</b>（现在在做）<br><span style="font-size:12px;color:#94a3b8">ERP + PLM + APS，把所有业务数据收到系统里</span></div>
-          <div style="border:1px solid rgba(59,130,246,.3);border-radius:10px;padding:12px 16px;background:rgba(59,130,246,.05)">🤖 <b style="color:#60a5fa">第二步：AI 化</b>（未来1-2年）<br><span style="font-size:12px;color:#94a3b8">把信息化积累的数据喂给 AI 模型</span></div>
-          <div style="border:1px solid rgba(139,92,246,.3);border-radius:10px;padding:12px 16px;background:rgba(139,92,246,.05)">🚀 <b style="color:#a78bfa">第三步：AI 驱动</b>（未来2-3年）<br><span style="font-size:12px;color:#94a3b8">公司级 AI 智能体 · 效率提升 10-100 倍</span></div>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:20px;font-weight:700;color:#fbbf24;margin-bottom:12px">🎬 想象一下这个场景</div>
-        <div style="padding:14px 16px;border-radius:10px;background:linear-gradient(135deg,rgba(245,158,11,.08),transparent);border:1px solid rgba(245,158,11,.2);font-size:12px;color:#94a3b8;line-height:1.8">
-          <div style="color:#e2e8f0;font-weight:700;margin-bottom:8px">📞 老板问 AI 智能体：</div>
-          <div style="margin-left:12px">💬 "X项目的销售订单下了没？"</div>
-          <div style="margin-left:12px">💬 "采购的物料交期到了吗？"</div>
-          <div style="margin-left:12px">💬 "生产进度怎么样？出货了吗？"</div>
-          <div style="margin-left:12px;margin-top:6px;color:#fbbf24">🔍 "客户投诉这个批次有问题 — 是哪个供应商的哪批物料？设计问题还是质检问题？"</div>
-          <div style="margin-top:10px;color:#34d399;font-weight:700">AI 一秒回答：</div>
-          <div style="margin-left:12px;color:#34d399">→ 供应商 A · 批号 20260315 · 来料检已标记异常</div>
-          <div style="margin-left:12px;color:#34d399">→ 该批次共影响 5 个订单 · 已自动通知售后</div>
-        </div>
-        <div style="margin-top:10px;padding:10px 14px;border-radius:8px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);font-size:11px;color:#fca5a5;line-height:1.6">
-          <b>没有 AI 的现在：</b><br>
-          老板 → 问销售 → 问采购 → 问生产 → 问质量 → 翻纸质单 → 查邮件 → 翻钉钉 → 一个个追溯<br>
-          <b style="color:var(--r)">一圈下来一上午没了，还可能拿到错误版本。</b>
-        </div>
-      </div>
-    </div>
-
-    <div class="hl-box" style="background:linear-gradient(135deg,rgba(139,92,246,.1),transparent);border-color:rgba(139,92,246,.3)">
-      <h3 style="color:#c4b5fd">🧬 一句话总结</h3>
-      <p>AI 的能力 = 算法 × <b style="color:#c4b5fd">数据</b><br>
-      没有信息化的数据基础，AI 就是空中楼阁。<br>
-      <b style="color:#34d399;font-size:16px">我们今天上 PLM，不是装一套软件——是在给未来的 AI 铺路。</b></p>
-    </div>
+    <div class="slide-sub" style="margin-top:8px;font-size:12px">PLM 不是装一套软件——是在给未来的 AI 铺路。</div>
   </div>
 </div>
 
-<!-- ═══════════ SLIDE 3: 战略大局 ═══════════ -->
+<!-- ═══════════ SLIDE 3: 战略三角 ═══════════ -->
 <div class="slide s3" id="s3">
   <div class="slide-num">03 / 08</div>
-  <div class="slide-inner">
-    <div class="big-title">信息化的战略意义</div>
-    <div class="subtitle">不是"IT部门的事"，是公司未来十年的竞争力基建。</div>
-    <div class="divider" style="background:var(--y)"></div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">战略意义</div>
+    <div class="slide-title y">为什么 PLM 是关键一步？</div>
+    <svg viewBox="0 0 900 340" style="width:100%;max-width:900px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="340" fill="none"/>
+      <!-- 三角关系 -->
+      <text x="100" y="130" text-anchor="middle" fill="#34d399" font-size="15" font-weight="700">ERP</text>
+      <text x="100" y="148" text-anchor="middle" fill="#94a3b8" font-size="10">已上线</text>
+      <rect x="40" y="30" width="120" height="90" rx="10" fill="rgba(16,185,129,.06)" stroke="rgba(16,185,129,.25)" stroke-width="1.5"/>
+      <text x="100" y="58" text-anchor="middle" font-size="28">📦</text>
+      <text x="100" y="78" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">采购·库存·销售</text>
+      <text x="100" y="95" text-anchor="middle" fill="#94a3b8" font-size="9">生意跑通了</text>
+      <text x="100" y="108" text-anchor="middle" fill="#f87171" font-size="9">但缺研发数据</text>
 
-    <div style="display:flex;gap:24px;align-items:stretch;margin:20px 0">
-      <!-- Road 1 -->
-      <div style="flex:1;background:linear-gradient(135deg,rgba(16,185,129,.06),rgba(16,185,129,.01));border:1px solid rgba(16,185,129,.2);border-radius:16px;padding:24px">
-        <div style="font-size:32px;margin-bottom:10px;text-align:center">🛤️</div>
-        <div style="font-size:18px;font-weight:700;color:#34d399;text-align:center;margin-bottom:16px">第一条路：信息化</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:10px 14px;border-radius:8px;background:rgba(16,185,129,.08);font-size:13px">
-            <b style="color:#34d399">✅ ERP</b> <span style="color:#94a3b8">— 已上线，但用得浅</span><br>
-            <span style="font-size:11px;color:var(--r)">信息断层：研发数据不在系统里，BOM靠人工搬</span>
-          </div>
-          <div style="padding:10px 14px;border-radius:8px;background:rgba(139,92,246,.08);font-size:13px">
-            <b style="color:#a78bfa">🟡 PLM</b> <span style="color:#94a3b8">— 今天启动</span><br>
-            <span style="font-size:11px;color:#94a3b8">补上研发数据的缺口，打通 设计→生产→采购</span>
-          </div>
-          <div style="padding:10px 14px;border-radius:8px;background:rgba(239,68,68,.06);font-size:13px">
-            <b style="color:#fca5a5">🔴 APS</b> <span style="color:#94a3b8">— 下阶段</span><br>
-            <span style="font-size:11px;color:#94a3b8">智能排产，解决交期不可控的问题</span>
-          </div>
-        </div>
-      </div>
+      <text x="450" y="36" text-anchor="middle" fill="#a78bfa" font-size="15" font-weight="700">PLM</text>
+      <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="10">今日启动</text>
+      <rect x="390" y="70" width="120" height="220" rx="10" fill="rgba(139,92,246,.06)" stroke="rgba(139,92,246,.35)" stroke-width="2"/>
+      <text x="450" y="98" text-anchor="middle" font-size="28">🔧</text>
+      <text x="450" y="118" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">研发数据管理</text>
+      <text x="450" y="140" text-anchor="middle" fill="#94a3b8" font-size="10">BOM/图纸/设变</text>
+      <line x1="410" y1="155" x2="490" y2="155" stroke="rgba(139,92,246,.15)" stroke-width="1"/>
+      <text x="450" y="175" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="600">承上</text>
+      <text x="450" y="192" text-anchor="middle" fill="#94a3b8" font-size="10">接ERP的物料数据</text>
+      <text x="450" y="208" text-anchor="middle" fill="#94a3b8" font-size="10">把BOM喂给ERP</text>
+      <line x1="410" y1="220" x2="490" y2="220" stroke="rgba(139,92,246,.15)" stroke-width="1"/>
+      <text x="450" y="240" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="600">启下</text>
+      <text x="450" y="257" text-anchor="middle" fill="#94a3b8" font-size="10">为APS提供研发数据</text>
+      <text x="450" y="273" text-anchor="middle" fill="#94a3b8" font-size="10">为AI训练数据</text>
 
-      <!-- Arrow -->
-      <div style="display:flex;align-items:center;font-size:40px;color:#475569;font-weight:700">→</div>
+      <text x="800" y="130" text-anchor="middle" fill="#fbbf24" font-size="15" font-weight="700">APS</text>
+      <text x="800" y="148" text-anchor="middle" fill="#94a3b8" font-size="10">规划中</text>
+      <rect x="740" y="30" width="120" height="90" rx="10" fill="rgba(245,158,11,.06)" stroke="rgba(245,158,11,.2)" stroke-width="1.5"/>
+      <text x="800" y="58" text-anchor="middle" font-size="28">📅</text>
+      <text x="800" y="78" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">智能排产</text>
+      <text x="800" y="95" text-anchor="middle" fill="#94a3b8" font-size="9">解决交期问题</text>
+      <text x="800" y="108" text-anchor="middle" fill="#a78bfa" font-size="9">需PLM数据</text>
 
-      <!-- Road 2 -->
-      <div style="flex:1;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(59,130,246,.01));border:1px solid rgba(59,130,246,.2);border-radius:16px;padding:24px">
-        <div style="font-size:32px;margin-bottom:10px;text-align:center">🤖</div>
-        <div style="font-size:18px;font-weight:700;color:#60a5fa;text-align:center;margin-bottom:16px">第二条路：AI 化</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:10px 14px;border-radius:8px;background:rgba(59,130,246,.08);font-size:13px">
-            <b style="color:#60a5fa">🧠 数据积累</b><br>
-            <span style="font-size:11px;color:#94a3b8">ERP+PLM+APS 三年数据 → AI的训练料</span>
-          </div>
-          <div style="padding:10px 14px;border-radius:8px;background:rgba(139,92,246,.08);font-size:13px">
-            <b style="color:#a78bfa">🤖 AI 模型</b><br>
-            <span style="font-size:11px;color:#94a3b8">公司数据 + 通用大模型 = 懂橙子业务的AI</span>
-          </div>
-          <div style="padding:10px 14px;border-radius:8px;background:rgba(16,185,129,.08);font-size:13px">
-            <b style="color:#34d399">🚀 AI 驱动决策</b><br>
-            <span style="font-size:11px;color:#94a3b8">"这个项目能赚钱吗？" AI从数据里直接答</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      <!-- 连线 -->
+      <line x1="160" y1="100" x2="390" y2="120" stroke="#475569" stroke-width="1" stroke-dasharray="6,4"/>
+      <line x1="510" y1="140" x2="740" y2="100" stroke="#475569" stroke-width="1" stroke-dasharray="6,4"/>
+      <line x1="510" y1="120" x2="740" y2="100" stroke="#475569" stroke-width="1" stroke-dasharray="6,4"/>
 
-    <div class="hl-box" style="background:linear-gradient(135deg,rgba(245,158,11,.08),transparent);border-color:rgba(245,158,11,.25)">
-      <h3 style="color:#fbbf24">⚡ 为什么 PLM 是现在最关键的一步？</h3>
-      <p>ERP 管"买什么、卖什么" — <b style="color:#fbbf24">已跑通</b><br>
-      PLM 管"怎么设计、怎么造" — <b style="color:#a78bfa">正在补</b><br>
-      <span style="color:var(--r);font-weight:700">PLM 不上，研发数据进不了系统 → ERP永远是半条腿走路 → AI更无从谈起。</span><br><br>
-      <b style="color:#34d399;font-size:15px">今天站在这里讨论 PLM，不是在装一套软件 — 是在给橙子自动化未来十年的竞争力修路。</b></p>
-    </div>
+      <text x="275" y="115" text-anchor="middle" fill="#64748b" font-size="9">缺研发数据</text>
+      <text x="625" y="108" text-anchor="middle" fill="#64748b" font-size="9">需要准确BOM</text>
+
+      <!-- 底部 -->
+      <rect x="100" y="310" width="700" height="28" rx="14" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.15)" stroke-width="1"/>
+      <text x="450" y="329" text-anchor="middle" fill="#f87171" font-size="11" font-weight="600">PLM不上 → ERP是半条腿走路 → APS没法排 → AI更无从谈起</text>
+    </svg>
   </div>
 </div>
 
-<!-- ═══════════ SLIDE 4: 信息化闭环 ═══════════ -->
+<!-- ═══════════ SLIDE 4: 数据闭环 ═══════════ -->
 <div class="slide s4" id="s4">
   <div class="slide-num">04 / 08</div>
-  <div class="slide-inner">
-    <div class="big-title">信息化闭环：让数据流动起来</div>
-    <div class="subtitle">从销售到交付到财务，一条自动化数据流水线。</div>
-    <div class="divider"></div>
-
-    <div class="flow-container">
-      <div class="flow-node"><div class="fn-icon">🤝</div><div class="fn-name">CRM<br>客户线索</div><div class="fn-status st-planning">规划中</div></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node"><div class="fn-icon">📦</div><div class="fn-name">ERP<br>采购·库存·销售</div><div class="fn-status st-online">✅ 已上线</div></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node" style="border-color:rgba(139,92,246,.4);background:linear-gradient(135deg,#1e1b4b,#312e81)"><div class="fn-icon">🔧</div><div class="fn-name">PLM<br>研发·BOM·图纸</div><div class="fn-status st-planning">🟡 启动中</div></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node"><div class="fn-icon">📅</div><div class="fn-name">APS<br>排产计划</div><div class="fn-status st-offline">🔴 规划中</div></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node"><div class="fn-icon">💰</div><div class="fn-name">财务<br>成本·月结</div><div class="fn-status st-online">✅ 已上线</div></div>
-    </div>
-
-    <div class="hl-box">
-      <h3>🔗 闭环逻辑</h3>
-      <p>销售拿单（CRM）→ 采购备料（ERP）→ <b style="color:#c4b5fd">研发设计（PLM）</b> → 排产交货（APS）→ 成本核算（财务）<br>每个环节的数据自动流转到下个环节，不用人工"搬"数据，不出错、不重复、可追溯。</p>
-    </div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">数据闭环</div>
+    <div class="slide-title g">让数据流动起来</div>
+    <div class="slide-sub">从销售 → 研发 → 采购 → 生产 → 财务，一条线自动跑通</div>
+    <svg viewBox="0 0 900 300" style="width:100%;max-width:900px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="300" fill="none"/>
+      <!-- 环形 6个节点 -->
+      <g transform="translate(450,145)">
+        <defs>
+          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(16,185,129,.15)"/><stop offset="100%" stop-color="rgba(16,185,129,.05)"/></linearGradient>
+          <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(139,92,246,.15)"/><stop offset="100%" stop-color="rgba(139,92,246,.05)"/></linearGradient>
+        </defs>
+        <!-- CRM (右) -->
+        <rect x="80" y="-60" width="80" height="60" rx="8" fill="url(#g1)" stroke="rgba(16,185,129,.3)" stroke-width="1.5"/>
+        <text x="120" y="-34" text-anchor="middle" font-size="18">🤝</text>
+        <text x="120" y="-17" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">CRM</text>
+        <text x="120" y="-4" text-anchor="middle" fill="#94a3b8" font-size="8">客户线索</text>
+        <!-- 箭头 -->
+        <text x="170" y="-30" fill="#475569" font-size="12">→</text>
+        <!-- ERP (右上) -->
+        <rect x="180" y="-60" width="80" height="60" rx="8" fill="url(#g1)" stroke="rgba(16,185,129,.25)" stroke-width="1.5"/>
+        <text x="220" y="-34" text-anchor="middle" font-size="18">📦</text>
+        <text x="220" y="-17" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">ERP</text>
+        <text x="220" y="-4" text-anchor="middle" fill="#94a3b8" font-size="8">采购/库存</text>
+        <!-- 箭头 -->
+        <text x="268" y="-20" fill="#475569" font-size="12">→</text>
+        <!-- PLM (正上) -->
+        <rect x="275" y="-95" width="100" height="76" rx="8" fill="url(#g2)" stroke="rgba(139,92,246,.4)" stroke-width="2"/>
+        <rect x="282" y="-154" width="86" height="60" rx="6" fill="rgba(139,92,246,.08)" stroke="rgba(139,92,246,.2)" stroke-width="1"/>
+        <text x="325" y="-130" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="700">🔑 关键节点</text>
+        <text x="325" y="-116" text-anchor="middle" fill="#94a3b8" font-size="9">PLM 承上启下</text>
+        <line x1="282" y1="-108" x2="368" y2="-108" stroke="rgba(139,92,246,.15)" stroke-width="1"/>
+        <text x="325" y="-92" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">🔧 PLM</text>
+        <text x="325" y="-76" text-anchor="middle" fill="#94a3b8" font-size="9">研发·BOM·图纸</text>
+        <line x1="325" y1="-38" x2="325" y2="-25" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow-g)"/>
+        <!-- APS (左上) -->
+        <text x="245" y="-8" fill="#475569" font-size="12">→</text>
+        <rect x="175" y="10" width="80" height="60" rx="8" fill="rgba(245,158,11,.06)" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
+        <text x="215" y="36" text-anchor="middle" font-size="18">📅</text>
+        <text x="215" y="53" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">APS</text>
+        <text x="215" y="66" text-anchor="middle" fill="#94a3b8" font-size="8">排产计划</text>
+        <!-- 箭头 -->
+        <text x="120" y="38" fill="#475569" font-size="12">→</text>
+        <!-- 财务 (左下) -->
+        <rect x="40" y="10" width="80" height="60" rx="8" fill="url(#g1)" stroke="rgba(16,185,129,.25)" stroke-width="1.5"/>
+        <text x="80" y="36" text-anchor="middle" font-size="18">💰</text>
+        <text x="80" y="53" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">财务</text>
+        <text x="80" y="66" text-anchor="middle" fill="#94a3b8" font-size="8">成本/月结</text>
+        <!-- 箭头回CRM -->
+        <text x="-10" y="10" fill="#475569" font-size="12">→</text>
+        <rect x="-55" y="-60" width="80" height="60" rx="8" fill="rgba(59,130,246,.06)" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+        <text x="-15" y="-34" text-anchor="middle" font-size="18">🎯</text>
+        <text x="-15" y="-17" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">交付</text>
+        <text x="-15" y="-4" text-anchor="middle" fill="#94a3b8" font-size="8">客户满意</text>
+        <text x="35" y="-30" fill="#475569" font-size="12">→</text>
+      </g>
+      <rect x="100" y="260" width="700" height="28" rx="14" fill="rgba(16,185,129,.06)" stroke="rgba(16,185,129,.15)" stroke-width="1"/>
+      <text x="450" y="279" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">每个环节数据自动流转，不靠人搬→不出错、不重复、可追溯</text>
+    </svg>
   </div>
 </div>
 
-<!-- ═══════════ SLIDE 5: 为什么必须上PLM ═══════════ -->
+<!-- ═══════════ SLIDE 5: 6大痛点 ═══════════ -->
 <div class="slide s5" id="s5">
   <div class="slide-num">05 / 08</div>
-  <div class="slide-inner">
-    <div class="big-title">为什么必须上 PLM？</div>
-    <div class="subtitle">因为我们现在的研发管理方式，<span style="color:#fca5a5">正在吃掉利润</span>。</div>
-    <div class="divider"></div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">痛点诊断</div>
+    <div class="slide-title r">没有PLM，正在吃掉利润</div>
+    <div class="slide-sub">6大痛点直击研发管理，每个都是真金白银的损失</div>
+    <svg viewBox="0 0 960 300" style="width:100%;max-width:960px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="960" height="300" fill="none"/>
+      <!-- 6个痛点位 2行3列 -->
+      <g transform="translate(10,10)">
+        <!-- 1 -->
+        <rect x="0" y="0" width="150" height="125" rx="10" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <text x="75" y="32" text-anchor="middle" font-size="28">📁</text>
+        <text x="75" y="52" text-anchor="middle" fill="#f87171" font-size="12" font-weight="700">图纸到处存</text>
+        <text x="75" y="68" text-anchor="middle" fill="#64748b" font-size="9">工程师本地/钉盘/U盘</text>
+        <text x="75" y="82" text-anchor="middle" fill="#64748b" font-size="9">人走→图消失</text>
+        <text x="75" y="96" text-anchor="middle" fill="#64748b" font-size="9">新人先花一周找文件</text>
+        <rect x="8" y="108" width="134" height="12" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="8" y="108" width="114" height="12" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="75" y="117" text-anchor="middle" fill="#e2e8f0" font-size="7" font-weight="600">影响度 85%</text>
 
-    <div class="pain-grid">
-      <div class="pain-card">
-        <div class="pain-icon">📁</div>
-        <div class="pain-title">图纸到处存</div>
-        <div class="pain-desc">工程师电脑本地存一份、钉盘一份、U盘一份。人走了→图也找不到了。换个工程师接项目，先花一星期找文件。</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">🔄</div>
-        <div class="pain-title">BOM 总出错</div>
-        <div class="pain-desc">采购拿到的BOM版本不对，物料买错、多买、少买。上个月就因为BOM版本问题，多采了5万的料堆在仓库。</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">📱</div>
-        <div class="pain-title">设变靠钉钉</div>
-        <div class="pain-desc">设计改了一个孔位 → 钉钉群里发一句 → 有人没看到 → 生产按旧图纸做 → 装配时发现对不上 → 返工。</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">🔌</div>
-        <div class="pain-title">信息孤岛</div>
-        <div class="pain-desc">研发不知道仓库有多少库存。设计时选了一颗料，采购告诉他"这个供应商早就不做了"，重新设计→耽误两周。</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">📊</div>
-        <div class="pain-title">版本混乱</div>
-        <div class="pain-desc">客户设备出问题，售后去查：这个机型交付时的软件版本？硬件图纸版本？BOM版本？——查不到，全靠问人。</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">🧑‍💻</div>
-        <div class="pain-title">跨部门靠吼</div>
-        <div class="pain-desc">电气改了一个传感器 → 没通知软件 → 软件按旧型号写程序 → 上机就报错 → 大家都加班排查。</div>
-      </div>
-    </div>
+        <!-- 2 -->
+        <rect x="165" y="0" width="150" height="125" rx="10" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <text x="240" y="32" text-anchor="middle" font-size="28">🔄</text>
+        <text x="240" y="52" text-anchor="middle" fill="#f87171" font-size="12" font-weight="700">BOM 总出错</text>
+        <text x="240" y="68" text-anchor="middle" fill="#64748b" font-size="9">采购拿错版本</text>
+        <text x="240" y="82" text-anchor="middle" fill="#64748b" font-size="9">物料买错/多买</text>
+        <text x="240" y="96" text-anchor="middle" fill="#f87171" font-size="10" font-weight="600">上月亏损¥5万+</text>
+        <rect x="173" y="108" width="134" height="12" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="173" y="108" width="120" height="12" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="240" y="117" text-anchor="middle" fill="#e2e8f0" font-size="7" font-weight="600">影响度 90%</text>
+
+        <!-- 3 -->
+        <rect x="330" y="0" width="150" height="125" rx="10" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <text x="405" y="32" text-anchor="middle" font-size="28">📱</text>
+        <text x="405" y="52" text-anchor="middle" fill="#f87171" font-size="12" font-weight="700">设变靠钉钉</text>
+        <text x="405" y="68" text-anchor="middle" fill="#64748b" font-size="9">改孔位→群里发一句</text>
+        <text x="405" y="82" text-anchor="middle" fill="#64748b" font-size="9">有人没看到</text>
+        <text x="405" y="96" text-anchor="middle" fill="#f87171" font-size="9">生产按旧图纸→返工</text>
+        <rect x="338" y="108" width="134" height="12" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="338" y="108" width="107" height="12" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="405" y="117" text-anchor="middle" fill="#e2e8f0" font-size="7" font-weight="600">影响度 80%</text>
+
+        <!-- 4 -->
+        <rect x="495" y="0" width="150" height="125" rx="10" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <text x="570" y="32" text-anchor="middle" font-size="28">🔌</text>
+        <text x="570" y="52" text-anchor="middle" fill="#f87171" font-size="12" font-weight="700">信息孤岛</text>
+        <text x="570" y="68" text-anchor="middle" fill="#64748b" font-size="9">研发不知道库存</text>
+        <text x="570" y="82" text-anchor="middle" fill="#64748b" font-size="9">设计用停产物料</text>
+        <text x="570" y="96" text-anchor="middle" fill="#f87171" font-size="9">重新设计→耽误2周</text>
+        <rect x="503" y="108" width="134" height="12" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="503" y="108" width="100" height="12" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="570" y="117" text-anchor="middle" fill="#e2e8f0" font-size="7" font-weight="600">影响度 75%</text>
+
+        <!-- 5 -->
+        <rect x="660" y="0" width="150" height="125" rx="10" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <text x="735" y="32" text-anchor="middle" font-size="28">📊</text>
+        <text x="735" y="52" text-anchor="middle" fill="#f87171" font-size="12" font-weight="700">版本混乱</text>
+        <text x="735" y="68" text-anchor="middle" fill="#64748b" font-size="9">客户出故障</text>
+        <text x="735" y="82" text-anchor="middle" fill="#64748b" font-size="9">要查交付版本</text>
+        <text x="735" y="96" text-anchor="middle" fill="#f87171" font-size="9">查不到→全靠问人</text>
+        <rect x="668" y="108" width="134" height="12" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="668" y="108" width="87" height="12" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="735" y="117" text-anchor="middle" fill="#e2e8f0" font-size="7" font-weight="600">影响度 65%</text>
+
+        <!-- 6 -->
+        <rect x="825" y="0" width="150" height="125" rx="10" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+        <text x="900" y="32" text-anchor="middle" font-size="28">🧑‍💻</text>
+        <text x="900" y="52" text-anchor="middle" fill="#f87171" font-size="12" font-weight="700">跨部门靠吼</text>
+        <text x="900" y="68" text-anchor="middle" fill="#64748b" font-size="9">电气改传感器</text>
+        <text x="900" y="82" text-anchor="middle" fill="#64748b" font-size="9">没通知软件</text>
+        <text x="900" y="96" text-anchor="middle" fill="#f87171" font-size="9">上机报错→加班</text>
+        <rect x="833" y="108" width="134" height="12" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="833" y="108" width="94" height="12" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="900" y="117" text-anchor="middle" fill="#e2e8f0" font-size="7" font-weight="600">影响度 70%</text>
+      </g>
+      <rect x="80" y="260" width="800" height="28" rx="14" fill="rgba(16,185,129,.06)" stroke="rgba(16,185,129,.15)" stroke-width="1"/>
+      <text x="480" y="279" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">PLM 上线后：图纸统一存·BOM自动推·变更系统锁·信息实时通</text>
+    </svg>
   </div>
 </div>
 
-<!-- ═══════════ SLIDE 6: PLM 做什么 ═══════════ -->
+<!-- ═══════════ SLIDE 6: PLM价值 ═══════════ -->
 <div class="slide s6" id="s6">
   <div class="slide-num">06 / 08</div>
-  <div class="slide-inner">
-    <div class="big-title">PLM 能做什么？</div>
-    <div class="subtitle">一句话：把研发"人治"变成"系统治"。</div>
-    <div class="divider"></div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">PLM 功能</div>
+    <div class="slide-title p">PLM 能做什么？</div>
+    <div class="slide-sub">一句话：把研发"人治"变成"系统治"</div>
+    <svg viewBox="0 0 900 300" style="width:100%;max-width:900px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="300" fill="none"/>
+      <g transform="translate(20,10)">
+        <!-- 大卡片1 -->
+        <rect x="0" y="0" width="210" height="210" rx="12" fill="rgba(16,185,129,.04)" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+        <rect x="75" y="16" width="60" height="60" rx="30" fill="rgba(16,185,129,.12)"/>
+        <text x="105" y="52" text-anchor="middle" font-size="28">🗄️</text>
+        <text x="105" y="100" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">文档管理</text>
+        <text x="105" y="120" text-anchor="middle" fill="#94a3b8" font-size="10">图纸永远最新版</text>
+        <line x1="20" y1="135" x2="190" y2="135" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+        <text x="105" y="155" text-anchor="middle" fill="#64748b" font-size="9">自动锁版本</text>
+        <text x="105" y="170" text-anchor="middle" fill="#64748b" font-size="9">生产/采购只能拿到</text>
+        <text x="105" y="185" text-anchor="middle" fill="#64748b" font-size="9">"已发布"的最新版</text>
 
-    <div class="value-grid">
-      <div class="value-card">
-        <div class="vc-icon">🗄️</div>
-        <div class="vc-title">文档管理：图纸永远是最新版</div>
-        <div class="vc-desc">所有图纸、BOM、SOP全部存PLM。系统自动锁版本——<b>生产、采购只能拿到"已发布"的最新版本</b>，不会拿错。</div>
-      </div>
-      <div class="value-card">
-        <div class="vc-icon">📦</div>
-        <div class="vc-title">BOM管理：从源头不出错</div>
-        <div class="vc-desc">设计师在PLM里搭BOM → 系统自动对比ERP库存 → <b>提醒"库里有呆滞料可用"</b> → 审批通过后自动推送到ERP，采购再也不用手工录入。</div>
-      </div>
-      <div class="value-card">
-        <div class="vc-icon">🔄</div>
-        <div class="vc-title">变更管理：谁改谁知道</div>
-        <div class="vc-desc">设变不再发钉钉。PLM发起ECN → <b>自动通知电气/软件/采购/生产</b> → 所有人确认 → 才能生效。不确认？系统锁死，下不了新BOM。</div>
-      </div>
-      <div class="value-card">
-        <div class="vc-icon">🖥️</div>
-        <div class="vc-title">CAD集成：工程师不用换工具</div>
-        <div class="vc-desc">SolidWorks里直接操作PLM——<b>画完图一键保存到系统，自动生成BOM</b>。不改变工程师习惯，零学习成本。</div>
-      </div>
-    </div>
+        <!-- 大卡片2 -->
+        <rect x="230" y="0" width="210" height="210" rx="12" fill="rgba(59,130,246,.04)" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+        <rect x="305" y="16" width="60" height="60" rx="30" fill="rgba(59,130,246,.12)"/>
+        <text x="335" y="52" text-anchor="middle" font-size="28">📦</text>
+        <text x="335" y="100" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">BOM 管理</text>
+        <text x="335" y="120" text-anchor="middle" fill="#94a3b8" font-size="10">从源头不出错</text>
+        <line x1="250" y1="135" x2="420" y2="135" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+        <text x="335" y="155" text-anchor="middle" fill="#64748b" font-size="9">设计师搭BOM</text>
+        <text x="335" y="170" text-anchor="middle" fill="#64748b" font-size="9">系统对比ERP库存</text>
+        <text x="335" y="185" text-anchor="middle" fill="#34d399" font-size="9" font-weight="600">→ 采购不再手工录</text>
 
-    <div class="hl-box" style="margin-top:24px">
-      <h3>⚡ 核心：PLM ↔ ERP 数据打通</h3>
-      <p>设计在PLM完成 → BOM自动推到ERP → 采购按准确BOM下单 → 库存自动扣料 → 成本自动核算。<br><b style="color:#34d399">从设计到成本，一条线跑通，中间没有人工搬运。</b></p>
-    </div>
+        <!-- 大卡片3 -->
+        <rect x="460" y="0" width="210" height="210" rx="12" fill="rgba(245,158,11,.04)" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
+        <rect x="535" y="16" width="60" height="60" rx="30" fill="rgba(245,158,11,.12)"/>
+        <text x="565" y="52" text-anchor="middle" font-size="28">🔄</text>
+        <text x="565" y="100" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">变更管理</text>
+        <text x="565" y="120" text-anchor="middle" fill="#94a3b8" font-size="10">谁改谁知道</text>
+        <line x1="480" y1="135" x2="650" y2="135" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+        <text x="565" y="155" text-anchor="middle" fill="#64748b" font-size="9">ECN发起</text>
+        <text x="565" y="170" text-anchor="middle" fill="#64748b" font-size="9">自动通知各部门</text>
+        <text x="565" y="185" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="600">所有人确认才能生效</text>
+
+        <!-- 大卡片4 -->
+        <rect x="690" y="0" width="210" height="210" rx="12" fill="rgba(139,92,246,.04)" stroke="rgba(139,92,246,.2)" stroke-width="1"/>
+        <rect x="765" y="16" width="60" height="60" rx="30" fill="rgba(139,92,246,.12)"/>
+        <text x="795" y="52" text-anchor="middle" font-size="28">🖥️</text>
+        <text x="795" y="100" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">CAD 集成</text>
+        <text x="795" y="120" text-anchor="middle" fill="#94a3b8" font-size="10">不改习惯</text>
+        <line x1="710" y1="135" x2="880" y2="135" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+        <text x="795" y="155" text-anchor="middle" fill="#64748b" font-size="9">SolidWorks直连</text>
+        <text x="795" y="170" text-anchor="middle" fill="#64748b" font-size="9">画完图一键存系统</text>
+        <text x="795" y="185" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="600">自动生成BOM</text>
+      </g>
+      <rect x="80" y="260" width="740" height="28" rx="14" fill="rgba(16,185,129,.06)" stroke="rgba(16,185,129,.15)" stroke-width="1"/>
+      <text x="450" y="279" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">核心：PLM ↔ ERP 数据打通，从设计到成本一条线，中间没有人工搬运</text>
+    </svg>
   </div>
 </div>
 
-<!-- ═══════════ SLIDE 7: 33条需求 ═══════════ -->
+<!-- ═══════════ SLIDE 7: 需求数据 ═══════════ -->
 <div class="slide s7" id="s7">
   <div class="slide-num">07 / 08</div>
-  <div class="slide-inner">
-    <div class="big-title">我们调研了 33 条真实痛点</div>
-    <div class="subtitle">覆盖结构设计、电气、软件、电测、自动化、业务中心<br>——<span style="color:#34d399">27条金蝶PLM可以解决</span></div>
-    <div class="divider"></div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">需求调研</div>
+    <div class="slide-title b">33 条真实痛点</div>
+    <div class="slide-sub">覆盖6个部门，27条金蝶PLM可解决</div>
+    <svg viewBox="0 0 900 300" style="width:100%;max-width:900px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="300" fill="none"/>
+      <g transform="translate(30,10)">
+        <!-- 左侧：部门柱状图 -->
+        <text x="80" y="24" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">痛点部门分布</text>
 
-    <div class="two-col">
-      <div>
-        <div style="font-size:14px;color:#94a3b8;margin-bottom:12px">📋 痛点按部门分布</div>
-        <table style="width:100%;font-size:13px;border-collapse:collapse">
-          <tr style="color:#94a3b8;font-size:11px"><th style="text-align:left;padding:6px 8px">部门</th><th style="text-align:right;padding:6px 8px">痛点数</th><th style="text-align:center;padding:6px 8px">可解决</th></tr>
-          <tr><td style="padding:6px 8px">结构设计（谭亮）</td><td style="text-align:right;padding:6px 8px">5</td><td style="text-align:center;color:#34d399">✅</td></tr>
-          <tr style="background:rgba(255,255,255,.02)"><td style="padding:6px 8px">软件（蔡素红）</td><td style="text-align:right;padding:6px 8px">3</td><td style="text-align:center;color:#fbbf24">⚠️ 2条</td></tr>
-          <tr><td style="padding:6px 8px">自动化（余帝学）</td><td style="text-align:right;padding:6px 8px">4</td><td style="text-align:center;color:#34d399">✅</td></tr>
-          <tr style="background:rgba(255,255,255,.02)"><td style="padding:6px 8px">自动化（刘德俊）</td><td style="text-align:right;padding:6px 8px">4</td><td style="text-align:center;color:#34d399">✅</td></tr>
-          <tr><td style="padding:6px 8px">业务中心（罗鸿雨）</td><td style="text-align:right;padding:6px 8px">5</td><td style="text-align:center;color:#34d399">✅</td></tr>
-          <tr style="background:rgba(255,255,255,.02)"><td style="padding:6px 8px">历史/通用</td><td style="text-align:right;padding:6px 8px">12</td><td style="text-align:center;color:#34d399">✅</td></tr>
-        </table>
-      </div>
-      <div>
-        <div style="font-size:14px;color:#94a3b8;margin-bottom:12px">📊 需求按模块分类</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:8px"><div style="width:120px;font-size:12px;color:#94a3b8">文档管理</div><div style="flex:1;height:18px;background:linear-gradient(90deg,var(--b),#60a5fa);border-radius:4px;width:60%"></div><div style="font-size:12px;color:#94a3b8">11条</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><div style="width:120px;font-size:12px;color:#94a3b8">项目管理</div><div style="flex:1;height:18px;background:linear-gradient(90deg,var(--g),#34d399);border-radius:4px;width:35%"></div><div style="font-size:12px;color:#94a3b8">6条</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><div style="width:120px;font-size:12px;color:#94a3b8">PDM扩展</div><div style="flex:1;height:18px;background:linear-gradient(90deg,var(--p),#a78bfa);border-radius:4px;width:30%"></div><div style="font-size:12px;color:#94a3b8">5条</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><div style="width:120px;font-size:12px;color:#94a3b8">物料管理</div><div style="flex:1;height:18px;background:linear-gradient(90deg,var(--y),#fbbf24);border-radius:4px;width:25%"></div><div style="font-size:12px;color:#94a3b8">4条</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><div style="width:120px;font-size:12px;color:#94a3b8">工作流/变更</div><div style="flex:1;height:18px;background:linear-gradient(90deg,var(--or),#fb923c);border-radius:4px;width:20%"></div><div style="font-size:12px;color:#94a3b8">4条</div></div>
-        </div>
-      </div>
-    </div>
+        <text x="5" y="52" fill="#94a3b8" font-size="9">结构设计</text>
+        <rect x="65" y="43" width="80" height="14" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="65" y="43" width="80" height="14" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="150" y="54" fill="#f87171" font-size="9">5条</text>
 
-    <div class="hl-box">
-      <h3>🔥 最典型的两个痛点</h3>
-      <p><b>①</b> 工程师改一颗料，不知道仓库还有50件库存 → 呆滞料损失。<b>PLM上线后：</b>改料时系统自动弹窗"库房有50件存货，确认报废/返工/用完为止？"<br>
-      <b>②</b> 申请新料号时，不知道库里已有类似物料 → 物料种类膨胀，采购议价能力下降。<b>PLM上线后：</b>系统自动对比"库里已有3个相似轴承，确认申请新号？"</p>
-    </div>
+        <text x="5" y="75" fill="#94a3b8" font-size="9">软件</text>
+        <rect x="65" y="66" width="48" height="14" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="65" y="66" width="48" height="14" rx="3" fill="rgba(239,68,68,.35)"/>
+        <text x="150" y="77" fill="#fbbf24" font-size="9">3条(⚠2条)</text>
+
+        <text x="5" y="98" fill="#94a3b8" font-size="9">自动化(余)</text>
+        <rect x="65" y="89" width="64" height="14" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="65" y="89" width="64" height="14" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="150" y="100" fill="#f87171" font-size="9">4条</text>
+
+        <text x="5" y="121" fill="#94a3b8" font-size="9">自动化(刘)</text>
+        <rect x="65" y="112" width="64" height="14" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="65" y="112" width="64" height="14" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="150" y="123" fill="#f87171" font-size="9">4条</text>
+
+        <text x="5" y="144" fill="#94a3b8" font-size="9">业务中心</text>
+        <rect x="65" y="135" width="80" height="14" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="65" y="135" width="80" height="14" rx="3" fill="rgba(239,68,68,.4)"/>
+        <text x="150" y="146" fill="#f87171" font-size="9">5条</text>
+
+        <text x="5" y="167" fill="#94a3b8" font-size="9">历史/通用</text>
+        <rect x="65" y="158" width="140" height="14" rx="3" fill="rgba(239,68,68,.1)"/>
+        <rect x="65" y="158" width="140" height="14" rx="3" fill="rgba(239,68,68,.45)"/>
+        <text x="218" y="169" fill="#f87171" font-size="9">12条</text>
+      </g>
+
+      <!-- 右侧：模块分类 -->
+      <g transform="translate(340,10)">
+        <text x="200" y="24" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">需求模块分类</text>
+
+        <text x="0" y="50" fill="#94a3b8" font-size="9">文档管理</text>
+        <rect x="55" y="40" width="140" height="16" rx="4" fill="rgba(59,130,246,.08)"/>
+        <rect x="55" y="40" width="140" height="16" rx="4" fill="rgba(59,130,246,.4)"/>
+        <text x="205" y="52" fill="#60a5fa" font-size="9">11条</text>
+
+        <text x="0" y="76" fill="#94a3b8" font-size="9">项目管理</text>
+        <rect x="55" y="66" width="85" height="16" rx="4" fill="rgba(16,185,129,.08)"/>
+        <rect x="55" y="66" width="85" height="16" rx="4" fill="rgba(16,185,129,.4)"/>
+        <text x="205" y="78" fill="#34d399" font-size="9">6条</text>
+
+        <text x="0" y="102" fill="#94a3b8" font-size="9">PDM 扩展</text>
+        <rect x="55" y="92" width="70" height="16" rx="4" fill="rgba(139,92,246,.08)"/>
+        <rect x="55" y="92" width="70" height="16" rx="4" fill="rgba(139,92,246,.4)"/>
+        <text x="205" y="104" fill="#a78bfa" font-size="9">5条</text>
+
+        <text x="0" y="128" fill="#94a3b8" font-size="9">物料管理</text>
+        <rect x="55" y="118" width="55" height="16" rx="4" fill="rgba(245,158,11,.08)"/>
+        <rect x="55" y="118" width="55" height="16" rx="4" fill="rgba(245,158,11,.4)"/>
+        <text x="205" y="130" fill="#fbbf24" font-size="9">4条</text>
+
+        <text x="0" y="154" fill="#94a3b8" font-size="9">工作流/变更</text>
+        <rect x="55" y="144" width="55" height="16" rx="4" fill="rgba(245,158,11,.08)"/>
+        <rect x="55" y="144" width="55" height="16" rx="4" fill="rgba(245,158,11,.4)"/>
+        <text x="205" y="156" fill="#fbbf24" font-size="9">4条</text>
+
+        <!-- 汇总大圆 -->
+        <circle cx="200" cy="220" r="40" fill="rgba(139,92,246,.08)" stroke="rgba(139,92,246,.3)" stroke-width="2"/>
+        <text x="200" y="210" text-anchor="middle" fill="#a78bfa" font-size="24" font-weight="800">27</text>
+        <text x="200" y="228" text-anchor="middle" fill="#94a3b8" font-size="9">条可解决</text>
+        <text x="200" y="240" text-anchor="middle" fill="#64748b" font-size="8">/ 33条</text>
+      </g>
+
+      <rect x="100" y="260" width="700" height="28" rx="14" fill="rgba(139,92,246,.06)" stroke="rgba(139,92,246,.15)" stroke-width="1"/>
+      <text x="450" y="279" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="600">82% 的痛点金蝶PLM可覆盖 · 剩下6条需定制开发</text>
+    </svg>
   </div>
 </div>
 
 <!-- ═══════════ SLIDE 8: 实施路线 ═══════════ -->
-<div class="slide s8" id="s8">
+<div class="slide s7" id="s7" style="background:linear-gradient(135deg,#0f172a,#1a2332,#0c1929)">
   <div class="slide-num">08 / 08</div>
-  <div class="slide-inner">
-    <div class="big-title">实施路线图</div>
-    <div class="subtitle">分四步走，不搞大跃进。</div>
-    <div class="divider"></div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label">实施规划</div>
+    <div class="slide-title g">4步走，不搞大跃进</div>
+    <div class="slide-sub">从流程梳理到全面推广，预计12-16周</div>
+    <svg viewBox="0 0 900 300" style="width:100%;max-width:900px;height:auto" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="300" fill="none"/>
+      <g transform="translate(30,20)">
+        <!-- 时间轴横线 -->
+        <line x1="0" y1="130" x2="840" y2="130" stroke="#334155" stroke-width="2"/>
 
-    <div class="timeline">
-      <div class="tl-phase">
-        <div class="ph-num">📋</div>
-        <div class="ph-title">第一阶段<br>流程梳理</div>
-        <div class="ph-desc">梳理研发业务流程<br>制定编码规范<br>整理BOM模板<br><br>⏱ 2-3周</div>
-      </div>
-      <div class="tl-phase">
-        <div class="ph-num">⚙️</div>
-        <div class="ph-title">第二阶段<br>系统部署</div>
-        <div class="ph-desc">安装配置金蝶PLM<br>对接SolidWorks<br>打通ERP接口<br><br>⏱ 4-6周</div>
-      </div>
-      <div class="tl-phase">
-        <div class="ph-num">🧪</div>
-        <div class="ph-title">第三阶段<br>试点运行</div>
-        <div class="ph-desc">飞针产品部先跑<br>1-2个项目全流程走通<br>收集反馈优化<br><br>⏱ 4周</div>
-      </div>
-      <div class="tl-phase">
-        <div class="ph-num">🚀</div>
-        <div class="ph-title">第四阶段<br>全面推广</div>
-        <div class="ph-desc">所有产品线接入<br>培训+考核<br>正式上线运行<br><br>⏱ 4周</div>
-      </div>
-    </div>
+        <!-- 阶段1 -->
+        <circle cx="105" cy="130" r="28" fill="rgba(16,185,129,.1)" stroke="rgba(16,185,129,.35)" stroke-width="2"/>
+        <text x="105" y="135" text-anchor="middle" font-size="20">📋</text>
+        <rect x="5" y="15" width="200" height="88" rx="10" fill="rgba(16,185,129,.04)" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+        <text x="105" y="38" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">阶段一 · 流程梳理</text>
+        <text x="105" y="56" text-anchor="middle" fill="#94a3b8" font-size="10">梳理研发业务流程</text>
+        <text x="105" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">制定编码规范</text>
+        <text x="105" y="84" text-anchor="middle" fill="#94a3b8" font-size="10">整理BOM模板</text>
+        <rect x="45" y="158" width="120" height="20" rx="10" fill="rgba(16,185,129,.1)"/>
+        <text x="105" y="173" text-anchor="middle" fill="#34d399" font-size="10" font-weight="600">⏱ 2-3周</text>
 
-    <div class="hl-box" style="margin-top:28px">
-      <h3>🤝 需要大家配合什么？</h3>
-      <p>① 各部门指定<b>关键用户</b>（飞针/自动化/ICT各1-2人），参与需求调研和测试<br>
-      ② 研发部门配合<b>流程梳理</b>：你现在的图纸怎么存的？BOM怎么管的？——如实告诉我们就行<br>
-      ③ 领导层在关键节点参加<b>评审会</b>（立项评审、转产评审）<br>
-      ④ <b style="color:#34d399">做好一个心理准备：头一个月会比较痛苦。</b>任何系统上线都有适应期，但一个月后会明显变顺。</p>
-    </div>
+        <!-- 阶段2 -->
+        <circle cx="315" cy="130" r="28" fill="rgba(139,92,246,.1)" stroke="rgba(139,92,246,.35)" stroke-width="2"/>
+        <text x="315" y="135" text-anchor="middle" font-size="20">⚙️</text>
+        <rect x="215" y="15" width="200" height="88" rx="10" fill="rgba(139,92,246,.04)" stroke="rgba(139,92,246,.2)" stroke-width="1"/>
+        <text x="315" y="38" text-anchor="middle" fill="#a78bfa" font-size="12" font-weight="700">阶段二 · 系统部署</text>
+        <text x="315" y="56" text-anchor="middle" fill="#94a3b8" font-size="10">安装配置金蝶PLM</text>
+        <text x="315" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">对接SolidWorks</text>
+        <text x="315" y="84" text-anchor="middle" fill="#94a3b8" font-size="10">打通ERP接口</text>
+        <rect x="255" y="158" width="120" height="20" rx="10" fill="rgba(139,92,246,.1)"/>
+        <text x="315" y="173" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">⏱ 4-6周</text>
+
+        <!-- 阶段3 -->
+        <circle cx="525" cy="130" r="28" fill="rgba(59,130,246,.1)" stroke="rgba(59,130,246,.35)" stroke-width="2"/>
+        <text x="525" y="135" text-anchor="middle" font-size="20">🧪</text>
+        <rect x="425" y="15" width="200" height="88" rx="10" fill="rgba(59,130,246,.04)" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+        <text x="525" y="38" text-anchor="middle" fill="#60a5fa" font-size="12" font-weight="700">阶段三 · 试点运行</text>
+        <text x="525" y="56" text-anchor="middle" fill="#94a3b8" font-size="10">飞针产品部先跑</text>
+        <text x="525" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">1-2个项目全流程走通</text>
+        <text x="525" y="84" text-anchor="middle" fill="#94a3b8" font-size="10">收集反馈优化</text>
+        <rect x="465" y="158" width="120" height="20" rx="10" fill="rgba(59,130,246,.1)"/>
+        <text x="525" y="173" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="600">⏱ 4周</text>
+
+        <!-- 阶段4 -->
+        <circle cx="735" cy="130" r="28" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.35)" stroke-width="2"/>
+        <text x="735" y="135" text-anchor="middle" font-size="20">🚀</text>
+        <rect x="635" y="15" width="200" height="88" rx="10" fill="rgba(245,158,11,.04)" stroke="rgba(245,158,11,.2)" stroke-width="1"/>
+        <text x="735" y="38" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">阶段四 · 全面推广</text>
+        <text x="735" y="56" text-anchor="middle" fill="#94a3b8" font-size="10">所有产品线接入</text>
+        <text x="735" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">培训+考核</text>
+        <text x="735" y="84" text-anchor="middle" fill="#94a3b8" font-size="10">正式上线运行</text>
+        <rect x="675" y="158" width="120" height="20" rx="10" fill="rgba(245,158,11,.1)"/>
+        <text x="735" y="173" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="600">⏱ 4周</text>
+      </g>
+      <rect x="100" y="260" width="700" height="28" rx="14" fill="rgba(16,185,129,.06)" stroke="rgba(16,185,129,.15)" stroke-width="1"/>
+      <text x="450" y="279" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">头一个月会比较痛苦，任何系统上线都有适应期——但一个月后会明显变顺</text>
+    </svg>
   </div>
 </div>
 
