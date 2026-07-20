@@ -35,6 +35,10 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .slide-title{font-size:28px;font-weight:800;line-height:1.2;margin-bottom:4px}.slide-title.g{color:var(--g2)}.slide-title.b{color:var(--b2)}.slide-title.y{color:var(--y2)}.slide-title.r{color:var(--r2)}.slide-title.p{color:var(--p2)}
 .slide-sub{font-size:13px;color:#64748b;margin-bottom:24px}
 @media(max-width:768px){
+  .toc-card{padding:14px 16px}
+  .toc-card .toc-title{font-size:14px}
+  .toc-card .toc-list{font-size:11px;line-height:1.85}
+
   .slide{padding:50px 20px 24px}
   .slide-title{font-size:22px}
   .nav-dots{right:12px}
@@ -44,12 +48,39 @@ svg text[fill="#e2e8f0"]{fill:#1e293b!important}
 svg text[fill="#94a3b8"]{fill:#475569!important}
 svg text[fill="#64748b"]{fill:#64748b!important}
 svg text[fill="#475569"]{fill:#94a3b8!important}
+
+.toc-card{display:block;text-decoration:none;color:inherit;border-radius:14px;padding:18px 22px;transition:all .25s;cursor:pointer;background:#fff;border:1.5px solid #e2e8f0}
+.toc-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.toc-card.toc-b{border-color:rgba(59,130,246,.3);background:linear-gradient(135deg,rgba(59,130,246,.04),rgba(59,130,246,.02))}
+.toc-card.toc-p{border-color:rgba(139,92,246,.3);background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(139,92,246,.02))}
+.toc-card.toc-g{border-color:rgba(16,185,129,.3);background:linear-gradient(135deg,rgba(16,185,129,.04),rgba(16,185,129,.02))}
+.toc-card.toc-y{border-color:rgba(245,158,11,.3);background:linear-gradient(135deg,rgba(245,158,11,.04),rgba(245,158,11,.02))}
+.toc-card.toc-b:hover{border-color:#3b82f6;box-shadow:0 8px 24px rgba(59,130,246,.15)}
+.toc-card.toc-p:hover{border-color:#8b5cf6;box-shadow:0 8px 24px rgba(139,92,246,.15)}
+.toc-card.toc-g:hover{border-color:#10b981;box-shadow:0 8px 24px rgba(16,185,129,.15)}
+.toc-card.toc-y:hover{border-color:#f59e0b;box-shadow:0 8px 24px rgba(245,158,11,.15)}
+.toc-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.toc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.toc-card.toc-b .toc-icon{background:rgba(59,130,246,.15);color:#3b82f6}
+.toc-card.toc-p .toc-icon{background:rgba(139,92,246,.15);color:#8b5cf6}
+.toc-card.toc-g .toc-icon{background:rgba(16,185,129,.15);color:#10b981}
+.toc-card.toc-y .toc-icon{background:rgba(245,158,11,.15);color:#f59e0b}
+.toc-title{font-size:17px;font-weight:700}
+.toc-card.toc-b .toc-title{color:#3b82f6}
+.toc-card.toc-p .toc-title{color:#8b5cf6}
+.toc-card.toc-g .toc-title{color:#10b981}
+.toc-card.toc-y .toc-title{color:#f59e0b}
+.toc-pages{font-size:10px;color:#64748b;margin-top:2px;font-family:"SF Mono",monospace}
+.toc-list{font-size:12.5px;color:#475569;line-height:2;padding-left:4px}
+.toc-item{display:flex;align-items:baseline;gap:10px}
+.toc-num{display:inline-block;width:24px;font-family:"SF Mono",monospace;font-size:10px;color:#94a3b8;text-align:right;flex-shrink:0}
 </style>
 </head>
 <body>
 
 <div class="nav-dots">
-  <a href="#s0" class="active" id="d0"></a>
+  <a href="#s_toc" class="active" id="d_toc"></a>
+  <a href="#s0" id="d0"></a>
   <a href="#s1" id="d1"></a>
   <a href="#s15" id="d15"></a>
   <a href="#s2" id="d2"></a>
@@ -61,9 +92,85 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
   <a href="#s8" id="d8"></a>
 </div>
 
+<!-- ═══════════ SLIDE TOC: 目录 ═══════════ -->
+<div class="slide s_toc active" id="s_toc">
+  <div class="slide-num">00 / 11</div>
+  <div class="slide-inner" style="text-align:center">
+    <div class="section-label" style="color:#475569">会议导览</div>
+    <div class="slide-title g">目 录</div>
+    <div class="slide-sub">4 大板块 · 11 页内容 · 预计 20-30 分钟</div>
+
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:1040px;margin:22px auto;text-align:left">
+
+      <a href="#s0" class="toc-card toc-b">
+        <div class="toc-head">
+          <div class="toc-icon">📍</div>
+          <div>
+            <div class="toc-title">一、开篇定位</div>
+            <div class="toc-pages">页 01-03 · 3 页</div>
+          </div>
+        </div>
+        <div class="toc-list">
+          <div class="toc-item"><span class="toc-num">01</span>什么叫信息化？</div>
+          <div class="toc-item"><span class="toc-num">02</span>为什么要做信息化？</div>
+          <div class="toc-item"><span class="toc-num">03</span>信息化全景图</div>
+        </div>
+      </a>
+
+      <a href="#s15" class="toc-card toc-p">
+        <div class="toc-head">
+          <div class="toc-icon">🔮</div>
+          <div>
+            <div class="toc-title">二、远景规划</div>
+            <div class="toc-pages">页 04-06 · 3 页</div>
+          </div>
+        </div>
+        <div class="toc-list">
+          <div class="toc-item"><span class="toc-num">04</span>信息化三部曲 Vision</div>
+          <div class="toc-item"><span class="toc-num">05</span>产品生命周期管理系统</div>
+          <div class="toc-item"><span class="toc-num">06</span>6 大痛点 × 4 大 PLM 解法</div>
+        </div>
+      </a>
+
+      <a href="#s5" class="toc-card toc-g">
+        <div class="toc-head">
+          <div class="toc-icon">🚀</div>
+          <div>
+            <div class="toc-title">三、落地路径</div>
+            <div class="toc-pages">页 07 · 1 页</div>
+          </div>
+        </div>
+        <div class="toc-list">
+          <div class="toc-item"><span class="toc-num">07</span>4 步走，不搞大跃进</div>
+        </div>
+      </a>
+
+      <a href="#s6" class="toc-card toc-y">
+        <div class="toc-head">
+          <div class="toc-icon">🛡️</div>
+          <div>
+            <div class="toc-title">四、组织保障</div>
+            <div class="toc-pages">页 08-10 · 3 页</div>
+          </div>
+        </div>
+        <div class="toc-list">
+          <div class="toc-item"><span class="toc-num">08</span>组织架构</div>
+          <div class="toc-item"><span class="toc-num">09</span>沟通机制</div>
+          <div class="toc-item"><span class="toc-num">10</span>奖惩机制</div>
+        </div>
+      </a>
+
+    </div>
+
+    <div style="margin-top:20px;display:flex;justify-content:center;gap:28px;font-size:11px;color:#64748b">
+      <span>💡 点击板块卡片跳转 · 右侧导航点快速切换</span>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════ SLIDE 0: 什么叫信息化 ═══════════ -->
 <div class="slide s0" id="s0">
-  <div class="slide-num">00 / 10</div>
+  <div class="slide-num">01 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">信息化的本质</div>
     <div class="slide-title g">什么叫信息化？</div>
@@ -162,7 +269,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 1: 为什么要信息化 ═══════════ -->
 <div class="slide s1" id="s1">
-  <div class="slide-num">01 / 10</div>
+  <div class="slide-num">02 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">为什么</div>
     <div class="slide-title b">为什么要做信息化？</div>
@@ -256,7 +363,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 1.5: 信息化全景图（动态数据流） ═══════════ -->
 <div class="slide s15" id="s15">
-  <div class="slide-num">02 / 10</div>
+  <div class="slide-num">03 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">数据流转全景</div>
     <div class="slide-title b">信息化全景图</div>
@@ -487,7 +594,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 2: 远景图 ═══════════ -->
 <div class="slide s2" id="s2">
-  <div class="slide-num">03 / 10</div>
+  <div class="slide-num">04 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label" style="color:#475569">Vision</div>
     <svg viewBox="0 0 1000 660" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
@@ -603,7 +710,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 3: PLM介绍 ═══════════ -->
 <div class="slide s3" id="s3">
-  <div class="slide-num">04 / 10</div>
+  <div class="slide-num">05 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">PLM 系统</div>
     <div class="slide-title" style="color:#8b5cf6">产品生命周期管理系统</div>
@@ -670,7 +777,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 </div>
 <!-- ═══════════ SLIDE 4: 痛点解法 ═══════════ -->
 <div class="slide s4" id="s4">
-  <div class="slide-num">05 / 10</div>
+  <div class="slide-num">06 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">研发数据管理 · 对症下药</div>
     <div class="slide-title" style="color:#8b5cf6">6 大痛点 × 4 大 PLM 解法</div>
@@ -827,7 +934,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 5: 实施路线 ═══════════ -->
 <div class="slide s5" id="s5">
-  <div class="slide-num">06 / 10</div>
+  <div class="slide-num">07 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">实施规划</div>
     <div class="slide-title g">4步走，不搞大跃进</div>
@@ -881,7 +988,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 6: 组织架构 ═══════════ -->
 <div class="slide s6" id="s6">
-  <div class="slide-num">07 / 10</div>
+  <div class="slide-num">08 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">项目保障</div>
     <div class="slide-title y">组织架构</div>
@@ -958,7 +1065,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 7: 沟通机制 ═══════════ -->
 <div class="slide s7" id="s7">
-  <div class="slide-num">08 / 10</div>
+  <div class="slide-num">09 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">项目保障</div>
     <div class="slide-title b">沟通机制</div>
@@ -1049,7 +1156,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
 <!-- ═══════════ SLIDE 8: 奖惩机制 ═══════════ -->
 <div class="slide s8" id="s8">
-  <div class="slide-num">09 / 10</div>
+  <div class="slide-num">10 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">项目保障</div>
     <div class="slide-title g">奖惩机制</div>
