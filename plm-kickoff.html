@@ -74,6 +74,19 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 .toc-list{font-size:12.5px;color:#475569;line-height:2;padding-left:4px}
 .toc-item{display:flex;align-items:baseline;gap:10px}
 .toc-num{display:inline-block;width:24px;font-family:"SF Mono",monospace;font-size:10px;color:#94a3b8;text-align:right;flex-shrink:0}
+/* 目录页紧凑化：仅作用于 .s_toc，不影响其他 slide */
+.s_toc{min-height:auto;padding:36px 48px 28px;justify-content:center}
+.s_toc .section-label{margin-bottom:6px}
+.s_toc .slide-title{font-size:26px;margin-bottom:4px}
+.s_toc .slide-sub{margin-bottom:14px}
+.s_toc .toc-grid{margin:14px auto;gap:14px;max-width:1040px}
+.s_toc .toc-card{padding:12px 16px;border-radius:12px}
+.s_toc .toc-head{margin-bottom:8px;gap:10px}
+.s_toc .toc-icon{width:34px;height:34px;font-size:18px;border-radius:8px}
+.s_toc .toc-title{font-size:15.5px}
+.s_toc .toc-pages{font-size:9.5px;margin-top:1px}
+.s_toc .toc-list{line-height:1.55;font-size:12px;padding-left:2px}
+.s_toc .toc-tip{margin-top:10px}
 </style>
 </head>
 <body>
@@ -100,7 +113,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
     <div class="slide-title g">目 录</div>
     <div class="slide-sub">4 大板块 · 11 页内容 · 预计 20-30 分钟</div>
 
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:1040px;margin:22px auto;text-align:left">
+    <div class="toc-grid" style="display:grid;grid-template-columns:repeat(2,1fr);text-align:left">
 
       <a href="#s0" class="toc-card toc-b">
         <div class="toc-head">
@@ -162,7 +175,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 
     </div>
 
-    <div style="margin-top:20px;display:flex;justify-content:center;gap:28px;font-size:11px;color:#64748b">
+    <div class="toc-tip" style="display:flex;justify-content:center;gap:28px;font-size:11px;color:#64748b">
       <span>💡 点击板块卡片跳转 · 右侧导航点快速切换</span>
     </div>
   </div>
