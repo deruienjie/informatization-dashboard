@@ -1,0 +1,9 @@
+# 腾讯文档 docx 用的本地压缩副本（不部署到 GitHub Pages）
+images/
+
+# 重构前备份文件（不部署到 GitHub Pages）
+plm-kickoff_before_restructure.html
+plm-kickoff_dark_backup.html
+
+# 系统文件
+.DS_Store

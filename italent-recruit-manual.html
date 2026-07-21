@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>橙子互动 iTalent 招聘系统操作手册 · v1.0</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:#fff;color:#1e293b;line-height:1.7}
+  .container{max-width:1100px;margin:0 auto;padding:40px 32px 80px}
+  .header{text-align:center;padding:32px 0 24px;border-bottom:3px solid #2563eb;margin-bottom:32px}
+  .header h1{font-size:28px;color:#1e293b;margin-bottom:8px}
+  .header .meta{font-size:12px;color:#64748b}
+  .header .meta span{margin:0 12px}
+  .toc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px 24px;margin-bottom:32px}
+  .toc h2{font-size:15px;color:#1e293b;margin-bottom:12px}
+  .toc ol{columns:2;column-gap:32px;list-style:none;counter-reset:item}
+  .toc li{counter-increment:item;padding:4px 0;font-size:13px}
+  .toc li::before{content:counter(item) ". ";color:#2563eb;font-weight:600}
+  .toc a{color:#475569;text-decoration:none}
+  .toc a:hover{color:#2563eb;text-decoration:underline}
+  h2{font-size:20px;color:#1e293b;margin:36px 0 16px;padding-left:14px;border-left:5px solid #2563eb}
+  h3{font-size:16px;color:#334155;margin:20px 0 10px}
+  h4{font-size:14px;color:#475569;margin:14px 0 8px;font-weight:600}
+  p{margin:8px 0;color:#334155}
+  .lead{background:#eff6ff;border-left:4px solid #2563eb;padding:12px 16px;border-radius:4px;color:#1e40af;margin:14px 0;font-size:13px}
+  .warn{background:#fef3c7;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#92400e;margin:14px 0;font-size:13px}
+  .tip{background:#d1fae5;border-left:4px solid #10b981;padding:12px 16px;border-radius:4px;color:#065f46;margin:14px 0;font-size:13px}
+  .danger{background:#fee2e2;border-left:4px solid #ef4444;padding:12px 16px;border-radius:4px;color:#991b1b;margin:14px 0;font-size:13px}
+  .step{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;margin:12px 0}
+  .step-num{display:inline-block;background:#2563eb;color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:600;margin-right:10px}
+  .step-title{font-weight:600;color:#1e293b;font-size:14px}
+  .step-body{margin-top:6px;color:#475569;font-size:13px;padding-left:34px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  th,td{padding:10px 12px;border:1px solid #e2e8f0;text-align:left;vertical-align:top}
+  th{background:#f1f5f9;color:#1e293b;font-weight:600}
+  tr:nth-child(even) td{background:#fafbfc}
+  code{background:#f1f5f9;padding:1px 6px;border-radius:3px;font-family:"SF Mono",monospace;font-size:12px;color:#7c3aed}
+  .path{color:#2563eb;font-weight:500}
+  .arrow{color:#94a3b8;margin:0 4px}
+  .footer{margin-top:60px;padding:20px 0;border-top:1px solid #e2e8f0;text-align:center;color:#94a3b8;font-size:12px}
+  .nav-back{position:fixed;right:24px;top:24px;background:#2563eb;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:12px;box-shadow:0 4px 12px rgba(37,99,235,.3)}
+  .nav-back:hover{background:#1d4ed8}
+
+  figure.screenshot{margin:20px 0 30px;text-align:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  figure.screenshot img{max-width:100%;height:auto;border-radius:6px;border:1px solid #cbd5e1;display:block;margin:0 auto}
+  figure.screenshot.highlight{border-color:#2563eb;background:#eff6ff;box-shadow:0 2px 8px rgba(37,99,235,.15)}
+  figure.screenshot.small img{max-width:60%}
+  figure.screenshot figcaption{margin-top:12px;font-size:13px;color:#475569;font-weight:500;line-height:1.5}
+  figure.screenshot figcaption::before{content:'';display:block;width:30px;height:2px;background:#2563eb;margin:0 auto 8px;border-radius:1px}
+
+</style>
+</head>
+<body>
+<a href="#top" class="nav-back">↑ 顶部</a>
+<div class="container" id="top">
+  <div class="header">
+    <h1>🍊 橙子互动 iTalent 招聘系统操作手册</h1>
+    <div class="meta">
+      <span>📅 版本 v1.0</span>
+      <span>📆 2026-07-14 需求沟通会后定稿</span>
+      <span>👤 适用对象：HR 招聘专员 / HRBP / 系统管理员</span>
+    </div>
+  </div>
+
+  <div class="toc">
+    <h2>📋 目录</h2>
+    <ol>
+      <li><a href="#ch1">快速入口速查</a></li>
+      <li><a href="#ch2">招聘需求管理</a></li>
+      <li><a href="#ch3">编制与组织管理</a></li>
+      <li><a href="#ch4">信息采集模板配置</a></li>
+      <li><a href="#ch5">花名册与人员导出</a></li>
+      <li><a href="#ch6">合同协议管理</a></li>
+      <li><a href="#ch7">考勤月报确认</a></li>
+      <li><a href="#ch8">招聘项目与简历管理</a></li>
+      <li><a href="#ch9">常见问题 FAQ</a></li>
+    </ol>
+  </div>
+
+  <!-- 第 1 章 -->
+  <h2 id="ch1">⚡ 1. 快速入口速查</h2>
+    <figure class="screenshot">
+      <img src="m_f002.jpg" alt="iTalent 招聘需求列表 - 快速入口速查" loading="lazy"/>
+      <figcaption>📸 视频 06:00 · 招聘需求列表（iTalent 核心入口之一）</figcaption>
+    </figure>
+  <p>系统基于 iTalent 平台,左侧导航栏分 9 大模块。本手册重点讲日常 80% 工作涉及的高频模块。</p>
+  <table>
+    <tr><th>模块</th><th>导航路径</th><th>使用频次</th></tr>
+    <tr><td>招聘需求</td><td class="path">招聘管理 → 招聘需求</td><td>⭐⭐⭐⭐⭐ 最高</td></tr>
+    <tr><td>编制管理</td><td class="path">组织管理 → 编制模板</td><td>⭐⭐⭐⭐ 高</td></tr>
+    <tr><td>信息采集规则</td><td class="path">招聘管理 → 动态信息表管理表</td><td>⭐⭐⭐ 中</td></tr>
+    <tr><td>花名册</td><td class="path">人员信息 → 全部人员</td><td>⭐⭐⭐⭐ 高</td></tr>
+    <tr><td>合同协议</td><td class="path">合同管理 → 合同协议</td><td>⭐⭐⭐ 中</td></tr>
+    <tr><td>考勤月报</td><td class="path">考勤管理 → 月度确认</td><td>⭐⭐⭐ 中</td></tr>
+    <tr><td>项目(招聘)</td><td class="path">招聘管理 → 项目</td><td>⭐⭐ 低</td></tr>
+  </table>
+
+  <div class="tip">
+    💡 <strong>统一登录地址</strong>: <code>https://ioranges.cn/itale.../TenantBase/Login</code>(咨询 IT 获取最新链接)
+  </div>
+
+  <!-- 第 2 章 -->
+  <h2 id="ch2">📝 2. 招聘需求管理</h2>
+    <figure class="screenshot">
+      <img src="m_f002.jpg" alt="招聘需求列表 - 一对多关联" loading="lazy"/>
+      <figcaption>📸 视频 06:00 · 招聘需求列表（一个需求可关联多个职位）</figcaption>
+    </figure>
+
+  <h3>2.1 场景痛点</h3>
+  <p>当前有 <strong>39 条</strong> 在执行招聘需求,由少数 HR 专员管理,逐条创建工作量大、效率低。</p>
+
+  <h3>2.2 解决方案:批量导入 + 一对多关联</h3>
+    <figure class="screenshot">
+      <img src="m_f010.jpg" alt="新建招聘需求弹窗" loading="lazy"/>
+      <figcaption>📸 视频 10:00 · 新建招聘需求弹窗（带数据校验与命名规范提示）</figcaption>
+    </figure>
+  <p>iTalent 支持两种优化方式,可根据实际情况选择。</p>
+
+  <h4>方式 A:一个招聘需求关联多个职位</h4>
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>导航到<span class="path">招聘管理 → 招聘需求</span></div>
+    <div class="step-body">点击右上角"批量创建招聘需求"按钮。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>填写需求基本信息</div>
+    <div class="step-body">在"新建需求"对话框中,填写<strong>需求名称</strong>(建议格式:<code>职位+部门+数量</code>,例如"产品工程师-研发中心-3人")。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>关联多个职位</div>
+    <div class="step-body">在"关联职位"区域,点击"添加职位",从下拉列表中选择多个相同/不同职位(支持跨部门)。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">4</span>保存并发布</div>
+    <div class="step-body">点击"保存并发起审批",走流程后自动同步到职位库。</div>
+  </div>
+
+  <div class="warn">
+    ⚠️ <strong>注意</strong>:多个职位共用同一需求时,任一职位完成招聘可能导致整个需求关闭。如需重启,需手动"重新激活"。
+  </div>
+
+  <h4>方式 B:批量导入(推荐用于年初/年中大量需求)</h4>
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>下载模板</div>
+    <div class="step-body">在"招聘需求"列表页 → 右上角"<strong>批量导入招聘需求</strong>"按钮 → 下载 Excel 模板。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>填写模板</div>
+    <div class="step-body">按列填写:需求名称、需求部门、需求人数、关联职位编码、需求类型、优先级等必填项。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>上传</div>
+    <div class="step-body">上传填写好的 Excel,系统自动校验数据并提示错误行。确认后批量创建。</div>
+  </div>
+
+  <div class="tip">
+    💡 <strong>校招场景参考</strong>:可参考校招客户的"一次性导入所有需求与职位"做法,大幅提升效率。
+  </div>
+
+  <h3>2.3 命名规范建议</h3>
+  <table>
+    <tr><th>字段</th><th>建议命名</th><th>说明</th></tr>
+    <tr><td>需求名称</td><td><code>职位+部门+数量</code></td><td>例:产品工程师-研发中心-3人</td></tr>
+    <tr><td>需求类型</td><td><code>校招/社招/实习生/高端引进</code></td><td>用于后续数据分类</td></tr>
+  </table>
+  <div class="warn">
+    ⚠️ <strong>不建议</strong>:把需求名称直接改为职位名称。需求与职位属不同概念,混淆不利于长期管理。
+  </div>
+
+  <!-- 第 3 章 -->
+  <h2 id="ch3">🏢 3. 编制与组织管理</h2>
+    <figure class="screenshot">
+      <img src="m_f025.jpg" alt="组织编制列表" loading="lazy"/>
+      <figcaption>📸 视频 25:00 · 组织编制列表（按层级控总人数）</figcaption>
+    </figure>
+
+  <h3>3.1 现状问题</h3>
+  <p>当前启用"细分编制"并设定了职级、序列、职位等多重限制,导致<strong>新员工入职时常提示"无编制"</strong>。根本原因是:细分编制适用于对岗位构成有严格要求的企业,多数企业仅控制组织层级总人数即可。</p>
+
+  <h3>3.2 解决方案:改用"组织编制"</h3>
+    <figure class="screenshot">
+      <img src="m_f032.jpg" alt="编制模板设置" loading="lazy"/>
+      <figcaption>📸 视频 32:00 · 编制模板设置（按层级自动汇总）</figcaption>
+    </figure>
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>停用旧编制方案</div>
+    <div class="step-body">导航:<span class="path">组织管理 → 编制模板</span>,将原有"细分编制"方案状态改为"<strong>已停用</strong>"。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>创建新组织编制方案</div>
+    <div class="step-body">点击"新建编制方案",按以下配置:</div>
+    <ul style="padding-left:24px;margin:6px 0;color:#475569">
+      <li>编制方案名:<code>2026年度编制方案</code></li>
+      <li>编制类别:2026</li>
+      <li>控制维度:<strong>只勾选"组织"</strong>(取消职级/岗位/序列维度)</li>
+      <li>编制范围:全员(含校招/社招,排除实习生)</li>
+    </ul>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>设置模板字段</div>
+    <div class="step-body">在"设置模板"对话框中(参考 f032 截图),勾选需要控制的字段:
+      <ul style="padding-left:24px;margin:6px 0">
+        <li>✅ 部门(必选)</li>
+        <li>✅ 一级组织(必选)</li>
+        <li>✅ 二级组织(必选)</li>
+        <li>❌ 职级(取消)</li>
+        <li>❌ 岗位(取消)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">4</span>设置部门与下级</div>
+    <div class="step-body">在"02 设置模板运行"步骤,确认勾选"<strong>新增下的本级到下级路径</strong>"选项,确保下级组织可联动调整。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">5</span>导入编制数据</div>
+    <div class="step-body">使用"<strong>导入组织编制</strong>"功能,按模板批量导入各级编制人数。点击"保存并下载"完成。</div>
+  </div>
+
+  <div class="tip">
+    💡 <strong>实习生处理</strong>:在编制方案中将"实习生"雇佣类型<strong>排除</strong>,实习生不占编制名额。
+  </div>
+  <div class="tip">
+    💡 <strong>灵活性</strong>:调整后允许初级人员替代中级岗位空缺,提升用人灵活性,不影响预算管理。
+  </div>
+
+  <!-- 第 4 章 -->
+  <h2 id="ch4">📋 4. 信息采集模板配置</h2>
+    <figure class="screenshot highlight">
+      <img src="m_f039.jpg" alt="动态信息表 - 差异化采集模板" loading="lazy"/>
+      <figcaption>📸 视频 39:00 · 动态信息表（校招/社招/实习生差异化配置·关键截图）</figcaption>
+    </figure>
+
+  <h3>4.1 现状问题</h3>
+  <p>当前所有人员使用相同的信息采集模板,无法区分<strong>校招 / 社招 / 实习生</strong>不同渠道,数据收集不够精准。</p>
+
+  <h3>4.2 解决方案:按"人员范围"差异化模板</h3>
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>导航到信息表管理</div>
+    <div class="step-body">路径:<span class="path">招聘管理 → 动态信息表管理表</span>。在"动态信息表管理表(组织员工)"页签中,点击"动态信息表"。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>添加菜单</div>
+    <div class="step-body">点击"<strong>添加菜单</strong>"按钮,选择关联人员范围:</div>
+    <ul style="padding-left:24px;margin:6px 0;color:#475569">
+      <li>校招生(应届毕业生)→ 单独模板</li>
+      <li>社招(经验人士)→ 单独模板</li>
+      <li>实习生 → 单独模板(可选)</li>
+    </ul>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>配置差异化字段</div>
+    <div class="step-body">为每类人员设置不同的必填项:
+      <ul style="padding-left:24px;margin:6px 0">
+        <li>校招生:学校、专业、毕业时间、成绩单</li>
+        <li>社招:前公司、离职原因、薪资证明、推荐人</li>
+        <li>实习生:实习周期、导师、可到岗时间</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="lead">
+    🎯 <strong>效果</strong>:不同人员进入系统时,自动弹出对应模板,数据收集精准度提升,后续分析更准确。
+  </div>
+
+  <!-- 第 5 章 -->
+  <h2 id="ch5">👥 5. 花名册与人员导出</h2>
+    <figure class="screenshot">
+      <img src="m_f040.jpg" alt="全部人员菜单" loading="lazy"/>
+      <figcaption>📸 视频 40:00 · "全部人员"菜单（花名册统一导出入口）</figcaption>
+    </figure>
+
+  <h3>5.1 现状问题</h3>
+  <p>原需分别导出"在职人员"和"离职人员",字段不一致难以合并,每月做花名册报送时效率低。</p>
+
+  <h3>5.2 解决方案:"全部人员"菜单(已实施)</h3>
+  <p>已指导 IT 添加"<strong>全部人员</strong>"菜单,可在同一界面筛选包含所有状态人员。</p>
+
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>导航</div>
+    <div class="step-body"><span class="path">人员信息 → 全部人员</span>。顶部状态筛选器包含:<strong>在职 / 离职 / 试用期 / 见习期 / 停薪留职</strong>等所有状态。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>自定义字段</div>
+    <div class="step-body">列表顶部筛选器支持按:部门、工号、姓名、任职状态、雇佣类型、职级等过滤。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>导出</div>
+    <div class="step-body">点击右上角"导出"按钮,可自定义导出字段(列),满足跨部门花名册报送需求。</div>
+  </div>
+
+  <div class="tip">
+    💡 <strong>建议</strong>:每月初固定日期统一导出,作为部门月度花名册报送标准。
+  </div>
+
+  <!-- 第 6 章 -->
+  <h2 id="ch6">📄 6. 合同协议管理</h2>
+    <figure class="screenshot">
+      <img src="m_f045.jpg" alt="合同协议管理" loading="lazy"/>
+      <figcaption>📸 视频 45:00 · 合同协议列表（关闭手工入口后统一走流程）</figcaption>
+    </figure>
+
+  <h3>6.1 现状问题</h3>
+  <p>当前存在"新建合同"和"续签"等<strong>非流程化操作入口</strong>,HR 可直接创建合同而不走审批,容易遗漏附件上传。</p>
+
+  <h3>6.2 解决方案:关闭非流程入口,强制走流程</h3>
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>导航到合同列表</div>
+    <div class="step-body"><span class="path">合同管理 → 合同协议</span>。页面顶部显示关键指标:</div>
+    <ul style="padding-left:24px;margin:6px 0">
+      <li>全部合同数:112</li>
+      <li>到期数:1</li>
+      <li>入职缺失:34 ⚠️(需跟进)</li>
+      <li>过期未续签:16</li>
+    </ul>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>关闭非流程入口(需管理员操作)</div>
+    <div class="step-body">导航:<span class="path">权限管理 → 按钮权限</span> → 找到合同模块 → 关闭"新建合同"和"续签"按钮权限 → 保留"新建合同申请"和"续签申请"。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>设置流程必填项</div>
+    <div class="step-body">在"合同申请"流程的"任职信息"和"合同信息"节点中,设置"电子协议附件"为<strong>必填项</strong>,确保线下签署扫描件及时上传。</div>
+  </div>
+
+  <h3>6.3 合同缺失监控</h3>
+  <p>两种方式主动监控合同完整性:</p>
+  <table>
+    <tr><th>方式</th><th>操作</th><th>频率</th></tr>
+    <tr><td>A. 合同缺失列表</td><td><span class="path">合同管理 → 入职缺失</span>查看 34 个待补</td><td>每周</td></tr>
+    <tr><td>B. 入职流程嵌入</td><td>在入职流程中加"合同附件"字段,作为完成条件</td><td>实时</td></tr>
+  </table>
+
+  <!-- 第 7 章 -->
+  <h2 id="ch7">📅 7. 考勤月报确认</h2>
+
+  <h3>7.1 已开启功能</h3>
+  <p>已开启"<strong>月报确认</strong>"功能,设置适用范围为全公司,向下级组织共享。</p>
+
+  <h3>7.2 自动化规则</h3>
+  <table>
+    <tr><th>环节</th><th>说明</th></tr>
+    <tr><td>触发时机</td><td>每个考勤周期结束后(通常次月 1 日)</td></tr>
+    <tr><td>推送对象</td><td>全员</td></tr>
+    <tr><td>确认期限</td><td>3 天内</td></tr>
+    <tr><td>逾期处理</td><td>系统<strong>自动确认</strong>(减少争议)</td></tr>
+  </table>
+
+  <div class="lead">
+    🎯 <strong>效果</strong>:HR 无需每月手动催确认,争议解决有据可依。
+  </div>
+
+  <!-- 第 8 章 -->
+  <h2 id="ch8">📁 8. 招聘项目与简历管理</h2>
+    <figure class="screenshot">
+      <img src="m_f055.jpg" alt="招聘项目列表" loading="lazy"/>
+      <figcaption>📸 视频 55:00 · 招聘项目列表（专项招聘归类）</figcaption>
+    </figure>
+
+  <h3>8.1 项目功能(用于专项招聘归类)</h3>
+  <p>导航:<span class="path">招聘管理 → 项目</span>。可创建项目用于归类专项招聘任务,例如:</p>
+  <ul style="padding-left:24px;color:#475569">
+    <li>校招项目:2026 校招-华南区</li>
+    <li>组织升级项目:管理层引进计划</li>
+    <li>关键岗位项目:飞针高级工程师</li>
+  </ul>
+
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>创建项目</div>
+    <div class="step-body">点击"新建项目" → 填写项目名、起止时间、负责人、参与部门。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>关联职位</div>
+    <div class="step-body">在项目详情页"关联职位"区域,加入本次项目要招聘的所有职位。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>跟踪面试进度</div>
+    <div class="step-body">项目仪表盘显示每个职位的:投递数、面试数、Offer 数、入职数。</div>
+  </div>
+
+  <h3>8.2 简历管理(前程无忧 51job 渠道)</h3>
+  <div class="warn">
+    ⚠️ <strong>问题</strong>:简历未自动归档是因归档规则匹配失败。当前设置优先按<strong>职位编号</strong>匹配,其次按名称与工作地点。
+  </div>
+
+  <h4>RPA 插件批量获取完整简历</h4>
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>安装 RPA 插件</div>
+    <div class="step-body">联系 IT 安装"前程无忧 RPA 简历抓取插件",获取完整简历(含联系方式)。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>配置职位编号</div>
+    <div class="step-body"><strong>在招聘网站发布职位时,保留职位编号</strong>(iTalent 自动生成,例如 <code>RW2026-001</code>)。这确保系统能准确识别并归档至对应职位。</div>
+  </div>
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>批量获取</div>
+    <div class="step-body">在"简历管理 → 51job 简历"页面,使用"批量获取完整简历"功能,提取所有联系方式。</div>
+  </div>
+
+  <div class="tip">
+    💡 <strong>关键</strong>:职位编号是简历自动归档的唯一可靠标识。发布招聘广告时务必保留,不要修改。
+  </div>
+
+  <!-- 第 9 章 -->
+  <h2 id="ch9">❓ 9. 常见问题 FAQ</h2>
+    <figure class="screenshot small">
+      <img src="m_f001.jpg" alt="会议原始需求表（飞书）" loading="lazy"/>
+      <figcaption>📸 视频 00:00 · 会议原始需求表（飞书多维表格 → iTalent 实施）</figcaption>
+    </figure>
+
+  <h3>Q1: 招聘需求名称填什么?</h3>
+  <p>建议格式:<code>职位+部门+数量</code>。例:产品工程师-研发中心-3人。不要直接用职位名。</p>
+
+  <h3>Q2: 新员工入职提示"无编制"怎么办?</h3>
+  <p>两种情况:</p>
+  <ul style="padding-left:24px;color:#475569">
+    <li>旧方案问题:已停用细分编制,改用新组织编制方案(参考第 3 章)</li>
+    <li>新方案下确实无名额:联系 HRBP 调整编制或申请扩编</li>
+  </ul>
+
+  <h3>Q3: 合同附件忘了上传,系统能提醒吗?</h3>
+  <p>能。在"合同管理 → 入职缺失"列表可看到 34 个待补合同,每周跟进。</p>
+
+  <h3>Q4: 51job 简历为什么没自动归档?</h3>
+  <p>99% 是因为职位编号不匹配。检查招聘网站发布时是否保留了 iTalent 的职位编号(格式 <code>RWYYYY-NNN</code>)。</p>
+
+  <h3>Q5: 信息采集字段怎么按校招/社招区分?</h3>
+  <p>在"动态信息表管理表"中,添加菜单时选择不同"人员范围",即可为校招/社招/实习生配置差异化字段(参考第 4 章)。</p>
+
+  <h3>Q6: 月度考勤 HR 还要手动催确认吗?</h3>
+  <p>不需要。系统会在次月 1 日自动推送月报,3 天内未反馈自动确认。</p>
+
+  <h3>Q7: 一个招聘需求能关联多个职位吗?</h3>
+  <p>能。但要小心:任一职位完成招聘可能导致整个需求关闭。如需保留,选择"复制"而非"完成"。</p>
+
+  <div class="footer">
+    📌 本手册基于 2026-07-14 招聘系统需求沟通会议整理 · 视频会议纪要 + 系统截图综合<br>
+    系统变更请联系 IT 实施 · 业务咨询请联系 HRBP<br>
+    <span style="color:#cbd5e1">文档版本 v1.0 · 最后更新 2026-07-20</span>
+  </div>
+</div>
+</body>
+</html>
