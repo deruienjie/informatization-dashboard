@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍊 委外生产与成本归集流程优化 | 会议纪要学习</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; color: #2c3e50; line-height: 1.6; }
+.header { background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: white; padding: 25px 35px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.header h1 { font-size: 24px; margin-bottom: 8px; }
+.breadcrumb-bar { font-size: 13px; opacity: 0.9; margin-bottom: 5px; }
+.breadcrumb-bar a { color: white; text-decoration: underline; }
+.meta { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; font-size: 13px; }
+.meta span { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; }
+.main { max-width: 1100px; margin: 0 auto; padding: 25px; }
+.card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.card h2 { color: #ff6b35; font-size: 18px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #fef0e8; }
+.card h3 { color: #2c3e50; font-size: 16px; margin: 15px 0 10px; }
+.summary { background: #fff8f0; padding: 18px; border-radius: 8px; border-left: 4px solid #ff6b35; }
+.topic-section { background: #f8f9fa; padding: 18px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #3498db; }
+.topic-content p { margin: 6px 0; font-size: 14px; color: #34495e; }
+.speaker { display: inline-block; background: #3498db; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 8px; font-weight: 500; }
+.conclusion-box { background: #e8f8f0; padding: 18px; border-radius: 8px; border-left: 4px solid #27ae60; }
+.todo-item { display: flex; gap: 15px; padding: 15px; background: #fff8f0; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #f7931e; }
+.todo-num { background: #ff6b35; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+.todo-content { flex: 1; }
+.todo-text { color: #2c3e50; font-weight: 500; margin-bottom: 5px; }
+.todo-owner { font-size: 12px; color: #7f8c8d; }
+.timeline-item { display: flex; gap: 20px; padding: 12px 0; border-bottom: 1px dashed #ecf0f1; }
+.timeline-time { background: #34495e; color: white; padding: 4px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; flex-shrink: 0; height: fit-content; }
+.timeline-content { flex: 1; color: #34495e; font-size: 14px; }
+.term { background: #fef0e8; padding: 2px 6px; border-radius: 4px; color: #ff6b35; cursor: help; }
+@media (max-width: 768px) { .main { padding: 15px; } .header { padding: 20px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="breadcrumb-bar">
+        🏠 <a href="index.html">首页</a> / <a href="erp-center.html">ERP</a> / <a href="erp-finance.html">财务模块</a> / <span>委外生产与成本归集流程优化</span>
+    </div>
+    <h1>🍊 委外生产与成本归集流程优化</h1>
+    <div class="meta">
+        <span>📅 2026-07-23</span>
+        <span>🏢 ERP / 项目实施 / 财务模块</span>
+        <span>👥 研发+采购+财务+IT</span>
+        <span>🎯 业务场景：委外生产 + 成本归集</span>
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="card">
+        <h2>📌 一、内容总结</h2>
+        <div class="summary">
+            <p>本次会议主要讨论了机加部原材料在加工及委外流程中的物料编码与BOM结构问题，涉及生产订单、委外订单的衔接及成本归集方式。同时，也讨论了采购付款申请单中银行账号如何默认携带至下游单据的问题。会议最终决定采用简化的BOM结构（仅包含原材料），先试行一个月，并关注成本归集情况；对于付款账号问题，技术层面调整难度较大。</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📂 二、议题详情</h2>
+        
+    <div class="topic-section">
+        <h3></h3>
+        <div class="topic-content"><p>一、物料编码与委外流程讨论</p>
+</div>
+    </div>
+    
+    <div class="topic-section">
+        <h3>1.1 当前BOM结构存在的问题</h3>
+        <div class="topic-content"><p><span class="speaker">发言人1、发</span>言人2、发言人3、发言人4、发言人5讨论了当前BOM结构（成品包含“未表面处理”和“已表面处理”两个半成品模块）的复杂性，认为分成了4个料号，流程繁琐。</p>
+<p>发言人1提出，有人（如“陈工”）认为“仪表出了这一步有点多余”，希望简化流程。</p>
+</div>
+    </div>
+    
+    <div class="topic-section">
+        <h3>1.2 简化方案（两段式流程）</h3>
+        <div class="topic-content"><p>方案提议：发言人1提出简化方案，即成品BOM仅包含一个“未表面处理”的半成品模块，该模块内只包含原材料。</p>
+<p>流程说明：发言人1、发言人5、发言人4阐述了该方案的具体操作：</p>
+<p>生产部使用“未表面处理”的料号（如1107）下生产订单，领用原材料进行加工，完成后入库成为“未表面处理”的半成品，该生产订单结案。</p>
+<p>随后，针对该半成品下委外采购订单，将其发往供应商进行表面处理，完成后入库成为成品。</p>
+<p>此方案将生产与委外分为两个独立的环节，由两个订单完成。</p>
+<p>成本与财务影响：发言人3、发言人5、发言人1担心该方案会导致成本分散，财务需要将生产订单成本和委外加工费合并才能得到完整成本，操作上可能较为繁琐。</p>
+<p>库存管理：发言人4担心仓库管理上，未处理与已处理物料是否容易混淆。发言人1认为，通过区分两个不同的料号（如1107未表处与另一个已表处的料号），库存状态非常清晰，便于管理。</p>
+<p>一致性观点：发言人4最终认为，只要两道工序都有对应的状态，且物料不混，该方案是标准的做法，没有问题。</p>
+</div>
+    </div>
+    
+    <div class="topic-section">
+        <h3>1.3 结论与决策</h3>
+        <div class="topic-content"><p>试行决定：发言人5提议，鉴于7月份业务量少，可以先采用简化的两段式方案进行试运行。如果运行顺利，则沿用；如果成本归集或流程出现问题，再切换回原有的复杂方案。</p>
+<p>关联信息：发言人1、发言人5、发言人4同意，在委外订单的备注中写入对应的生产工单号，以方便财务进行成本匹配和核对。</p>
+<p>二、付款申请单银行账号问题</p>
+<p>问题提出：发言人5提出，采购付款申请单中，明细行的银行账号无法写死，导致下游付款单需要手动选择账号，操作繁琐。</p>
+<p>技术分析：发言人4解释，由于表头数据无法直接转换到付款单的明细行，且付款申请单可能对应多个付款单，技术上难以实现默认携带。</p>
+<p>结论：发言人4表示，此问题调整难度较大，可能有80%的几率无法实现，但会继续研究解决方案。</p>
+</div>
+    </div>
+    
+    </div>
+
+    <div class="card">
+        <h2>✅ 三、会议结论</h2>
+        <div class="conclusion-box">
+            <p>物料与委外流程：采用简化方案，即成品BOM仅包含一个“未表面处理”的半成品模块，内部只含原材料。生产订单完成后入库，再通过委外订单进行表面处理。该方案先在7月份试行，观察成本归集情况。</p>
+<p>成本关联：为确保成本清晰，在委外订单的备注中注明对应的生产工单号，以便财务进行匹配。</p>
+<p>付款流程：针对采购付款申请单银行账号默认携带到下游付款单的问题，技术上调整难度较大，暂时无法解决，有待进一步研究。</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📋 四、待办事项</h2>
+        
+    <div class="todo-item">
+        <div class="todo-num">1</div>
+        <div class="todo-content">
+            <div class="todo-text">尝试将采购付款申请单中的银行账号固定写入明细项以便自动推送至付款单，由发言人4评估可行性</div>
+            <div class="todo-owner">👤 负责人：发言人4</div>
+        </div>
+    </div>
+    
+    <div class="todo-item">
+        <div class="todo-num">2</div>
+        <div class="todo-content">
+            <div class="todo-text">在委外订单备注中添加工单号或项目号以确保对应关系清晰，由发言人1和发言人5共同落实</div>
+            <div class="todo-owner">👤 负责人：发言人1和发言人5共同</div>
+        </div>
+    </div>
+    
+    <div class="todo-item">
+        <div class="todo-num">3</div>
+        <div class="todo-content">
+            <div class="todo-text">简化BOM结构并使用1107生产订单进行发料，由发言人1负责，7月份试行</div>
+            <div class="todo-owner">👤 负责人：发言人1</div>
+        </div>
+    </div>
+    
+    </div>
+
+    <div class="card">
+        <h2>⏱️ 五、章节时间线</h2>
+        
+        <div class="timeline-item">
+            <div class="timeline-time">00:00:01</div>
+            <div class="timeline-content">委外发料与生产订单流程讨论  </div>
+        </div>
+        
+    </div>
+
+    <div class="card">
+        <h2>📖 六、关键术语</h2>
+        <p><span class="term">BOM</span> = 物料清单（Bill of Materials），描述产品由哪些零件/原材料组成</p>
+        <p><span class="term">委外</span> = 公司把部分加工工序交给外部供应商完成（也叫外协）</p>
+        <p><span class="term">生产订单</span> = ERP 中记录车间内部加工的订单，用于归集人工和设备成本</p>
+        <p><span class="term">委外采购订单</span> = 委外给供应商加工的采购单，归集委外加工费</p>
+        <p><span class="term">成本归集</span> = 把生产订单和委外订单的成本合并，算出完整产品成本</p>
+        <p><span class="term">半成品</span> = 加工中但未完成的产品（如 1107 未表面处理 = 内部做完但未表面处理）</p>
+    </div>
+
+    <div class="card" style="text-align: center; background: #fef0e8;">
+        <p style="color: #7f8c8d; font-size: 13px;">
+            📍 位置：ERP / 项目实施 / 财务模块 / 委外生产与成本归集<br>
+            🌐 <a href="https://deruienjie.github.io/informatization-dashboard/outsourcing-cost-allocation.html" style="color: #ff6b35;">永久链接</a>
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>
