@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>业务场景中心 · 杰德瑞恩J 信息化驾驶舱</title>
+<style>
+
+/* ===== 统一顶部导航（5 板块） ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 14px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.topnav-brand .logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+.topnav-menu {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.topnav-item {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+}
+.topnav-item:hover, .topnav-item.active {
+  background: rgba(16,185,129,0.2);
+  color: #fff;
+}
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; }
+.topnav-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+.topnav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  min-width: 220px;
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 200;
+}
+.topnav-item.has-dropdown {
+  padding-bottom: 16px;  /* 桥接 hover */
+}
+.topnav-item.has-dropdown::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: transparent;
+}
+.topnav-item.has-dropdown:hover .topnav-dropdown { display: block; }
+.topnav-dropdown a {
+  display: block;
+  padding: 8px 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all .15s;
+}
+.topnav-dropdown a:hover {
+  background: rgba(16,185,129,0.15);
+  color: #34d399;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 6px 0;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== 通用样式 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px 24px;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+
+/* ===== 面包屑 ===== */
+.breadcrumb {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.breadcrumb a { color: #3b82f6; text-decoration: none; }
+.breadcrumb .sep { color: #cbd5e1; }
+.breadcrumb .current { color: #1e293b; font-weight: 500; }
+
+/* ===== 按钮 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #10b981;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+.btn:hover { background: #059669; }
+.btn-secondary { background: #fff; color: #475569; border: 1px solid #e2e8f0; }
+.btn-secondary:hover { background: #f1f5f9; }
+
+.container { max-width: 1400px; margin: 0 auto; }
+.page-header {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(254,205,211,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.page-header h1 { font-size: 24px; font-weight: 600; position: relative; z-index: 1; }
+.page-header .sub { font-size: 13px; color: #fecdd3; margin-top: 8px; position: relative; z-index: 1; }
+.page-header .meta {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #fff;
+  position: relative; z-index: 1;
+}
+
+/* ===== 3 级层级 ===== */
+.l1-section {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.l1-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #e2e8f0;
+}
+.l1-title .l1-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.l1-title h2 { font-size: 18px; font-weight: 600; color: #0f172a; }
+.l1-title .count {
+  font-size: 11px; color: #64748b;
+  background: #f1f5f9; padding: 3px 10px; border-radius: 20px;
+  margin-left: auto;
+}
+.l1-title .meta-text { font-size: 12px; color: #94a3b8; }
+
+.l2-block { margin-bottom: 24px; padding-left: 52px; position: relative; }
+.l2-block::before {
+  content: '';
+  position: absolute;
+  left: 20px; top: 20px; bottom: 6px;
+  width: 2px;
+  background: #e2e8f0;
+}
+.l2-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.l2-title::before {
+  content: '';
+  position: absolute;
+  left: -34px; top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px;
+  background: #f59e0b;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #e2e8f0;
+}
+
+.l3-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+.scenario-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all .2s;
+  position: relative;
+}
+.scenario-card:hover {
+  transform: translateY(-3px);
+  border-color: #ef4444;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(239,68,68,0.1);
+}
+.scenario-card .sc-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 10px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.scenario-card .sc-tag.green { background: #d1fae5; color: #065f46; }
+.scenario-card .sc-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.scenario-card .sc-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.scenario-card .sc-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.scenario-card .sc-meta span {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  border-radius: 12px;
+}
+.scenario-card .sc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #94a3b8;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+.scenario-card .sc-link {
+  color: #ef4444;
+  font-weight: 500;
+  text-decoration: none;
+}
+.scenario-card.placeholder {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  opacity: 0.6;
+}
+.scenario-card.placeholder .sc-title { color: #94a3b8; }
+
+@media (max-width: 768px) {
+  .l3-grid { grid-template-columns: 1fr; }
+  .l2-block { padding-left: 24px; }
+  .l2-title::before { left: -28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item active">
+      <span class="tn-icon">⌂</span>
+      <span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span>
+      <span class="tn-label">业务场景</span>
+      <span class="tn-badge">2</span>
+    </a>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">系统中心</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </div>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">◉</span>
+      <span class="tn-label">知识沉淀</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
+        <a href="filing-cabinet.html">🗂️ 归档文件柜</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">◔</span>
+      <span class="tn-label">我</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">个人信息</div>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
+        <div class="divider"></div>
+        <div class="tn-section">设置</div>
+        <a href="#">⚙️ 偏好</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- 页头 -->
+  <div class="page-header">
+    <h1>📋 业务场景中心</h1>
+    <div class="sub">所有"以后会用到"的学习材料统一入口 · 按"系统 → 模块 → 场景" 3 级组织（铁律 12）</div>
+    <div class="meta">📅 2026-07-23 18:09 · 累计 <strong>2</strong> 个场景 · 平均每周新增 1-2 个</div>
+  </div>
+
+  <!-- L1: ERP 项目实施 -->
+  <div class="l1-section">
+    <div class="l1-title">
+      <div class="l1-icon">📦</div>
+      <h2>ERP 项目实施</h2>
+      <span class="count">2 个场景</span>
+      <span class="meta-text">金蝶云星空 · 已上线 4 模块</span>
+    </div>
+
+    <!-- L2: 财务模块 -->
+    <div class="l2-block">
+      <div class="l2-title">💰 财务模块</div>
+      <div class="l3-grid">
+        <a href="outsourcing-cost-allocation.html" class="scenario-card">
+          <span class="sc-tag">会议纪要</span>
+          <div class="sc-title">委外生产与成本归集流程优化</div>
+          <div class="sc-desc">
+            解决委外订单成本归集不准确问题。涉及 BOM 简化、委外财务记账流程、生产订单与财务凭证关联、付款申请节点前移。
+          </div>
+          <div class="sc-meta">
+            <span>📅 2026-07-23</span>
+            <span>📋 6 章节</span>
+            <span>🏷️ 财务+采购+生产</span>
+          </div>
+          <div class="sc-footer">
+            <span>📌 1 个待办待跟进</span>
+            <span class="sc-link">打开 →</span>
+          </div>
+        </a>
+        <div class="scenario-card placeholder">
+          <span class="sc-tag">规划中</span>
+          <div class="sc-title">应付账款自动化方案</div>
+          <div class="sc-desc">未来场景占位 — 接收发票自动匹配 PO/入库单，自动生成应付凭证。</div>
+          <div class="sc-meta"><span>📅 待沉淀</span></div>
+          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">未开始</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L2: 采购模块 -->
+    <div class="l2-block">
+      <div class="l2-title">📦 采购模块</div>
+      <div class="l3-grid">
+        <div class="scenario-card placeholder">
+          <span class="sc-tag">规划中</span>
+          <div class="sc-title">共用料采购方案</div>
+          <div class="sc-desc">未来场景占位 — 多产品共用物料集中采购，分摊成本优化。</div>
+          <div class="sc-meta"><span>📅 待沉淀</span></div>
+          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">未开始</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L2: 生产/库存 -->
+    <div class="l2-block">
+      <div class="l2-title">🏭 生产 + 库存</div>
+      <div class="l3-grid">
+        <div class="scenario-card placeholder">
+          <span class="sc-tag">规划中</span>
+          <div class="sc-title">生产订单 + 委外协同</div>
+          <div class="sc-desc">未来场景占位 — 生产订单下发后自动触发委外采购申请。</div>
+          <div class="sc-meta"><span>📅 待沉淀</span></div>
+          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">未开始</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L1: PLM 项目实施 -->
+  <div class="l1-section">
+    <div class="l1-title">
+      <div class="l1-icon">🔧</div>
+      <h2>PLM 项目实施</h2>
+      <span class="count">1 个场景</span>
+      <span class="meta-text">金蝶 PLM · 启动会 7 月初已开</span>
+    </div>
+
+    <div class="l2-block">
+      <div class="l2-title">🔬 研发</div>
+      <div class="l3-grid">
+        <a href="ior-bom.html" class="scenario-card">
+          <span class="sc-tag green">BOM 学习</span>
+          <div class="sc-title">IOR 飞针 X4E0156-165（E 系列单面四飞针）</div>
+          <div class="sc-desc">
+            E 系列流水线散件版本 BOM：机械标准件 125（机架/外罩/导轨/电机）+ 机械非标件 286（钣金/机加工）+ 电气标准件 145（PLC/电机驱动/传感器）。
+          </div>
+          <div class="sc-meta">
+            <span>📅 2026-07-23</span>
+            <span>🔩 556 零件</span>
+            <span>🏷️ 机械 + 电气</span>
+            <span>🔄 4 大类</span>
+          </div>
+          <div class="sc-footer">
+            <span>📌 学习设备结构</span>
+            <span class="sc-link">打开 →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- L1: IT 运营 -->
+  <div class="l1-section">
+    <div class="l1-title">
+      <div class="l1-icon">💻</div>
+      <h2>IT 运营</h2>
+      <span class="count">0 个场景</span>
+      <span class="meta-text">搬迁进行中</span>
+    </div>
+
+    <div class="l2-block">
+      <div class="l2-title">🌐 基础设施</div>
+      <div class="l3-grid">
+        <div class="scenario-card placeholder">
+          <span class="sc-tag">规划中</span>
+          <div class="sc-title">弱电网线 SOP</div>
+          <div class="sc-desc">未来场景占位 — 中晟立新产业园弱电网线利旧、新部署、施工规范。</div>
+          <div class="sc-meta"><span>📅 等待实事</span><span>📍 5F 63 TO 点</span></div>
+          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">进行中</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;text-align:center;font-size:12px;color:#94a3b8">
+    铁律 12：业务场景 → 学习网页标准结构（背景/痛点/方案/决策/待办/术语） · 2026-07-23 18:09
+  </div>
+
+</div>
+
+</body>
+</html>
