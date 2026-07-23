@@ -117,11 +117,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 
 /* ── Dropdown Menu ── */
-.nav-item{position:relative;display:inline-block}
+.nav-item{position:relative;display:inline-block;padding-bottom:8px}
 .nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
 .nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
-.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:4px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.nav-item:hover .dropdown{display:block}
+.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
 .nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
 .nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
 .nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
