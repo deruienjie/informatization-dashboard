@@ -3,248 +3,543 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>橙子自动化 · 信息化展示平台</title>
+<title>控制台首页 · 杰德瑞恩J 信息化驾驶舱</title>
 <style>
-  :root {
-    --green: #10b981; --green-dark: #065f46;
-    --slate-50: #f8fafc; --slate-200: #e2e8f0;
-    --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b; --slate-900: #0f172a;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-    background: var(--slate-50); color: var(--slate-800);
-    min-height: 100vh; display:flex; flex-direction:column;
-  }
-  .header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
-    color: #fff; padding: 40px 48px; text-align:center;
-    position: relative; overflow: hidden;
-  }
-  .header::before {
-    content:''; position:absolute; top:-60%; left:-10%;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-  .header::after {
-    content:''; position:absolute; bottom:-50%; right:0%;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(16,185,129,.1) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-  .header-inner { position:relative; z-index:1; }
-  .header h1 { font-size: 32px; font-weight: 700; letter-spacing:1px; }
-  .header .sub { font-size:14px; color:#94a3b8; margin-top:8px; }
-  .main { flex:1; display:flex; align-items:center; justify-content:center; padding:48px 32px; gap:28px; flex-wrap:wrap; }
-  .nav-card {
-    background:#fff; border-radius:20px; padding:40px 32px; width:320px; min-height:260px;
-    border:1px solid var(--slate-200); text-decoration:none; color:inherit;
-    transition: transform .25s, box-shadow .25s, border-color .25s;
-    position:relative; overflow:hidden; cursor:pointer; display:block;
-  }
-  .nav-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(0,0,0,.1); }
-  .nav-card.card1:hover { border-color:#3b82f6; }
-  .nav-card.card2:hover { border-color:var(--green); }
-  .nav-card.card3:hover { border-color:#8b5cf6; }
-  .nav-card.card4:hover { border-color:var(--green); }
-  .nav-card.card5:hover { border-color:#8b5cf6; }
-  .nav-card .icon { font-size:48px; margin-bottom:16px; }
-  .nav-card h2 { font-size:20px; font-weight:700; margin-bottom:8px; color:var(--slate-800); }
-  .nav-card p { font-size:13px; color:var(--slate-600); line-height:1.6; }
-  .nav-card .arrow { 
-    position:absolute; right:28px; bottom:24px; font-size:20px;
-    opacity:0; transform:translateX(-8px); transition:all .3s; color:var(--slate-600);
-  }
-  .nav-card:hover .arrow { opacity:1; transform:translateX(0); }
-  .nav-card::after {
-    content:''; position:absolute; top:0; left:0; right:0; height:3px;
-    transition:transform .25s; transform:scaleX(0); transform-origin:left;
-  }
-  .nav-card.card1::after { background:linear-gradient(90deg,#3b82f6,#8b5cf6); }
-  .nav-card.card2::after { background:linear-gradient(90deg,#10b981,#06b6d4); }
-  .nav-card.card3::after { background:linear-gradient(90deg,#8b5cf6,#ec4899); }
-  .nav-card.card4::after { background:linear-gradient(90deg,#10b981,#3b82f6); }
-  .nav-card.card5::after { background:linear-gradient(90deg,#8b5cf6,#ec4899); }
-  .nav-card.card6:hover { border-color:#8b5cf6; }
-  .nav-card.card6::after { background:linear-gradient(90deg,#8b5cf6,#3b82f6); }
-  .nav-card.card7:hover { border-color:#10b981; }
-  .nav-card.card7::after { background:linear-gradient(90deg,#10b981,#065f46); }
-  .nav-card.card8:hover { border-color:#f59e0b; }
-  .nav-card.card8::after { background:linear-gradient(90deg,#f59e0b,#fbbf24); }
-  .nav-card.card9:hover { border-color:#ef4444; }
-  .nav-card.card9::after { background:linear-gradient(90deg,#ef4444,#f59e0b); }
 
-  .nav-card:hover::after { transform:scaleX(1); }
-  .tag-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
-  .tag { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:500; }
-  .tag-green { background:#d1fae5; color:#065f46; }
-  .tag-blue { background:#dbeafe; color:#1e40af; }
-  .tag-yellow { background:#fef3c7; color:#92400e; }
-  .tag-red { background:#fee2e2; color:#991b1b; }
-  .footer { text-align:center; padding:20px 48px 32px; color:var(--slate-600); font-size:12px; }
-  @media (max-width:768px) {
-    .header { padding:24px; }
-    .header h1 { font-size:22px; }
-    .main { padding:24px; gap:16px; }
-    .nav-card { width:100%; padding:28px 24px; }
-  }
+/* ===== 统一顶部导航（5 板块） ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 14px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.topnav-brand .logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+.topnav-menu {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.topnav-item {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+}
+.topnav-item:hover, .topnav-item.active {
+  background: rgba(16,185,129,0.2);
+  color: #fff;
+}
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; }
+.topnav-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+.topnav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  min-width: 220px;
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 200;
+}
+.topnav-item.has-dropdown {
+  padding-bottom: 16px;  /* 桥接 hover */
+}
+.topnav-item.has-dropdown::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: transparent;
+}
+.topnav-item.has-dropdown:hover .topnav-dropdown { display: block; }
+.topnav-dropdown a {
+  display: block;
+  padding: 8px 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all .15s;
+}
+.topnav-dropdown a:hover {
+  background: rgba(16,185,129,0.15);
+  color: #34d399;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 6px 0;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-/* ── Dropdown Menu ── */
-.nav-item{position:relative;display:inline-block;padding-bottom:8px}
-.nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
-.nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
-.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
-.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
-.nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
-.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
-.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
-.nav-item .dropdown .sub a:hover{color:#34d399}
-.nav-item .dropdown .divider{height:1px;background:#334155;margin:4px 6px}
-/* ── Breadcrumb ── */
-.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
-.breadcrumb a{color:#60a5fa;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
-.breadcrumb .sep{color:var(--s-400)}
-.breadcrumb .current{color:var(--s-200);font-weight:500}
+/* ===== 通用样式 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px 24px;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+
+/* ===== 面包屑 ===== */
+.breadcrumb {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.breadcrumb a { color: #3b82f6; text-decoration: none; }
+.breadcrumb .sep { color: #cbd5e1; }
+.breadcrumb .current { color: #1e293b; font-weight: 500; }
+
+/* ===== 按钮 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #10b981;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+.btn:hover { background: #059669; }
+.btn-secondary { background: #fff; color: #475569; border: 1px solid #e2e8f0; }
+.btn-secondary:hover { background: #f1f5f9; }
+
+.container { max-width: 1400px; margin: 0 auto; }
+.welcome-bar {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 36px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-bar h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+.welcome-bar .sub { font-size: 13px; color: #94a3b8; }
+.welcome-bar::after {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* ===== KPI 条 ===== */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.kpi-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1;
+}
+.kpi-card.k1 .kpi-value { color: #10b981; }
+.kpi-card.k2 .kpi-value { color: #3b82f6; }
+.kpi-card.k3 .kpi-value { color: #8b5cf6; }
+.kpi-card.k4 .kpi-value { color: #f59e0b; }
+.kpi-label { font-size: 12px; color: #64748b; margin-top: 8px; }
+.kpi-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+/* ===== Section ===== */
+.section {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+.section h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section h2 .meta-tag {
+  font-size: 11px;
+  font-weight: 400;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ===== 角色快速通道 ===== */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.role-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px 14px;
+  text-align: center;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all .2s;
+}
+.role-card:hover {
+  transform: translateY(-2px);
+  border-color: #10b981;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(16,185,129,0.1);
+}
+.role-card .r-icon { font-size: 28px; margin-bottom: 8px; }
+.role-card .r-title { font-size: 14px; font-weight: 600; }
+.role-card .r-sub { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+.role-card.placeholder {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  opacity: 0.6;
+}
+
+/* ===== 时间线 ===== */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 6px; bottom: 6px;
+  width: 2px;
+  background: #e2e8f0;
+}
+.tl-item {
+  position: relative;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -22px; top: 16px;
+  width: 12px; height: 12px;
+  background: #fff;
+  border: 3px solid #10b981;
+  border-radius: 50%;
+}
+.tl-item.fresh::before { background: #10b981; }
+.tl-date { font-size: 12px; color: #64748b; font-weight: 500; }
+.tl-title { font-size: 14px; color: #0f172a; margin: 4px 0; font-weight: 600; }
+.tl-meta { font-size: 12px; color: #64748b; }
+.tl-meta a { color: #3b82f6; text-decoration: none; }
+.tl-meta a:hover { text-decoration: underline; }
+
+/* ===== 系统健康度 ===== */
+.sys-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.sys-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+}
+.sys-name { font-size: 13px; font-weight: 600; color: #0f172a; }
+.sys-status {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 6px;
+  font-weight: 500;
+}
+.sys-status.live { background: #d1fae5; color: #065f46; }
+.sys-status.dev  { background: #fef3c7; color: #92400e; }
+.sys-status.todo { background: #fee2e2; color: #991b1b; }
+.sys-progress {
+  margin-top: 10px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sys-bar { height: 100%; border-radius: 3px; }
+.sys-bar.live { background: #10b981; }
+.sys-bar.dev { background: #f59e0b; }
+.sys-bar.todo { background: #ef4444; }
+.sys-meta { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+
+@media (max-width: 768px) {
+  .kpi-row, .role-grid, .sys-grid { grid-template-columns: 1fr 1fr; }
+  .topnav-menu { flex-wrap: wrap; }
+}
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-inner">
-    <h1>🏭 橙子自动化 · 信息化展示平台</h1>
-    <p class="sub">电子测试设备国产替代先行者 ｜ 杰德瑞恩J · 信息化项目组</p>
+<div class="container">
+
+
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item active">
+      <span class="tn-icon">⌂</span>
+      <span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span>
+      <span class="tn-label">业务场景</span>
+      <span class="tn-badge">2</span>
+    </a>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">系统中心</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </div>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">◉</span>
+      <span class="tn-label">知识沉淀</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
+        <a href="filing-cabinet.html">🗂️ 归档文件柜</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">◔</span>
+      <span class="tn-label">我</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">个人信息</div>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
+        <div class="divider"></div>
+        <div class="tn-section">设置</div>
+        <a href="#">⚙️ 偏好</a>
+      </div>
+    </div>
   </div>
-</header>
-
-<div class="main">
-  <a href="company-informatization.html" class="nav-card card1">
-    <div class="icon">🔄</div>
-    <h2>企业信息化全景</h2>
-    <p>公司全部系统数据流转图 — 从销售到生产到财务全闭环。一眼看清已上线、缺失、规划中的系统。</p>
-    <div class="tag-row">
-      <span class="tag tag-green">CRM</span>
-      <span class="tag tag-green">ERP</span>
-      <span class="tag tag-green">EHR</span>
-      <span class="tag tag-yellow">PLM</span>
-      <span class="tag tag-yellow">APS</span>
-      <span class="tag tag-red">WMS</span>
-      <span class="tag tag-red">MES</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-
-  <a href="company-intro.html" class="nav-card card2">
-    <div class="icon">📋</div>
-    <h2>公司背景与产品</h2>
-    <p>创业历程、行业地位、产品矩阵、技术能力、核心客户、企业文化 — 新人培训一站式了解。</p>
-    <div class="tag-row">
-      <span class="tag tag-green">发展历程</span>
-      <span class="tag tag-blue">行业地位</span>
-      <span class="tag tag-yellow">产品矩阵</span>
-      <span class="tag tag-green">客户案例</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-
-  <a href="erp-center.html" class="nav-card card4">
-    <div class="icon">📦</div>
-    <h2>ERP 项目实施中心</h2>
-    <p>金蝶云星空 ERP 总览 — 4 大模块上线 · 共用料采购方案 · 数据清洗 · PLM 对接 · 问题追踪。</p>
-    <div class="tag-row">
-      <span class="tag tag-green">销售</span>
-      <span class="tag tag-green">采购</span>
-      <span class="tag tag-green">库存</span>
-      <span class="tag tag-green">财务</span>
-      <span class="tag tag-yellow">共用料方案</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-
-  <a href="ehr-center.html" class="nav-card card5">
-    <div class="icon">👥</div>
-    <h2>EHR 系统中心</h2>
-    <p>北森 HR SaaS — 全流程排查 · 9项SOP操作手册 · 角色权限矩阵。招聘→组织→考勤→薪酬→绩效→离职全覆盖。</p>
-    <div class="tag-row">
-      <span class="tag tag-green">47节点</span>
-      <span class="tag tag-blue">9项SOP</span>
-      <span class="tag tag-yellow">流程排查</span>
-      <span class="tag tag-red">试用期对齐</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-
-  <div class="nav-card card3" onclick="window.location.href='plm-center.html'" style="cursor:pointer;position:relative"><a href="ior-bom.html" class="nav-link">🍊 IOR 飞针设备 BOM</a>
-        
-    <a href="plm-kickoff.html" style="position:absolute;top:14px;right:14px;display:inline-block;padding:4px 10px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1e293b;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;box-shadow:0 2px 8px rgba(251,191,36,.35);z-index:2" onclick="event.stopPropagation()">🎯 启动会</a>
-    <div class="icon">🔧</div>
-    <h2>PLM 项目实施中心</h2>
-    <p>金蝶PLM实施全流程 — 产品矩阵 · 六大业务流程全景 · 33条真实痛点需求 · 部门×PLM关联分析 · 进度看板。</p>
-    <div class="tag-row">
-      <span class="tag tag-yellow">流程全景</span>
-      <span class="tag tag-blue">产品矩阵</span>
-      <span class="tag tag-green">33点需求</span>
-      <span class="tag tag-red">部门关联</span>
-    </div>
-    <div class="arrow">→</div>
-  </div>
-
-  <a href="management-reform.html" class="nav-card card6">
-    <div class="icon">⚙️</div>
-    <h2>管理变革中心</h2>
-    <p>追踪公司各业务线的管理模式升级与流程优化。物料管理·采购变革·供应链升级 — 从项目制到物料制，从散单到集约。</p>
-    <div class="tag-row">
-      <span class="tag tag-yellow">物料管理</span>
-      <span class="tag tag-blue">业务变革</span>
-      <span class="tag tag-blue">供应链</span>
-      <span class="tag tag-red">流程优化</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-
-
-  <a href="site-map.html" class="nav-card card8">
-    <div class="icon">🗺️</div>
-    <h2>全站地图</h2>
-    <p>所有页面一图速览 — 系统模块、业务场景、文档清单按层级归类。新人入门第 1 站。</p>
-    <div class="tag-row">
-      <span class="tag tag-blue">自动生成</span>
-      <span class="tag tag-green">实时更新</span>
-      <span class="tag tag-yellow">新人入门</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-
-  <a href="outsourcing-cost-allocation.html" class="nav-card card9">
-    <div class="icon">📋</div>
-    <h2>最新业务场景</h2>
-    <p>07-23 委外生产与成本归集流程优化会议纪要学习页 — 6 章节结构化学习材料，供团队沉淀复用。</p>
-    <div class="tag-row">
-      <span class="tag tag-green">会议纪要</span>
-      <span class="tag tag-blue">财务+供应链</span>
-      <span class="tag tag-yellow">2026-07-23</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-
-    <a href="it-panorama.html" class="nav-card card7">
-    <div class="icon">💻</div>
-    <h2>IT 部门全景</h2>
-    <p>IT部门全貌总览 —— 信息系统·网络·资产·协同办公·制度安全·机房·运维·项目供应商，一张图看清IT管所有。</p>
-    <div class="tag-row">
-      <span class="tag tag-green">IT全景</span>
-      <span class="tag tag-blue">系统清单</span>
-      <span class="tag tag-yellow">资产台账</span>
-      <span class="tag tag-red">待建制度</span>
-    </div>
-    <div class="arrow">→</div>
-  </a>
 </div>
 
-<div class="footer">
-  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 点击卡片进入详情
+
+  <!-- 欢迎条 -->
+  <div class="welcome-bar">
+    <h1>下午好，杰德瑞恩J</h1>
+    <div class="sub">2026-07-23 18:09 · 今日有 <strong style="color:#10b981">2 个新业务场景</strong> 待沉淀，<strong style="color:#3b82f6">3 个</strong> 待办事项</div>
+  </div>
+
+  <!-- KPI 条 -->
+  <div class="kpi-row">
+    <div class="kpi-card k1">
+      <div class="kpi-value">4</div>
+      <div class="kpi-label">ERP 模块上线</div>
+      <div class="kpi-meta">销售/采购/库存/财务</div>
+    </div>
+    <div class="kpi-card k2">
+      <div class="kpi-value">2</div>
+      <div class="kpi-label">业务场景学习页</div>
+      <div class="kpi-meta">07-23 委外 + IOR BOM</div>
+    </div>
+    <div class="kpi-card k3">
+      <div class="kpi-value">31</div>
+      <div class="kpi-label">总页面数</div>
+      <div class="kpi-meta">按 10 类分布</div>
+    </div>
+    <div class="kpi-card k4">
+      <div class="kpi-value">14</div>
+      <div class="kpi-label">铁律</div>
+      <div class="kpi-meta">指导所有内容沉淀</div>
+    </div>
+  </div>
+
+  <!-- 5 角色快速通道 -->
+  <div class="section">
+    <h2>🚀 我是 · 角色快速通道（自用复盘工具）</h2>
+    <div class="role-grid">
+      <a href="dashboard-it.html" class="role-card">
+        <div class="r-icon">💻</div>
+        <div class="r-title">IT 主管</div>
+        <div class="r-sub">系统健康 + 工单进度</div>
+      </a>
+      <a href="dashboard-finance.html" class="role-card">
+        <div class="r-icon">💰</div>
+        <div class="r-title">财务视角</div>
+        <div class="r-sub">应付/成本/凭证</div>
+      </a>
+      <a href="dashboard-procurement.html" class="role-card">
+        <div class="r-icon">📦</div>
+        <div class="r-title">采购视角</div>
+        <div class="r-sub">委外/库存/价格</div>
+      </a>
+      <a href="dashboard-rd.html" class="role-card">
+        <div class="r-icon">🔬</div>
+        <div class="r-title">研发视角</div>
+        <div class="r-sub">PLM + BOM 审批</div>
+      </a>
+      <a href="dashboard-boss.html" class="role-card">
+        <div class="r-icon">👔</div>
+        <div class="r-title">老板视角</div>
+        <div class="r-sub">自我复盘工具</div>
+      </a>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:#64748b;text-align:center;">⚠️ 全部 dashboard 为自用复盘（铁律 14），非汇报场景</div>
+  </div>
+
+  <!-- 业务场景时间线 -->
+  <div class="section">
+    <h2>📋 业务场景时间线 <span class="meta-tag">最新在上</span><a href="business-scenarios.html" style="margin-left:auto;font-size:12px;color:#3b82f6;text-decoration:none">查看全部 →</a></h2>
+    <div class="timeline">
+      <div class="tl-item fresh">
+        <div class="tl-date">2026-07-23 · 今天</div>
+        <div class="tl-title">💼 ERP / 财务 → 委外生产与成本归集流程优化</div>
+        <div class="tl-meta">6 章节会议纪要 · 跨财务+采购+生产 · <a href="outsourcing-cost-allocation.html">打开 →</a></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026-07-23</div>
+        <div class="tl-title">🍊 PLM / 研发 → IOR 飞针 X4E0156-165（E 系列单面四飞针）</div>
+        <div class="tl-meta">BOM 556 零件 · 机械标准件 125 + 非标件 286 + 电气标准件 145 · <a href="ior-bom.html">打开 →</a></div>
+      </div>
+      <div class="tl-item" style="opacity:0.4">
+        <div class="tl-date">2026-07-22</div>
+        <div class="tl-title">⚙️ 4 个网站 bug 综合修复（菜单延迟/全站地图/入口/双入口）</div>
+        <div class="tl-meta">纯技术修复 — 已完成</div>
+      </div>
+      <div class="tl-item" style="opacity:0.3">
+        <div class="tl-date">——</div>
+        <div class="tl-title">📝 更多历史沉淀（部署在归档文件柜）</div>
+        <div class="tl-meta"><a href="filing-cabinet.html">查归档 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 系统健康度 -->
+  <div class="section">
+    <h2>🏢 系统健康度 · 4 大系统</h2>
+    <div class="sys-grid">
+      <div class="sys-card">
+        <div class="sys-name">📦 ERP<span class="sys-status live">上线</span></div>
+        <div class="sys-progress"><div class="sys-bar live" style="width:66%"></div></div>
+        <div class="sys-meta">4/6 模块上线（销售/采购/库存/财务）· 共用料/PLM 对接在途</div>
+      </div>
+      <div class="sys-card">
+        <div class="sys-name">🔧 PLM<span class="sys-status dev">启动</span></div>
+        <div class="sys-progress"><div class="sys-bar dev" style="width:15%"></div></div>
+        <div class="sys-meta">启动会 7 月初已开 · 业务流程梳理阶段</div>
+      </div>
+      <div class="sys-card">
+        <div class="sys-name">👥 EHR<span class="sys-status live">上线</span></div>
+        <div class="sys-progress"><div class="sys-bar live" style="width:80%"></div></div>
+        <div class="sys-meta">47 节点排查完成 · 9 项 SOP 待持续优化</div>
+      </div>
+      <div class="sys-card">
+        <div class="sys-name">💻 IT<span class="sys-status live">在线</span></div>
+        <div class="sys-progress"><div class="sys-bar live" style="width:90%"></div></div>
+        <div class="sys-meta">搬迁项目进行中 · 弱电网线/机房在途</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;text-align:center;font-size:12px;color:#94a3b8">本平台为个人知识网络体系（铁律 14）· 内容是"我给自己看的笔记" · 2026-07-23 18:09</div>
+
 </div>
 
 </body>
