@@ -31,3 +31,12 @@
 ## 📅 维护
 
 最后更新: 2026-07-23
+
+
+## 📋 会议纪要学习（业务场景沉淀）
+
+| 业务场景 | 模块 | 链接 |
+|---|---|---|
+| 委外生产与成本归集流程优化 | ERP / 财务 | [outsourcing-cost-allocation.html](https://deruienjie.github.io/informatization-dashboard/outsourcing-cost-allocation.html) |
+
+> 规则：所有有学习价值的业务场景（会议纪要、流程文档、最佳实践）都会沉淀为学习网页，按 **系统 → 项目 → 模块 → 业务场景** 层级组织。
