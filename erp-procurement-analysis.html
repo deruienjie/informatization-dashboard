@@ -108,6 +108,14 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
 .breadcrumb .sep{color:var(--s-400)}
 .breadcrumb .current{color:var(--s-200);font-weight:500}
+
+
+/* Dropdown visibility fix: 2026-07-23 */
+.header{overflow:visible!important;z-index:1000}
+.header::after{top:0!important;right:0!important;bottom:0!important;left:0!important;width:auto!important;height:auto!important;pointer-events:none}
+.nav-item .dropdown{z-index:1100}
+.nav-item:hover .dropdown,.nav-item:focus-within .dropdown{display:block}
+
 </style>
 </head>
 <body>
