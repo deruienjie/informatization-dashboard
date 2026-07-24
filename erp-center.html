@@ -206,7 +206,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .topnav-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 12px);
+  top: 100%;  /* 紧贴 item 底部 */
+  margin-top: 12px;  /* 12px 视觉间隙放在 dropdown 自身，hover 链不会断 */
   left: 0;
   min-width: 220px;
   background: #1e293b;
@@ -227,9 +228,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   right: 0;
   height: 12px;
   background: transparent;
-  z-index: 1;
+  z-index: 2;  /* 高于 dropdown，确保鼠标经过 ::after 时父级仍 hover */
 }
-.topnav-item.has-dropdown:hover .topnav-dropdown { display: block; }
+.topnav-item.has-dropdown:hover .topnav-dropdown,
+.topnav-item.has-dropdown:hover .topnav-dropdown:hover {
+  display: block;
+}
 /* 右侧对齐下拉（用于最后一个菜单如"我"） */
 .topnav-item.has-dropdown-right .topnav-dropdown {
   left: auto;
