@@ -297,10 +297,54 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
+
+/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
+.site-shell {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 0 24px;
+  box-sizing: border-box;
+}
+.site-shell > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.site-shell > .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box;
+}
+.site-shell > .topnav {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+.site-shell.presentation-shell {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 0;
+  height: auto;
+}
+body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+@media (max-width: 1000px) {
+  .site-shell { padding-left: 12px; padding-right: 12px; }
+}
+
 </style>
 </head>
 <body>
-
+<div class="site-shell">
 <div class="container">
 
 
@@ -321,7 +365,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
       <span class="tn-label">业务场景</span>
       <span class="topnav-badge">2</span>
     </a>
-    <a href="erp-center.html" class="topnav-item has-dropdown">
+        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -334,38 +378,38 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
         <a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
-    </a>
-    <a href="site-map.html" class="topnav-item">
+    </div>
+<a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
       <span class="tn-label">全站地图</span>
     </a>
-    <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md" class="topnav-item has-dropdown has-dropdown-right">
+    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">内部知识网络</div>
-        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
-        <a href="filing-cabinet.html">🗂️ 归档文件柜</a>
+        <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
+        <a href="key-files-manager.html">🗂️ 归档文件柜</a>
         <div class="divider"></div>
         <div class="tn-section">外部参考</div>
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
-    </a>
-    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
+    </div>
+    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
-        <a href="#">📋 我的笔记</a>
-        <a href="#">⭐ 收藏夹</a>
-        <a href="#">📌 最近浏览</a>
+        <a href="key-files-overview.html">📋 我的笔记</a>
+        <a href="key-files-manager.html">⭐ 收藏夹</a>
+        <a href="site-map.html">📌 最近浏览</a>
         <div class="divider"></div>
         <div class="tn-section">设置</div>
-        <a href="#">⚙️ 偏好</a>
+        <a href="index.html">⚙️ 偏好</a>
       </div>
-    </a>
+    </div>
   </div>
 </div>
 
@@ -535,6 +579,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
 </div>
 
+</div>
 </div>
 </body>
 </html>
