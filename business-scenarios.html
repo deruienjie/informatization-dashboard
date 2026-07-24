@@ -3,8 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>业务场景中心 · 杰德瑞恩J 信息化驾驶舱</title>
+<title>物料管理模式转型 · 管理变革中心</title>
 <style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#0f172a,#1e293b,#3c3489);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%;
+}
+.header h1{font-size:22px;font-weight:700;position:relative;z-index:1}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px;position:relative;z-index:1}
+.header .back-link{display:inline-block;margin-top:10px;font-size:11px;color:#a5b4fc;text-decoration:none}
+.header .back-link:hover{color:#fff}
+
+.section{margin-bottom:24px}
+.section-title{font-size:16px;font-weight:600;color:var(--s-800);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--s-200)}
+
+.card{background:#fff;border-radius:14px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:14px}
+
+.info-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.info-card{
+  background:#fff;border-radius:12px;padding:16px;border:1px solid var(--s-200);text-align:center
+}
+.info-card .num{font-size:26px;font-weight:700;line-height:1}
+.info-card .num.purple{color:var(--p-d)}
+.info-card .num.green{color:var(--g-d)}
+.info-card .num.blue{color:var(--b-d)}
+.info-card .lbl{font-size:11px;color:var(--s-400);margin-top:4px}
+
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.compare-card{border-radius:12px;padding:16px 20px}
+.compare-card.old{background:var(--r-bg);border:1px solid #fca5a5}
+.compare-card.new{background:var(--g-bg);border:1px solid #6ee7b7}
+.compare-card .title{font-size:13px;font-weight:600;margin-bottom:8px}
+.compare-card.old .title{color:var(--r-d)}
+.compare-card.new .title{color:var(--g-d)}
+.compare-card ul{list-style:none;font-size:12px;line-height:2;color:var(--s-600)}
+
+.flow-section{background:#fff;border-radius:14px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:16px}
+.flow-row{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  background:var(--s-50);border-radius:10px;padding:14px 18px;margin-bottom:10px
+}
+.flow-label{font-size:12px;font-weight:500;color:var(--s-600);width:60px;flex-shrink:0}
+.flow-step{
+  padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;white-space:nowrap
+}
+.step-old{background:var(--r-bg);color:var(--r-d)}
+.step-new{background:var(--g-bg);color:var(--g-d)}
+.step-mid{background:var(--b-bg);color:var(--b-d)}
+.step-sys{background:var(--p-bg);color:var(--p-d)}
+.flow-arr{color:var(--s-400);font-size:11px}
+.flow-note{font-size:11px;color:var(--s-400);margin-left:68px;padding:2px 0}
+
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sys-card{border-radius:10px;padding:14px 16px;background:var(--s-50);border:1px solid var(--s-200)}
+.sys-card h4{font-size:12px;font-weight:600;margin-bottom:6px}
+.sys-card ul{list-style:none;font-size:11px;line-height:1.9;color:var(--s-600)}
+.sys-card ul li::before{content:'▪ ';color:var(--s-400)}
+
+.footer{text-align:center;padding:20px 24px;color:var(--s-400);font-size:11px}
+
+@media (max-width:768px){
+  .container{padding:12px}
+  .header{padding:16px}
+  .info-grid{grid-template-columns:1fr 1fr}
+  .compare-grid{grid-template-columns:1fr}
+  .sys-grid{grid-template-columns:1fr}
+  .flow-row{font-size:11px;padding:10px;gap:4px}
+  .flow-label{width:auto;margin-bottom:4px}
+  .flow-note{margin-left:0}
+}
+
+/* ── Dropdown Menu ── */
+.nav-item{position:relative;display:inline-block;padding-bottom:8px}
+.nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
+.nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
+.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
+.nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
+.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
+.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
+.nav-item .dropdown .sub a:hover{color:#34d399}
+.nav-item .dropdown .divider{height:1px;background:#334155;margin:4px 6px}
+/* ── Breadcrumb ── */
+.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
+.breadcrumb a{color:#60a5fa;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
+.breadcrumb .sep{color:var(--s-400)}
+.breadcrumb .current{color:var(--s-200);font-weight:500}
 
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
@@ -147,239 +251,13 @@
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
-
-/* ===== 通用样式 ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  background: #f8fafc;
-  color: #1e293b;
-  line-height: 1.6;
-  min-height: 100vh;
-  padding: 20px 24px;
-}
-.container { max-width: 1400px; margin: 0 auto; }
-
-/* ===== 面包屑 ===== */
-.breadcrumb {
-  padding: 8px 16px;
-  font-size: 12px;
-  color: #64748b;
-  margin-bottom: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.breadcrumb a { color: #3b82f6; text-decoration: none; }
-.breadcrumb .sep { color: #cbd5e1; }
-.breadcrumb .current { color: #1e293b; font-weight: 500; }
-
-/* ===== 按钮 ===== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: #10b981;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-}
-.btn:hover { background: #059669; }
-.btn-secondary { background: #fff; color: #475569; border: 1px solid #e2e8f0; }
-.btn-secondary:hover { background: #f1f5f9; }
-
-.container { max-width: 1400px; margin: 0 auto; }
-.page-header {
-  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
-  color: #fff;
-  border-radius: 16px;
-  padding: 32px 36px;
-  margin-bottom: 24px;
-  position: relative;
-  overflow: hidden;
-}
-.page-header::after {
-  content: '';
-  position: absolute;
-  top: -50%; right: -10%;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(254,205,211,0.15) 0%, transparent 70%);
-  border-radius: 50%;
-}
-.page-header h1 { font-size: 24px; font-weight: 600; position: relative; z-index: 1; }
-.page-header .sub { font-size: 13px; color: #fecdd3; margin-top: 8px; position: relative; z-index: 1; }
-.page-header .meta {
-  display: inline-block;
-  margin-top: 14px;
-  padding: 6px 14px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 20px;
-  font-size: 12px;
-  color: #fff;
-  position: relative; z-index: 1;
-}
-
-/* ===== 3 级层级 ===== */
-.l1-section {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 24px;
-  margin-bottom: 20px;
-}
-.l1-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-  padding-bottom: 14px;
-  border-bottom: 2px solid #e2e8f0;
-}
-.l1-title .l1-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-}
-.l1-title h2 { font-size: 18px; font-weight: 600; color: #0f172a; }
-.l1-title .count {
-  font-size: 11px; color: #64748b;
-  background: #f1f5f9; padding: 3px 10px; border-radius: 20px;
-  margin-left: auto;
-}
-.l1-title .meta-text { font-size: 12px; color: #94a3b8; }
-
-.l2-block { margin-bottom: 24px; padding-left: 52px; position: relative; }
-.l2-block::before {
-  content: '';
-  position: absolute;
-  left: 20px; top: 20px; bottom: 6px;
-  width: 2px;
-  background: #e2e8f0;
-}
-.l2-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: #fef3c7;
-  color: #92400e;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 14px;
-  position: relative;
-  z-index: 1;
-}
-.l2-title::before {
-  content: '';
-  position: absolute;
-  left: -34px; top: 50%;
-  transform: translateY(-50%);
-  width: 12px; height: 12px;
-  background: #f59e0b;
-  border: 3px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px #e2e8f0;
-}
-
-.l3-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 14px;
-}
-.scenario-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px;
-  text-decoration: none;
-  color: #1e293b;
-  transition: all .2s;
-  position: relative;
-}
-.scenario-card:hover {
-  transform: translateY(-3px);
-  border-color: #ef4444;
-  background: #fff;
-  box-shadow: 0 8px 20px rgba(239,68,68,0.1);
-}
-.scenario-card .sc-tag {
-  display: inline-block;
-  font-size: 11px;
-  padding: 3px 10px;
-  background: #fee2e2;
-  color: #991b1b;
-  border-radius: 20px;
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-.scenario-card .sc-tag.green { background: #d1fae5; color: #065f46; }
-.scenario-card .sc-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #0f172a;
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-.scenario-card .sc-desc {
-  font-size: 13px;
-  color: #64748b;
-  line-height: 1.6;
-  margin-bottom: 12px;
-}
-.scenario-card .sc-meta {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-.scenario-card .sc-meta span {
-  font-size: 11px;
-  padding: 2px 8px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  color: #475569;
-  border-radius: 12px;
-}
-.scenario-card .sc-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: #94a3b8;
-  padding-top: 10px;
-  border-top: 1px solid #e2e8f0;
-}
-.scenario-card .sc-link {
-  color: #ef4444;
-  font-weight: 500;
-  text-decoration: none;
-}
-.scenario-card.placeholder {
-  background: #f8fafc;
-  border: 2px dashed #cbd5e1;
-  opacity: 0.6;
-}
-.scenario-card.placeholder .sc-title { color: #94a3b8; }
-
-@media (max-width: 768px) {
-  .l3-grid { grid-template-columns: 1fr; }
-  .l2-block { padding-left: 24px; }
-  .l2-title::before { left: -28px; }
-}
 </style>
 </head>
 <body>
 
 <div class="container">
+
+
 
 
 <div class="topnav">
@@ -388,14 +266,14 @@ body {
     <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
   </a>
   <div class="topnav-menu">
-    <a href="index.html" class="topnav-item active">
+    <a href="index.html" class="topnav-item">
       <span class="tn-icon">⌂</span>
       <span class="tn-label">首页</span>
     </a>
     <a href="business-scenarios.html" class="topnav-item">
       <span class="tn-icon">▤</span>
       <span class="tn-label">业务场景</span>
-      <span class="tn-badge">2</span>
+      <span class="topnav-badge">2</span>
     </a>
     <div class="topnav-item has-dropdown">
       <span class="tn-icon">▦</span>
@@ -445,143 +323,195 @@ body {
   </div>
 </div>
 
-
-  <!-- 页头 -->
-  <div class="page-header">
-    <h1>📋 业务场景中心</h1>
-    <div class="sub">所有"以后会用到"的学习材料统一入口 · 按"系统 → 模块 → 场景" 3 级组织（铁律 12）</div>
-    <div class="meta">📅 2026-07-23 18:09 · 累计 <strong>2</strong> 个场景 · 平均每周新增 1-2 个</div>
-  </div>
-
-  <!-- L1: ERP 项目实施 -->
-  <div class="l1-section">
-    <div class="l1-title">
-      <div class="l1-icon">📦</div>
-      <h2>ERP 项目实施</h2>
-      <span class="count">2 个场景</span>
-      <span class="meta-text">金蝶云星空 · 已上线 4 模块</span>
-    </div>
-
-    <!-- L2: 财务模块 -->
-    <div class="l2-block">
-      <div class="l2-title">💰 财务模块</div>
-      <div class="l3-grid">
-        <a href="outsourcing-cost-allocation.html" class="scenario-card">
-          <span class="sc-tag">会议纪要</span>
-          <div class="sc-title">委外生产与成本归集流程优化</div>
-          <div class="sc-desc">
-            解决委外订单成本归集不准确问题。涉及 BOM 简化、委外财务记账流程、生产订单与财务凭证关联、付款申请节点前移。
-          </div>
-          <div class="sc-meta">
-            <span>📅 2026-07-23</span>
-            <span>📋 6 章节</span>
-            <span>🏷️ 财务+采购+生产</span>
-          </div>
-          <div class="sc-footer">
-            <span>📌 1 个待办待跟进</span>
-            <span class="sc-link">打开 →</span>
-          </div>
-        </a>
-        <div class="scenario-card placeholder">
-          <span class="sc-tag">规划中</span>
-          <div class="sc-title">应付账款自动化方案</div>
-          <div class="sc-desc">未来场景占位 — 接收发票自动匹配 PO/入库单，自动生成应付凭证。</div>
-          <div class="sc-meta"><span>📅 待沉淀</span></div>
-          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">未开始</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- L2: 采购模块 -->
-    <div class="l2-block">
-      <div class="l2-title">📦 采购模块</div>
-      <div class="l3-grid">
-        <div class="scenario-card placeholder">
-          <span class="sc-tag">规划中</span>
-          <div class="sc-title">共用料采购方案</div>
-          <div class="sc-desc">未来场景占位 — 多产品共用物料集中采购，分摊成本优化。</div>
-          <div class="sc-meta"><span>📅 待沉淀</span></div>
-          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">未开始</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- L2: 生产/库存 -->
-    <div class="l2-block">
-      <div class="l2-title">🏭 生产 + 库存</div>
-      <div class="l3-grid">
-        <div class="scenario-card placeholder">
-          <span class="sc-tag">规划中</span>
-          <div class="sc-title">生产订单 + 委外协同</div>
-          <div class="sc-desc">未来场景占位 — 生产订单下发后自动触发委外采购申请。</div>
-          <div class="sc-meta"><span>📅 待沉淀</span></div>
-          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">未开始</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- L1: PLM 项目实施 -->
-  <div class="l1-section">
-    <div class="l1-title">
-      <div class="l1-icon">🔧</div>
-      <h2>PLM 项目实施</h2>
-      <span class="count">1 个场景</span>
-      <span class="meta-text">金蝶 PLM · 启动会 7 月初已开</span>
-    </div>
-
-    <div class="l2-block">
-      <div class="l2-title">🔬 研发</div>
-      <div class="l3-grid">
-        <a href="ior-bom.html" class="scenario-card">
-          <span class="sc-tag green">BOM 学习</span>
-          <div class="sc-title">IOR 飞针 X4E0156-165（E 系列单面四飞针）</div>
-          <div class="sc-desc">
-            E 系列流水线散件版本 BOM：机械标准件 125（机架/外罩/导轨/电机）+ 机械非标件 286（钣金/机加工）+ 电气标准件 145（PLC/电机驱动/传感器）。
-          </div>
-          <div class="sc-meta">
-            <span>📅 2026-07-23</span>
-            <span>🔩 556 零件</span>
-            <span>🏷️ 机械 + 电气</span>
-            <span>🔄 4 大类</span>
-          </div>
-          <div class="sc-footer">
-            <span>📌 学习设备结构</span>
-            <span class="sc-link">打开 →</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- L1: IT 运营 -->
-  <div class="l1-section">
-    <div class="l1-title">
-      <div class="l1-icon">💻</div>
-      <h2>IT 运营</h2>
-      <span class="count">0 个场景</span>
-      <span class="meta-text">搬迁进行中</span>
-    </div>
-
-    <div class="l2-block">
-      <div class="l2-title">🌐 基础设施</div>
-      <div class="l3-grid">
-        <div class="scenario-card placeholder">
-          <span class="sc-tag">规划中</span>
-          <div class="sc-title">弱电网线 SOP</div>
-          <div class="sc-desc">未来场景占位 — 中晟立新产业园弱电网线利旧、新部署、施工规范。</div>
-          <div class="sc-meta"><span>📅 等待实事</span><span>📍 5F 63 TO 点</span></div>
-          <div class="sc-footer"><span>—</span><span style="color:#94a3b8">进行中</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="margin-top:24px;text-align:center;font-size:12px;color:#94a3b8">
-    铁律 12：业务场景 → 学习网页标准结构（背景/痛点/方案/决策/待办/术语） · 2026-07-23 18:09
-  </div>
+</div>
 
 </div>
 
+<div class="page-title">
+<h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">📦 物料管理模式转型</h1>
+</div>
+
+
+<!-- Quick Info -->
+<div class="info-grid">
+  <div class="info-card" style="text-align:left;padding:16px 20px">
+    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+      <strong>推动背景：</strong>公司从定制化项目转向标准产品制造（9大产品系列），原有按项目管料的方式导致同物料重复下单、仓库物料锁死在各项目、共用件无法通用天天协调。
+    </div>
+  </div>
+  <div class="info-card">
+    <div class="num purple">9</div>
+    <div class="lbl">标准产品系列</div>
+  </div>
+  <div class="info-card">
+    <div class="num green">600→300</div>
+    <div class="lbl">物料种类精简目标</div>
+  </div>
+</div>
+
+<!-- Compare: Before vs After -->
+<div class="section">
+  <div class="section-title">现状 vs 未来</div>
+  <div class="compare-grid">
+    <div class="compare-card old">
+      <div class="title">⚠️ 现状（项目制）</div>
+      <ul>
+        <li>工程按项目出BOM，同物料在不同项目重复出现</li>
+        <li>采购同物料需下多行，供应商散单多</li>
+        <li>仓库按项目区域堆放，物料锁死在各项目中</li>
+        <li>共用件无法跨项目通用，天天协调催料</li>
+        <li>多地交货常发错仓（深圳/肇庆/湛江/贵阳）</li>
+      </ul>
+    </div>
+    <div class="compare-card new">
+      <div class="title">✅ 未来（物料制）</div>
+      <ul>
+        <li>工程标准化BOM，共用件统一，物料精简50%</li>
+        <li>采购按物料合并下单，同供应商可谈阶梯价</li>
+        <li>仓库按物料品类分区（超市式管理）</li>
+        <li>共用件集中备库，按排产从各物料区领用</li>
+        <li>新增"共用/专用"字段，仓库一目了然</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Business Flow -->
+<div class="section">
+  <div class="section-title">业务流程图</div>
+  <div class="flow-section">
+
+    <div class="flow-row">
+      <span class="flow-label">工程阶段</span>
+      <span class="flow-step step-old">各项目独立BOM</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">标准化BOM（共用件统一）</span>
+    </div>
+    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
+
+    <div class="flow-row">
+      <span class="flow-label">采购阶段</span>
+      <span class="flow-step step-old">项目各自下采购申请</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-mid">MRP运算合并同物料</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">按物料汇总下单</span>
+    </div>
+    <div class="flow-note">同项目内同物料 → 合并成一行；跨项目同物料 → 分行标不同交期，放同一张订单</div>
+    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
+
+    <div class="flow-row">
+      <span class="flow-label">仓储阶段</span>
+      <span class="flow-step step-old">按项目区域存放</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">按物料品类分区（超市式）</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-sys">共用/专用字段标识</span>
+    </div>
+    <div class="flow-note">共用件放共用区，专用件按产品系列分区，每种物料固定储位</div>
+    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
+
+    <div class="flow-row">
+      <span class="flow-label">生产阶段</span>
+      <span class="flow-step step-old">追项目催料协调</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">按物料齐套领用</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">良性循环</span>
+    </div>
+    <div class="flow-note">共用件集中备库 → 生产领料时从各物料区分别拣料 → 按排产节奏齐套</div>
+
+  </div>
+</div>
+
+<!-- System Changes -->
+<div class="section">
+  <div class="section-title">系统变更清单</div>
+  <div class="sys-grid">
+    <div class="sys-card">
+      <h4 style="color:var(--b-d)">ERP 采购模块</h4>
+      <ul>
+        <li>采购申请单新增"共用/专用"字段</li>
+        <li>同项目同物料自动合并</li>
+        <li>跨项目同物料分行不同交期</li>
+        <li>下推时自动合并同物料到一行</li>
+      </ul>
+    </div>
+    <div class="sys-card">
+      <h4 style="color:var(--g-d)">ERP 仓储模块</h4>
+      <ul>
+        <li>仓库位重新规划（物料制分区）</li>
+        <li>共用件区域设置（约300个储位）</li>
+        <li>多地入库防错机制</li>
+        <li>调拨流程（深圳集中收货→各地）</li>
+      </ul>
+    </div>
+    <div class="sys-card">
+      <h4 style="color:var(--y-d)">工程 PLM</h4>
+      <ul>
+        <li>每周合并2款物料（标准化推进）</li>
+        <li>BOM标准化</li>
+        <li>共用件统一推进</li>
+        <li>从600项精简至200-300项目标</li>
+      </ul>
+    </div>
+    <div class="sys-card">
+      <h4 style="color:var(--p-d)">悟空 APS</h4>
+      <ul>
+        <li>MRP运算逻辑调整</li>
+        <li>按物料制跑排产</li>
+        <li>齐套检查优化</li>
+        <li>备货预测模型调整</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Key Decisions -->
+<div class="section">
+  <div class="section-title">会议关键决议</div>
+  <div class="card">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="border-bottom:2px solid var(--p);color:var(--p-d);font-weight:600">
+          <td style="padding:8px 12px;width:40%">事项</td>
+          <td style="padding:8px 12px">决议</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">共用件 vs 专用件</td>
+          <td style="padding:8px 12px;color:var(--s-600)">共用件按物料制管理；专用件仍按产品型号管理；打样件在深圳走项目制</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">订单合并规则</td>
+          <td style="padding:8px 12px;color:var(--s-600)">同项目同物料合并一行；跨项目同物料分行不同交期（放同一张单）</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">新字段</td>
+          <td style="padding:8px 12px;color:var(--s-600)">采购订单行新增"共用/专用"字段，仓库据此决定存放位置</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">仓库管理模式</td>
+          <td style="padding:8px 12px;color:var(--s-600)">按物料品类分区（超市式），共用件集中存放，每款物料固定储位</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">多地交付</td>
+          <td style="padding:8px 12px;color:var(--s-600)">深圳集中收货→检验→调拨到各地；供应商送错需自行调回</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;font-weight:500">项目号命名</td>
+          <td style="padding:8px 12px;color:var(--s-600)">备货场景下不叫"项目号"，改为"产品型号"（如X41、X61、X4M等）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
+</div>
+
+</div>
 </body>
 </html>
