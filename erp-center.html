@@ -81,7 +81,9 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .flow-node.g{background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)}
 .flow-node.b{background:var(--b-bg);border:1px solid var(--b);color:var(--b-d)}
 .flow-node.y{background:var(--y-bg);border:1px solid var(--y);color:var(--y-d)}
-.flow-arr{color:var(--s-400);font-size:14px;font-weight:700}
+.flow-arr{color:var(--s-700);font-size:18px;font-weight:700;padding:0 4px;display:inline-flex;align-items:center;justify-content:center;min-width:18px}
+.mod-link{display:inline-block;margin-top:6px;font-size:11px;color:#34d399;text-decoration:underline;font-weight:600}
+.mod-link:hover{color:#10b981}
 
 /* ── Issue list ── */
 .issue-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12px;border-bottom:1px solid var(--s-100)}
@@ -135,7 +137,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .breadcrumb .sep{color:var(--s-400)}
 .breadcrumb .current{color:var(--s-200);font-weight:500}
 
-/* ===== 统一顶部导航 V2（5 板块 · 桥接 hover） ===== */
+/* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border-radius: 14px;
@@ -143,8 +145,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 auto 24px auto;  /* 上下 0，左右 auto：自身居中，不依赖父容器 */
-  max-width: 1340px;  /* 与 .container 同宽，无论是否有父容器都限宽居中 */
+  margin: 0 auto 24px auto;
+  max-width: 1340px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -187,7 +189,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   cursor: pointer;
   transition: all .2s;
   user-select: none;
-  line-height: 1;  /* 强制统一行高，避免 emoji 字符上下抖动 */
+  line-height: 1;
 }
 .topnav-item:hover, .topnav-item.active {
   background: rgba(16,185,129,0.2);
@@ -204,73 +206,48 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   margin-left: 4px;
   font-weight: 600;
 }
+
+/* ── Dropdown ── */
 .topnav-dropdown {
   display: none;
   position: absolute;
   top: 100%;
-  padding-top: 12px;  /* 12px hover 缓冲，算 dropdown 自身，hover 链不断 */
   left: 0;
   min-width: 220px;
-  background: transparent;  /* 整体透明，让 padding 区域可穿透 */
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   z-index: 200;
 }
-.topnav-dropdown::before {
-  content: '';
-  position: absolute;
-  top: 12px;  /* 跳过 padding-top */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #1e293b;
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  z-index: -1;
-}
-.topnav-dropdown::after {
-  content: '';
-  position: absolute;
-  top: 12px;
-  left: 0;
-  right: 0;
-  height: calc(100% - 12px);
-  border: 1px solid #334155;
-  border-top: none;
-  border-radius: 0 0 10px 10px;
-  pointer-events: none;
-  z-index: -1;
-}
+
+/* 30px 透明 hover 桥接 — 保证鼠标从菜单项移到下拉时 hover 链连续 */
 .topnav-item.has-dropdown::after {
   content: '';
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
-  height: 4px;  /* 留 4px 桥接冗余 */
+  left: -8px;
+  right: -8px;
+  height: 30px;
   background: transparent;
-  z-index: 2;
+  z-index: 190;
 }
-.topnav-item.has-dropdown:hover .topnav-dropdown,
-.topnav-item.has-dropdown:hover .topnav-dropdown:hover {
+.topnav-item.has-dropdown:hover .topnav-dropdown {
   display: block;
 }
-/* 右侧对齐下拉（用于末尾菜单如"我"） */
+
+/* 右侧对齐下拉（末尾菜单如"知识沉淀"/"我"） */
 .topnav-item.has-dropdown-right .topnav-dropdown {
   left: auto;
   right: 0;
 }
 .topnav-item.has-dropdown-right::after {
   left: auto;
-  right: 0;
+  right: -8px;
 }
-/* 右侧对齐下拉（用于最后一个菜单如"我"） */
-.topnav-item.has-dropdown-right .topnav-dropdown {
-  left: auto;
-  right: 0;
-}
-.topnav-item.has-dropdown-right::after {
-  left: auto;
-  right: 0;
-}
+
+/* Dropdown 内部 */
 .topnav-dropdown a {
   display: block;
   padding: 7px 10px;
@@ -279,25 +256,6 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   border-radius: 5px;
   white-space: nowrap;
-  position: relative;  /* 让 a 在 ::before/::after 之上 */
-  z-index: 1;
-}
-.topnav-dropdown .divider {
-  height: 1px;
-  background: #334155;
-  margin: 4px 6px;
-  position: relative;
-  z-index: 1;
-}
-.topnav-dropdown .tn-section {
-  padding: 6px 12px 4px;
-  font-size: 11px;
-  color: #64748b;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  z-index: 1;
 }
 .topnav-dropdown a:hover {
   background: rgba(16,185,129,0.15);
@@ -316,6 +274,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
@@ -323,6 +282,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 </head>
 <body>
 <div class="container">
+
 
 
 
@@ -394,6 +354,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 </div>
 
+</div>
+
 <!-- ═══ HEADER ═══ -->
 <div class="page-title">
 <h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">📦 ERP 项目实施中心</h1><div style="font-size:12px;color:#64748b;margin-bottom:16px;">橙子自动化 · 金蝶云星空 ERP · 已上线运行 · 系统负责人：杰德瑞恩J</div>
@@ -430,21 +392,25 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     <span class="mod-badge">✅ 已上线</span>
     <h4>📋 销售模块</h4>
     <p>销售订单 → 发货通知 → 应收账款闭环管理。<br>与 CRM 客户线索/合同数据对接，销售全流程线上化。</p>
+    <a class="mod-link" href="#" onclick="return false" style="opacity:.6;cursor:not-allowed" title="业务场景页待补充">📖 销售业务场景学习 →</a>
   </div>
   <div class="mod-card green">
     <span class="mod-badge">✅ 已上线</span>
     <h4>📥 采购模块</h4>
     <p>采购申请 → 采购订单 → 应付账款。<br>支持共用料合并采购模式（详见采购管理页）。</p>
+    <a class="mod-link" href="erp-procurement.html">📖 采购业务场景学习 →</a>
   </div>
   <div class="mod-card green">
     <span class="mod-badge">✅ 已上线</span>
     <h4>📦 库存模块</h4>
     <p>库存台账 · 出入库管理 · 安全库存预警。<br>支持公共库存 + 项目领料成本归集。</p>
+    <a class="mod-link" href="erp-procurement-warehouse.html">📖 库存业务场景学习 →</a>
   </div>
   <div class="mod-card green">
     <span class="mod-badge">✅ 已上线</span>
     <h4>💰 财务模块</h4>
-    <p>总账 · 成本核算 · 财务报表。<br>项目级成本归集，月末可对账。<br><a href="erp-finance.html" style="color:#34d399;text-decoration:underline">📖 财务业务场景学习 →</a></p>
+    <p>总账 · 成本核算 · 财务报表。<br>项目级成本归集，月末可对账。</p>
+    <a class="mod-link" href="erp-finance.html">📖 财务业务场景学习 →</a>
   </div>
 </div>
 
