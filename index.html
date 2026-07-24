@@ -3,112 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>物料管理模式转型 · 管理变革中心</title>
+<title>控制台首页 · 杰德瑞恩J 信息化驾驶舱</title>
 <style>
-:root {
-  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
-  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
-  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
-  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
-  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
-  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1000px;margin:0 auto;padding:20px 24px}
-
-.header{
-  background:linear-gradient(135deg,#0f172a,#1e293b,#3c3489);
-  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
-  position:relative;overflow:hidden;
-}
-.header::after{
-  content:'';position:absolute;top:-50%;right:-10%;
-  width:400px;height:400px;
-  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%;
-}
-.header h1{font-size:22px;font-weight:700;position:relative;z-index:1}
-.header .sub{font-size:12px;color:#94a3b8;margin-top:4px;position:relative;z-index:1}
-.header .back-link{display:inline-block;margin-top:10px;font-size:11px;color:#a5b4fc;text-decoration:none}
-.header .back-link:hover{color:#fff}
-
-.section{margin-bottom:24px}
-.section-title{font-size:16px;font-weight:600;color:var(--s-800);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--s-200)}
-
-.card{background:#fff;border-radius:14px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:14px}
-
-.info-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
-.info-card{
-  background:#fff;border-radius:12px;padding:16px;border:1px solid var(--s-200);text-align:center
-}
-.info-card .num{font-size:26px;font-weight:700;line-height:1}
-.info-card .num.purple{color:var(--p-d)}
-.info-card .num.green{color:var(--g-d)}
-.info-card .num.blue{color:var(--b-d)}
-.info-card .lbl{font-size:11px;color:var(--s-400);margin-top:4px}
-
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
-.compare-card{border-radius:12px;padding:16px 20px}
-.compare-card.old{background:var(--r-bg);border:1px solid #fca5a5}
-.compare-card.new{background:var(--g-bg);border:1px solid #6ee7b7}
-.compare-card .title{font-size:13px;font-weight:600;margin-bottom:8px}
-.compare-card.old .title{color:var(--r-d)}
-.compare-card.new .title{color:var(--g-d)}
-.compare-card ul{list-style:none;font-size:12px;line-height:2;color:var(--s-600)}
-
-.flow-section{background:#fff;border-radius:14px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:16px}
-.flow-row{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-  background:var(--s-50);border-radius:10px;padding:14px 18px;margin-bottom:10px
-}
-.flow-label{font-size:12px;font-weight:500;color:var(--s-600);width:60px;flex-shrink:0}
-.flow-step{
-  padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;white-space:nowrap
-}
-.step-old{background:var(--r-bg);color:var(--r-d)}
-.step-new{background:var(--g-bg);color:var(--g-d)}
-.step-mid{background:var(--b-bg);color:var(--b-d)}
-.step-sys{background:var(--p-bg);color:var(--p-d)}
-.flow-arr{color:var(--s-400);font-size:11px}
-.flow-note{font-size:11px;color:var(--s-400);margin-left:68px;padding:2px 0}
-
-.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sys-card{border-radius:10px;padding:14px 16px;background:var(--s-50);border:1px solid var(--s-200)}
-.sys-card h4{font-size:12px;font-weight:600;margin-bottom:6px}
-.sys-card ul{list-style:none;font-size:11px;line-height:1.9;color:var(--s-600)}
-.sys-card ul li::before{content:'▪ ';color:var(--s-400)}
-
-.footer{text-align:center;padding:20px 24px;color:var(--s-400);font-size:11px}
-
-@media (max-width:768px){
-  .container{padding:12px}
-  .header{padding:16px}
-  .info-grid{grid-template-columns:1fr 1fr}
-  .compare-grid{grid-template-columns:1fr}
-  .sys-grid{grid-template-columns:1fr}
-  .flow-row{font-size:11px;padding:10px;gap:4px}
-  .flow-label{width:auto;margin-bottom:4px}
-  .flow-note{margin-left:0}
-}
-
-/* ── Dropdown Menu ── */
-.nav-item{position:relative;display:inline-block;padding-bottom:8px}
-.nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
-.nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
-.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
-.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
-.nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
-.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
-.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
-.nav-item .dropdown .sub a:hover{color:#34d399}
-.nav-item .dropdown .divider{height:1px;background:#334155;margin:4px 6px}
-/* ── Breadcrumb ── */
-.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
-.breadcrumb a{color:#60a5fa;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
-.breadcrumb .sep{color:var(--s-400)}
-.breadcrumb .current{color:var(--s-200);font-weight:500}
 
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
@@ -251,13 +147,236 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
+
+/* ===== 通用样式 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px 24px;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+
+/* ===== 面包屑 ===== */
+.breadcrumb {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.breadcrumb a { color: #3b82f6; text-decoration: none; }
+.breadcrumb .sep { color: #cbd5e1; }
+.breadcrumb .current { color: #1e293b; font-weight: 500; }
+
+/* ===== 按钮 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #10b981;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+.btn:hover { background: #059669; }
+.btn-secondary { background: #fff; color: #475569; border: 1px solid #e2e8f0; }
+.btn-secondary:hover { background: #f1f5f9; }
+
+.container { max-width: 1400px; margin: 0 auto; }
+.welcome-bar {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 36px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-bar h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+.welcome-bar .sub { font-size: 13px; color: #94a3b8; }
+.welcome-bar::after {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* ===== KPI 条 ===== */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.kpi-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1;
+}
+.kpi-card.k1 .kpi-value { color: #10b981; }
+.kpi-card.k2 .kpi-value { color: #3b82f6; }
+.kpi-card.k3 .kpi-value { color: #8b5cf6; }
+.kpi-card.k4 .kpi-value { color: #f59e0b; }
+.kpi-label { font-size: 12px; color: #64748b; margin-top: 8px; }
+.kpi-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+/* ===== Section ===== */
+.section {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+.section h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section h2 .meta-tag {
+  font-size: 11px;
+  font-weight: 400;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ===== 角色快速通道 ===== */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.role-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px 14px;
+  text-align: center;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all .2s;
+}
+.role-card:hover {
+  transform: translateY(-2px);
+  border-color: #10b981;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(16,185,129,0.1);
+}
+.role-card .r-icon { font-size: 28px; margin-bottom: 8px; }
+.role-card .r-title { font-size: 14px; font-weight: 600; }
+.role-card .r-sub { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+.role-card.placeholder {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  opacity: 0.6;
+}
+
+/* ===== 时间线 ===== */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 6px; bottom: 6px;
+  width: 2px;
+  background: #e2e8f0;
+}
+.tl-item {
+  position: relative;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -22px; top: 16px;
+  width: 12px; height: 12px;
+  background: #fff;
+  border: 3px solid #10b981;
+  border-radius: 50%;
+}
+.tl-item.fresh::before { background: #10b981; }
+.tl-date { font-size: 12px; color: #64748b; font-weight: 500; }
+.tl-title { font-size: 14px; color: #0f172a; margin: 4px 0; font-weight: 600; }
+.tl-meta { font-size: 12px; color: #64748b; }
+.tl-meta a { color: #3b82f6; text-decoration: none; }
+.tl-meta a:hover { text-decoration: underline; }
+
+/* ===== 系统健康度 ===== */
+.sys-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.sys-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+}
+.sys-name { font-size: 13px; font-weight: 600; color: #0f172a; }
+.sys-status {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 6px;
+  font-weight: 500;
+}
+.sys-status.live { background: #d1fae5; color: #065f46; }
+.sys-status.dev  { background: #fef3c7; color: #92400e; }
+.sys-status.todo { background: #fee2e2; color: #991b1b; }
+.sys-progress {
+  margin-top: 10px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sys-bar { height: 100%; border-radius: 3px; }
+.sys-bar.live { background: #10b981; }
+.sys-bar.dev { background: #f59e0b; }
+.sys-bar.todo { background: #ef4444; }
+.sys-meta { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+
+@media (max-width: 768px) {
+  .kpi-row, .role-grid, .sys-grid { grid-template-columns: 1fr 1fr; }
+  .topnav-menu { flex-wrap: wrap; }
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-
-
 
 
 <div class="topnav">
@@ -266,14 +385,14 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
   </a>
   <div class="topnav-menu">
-    <a href="index.html" class="topnav-item">
+    <a href="index.html" class="topnav-item active">
       <span class="tn-icon">⌂</span>
       <span class="tn-label">首页</span>
     </a>
     <a href="business-scenarios.html" class="topnav-item">
       <span class="tn-icon">▤</span>
       <span class="tn-label">业务场景</span>
-      <span class="topnav-badge">2</span>
+      <span class="tn-badge">2</span>
     </a>
     <a href="erp-center.html" class="topnav-item has-dropdown">
       <span class="tn-icon">▦</span>
@@ -323,195 +442,127 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   </div>
 </div>
 
-</div>
 
-</div>
+  <!-- 欢迎条 -->
+  <div class="welcome-bar">
+    <h1>下午好，杰德瑞恩J</h1>
+    <div class="sub">2026-07-23 18:09 · 今日有 <strong style="color:#10b981">2 个新业务场景</strong> 待沉淀，<strong style="color:#3b82f6">3 个</strong> 待办事项</div>
+  </div>
 
-<div class="page-title">
-<h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">📦 物料管理模式转型</h1>
-</div>
-
-
-<!-- Quick Info -->
-<div class="info-grid">
-  <div class="info-card" style="text-align:left;padding:16px 20px">
-    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
-      <strong>推动背景：</strong>公司从定制化项目转向标准产品制造（9大产品系列），原有按项目管料的方式导致同物料重复下单、仓库物料锁死在各项目、共用件无法通用天天协调。
+  <!-- KPI 条 -->
+  <div class="kpi-row">
+    <div class="kpi-card k1">
+      <div class="kpi-value">4</div>
+      <div class="kpi-label">ERP 模块上线</div>
+      <div class="kpi-meta">销售/采购/库存/财务</div>
+    </div>
+    <div class="kpi-card k2">
+      <div class="kpi-value">2</div>
+      <div class="kpi-label">业务场景学习页</div>
+      <div class="kpi-meta">07-23 委外 + IOR BOM</div>
+    </div>
+    <div class="kpi-card k3">
+      <div class="kpi-value">31</div>
+      <div class="kpi-label">总页面数</div>
+      <div class="kpi-meta">按 10 类分布</div>
+    </div>
+    <div class="kpi-card k4">
+      <div class="kpi-value">14</div>
+      <div class="kpi-label">铁律</div>
+      <div class="kpi-meta">指导所有内容沉淀</div>
     </div>
   </div>
-  <div class="info-card">
-    <div class="num purple">9</div>
-    <div class="lbl">标准产品系列</div>
+
+  <!-- 5 角色快速通道 -->
+  <div class="section">
+    <h2>🚀 我是 · 角色快速通道（自用复盘工具）</h2>
+    <div class="role-grid">
+      <a href="dashboard-it.html" class="role-card">
+        <div class="r-icon">💻</div>
+        <div class="r-title">IT 主管</div>
+        <div class="r-sub">系统健康 + 工单进度</div>
+      </a>
+      <a href="dashboard-finance.html" class="role-card">
+        <div class="r-icon">💰</div>
+        <div class="r-title">财务视角</div>
+        <div class="r-sub">应付/成本/凭证</div>
+      </a>
+      <a href="dashboard-procurement.html" class="role-card">
+        <div class="r-icon">📦</div>
+        <div class="r-title">采购视角</div>
+        <div class="r-sub">委外/库存/价格</div>
+      </a>
+      <a href="dashboard-rd.html" class="role-card">
+        <div class="r-icon">🔬</div>
+        <div class="r-title">研发视角</div>
+        <div class="r-sub">PLM + BOM 审批</div>
+      </a>
+      <a href="dashboard-boss.html" class="role-card">
+        <div class="r-icon">👔</div>
+        <div class="r-title">老板视角</div>
+        <div class="r-sub">自我复盘工具</div>
+      </a>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:#64748b;text-align:center;">⚠️ 全部 dashboard 为自用复盘（铁律 14），非汇报场景</div>
   </div>
-  <div class="info-card">
-    <div class="num green">600→300</div>
-    <div class="lbl">物料种类精简目标</div>
-  </div>
-</div>
 
-<!-- Compare: Before vs After -->
-<div class="section">
-  <div class="section-title">现状 vs 未来</div>
-  <div class="compare-grid">
-    <div class="compare-card old">
-      <div class="title">⚠️ 现状（项目制）</div>
-      <ul>
-        <li>工程按项目出BOM，同物料在不同项目重复出现</li>
-        <li>采购同物料需下多行，供应商散单多</li>
-        <li>仓库按项目区域堆放，物料锁死在各项目中</li>
-        <li>共用件无法跨项目通用，天天协调催料</li>
-        <li>多地交货常发错仓（深圳/肇庆/湛江/贵阳）</li>
-      </ul>
-    </div>
-    <div class="compare-card new">
-      <div class="title">✅ 未来（物料制）</div>
-      <ul>
-        <li>工程标准化BOM，共用件统一，物料精简50%</li>
-        <li>采购按物料合并下单，同供应商可谈阶梯价</li>
-        <li>仓库按物料品类分区（超市式管理）</li>
-        <li>共用件集中备库，按排产从各物料区领用</li>
-        <li>新增"共用/专用"字段，仓库一目了然</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Business Flow -->
-<div class="section">
-  <div class="section-title">业务流程图</div>
-  <div class="flow-section">
-
-    <div class="flow-row">
-      <span class="flow-label">工程阶段</span>
-      <span class="flow-step step-old">各项目独立BOM</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">标准化BOM（共用件统一）</span>
-    </div>
-    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
-
-    <div class="flow-row">
-      <span class="flow-label">采购阶段</span>
-      <span class="flow-step step-old">项目各自下采购申请</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-mid">MRP运算合并同物料</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">按物料汇总下单</span>
-    </div>
-    <div class="flow-note">同项目内同物料 → 合并成一行；跨项目同物料 → 分行标不同交期，放同一张订单</div>
-    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
-
-    <div class="flow-row">
-      <span class="flow-label">仓储阶段</span>
-      <span class="flow-step step-old">按项目区域存放</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">按物料品类分区（超市式）</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-sys">共用/专用字段标识</span>
-    </div>
-    <div class="flow-note">共用件放共用区，专用件按产品系列分区，每种物料固定储位</div>
-    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
-
-    <div class="flow-row">
-      <span class="flow-label">生产阶段</span>
-      <span class="flow-step step-old">追项目催料协调</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">按物料齐套领用</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">良性循环</span>
-    </div>
-    <div class="flow-note">共用件集中备库 → 生产领料时从各物料区分别拣料 → 按排产节奏齐套</div>
-
-  </div>
-</div>
-
-<!-- System Changes -->
-<div class="section">
-  <div class="section-title">系统变更清单</div>
-  <div class="sys-grid">
-    <div class="sys-card">
-      <h4 style="color:var(--b-d)">ERP 采购模块</h4>
-      <ul>
-        <li>采购申请单新增"共用/专用"字段</li>
-        <li>同项目同物料自动合并</li>
-        <li>跨项目同物料分行不同交期</li>
-        <li>下推时自动合并同物料到一行</li>
-      </ul>
-    </div>
-    <div class="sys-card">
-      <h4 style="color:var(--g-d)">ERP 仓储模块</h4>
-      <ul>
-        <li>仓库位重新规划（物料制分区）</li>
-        <li>共用件区域设置（约300个储位）</li>
-        <li>多地入库防错机制</li>
-        <li>调拨流程（深圳集中收货→各地）</li>
-      </ul>
-    </div>
-    <div class="sys-card">
-      <h4 style="color:var(--y-d)">工程 PLM</h4>
-      <ul>
-        <li>每周合并2款物料（标准化推进）</li>
-        <li>BOM标准化</li>
-        <li>共用件统一推进</li>
-        <li>从600项精简至200-300项目标</li>
-      </ul>
-    </div>
-    <div class="sys-card">
-      <h4 style="color:var(--p-d)">悟空 APS</h4>
-      <ul>
-        <li>MRP运算逻辑调整</li>
-        <li>按物料制跑排产</li>
-        <li>齐套检查优化</li>
-        <li>备货预测模型调整</li>
-      </ul>
+  <!-- 业务场景时间线 -->
+  <div class="section">
+    <h2>📋 业务场景时间线 <span class="meta-tag">最新在上</span><a href="business-scenarios.html" style="margin-left:auto;font-size:12px;color:#3b82f6;text-decoration:none">查看全部 →</a></h2>
+    <div class="timeline">
+      <div class="tl-item fresh">
+        <div class="tl-date">2026-07-23 · 今天</div>
+        <div class="tl-title">💼 ERP / 财务 → 委外生产与成本归集流程优化</div>
+        <div class="tl-meta">6 章节会议纪要 · 跨财务+采购+生产 · <a href="outsourcing-cost-allocation.html">打开 →</a></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026-07-23</div>
+        <div class="tl-title">🍊 PLM / 研发 → IOR 飞针 X4E0156-165（E 系列单面四飞针）</div>
+        <div class="tl-meta">BOM 556 零件 · 机械标准件 125 + 非标件 286 + 电气标准件 145 · <a href="ior-bom.html">打开 →</a></div>
+      </div>
+      <div class="tl-item" style="opacity:0.4">
+        <div class="tl-date">2026-07-22</div>
+        <div class="tl-title">⚙️ 4 个网站 bug 综合修复（菜单延迟/全站地图/入口/双入口）</div>
+        <div class="tl-meta">纯技术修复 — 已完成</div>
+      </div>
+      <div class="tl-item" style="opacity:0.3">
+        <div class="tl-date">——</div>
+        <div class="tl-title">📝 更多历史沉淀（部署在归档文件柜）</div>
+        <div class="tl-meta"><a href="filing-cabinet.html">查归档 →</a></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Key Decisions -->
-<div class="section">
-  <div class="section-title">会议关键决议</div>
-  <div class="card">
-    <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <thead>
-        <tr style="border-bottom:2px solid var(--p);color:var(--p-d);font-weight:600">
-          <td style="padding:8px 12px;width:40%">事项</td>
-          <td style="padding:8px 12px">决议</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">共用件 vs 专用件</td>
-          <td style="padding:8px 12px;color:var(--s-600)">共用件按物料制管理；专用件仍按产品型号管理；打样件在深圳走项目制</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">订单合并规则</td>
-          <td style="padding:8px 12px;color:var(--s-600)">同项目同物料合并一行；跨项目同物料分行不同交期（放同一张单）</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">新字段</td>
-          <td style="padding:8px 12px;color:var(--s-600)">采购订单行新增"共用/专用"字段，仓库据此决定存放位置</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">仓库管理模式</td>
-          <td style="padding:8px 12px;color:var(--s-600)">按物料品类分区（超市式），共用件集中存放，每款物料固定储位</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">多地交付</td>
-          <td style="padding:8px 12px;color:var(--s-600)">深圳集中收货→检验→调拨到各地；供应商送错需自行调回</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;font-weight:500">项目号命名</td>
-          <td style="padding:8px 12px;color:var(--s-600)">备货场景下不叫"项目号"，改为"产品型号"（如X41、X61、X4M等）</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- 系统健康度 -->
+  <div class="section">
+    <h2>🏢 系统健康度 · 4 大系统</h2>
+    <div class="sys-grid">
+      <div class="sys-card">
+        <div class="sys-name">📦 ERP<span class="sys-status live">上线</span></div>
+        <div class="sys-progress"><div class="sys-bar live" style="width:66%"></div></div>
+        <div class="sys-meta">4/6 模块上线（销售/采购/库存/财务）· 共用料/PLM 对接在途</div>
+      </div>
+      <div class="sys-card">
+        <div class="sys-name">🔧 PLM<span class="sys-status dev">启动</span></div>
+        <div class="sys-progress"><div class="sys-bar dev" style="width:15%"></div></div>
+        <div class="sys-meta">启动会 7 月初已开 · 业务流程梳理阶段</div>
+      </div>
+      <div class="sys-card">
+        <div class="sys-name">👥 EHR<span class="sys-status live">上线</span></div>
+        <div class="sys-progress"><div class="sys-bar live" style="width:80%"></div></div>
+        <div class="sys-meta">47 节点排查完成 · 9 项 SOP 待持续优化</div>
+      </div>
+      <div class="sys-card">
+        <div class="sys-name">💻 IT<span class="sys-status live">在线</span></div>
+        <div class="sys-progress"><div class="sys-bar live" style="width:90%"></div></div>
+        <div class="sys-meta">搬迁项目进行中 · 弱电网线/机房在途</div>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="footer">
-  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
-</div>
+  <div style="margin-top:24px;text-align:center;font-size:12px;color:#94a3b8">本平台为个人知识网络体系（铁律 14）· 内容是"我给自己看的笔记" · 2026-07-23 18:09</div>
 
 </div>
+
 </body>
 </html>
