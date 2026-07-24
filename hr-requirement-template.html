@@ -86,11 +86,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 
 /* ── Dropdown Menu ── */
-.nav-item{position:relative;display:inline-block}
+.nav-item{position:relative;display:inline-block;padding-bottom:8px}
 .nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
 .nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
-.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:4px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.nav-item:hover .dropdown{display:block}
+.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
 .nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
 .nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
 .nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
@@ -103,20 +103,264 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
 .breadcrumb .sep{color:var(--s-400)}
 .breadcrumb .current{color:var(--s-200);font-weight:500}
+
+/* ===== 统一顶部导航 V2（5 板块 · 桥接 hover） ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 14px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.topnav-brand .logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+.topnav-menu {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.topnav-item {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+  line-height: 1;  /* 强制统一行高，避免 emoji 字符上下抖动 */
+}
+.topnav-item:hover, .topnav-item.active {
+  background: rgba(16,185,129,0.2);
+  color: #fff;
+}
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
+.topnav-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+.topnav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  padding-top: 12px;  /* 12px hover 缓冲，算 dropdown 自身，hover 链不断 */
+  left: 0;
+  min-width: 220px;
+  background: transparent;  /* 整体透明，让 padding 区域可穿透 */
+  z-index: 200;
+}
+.topnav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 12px;  /* 跳过 padding-top */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1e293b;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: -1;
+}
+.topnav-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  height: calc(100% - 12px);
+  border: 1px solid #334155;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  pointer-events: none;
+  z-index: -1;
+}
+.topnav-item.has-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 4px;  /* 留 4px 桥接冗余 */
+  background: transparent;
+  z-index: 2;
+}
+.topnav-item.has-dropdown:hover .topnav-dropdown,
+.topnav-item.has-dropdown:hover .topnav-dropdown:hover {
+  display: block;
+}
+/* 右侧对齐下拉（用于末尾菜单如"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: 0;
+}
+/* 右侧对齐下拉（用于最后一个菜单如"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: 0;
+}
+.topnav-dropdown a {
+  display: block;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 5px;
+  white-space: nowrap;
+  position: relative;  /* 让 a 在 ::before/::after 之上 */
+  z-index: 1;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 4px 6px;
+  position: relative;
+  z-index: 1;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+}
+.topnav-dropdown a:hover {
+  background: rgba(16,185,129,0.15);
+  color: #34d399;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 6px 4px;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 768px) {
+  .topnav-menu { flex-wrap: wrap; }
+}
+
 </style>
 </head>
 <body>
 <div class="container">
 
-<!-- ═══ HEADER ═══ -->
-<header class="header">
-  <h1>📋 HR系统需求收集表</h1>
-  <div class="sub">橙子自动化 · 北森(Beisen) · 目的：收集HR所有系统需求，一次性提交给顾问评估"能实现/不能实现"</div>
-  <div class="usage">
-    <strong>使用方法：</strong>① 每个HR按自己负责的模块填写 → ② 每周汇总一次 → ③ 约顾问会议一次性过清单 → ④ 顾问标注结论后，IT按标签排期处理
-  </div>
-</header>
 
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item">
+      <span class="tn-icon">⌂</span>
+      <span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span>
+      <span class="tn-label">业务场景</span>
+      <span class="topnav-badge">2</span>
+    </a>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">系统中心</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </div>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <div class="topnav-item has-dropdown has-dropdown-right">
+      <span class="tn-icon">◉</span>
+      <span class="tn-label">知识沉淀</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
+        <a href="filing-cabinet.html">🗂️ 归档文件柜</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown has-dropdown-right">
+      <span class="tn-icon">◔</span>
+      <span class="tn-label">我</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">个人信息</div>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
+        <div class="divider"></div>
+        <div class="tn-section">设置</div>
+        <a href="#">⚙️ 偏好</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<div class="page-title">
+<h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">📋 HR系统需求收集表</h1><div style="font-size:12px;color:#64748b;margin-bottom:16px;">橙子自动化 · 北森(Beisen) · 目的：收集HR所有系统需求，一次性提交给顾问评估"能实现/不能实现"</div>
+</div>
 <!-- ═══ INSTRUCTIONS ═══ -->
 <div class="section-label">
   <span class="icon">💡</span>
