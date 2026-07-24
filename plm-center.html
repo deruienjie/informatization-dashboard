@@ -16,7 +16,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1000px;margin:0 auto;padding:20px 24px}
+.container{max-width:1200px;margin:0 auto;padding: 24px 32px}
 
 /* ── Header ── */
 .header{background:linear-gradient(135deg,#0f172a,#1e293b,#312e81);border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative}
@@ -37,14 +37,14 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 /* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
-.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card{background:#fff;border-radius: 14px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
 .stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
 .stat-value{font-size:24px;font-weight:700;line-height:1}
 .stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
 
 /* Dash grid */
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.dash-box{background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
+.dash-box{background:#fff;border-radius: 14px;padding:18px 20px;border:1px solid var(--s-200)}
 .dash-box .box-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:6px}
 .dash-box .box-desc{font-size:11px;color:var(--s-400);margin-bottom:12px}
 
@@ -63,7 +63,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .fp-item{display:flex;align-items:center;justify-content:space-between;padding:5px 6px;border-radius:4px;font-size:12px;margin-bottom:2px;transition:background .15s}
 .fp-item:hover{background:var(--s-50)}
 .fp-name{flex:1}
-.fp-st{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.fp-st{padding:2px 8px;border-radius: 14px;font-size:10px;font-weight:600}
 .st-done{background:var(--g-bg);color:var(--g)}
 .st-now{background:var(--b-bg);color:var(--b);animation:pulse 2s ease-in-out infinite}
 .st-wait{background:var(--s-100);color:var(--s-400)}
@@ -74,7 +74,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 /* Action box */
 .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.action-box{padding:14px 16px;border-radius:10px;border:1px dashed}
+.action-box{padding:14px 16px;border-radius: 14px;border:1px dashed}
 .action-box.blue{background:var(--b-bg);border-color:var(--b)}
 .action-box.green{background:var(--g-bg);border-color:var(--g)}
 .action-box .ab-title{font-size:12px;font-weight:700;margin-bottom:6px}
@@ -93,14 +93,14 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ── Phase Sections ── */
 .phase{margin-bottom:16px}
 .phase-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.phase-num{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;min-width:34px;flex-shrink:0}
+.phase-num{width:34px;height:34px;border-radius: 14px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;min-width:34px;flex-shrink:0}
 .p0{background:var(--p)}.p1{background:var(--b)}.p2{background:var(--g)}
 .p3{background:var(--y)}.p4{background:var(--r)}.p5{background:var(--b)}.p6{background:var(--p)}
 .phase-title{font-size:15px;font-weight:700;color:var(--s-800)}
 .phase-week{font-size:10px;color:var(--s-400);margin-left:auto}
-.phase-chk{font-size:10px;padding:3px 10px;border-radius:10px;background:var(--g-bg);color:var(--g);font-weight:600;white-space:nowrap}
+.phase-chk{font-size:10px;padding:3px 10px;border-radius: 14px;background:var(--g-bg);color:var(--g);font-weight:600;white-space:nowrap}
 
-.io-grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:0;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--s-200)}
+.io-grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:0;background:#fff;border-radius: 14px;overflow:hidden;border:1px solid var(--s-200)}
 .io-col{padding:14px 16px}
 .io-col.in{background:#eff6ff;border-right:1px solid #bfdbfe}
 .io-col.act{background:#fff}
@@ -116,7 +116,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .io-doc strong{display:block;font-size:9px;color:var(--s-400);margin-bottom:1px;font-weight:600}
 .io-doc small{font-size:9px;color:var(--s-400)}
 
-.checkpoint{background:var(--y-bg);border:1px dashed var(--y);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:11px;line-height:1.6;transition:all .15s}
+.checkpoint{background:var(--y-bg);border:1px dashed var(--y);border-radius: 14px;padding:10px 14px;margin-top:8px;font-size:11px;line-height:1.6;transition:all .15s}
 .checkpoint:hover{border-color:var(--y);background:#fffbeb}
 .checkpoint strong{color:var(--y-d)}
 
@@ -165,13 +165,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px 24px;
+  border-radius: 16px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1000px;
+  max-width: 1200px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -183,7 +183,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -202,11 +202,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 .topnav-item {
   position: relative;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -240,7 +240,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -307,7 +307,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
 .site-shell {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 24px;
   box-sizing: border-box;
@@ -338,12 +338,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   height: auto;
 }
 body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .site-shell { padding-left: 12px; padding-right: 12px; }
 }
 
@@ -387,7 +387,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 <a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
-      <span class="tn-label">全站地图</span>
+      <span class="tn-label">站点地图</span>
     </a>
     <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
