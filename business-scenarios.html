@@ -6,7 +6,7 @@
 <title>业务场景中心 · 杰德瑞恩J 信息化驾驶舱</title>
 <style>
 
-/* ===== 统一顶部导航（5 板块） ===== */
+/* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border-radius: 14px;
@@ -58,13 +58,14 @@
   cursor: pointer;
   transition: all .2s;
   user-select: none;
+  line-height: 1;
 }
 .topnav-item:hover, .topnav-item.active {
   background: rgba(16,185,129,0.2);
   color: #fff;
 }
-.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; }
-.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; }
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
 .topnav-badge {
   background: #ef4444;
   color: #fff;
@@ -74,10 +75,12 @@
   margin-left: 4px;
   font-weight: 600;
 }
+
+/* ── Dropdown ── */
 .topnav-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 12px);
+  top: 100%;
   left: 0;
   min-width: 220px;
   background: #1e293b;
@@ -87,27 +90,41 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   z-index: 200;
 }
-.topnav-item.has-dropdown {
-  padding-bottom: 16px;  /* 桥接 hover */
-}
+
+/* 30px 透明 hover 桥接 — 保证鼠标从菜单项移到下拉时 hover 链连续 */
 .topnav-item.has-dropdown::after {
   content: '';
   position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 16px;
+  top: 100%;
+  left: -8px;
+  right: -8px;
+  height: 30px;
   background: transparent;
+  z-index: 190;
 }
-.topnav-item.has-dropdown:hover .topnav-dropdown { display: block; }
+.topnav-item.has-dropdown:hover .topnav-dropdown {
+  display: block;
+}
+
+/* 右侧对齐下拉（末尾菜单如"知识沉淀"/"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: -8px;
+}
+
+/* Dropdown 内部 */
 .topnav-dropdown a {
   display: block;
-  padding: 8px 12px;
+  padding: 7px 10px;
+  font-size: 12px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 13px;
-  border-radius: 6px;
-  transition: all .15s;
+  border-radius: 5px;
+  white-space: nowrap;
 }
 .topnav-dropdown a:hover {
   background: rgba(16,185,129,0.15);
@@ -116,7 +133,7 @@
 .topnav-dropdown .divider {
   height: 1px;
   background: #334155;
-  margin: 6px 0;
+  margin: 6px 4px;
 }
 .topnav-dropdown .tn-section {
   padding: 6px 12px 4px;
@@ -125,6 +142,10 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .topnav-menu { flex-wrap: wrap; }
 }
 
 /* ===== 通用样式 ===== */
@@ -394,7 +415,7 @@ body {
       <span class="tn-icon">▦</span>
       <span class="tn-label">全站地图</span>
     </a>
-    <div class="topnav-item has-dropdown">
+    <div class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
@@ -407,7 +428,7 @@ body {
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
     </div>
-    <div class="topnav-item has-dropdown">
+    <div class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
