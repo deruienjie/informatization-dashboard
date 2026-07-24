@@ -230,6 +230,8 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
+
+.container{max-width:1200px;margin:0 auto;}
 </style>
 </head>
 <body>
@@ -262,7 +264,9 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
         <a href="ehr-center.html">👥 EHR 系统</a>
         <a href="it-panorama.html">💻 IT 全景</a>
         <div class="divider"></div>
-        <a href="company-intro.html">🏢 公司背景</a>
+        
+<div class="container">
+<a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
     </div>
@@ -1467,5 +1471,7 @@ const observer = new IntersectionObserver(entries=>{
 },{threshold:.5});
 slides.forEach(s=>observer.observe(s));
 </script>
+</div>
+
 </body>
 </html>
