@@ -97,7 +97,8 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin: 0 auto 24px auto;  /* 上下 0，左右 auto：自身居中，不依赖父容器 */
+  max-width: 1340px;  /* 与 .container 同宽，无论是否有父容器都限宽居中 */
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -272,10 +273,10 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
-
 </style>
 </head>
 <body>
+
 
 
 <div class="topnav">
@@ -339,6 +340,8 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
       </div>
     </div>
   </div>
+</div>
+
 </div>
 
 <div class="nav-dots">
