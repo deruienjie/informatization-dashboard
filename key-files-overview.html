@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>关键文件总览 · 只读面板</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --panel: #ffffff;
+      --soft: #f8fafc;
+      --line: #e5e9f2;
+      --text: #172033;
+      --muted: #667085;
+      --blue: #2563eb;
+      --green: #11875d;
+      --orange: #b86b00;
+      --red: #b3261e;
+      --shadow: 0 12px 35px rgba(28,48,84,.08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .app { min-height: 100vh; display: grid; grid-template-columns: 320px minmax(0, 1fr); }
+    .sidebar { background: #111b2e; color: #dbe5f5; padding: 24px 16px 18px; display: flex; flex-direction: column; gap: 18px; min-height: 100vh; }
+    .brand h1 { font-size: 20px; margin: 0 0 4px; }
+    .brand p { margin: 0; color: #92a4c1; font-size: 12px; }
+    .side-title { color: #8294b4; font-size: 11px; letter-spacing: .08em; padding: 0 10px; margin-bottom: 6px; text-transform: uppercase; }
+    .file-list { display: flex; flex-direction: column; gap: 7px; }
+    .file-item { width: 100%; border: 1px solid transparent; background: transparent; color: #dbe5f5; text-align: left; border-radius: 10px; padding: 11px 10px; display: flex; gap: 10px; align-items: flex-start; transition: .18s ease; }
+    .file-item:hover { background: rgba(255,255,255,.07); }
+    .file-item.active { background: #20365d; border-color: #3d67a3; }
+    .file-icon { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; font-size: 13px; font-weight: 700; flex: 0 0 auto; }
+    .file-main { min-width: 0; flex: 1; }
+    .file-name { font-weight: 650; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .file-path { color: #93a7c7; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; font-family: ui-monospace, monospace; }
+    .file-meta { font-size: 10px; color: #7d8eaa; margin-top: 4px; }
+    .sidebar-foot { margin-top: auto; padding: 12px 10px 0; color: #93a7c7; font-size: 11px; border-top: 1px solid rgba(255,255,255,.1); line-height: 1.7; }
+    .sidebar-foot strong { color: #f0c46e; }
+    .workspace { min-width: 0; padding: 26px 32px 32px; }
+    .topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 22px; }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+    .topbar h2 { margin: 4px 0 5px; font-size: 26px; letter-spacing: -.02em; }
+    .topbar p { margin: 0; color: var(--muted); }
+    .top-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn { border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 9px; padding: 9px 13px; font-weight: 650; box-shadow: 0 2px 7px rgba(0,0,0,.02); }
+    .btn:hover { border-color: #b9c8e1; }
+    .btn.primary { background: var(--blue); color: white; border-color: var(--blue); }
+    .notice { background: var(--blue-soft); border: 1px solid #c4d8ff; color: #1d3e8a; border-radius: 11px; padding: 12px 14px; margin-bottom: 18px; display: flex; gap: 9px; align-items: flex-start; line-height: 1.7; }
+    .notice.warn { background: #fff4df; border-color: #f2d59e; color: #744800; }
+    .overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; margin-bottom: 18px; }
+    .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 15px 16px; box-shadow: var(--shadow); }
+    .stat-label { color: var(--muted); font-size: 12px; }
+    .stat-value { font-size: 22px; font-weight: 750; margin-top: 3px; }
+    .stat-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .search { display: flex; gap: 8px; margin-bottom: 12px; }
+    .search input { flex: 1; padding: 11px 14px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel); outline: 0; }
+    .search input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+    .viewer { background: var(--panel); border: 1px solid var(--line); border-radius: 15px; box-shadow: var(--shadow); overflow: hidden; }
+    .viewer-head { padding: 17px 19px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+    .file-heading { min-width: 0; }
+    .file-heading h3 { margin: 0 0 4px; font-size: 18px; }
+    .full-path { color: var(--muted); font: 12px/1.45 ui-monospace, monospace; overflow-wrap: anywhere; }
+    .badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 4px 9px; background: var(--blue-soft); color: var(--blue); font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .badge.critical { background: #fde7e6; color: var(--red); }
+    .badge.high { background: #fff4df; color: var(--orange); }
+    .badge.normal { background: var(--blue-soft); color: var(--blue); }
+    .legend { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
+    .legend-card { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; box-shadow: var(--shadow); }
+    .legend-card strong { display: block; font-size: 12px; margin-bottom: 4px; }
+    .legend-card span { color: var(--muted); font-size: 11.5px; line-height: 1.6; }
+    .legend-card .file-pill { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 7px; font-size: 10px; font-weight: 700; }
+    .viewer-body { background: #fbfcfe; padding: 18px 22px 22px; overflow: auto; max-height: 70vh; }
+    pre.content { margin: 0; padding: 16px 18px; background: #0b1322; color: #cce3ff; border-radius: 11px; font: 12.5px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; overflow-x: auto; }
+    mark.hit { background: #fff2a8; color: inherit; padding: 0 2px; border-radius: 3px; }
+    .toc { background: var(--soft); border: 1px solid var(--line); border-radius: 11px; padding: 14px 16px; margin-bottom: 14px; }
+    .toc h4 { margin: 0 0 8px; font-size: 13px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+    .toc-list { display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow: auto; }
+    .toc-list a { color: #1d3e8a; text-decoration: none; font-size: 12.5px; padding: 6px 9px; border-radius: 7px; }
+    .toc-list a:hover { background: white; }
+    .toc-list .lvl1 { font-weight: 700; color: #172033; }
+    .toc-list .lvl2 { padding-left: 22px; color: #3c4a66; }
+    .toc-list .lvl3 { padding-left: 36px; color: #667085; }
+    .legend { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
+    .legend-card { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; box-shadow: var(--shadow); }
+    .legend-card strong { display: block; font-size: 12px; margin-bottom: 4px; }
+    .legend-card span { color: var(--muted); font-size: 11.5px; line-height: 1.6; }
+    .file-pill { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 7px; font-size: 10px; font-weight: 700; margin-right: 4px; }
+    .file-pill.critical { background: #fde7e6; color: var(--red); }
+    .file-pill.core { background: var(--blue-soft); color: var(--blue); }
+    .file-pill.daily { background: #e8f8f0; color: var(--green); }
+    .file-pill.sop { background: #fff4df; color: var(--orange); }
+    .toast { position: fixed; right: 25px; bottom: 22px; background: #14213a; color: #fff; border-radius: 9px; padding: 10px 14px; opacity: 0; transform: translateY(8px); transition: .2s; pointer-events: none; z-index: 20; max-width: 360px; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    @media (max-width: 980px) { .app { grid-template-columns: 1fr; } .sidebar { min-height: auto; padding: 16px; } .file-list { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); } .sidebar-foot { margin-top: 6px; } .workspace { padding: 22px 16px 28px; } .overview, .legend { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 560px) { .file-list { grid-template-columns: 1fr; } .overview, .legend { grid-template-columns: 1fr; } }
+  
+/* ===== 统一顶部导航 V2（5 板块 · 桥接 hover） ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 14px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.topnav-brand .logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+.topnav-menu {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.topnav-item {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+  line-height: 1;  /* 强制统一行高，避免 emoji 字符上下抖动 */
+}
+.topnav-item:hover, .topnav-item.active {
+  background: rgba(16,185,129,0.2);
+  color: #fff;
+}
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
+.topnav-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+.topnav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  padding-top: 12px;  /* 12px hover 缓冲，算 dropdown 自身，hover 链不断 */
+  left: 0;
+  min-width: 220px;
+  background: transparent;  /* 整体透明，让 padding 区域可穿透 */
+  z-index: 200;
+}
+.topnav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 12px;  /* 跳过 padding-top */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1e293b;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: -1;
+}
+.topnav-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  height: calc(100% - 12px);
+  border: 1px solid #334155;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  pointer-events: none;
+  z-index: -1;
+}
+.topnav-item.has-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 4px;  /* 留 4px 桥接冗余 */
+  background: transparent;
+  z-index: 2;
+}
+.topnav-item.has-dropdown:hover .topnav-dropdown,
+.topnav-item.has-dropdown:hover .topnav-dropdown:hover {
+  display: block;
+}
+/* 右侧对齐下拉（用于末尾菜单如"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: 0;
+}
+/* 右侧对齐下拉（用于最后一个菜单如"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: 0;
+}
+.topnav-dropdown a {
+  display: block;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 5px;
+  white-space: nowrap;
+  position: relative;  /* 让 a 在 ::before/::after 之上 */
+  z-index: 1;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 4px 6px;
+  position: relative;
+  z-index: 1;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+}
+.topnav-dropdown a:hover {
+  background: rgba(16,185,129,0.15);
+  color: #34d399;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 6px 4px;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 768px) {
+  .topnav-menu { flex-wrap: wrap; }
+}
+
+</style>
+</head>
+<body>
+  
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item">
+      <span class="tn-icon">⌂</span>
+      <span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span>
+      <span class="tn-label">业务场景</span>
+      <span class="topnav-badge">2</span>
+    </a>
+    <div class="topnav-item has-dropdown">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">系统中心</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </div>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <div class="topnav-item has-dropdown has-dropdown-right">
+      <span class="tn-icon">◉</span>
+      <span class="tn-label">知识沉淀</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
+        <a href="filing-cabinet.html">🗂️ 归档文件柜</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown has-dropdown-right">
+      <span class="tn-icon">◔</span>
+      <span class="tn-label">我</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">个人信息</div>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
+        <div class="divider"></div>
+        <div class="tn-section">设置</div>
+        <a href="#">⚙️ 偏好</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>关键文件只读面板</h1>
+        <p>你能看，不能改（除非你告诉我改）</p>
+      </div>
+      <div>
+        <div class="side-title">全局必读 · 4 个核心</div>
+        <div class="file-list" id="coreList"></div>
+      </div>
+      <div>
+        <div class="side-title">全局辅助 · 记忆与索引</div>
+        <div class="file-list" id="memList"></div>
+      </div>
+      <div>
+        <div class="side-title">项目级 · 当前 workspace</div>
+        <div class="file-list" id="projectList"></div>
+      </div>
+      <div>
+        <div class="side-title">SOP · 场景化操作规范</div>
+        <div class="file-list" id="sopList"></div>
+      </div>
+      <div class="sidebar-foot">
+        <strong>显示策略</strong><br>
+        • 内容来自你启动会话前已经加载的文件<br>
+        • 本面板只读，不自动写入任何文件<br>
+        • 想改哪个，直接告诉我：「改 X 文件：…」
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <div class="notice warn">
+        <strong>🛑 这是只读面板。</strong>
+        <span>任何修改都通过我执行，不会被网页悄悄写入。要改哪个文件直接告诉我，比如「改 USER.md：饮食禁忌 改成 X」。</span>
+      </div>
+
+      <div class="notice" style="background:#fff8e1;border-color:#f2d59e;color:#744800;">
+        <strong>📒 读取方式图例</strong>
+        <span>
+          <b>🔴 启动必读</b>：每次新对话开始 100% 加载（BOOTSTRAP / IDENTITY / SOUL / USER）。
+          <b>🟡 触发式</b>：相关任务出现时才加载（SOP / 文件索引 / Hermes 记忆）。
+          <b>🟢 追加式</b>：每次对话结束追加一行（今日日志）。
+          <b>🟦 上下文</b>：作为背景信息随时可查（MEMORY / memory_long）。
+        </span>
+      </div>
+
+      <section class="overview">
+        <div class="stat"><div class="stat-label">全局核心</div><div class="stat-value" id="statCore">4</div><div class="stat-sub">BOOTSTRAP/IDENTITY/SOUL/USER</div></div>
+        <div class="stat"><div class="stat-label">全局辅助</div><div class="stat-value" id="statMem">3</div><div class="stat-sub">MEMORY / memory_long / 索引</div></div>
+        <div class="stat"><div class="stat-label">项目级</div><div class="stat-value" id="statProj">2</div><div class="stat-sub">项目 MEMORY + 今日日志</div></div>
+        <div class="stat"><div class="stat-label">SOP</div><div class="stat-value" id="statSop">1</div><div class="stat-sub">钉钉用章申请</div></div>
+      </section>
+
+      <div class="search">
+        <input id="searchInput" placeholder="在当前文件内搜索关键词（高亮 + 跳转）" />
+      </div>
+
+      <section class="viewer">
+        <div class="viewer-head">
+          <div class="file-heading"><h3 id="fileTitle">请选择左侧文件</h3><div class="full-path" id="filePath">—</div></div>
+          <span class="badge normal" id="fileBadge">只读</span>
+        </div>
+        <div class="viewer-body">
+          <div class="toc" id="tocBlock" style="display:none;">
+            <h4>本文大纲</h4>
+            <div class="toc-list" id="tocList"></div>
+          </div>
+          <pre class="content" id="content">从左侧选择一个文件即可查看。</pre>
+        </div>
+      </section>
+
+      <section class="legend">
+        <div class="legend-card"><strong><span class="file-pill critical">🔴 最高优先级</span></strong><span>每次新对话启动必读，含铁律与人设。</span></div>
+        <div class="legend-card"><strong><span class="file-pill core">🟦 索引 / 记忆</span></strong><span>长期记忆与文件索引，按需加载。</span></div>
+        <div class="legend-card"><strong><span class="file-pill daily">🟩 今日日志</span></strong><span>当天工作日志，append-only。</span></div>
+        <div class="legend-card"><strong><span class="file-pill sop">🟧 SOP</span></strong><span>场景化操作规范，触发相应场景时读取。</span></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="source-docs.js"></script>
+  <script>
+    const docs = (window.SOURCE_DOCS || []).filter(d => d.size > 0 || d.content);
+    const groups = {
+      core:    ['🌟 BOOTSTRAP.md（启动检查/铁律）', '🪪 IDENTITY.md（身份/铁律索引）', '💜 SOUL.md（性格灵魂/价值观）', '👤 USER.md（用户档案）'],
+      mem:     ['🧠 全局 MEMORY.md（小o 长期记忆）', '📈 memory_long.md（Hermes 长期记忆）', '🗂️ 文件清单与映射.md（前100行）'],
+      project: ['🏢 项目 MEMORY.md（贾德润南工作记忆）', '📅 项目今日日志 2026-07-22'],
+      sop:     ['🔧 钉钉用章申请API调用SOP.md（钉钉SOP）', '🚀 GitHub Pages静态网站部署SOP.md（GitHub部署）']
+    };
+
+    function classify(name) {
+      for (const [k, arr] of Object.entries(groups)) if (arr.includes(name)) return k;
+      return 'mem';
+    }
+    function badgeFor(name) {
+      // 🔴 启动必读：每次新对话必读（4 个）
+      if (name.includes('BOOTSTRAP')) return { text: '🔴 启动必读 · 每次 100%', className: 'critical' };
+      if (name.includes('IDENTITY')) return { text: '🔴 启动必读 · 每次 100%', className: 'critical' };
+      if (name.includes('SOUL')) return { text: '🔴 启动必读 · 每次 100%', className: 'critical' };
+      if (name.includes('USER.md')) return { text: '🔴 启动必读 · 每次 100%', className: 'critical' };
+      // 🟡 触发式：相关任务出现时才读
+      if (name.includes('SOP')) return { text: '🟡 触发式 · 用到才读', className: 'high' };
+      if (name.includes('文件清单')) return { text: '🟡 触发式 · 找文件时读', className: 'high' };
+      if (name.includes('memory_long')) return { text: '🟡 触发式 · Hermes 任务才读', className: 'high' };
+      // 🟢 追加式：每次对话结束后追加
+      if (name.includes('今日日志') || name.includes('2026-07-22')) return { text: '🟢 追加式 · 对话结束追加', className: 'normal' };
+      // 🟦 背景记忆：作为上下文常驻
+      if (name.includes('MEMORY.md')) return { text: '🟦 上下文 · 随时可查', className: 'normal' };
+      return { text: '🟦 上下文 · 随时可查', className: 'normal' };
+    }
+
+    function escapeHtml(t) { return String(t).replace(/[&<>"']/g, ch => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch])); }
+    function showToast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(() => t.classList.remove('show'), 2200); }
+    const $ = id => document.getElementById(id);
+
+    function renderList(groupId, listId) {
+      const list = $(listId); list.innerHTML = '';
+      docs.filter(d => classify(d.name) === groupId).forEach(d => {
+        const btn = document.createElement('button'); btn.className = 'file-item'; btn.dataset.name = d.name;
+        const bd = badgeFor(d.name);
+        btn.innerHTML = `<span class="file-icon">${d.name.split(' ')[0]}</span><span class="file-main"><span class="file-name">${escapeHtml(d.name)}</span><span class="file-path">${escapeHtml(d.path.replace('/Users/admin/', '~/').replace('/Users/admin/.workbuddy', '~/.workbuddy'))}</span><span class="file-meta"><span class="badge ${bd.className}" style="padding:2px 6px;font-size:10px;">${escapeHtml(bd.text)}</span> · ${(d.size / 1024).toFixed(1)} KB</span></span>`;
+        btn.addEventListener('click', () => selectDoc(d.name));
+        list.appendChild(btn);
+      });
+    }
+    function buildToc(text) {
+      const lines = text.split('\n'); const toc = [];
+      lines.forEach((line, idx) => {
+        const m = line.match(/^(#{1,4})\s+(.+?)\s*$/); if (!m) return;
+        const level = m[1].length; const title = m[2].replace(/[#*`]/g, '').trim();
+        if (title.length > 60) return;
+        toc.push({ level, title, idx, lineNo: idx + 1 });
+      });
+      return toc;
+    }
+    function renderToc(toc) {
+      const block = $('tocBlock'); const list = $('tocList'); list.innerHTML = '';
+      if (toc.length === 0) { block.style.display = 'none'; return; }
+      block.style.display = '';
+      toc.slice(0, 40).forEach(h => {
+        const a = document.createElement('a'); a.href = '#L' + (h.idx + 1);
+        a.className = 'lvl' + Math.min(3, h.level);
+        a.dataset.line = h.idx + 1;
+        a.textContent = `${'·'.repeat(Math.min(3, h.level - 1))} ${h.title}`;
+        a.addEventListener('click', ev => {
+          ev.preventDefault();
+          const pre = $('content'); pre.scrollTop = h.idx * 22.4;
+          highlightLine(h.lineNo);
+        });
+        list.appendChild(a);
+      });
+    }
+    function highlightLine(lineNo) {
+      const pre = $('content');
+      const tmp = pre.innerHTML.split('\n');
+      tmp[lineNo - 1] = `<span style="background:#fff2a8;color:#172033;">${tmp[lineNo - 1]}</span>`;
+      pre.innerHTML = tmp.join('\n');
+    }
+    function applyHighlight(text, keyword) {
+      const escaped = escapeHtml(text);
+      if (!keyword) return escaped;
+      try { const re = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); return escaped.replace(re, m => `<mark class="hit">${m}</mark>`); }
+      catch { return escaped; }
+    }
+    function selectDoc(name) {
+      const d = docs.find(x => x.name === name); if (!d) return;
+      document.querySelectorAll('.file-item').forEach(el => el.classList.toggle('active', el.dataset.name === name));
+      $('fileTitle').textContent = d.name;
+      $('filePath').textContent = d.path;
+      const bd = badgeFor(d.name); $('fileBadge').textContent = bd.text; $('fileBadge').className = `badge ${bd.className}`;
+      const toc = buildToc(d.content); renderToc(toc);
+      $('content').innerHTML = applyHighlight(d.content, $('searchInput').value.trim());
+      showToast(`已切换到：${d.name}`);
+    }
+
+    $('searchInput').addEventListener('input', () => {
+      const active = document.querySelector('.file-item.active'); if (active) selectDoc(active.dataset.name);
+    });
+    $('copyBtn').addEventListener('click', async () => {
+      const text = $('content').innerText; try { await navigator.clipboard.writeText(text); showToast('已复制当前文件内容'); } catch { showToast('复制失败，请手动选择'); }
+    });
+    $('downloadBtn').addEventListener('click', () => {
+      const active = document.querySelector('.file-item.active'); if (!active) return showToast('请先选择文件');
+      const d = docs.find(x => x.name === active.dataset.name); const name = d.path.split('/').pop();
+      const blob = new Blob([d.content], { type: 'text/markdown;charset=utf-8' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href);
+      showToast(`已下载：${name}`);
+    });
+
+    ['core', 'mem', 'project', 'sop'].forEach(group => {
+      const target = { core: 'coreList', mem: 'memList', project: 'projectList', sop: 'sopList' }[group];
+      renderList(group, target);
+    });
+
+    // count
+    $('statCore').textContent = docs.filter(d => classify(d.name) === 'core').length;
+    $('statMem').textContent = docs.filter(d => classify(d.name) === 'mem').length;
+    $('statProj').textContent = docs.filter(d => classify(d.name) === 'project').length;
+    $('statSop').textContent = docs.filter(d => classify(d.name) === 'sop').length;
+
+    // 默认选中 BOOTSTRAP
+    selectDoc('🌟 BOOTSTRAP.md（启动检查/铁律）');
+  </script>
+</body>
+</html>
