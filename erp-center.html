@@ -228,6 +228,15 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   background: transparent;
 }
 .topnav-item.has-dropdown:hover .topnav-dropdown { display: block; }
+/* 右侧对齐下拉（用于最后一个菜单如"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: 0;
+}
 .topnav-dropdown a {
   display: block;
   padding: 7px 10px;
@@ -261,6 +270,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 </style>
 </head>
 <body>
+<div class="container">
+
 
 <div class="topnav">
   <a href="index.html" class="topnav-brand">
@@ -295,7 +306,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
       <span class="tn-icon">▦</span>
       <span class="tn-label">全站地图</span>
     </a>
-    <div class="topnav-item has-dropdown">
+    <div class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
@@ -308,7 +319,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
     </div>
-    <div class="topnav-item has-dropdown">
+    <div class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
@@ -324,8 +335,6 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
     </div>
   </div>
 </div>
-
-<div class="container">
 
 <!-- ═══ HEADER ═══ -->
 <div class="page-title">
