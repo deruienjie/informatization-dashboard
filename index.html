@@ -372,10 +372,54 @@ body {
   .kpi-row, .role-grid, .sys-grid { grid-template-columns: 1fr 1fr; }
   .topnav-menu { flex-wrap: wrap; }
 }
+
+/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
+.site-shell {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 0 24px;
+  box-sizing: border-box;
+}
+.site-shell > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.site-shell > .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box;
+}
+.site-shell > .topnav {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+.site-shell.presentation-shell {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 0;
+  height: auto;
+}
+body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+@media (max-width: 1000px) {
+  .site-shell { padding-left: 12px; padding-right: 12px; }
+}
+
 </style>
 </head>
 <body>
-
+<div class="site-shell">
 <div class="container">
 
 
@@ -394,7 +438,7 @@ body {
       <span class="tn-label">业务场景</span>
       <span class="tn-badge">2</span>
     </a>
-    <a href="erp-center.html" class="topnav-item has-dropdown">
+        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -407,38 +451,38 @@ body {
         <a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
-    </a>
-    <a href="site-map.html" class="topnav-item">
+    </div>
+<a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
       <span class="tn-label">全站地图</span>
     </a>
-    <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md" class="topnav-item has-dropdown has-dropdown-right">
+    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">内部知识网络</div>
-        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
-        <a href="filing-cabinet.html">🗂️ 归档文件柜</a>
+        <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
+        <a href="key-files-manager.html">🗂️ 归档文件柜</a>
         <div class="divider"></div>
         <div class="tn-section">外部参考</div>
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
-    </a>
-    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
+    </div>
+    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
-        <a href="#">📋 我的笔记</a>
-        <a href="#">⭐ 收藏夹</a>
-        <a href="#">📌 最近浏览</a>
+        <a href="key-files-overview.html">📋 我的笔记</a>
+        <a href="key-files-manager.html">⭐ 收藏夹</a>
+        <a href="site-map.html">📌 最近浏览</a>
         <div class="divider"></div>
         <div class="tn-section">设置</div>
-        <a href="#">⚙️ 偏好</a>
+        <a href="index.html">⚙️ 偏好</a>
       </div>
-    </a>
+    </div>
   </div>
 </div>
 
@@ -477,27 +521,27 @@ body {
   <div class="section">
     <h2>🚀 我是 · 角色快速通道（自用复盘工具）</h2>
     <div class="role-grid">
-      <a href="dashboard-it.html" class="role-card">
+      <a href="it-panorama.html" class="role-card">
         <div class="r-icon">💻</div>
         <div class="r-title">IT 主管</div>
         <div class="r-sub">系统健康 + 工单进度</div>
       </a>
-      <a href="dashboard-finance.html" class="role-card">
+      <a href="erp-finance.html" class="role-card">
         <div class="r-icon">💰</div>
         <div class="r-title">财务视角</div>
         <div class="r-sub">应付/成本/凭证</div>
       </a>
-      <a href="dashboard-procurement.html" class="role-card">
+      <a href="erp-procurement.html" class="role-card">
         <div class="r-icon">📦</div>
         <div class="r-title">采购视角</div>
         <div class="r-sub">委外/库存/价格</div>
       </a>
-      <a href="dashboard-rd.html" class="role-card">
+      <a href="plm-center.html" class="role-card">
         <div class="r-icon">🔬</div>
         <div class="r-title">研发视角</div>
         <div class="r-sub">PLM + BOM 审批</div>
       </a>
-      <a href="dashboard-boss.html" class="role-card">
+      <a href="management-reform.html" class="role-card">
         <div class="r-icon">👔</div>
         <div class="r-title">老板视角</div>
         <div class="r-sub">自我复盘工具</div>
@@ -528,7 +572,7 @@ body {
       <div class="tl-item" style="opacity:0.3">
         <div class="tl-date">——</div>
         <div class="tl-title">📝 更多历史沉淀（部署在归档文件柜）</div>
-        <div class="tl-meta"><a href="filing-cabinet.html">查归档 →</a></div>
+        <div class="tl-meta"><a href="key-files-manager.html">查归档 →</a></div>
       </div>
     </div>
   </div>
@@ -563,6 +607,6 @@ body {
   <div style="margin-top:24px;text-align:center;font-size:12px;color:#94a3b8">本平台为个人知识网络体系（铁律 14）· 内容是"我给自己看的笔记" · 2026-07-23 18:09</div>
 
 </div>
-
+</div>
 </body>
 </html>
