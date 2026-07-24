@@ -9,13 +9,13 @@
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px 24px;
+  border-radius: 16px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1000px;
+  max-width: 1200px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -27,7 +27,7 @@
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -46,11 +46,11 @@
 }
 .topnav-item {
   position: relative;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -156,7 +156,7 @@ body {
   color: #1e293b;
   line-height: 1.6;
   min-height: 100vh;
-  padding: 20px 24px;
+  padding: 24px 32px;
 }
 .container { max-width: 1400px; margin: 0 auto; }
 
@@ -197,14 +197,14 @@ body {
 .welcome-bar {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: #fff;
-  border-radius: 16px;
-  padding: 32px 36px;
+  border-radius: 18px;
+  padding: 36px 40px;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
 }
-.welcome-bar h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
-.welcome-bar .sub { font-size: 13px; color: #94a3b8; }
+.welcome-bar h1 { font-size: 30px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.3px; }
+.welcome-bar .sub { font-size: 15px; color: #94a3b8; }
 .welcome-bar::after {
   content: '';
   position: absolute;
@@ -218,19 +218,19 @@ body {
 .kpi-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 24px;
 }
 .kpi-card {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 14px;
+  padding: 24px 20px;
   text-align: center;
 }
 .kpi-value {
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 36px;
+  font-weight: 700;
   color: #0f172a;
   line-height: 1;
 }
@@ -238,22 +238,22 @@ body {
 .kpi-card.k2 .kpi-value { color: #3b82f6; }
 .kpi-card.k3 .kpi-value { color: #8b5cf6; }
 .kpi-card.k4 .kpi-value { color: #f59e0b; }
-.kpi-label { font-size: 12px; color: #64748b; margin-top: 8px; }
-.kpi-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+.kpi-label { font-size: 14px; color: #475569; margin-top: 10px; font-weight: 500; }
+.kpi-meta { font-size: 13px; color: #94a3b8; margin-top: 4px; }
 
 /* ===== Section ===== */
 .section {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 24px 28px;
-  margin-bottom: 20px;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
 }
 .section h2 {
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 600;
   color: #0f172a;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -271,13 +271,13 @@ body {
 .role-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 .role-card {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 18px 14px;
+  border-radius: 12px;
+  padding: 24px 16px;
   text-align: center;
   text-decoration: none;
   color: #1e293b;
@@ -289,9 +289,9 @@ body {
   background: #fff;
   box-shadow: 0 6px 16px rgba(16,185,129,0.1);
 }
-.role-card .r-icon { font-size: 28px; margin-bottom: 8px; }
-.role-card .r-title { font-size: 14px; font-weight: 600; }
-.role-card .r-sub { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+.role-card .r-icon { font-size: 34px; margin-bottom: 10px; }
+.role-card .r-title { font-size: 16px; font-weight: 600; }
+.role-card .r-sub { font-size: 13px; color: #64748b; margin-top: 6px; }
 .role-card.placeholder {
   background: #f8fafc;
   border: 2px dashed #cbd5e1;
@@ -325,9 +325,9 @@ body {
   border-radius: 50%;
 }
 .tl-item.fresh::before { background: #10b981; }
-.tl-date { font-size: 12px; color: #64748b; font-weight: 500; }
-.tl-title { font-size: 14px; color: #0f172a; margin: 4px 0; font-weight: 600; }
-.tl-meta { font-size: 12px; color: #64748b; }
+.tl-date { font-size: 13px; color: #64748b; font-weight: 500; }
+.tl-title { font-size: 16px; color: #0f172a; margin: 6px 0; font-weight: 600; }
+.tl-meta { font-size: 14px; color: #64748b; }
 .tl-meta a { color: #3b82f6; text-decoration: none; }
 .tl-meta a:hover { text-decoration: underline; }
 
@@ -335,15 +335,15 @@ body {
 .sys-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 .sys-card {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 16px;
+  border-radius: 12px;
+  padding: 20px;
 }
-.sys-name { font-size: 13px; font-weight: 600; color: #0f172a; }
+.sys-name { font-size: 15px; font-weight: 600; color: #0f172a; }
 .sys-status {
   display: inline-block;
   font-size: 11px;
@@ -366,7 +366,7 @@ body {
 .sys-bar.live { background: #10b981; }
 .sys-bar.dev { background: #f59e0b; }
 .sys-bar.todo { background: #ef4444; }
-.sys-meta { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+.sys-meta { font-size: 13px; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
 
 @media (max-width: 768px) {
   .kpi-row, .role-grid, .sys-grid { grid-template-columns: 1fr 1fr; }
@@ -376,7 +376,7 @@ body {
 /* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
 .site-shell {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 24px;
   box-sizing: border-box;
@@ -407,13 +407,13 @@ body {
   height: auto;
 }
 body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
 }
-@media (max-width: 1000px) {
-  .site-shell { padding-left: 12px; padding-right: 12px; }
+@media (max-width: 1200px) {
+  .site-shell { padding-left: 16px; padding-right: 16px; }
 }
 
 </style>
@@ -454,7 +454,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 <a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
-      <span class="tn-label">全站地图</span>
+      <span class="tn-label">站点地图</span>
     </a>
     <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
@@ -475,6 +475,8 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
+        <a href="site-map.html">🗺️ 站点地图</a>
+        <div class="divider"></div>
         <a href="key-files-overview.html">📋 我的笔记</a>
         <a href="key-files-manager.html">⭐ 收藏夹</a>
         <a href="site-map.html">📌 最近浏览</a>
