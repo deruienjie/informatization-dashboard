@@ -16,7 +16,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1000px;margin:0 auto;padding:16px 20px}
+.container{max-width:1200px;margin:0 auto;padding:16px 20px}
 
 .header{background:linear-gradient(135deg,#0f172a,#1e293b,#065f46);border-radius:16px;padding:20px 28px;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;overflow:hidden}
 .header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);border-radius:50%}
@@ -30,9 +30,9 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* Scenario Card */
 .scenario{border-radius:16px;overflow:hidden;margin-bottom:20px;border:1px solid var(--s-200);background:#fff}
 .scenario-header{padding:18px 24px;display:flex;align-items:center;gap:14px}
-.scenario-header .num{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0}
+.scenario-header .num{width:40px;height:40px;border-radius: 14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0}
 .scenario-header .title{font-size:16px;font-weight:700;color:var(--s-800)}
-.scenario-header .tag{font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600;margin-left:auto}
+.scenario-header .tag{font-size:10px;padding:3px 10px;border-radius: 14px;font-weight:600;margin-left:auto}
 .s1{background:var(--b-bg);color:var(--b-d)}.s1 .num{background:var(--b)}
 .s2{background:var(--g-bg);color:var(--g-d)}.s2 .num{background:var(--g)}
 .s3{background:var(--or-bg);color:#c2410c}.s3 .num{background:var(--or)}
@@ -41,34 +41,34 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .scenario-body{padding:16px 24px 20px}
 
 /* Story Box */
-.story-box{background:var(--s-50);border-radius:10px;padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.8;border-left:4px solid var(--b)}
+.story-box{background:var(--s-50);border-radius: 14px;padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.8;border-left:4px solid var(--b)}
 .story-box .who{font-size:10px;color:var(--s-400);margin-bottom:4px}
 .story-box .highlight{background:var(--y-bg);padding:2px 6px;border-radius:4px;font-weight:600;color:var(--y-d)}
 
 /* Timeline */
 .tl{display:flex;gap:4px;overflow-x:auto;padding:8px 0;margin-bottom:16px}
-.tl-step{flex:0 0 auto;min-width:130px;text-align:center;padding:12px 10px;border-radius:10px;border:1px solid var(--s-200);background:#fff;transition:.2s}
+.tl-step{flex:0 0 auto;min-width:130px;text-align:center;padding:12px 10px;border-radius: 14px;border:1px solid var(--s-200);background:#fff;transition:.2s}
 .tl-step .ts-date{font-size:9px;color:var(--s-400);margin-bottom:4px}
 .tl-step .ts-action{font-size:11px;font-weight:700;color:var(--s-700);margin-bottom:3px}
 .tl-step .ts-account{font-size:9px;color:var(--s-400);line-height:1.4}
 .tl-arrow{flex:0 0 auto;display:flex;align-items:center;padding:0 2px;font-size:16px;color:var(--s-400);font-weight:700}
 
 /* Journal Entry */
-.je{background:#1e293b;color:#e2e8f0;border-radius:10px;padding:16px 18px;font-family:"SF Mono","Menlo","Consolas",monospace;font-size:12px;line-height:2;margin-bottom:14px;overflow-x:auto}
+.je{background:#1e293b;color:#e2e8f0;border-radius: 14px;padding:16px 18px;font-family:"SF Mono","Menlo","Consolas",monospace;font-size:12px;line-height:2;margin-bottom:14px;overflow-x:auto}
 .je .dr{color:#34d399}.je .cr{color:#f87171}
 .je .note{color:#64748b;font-size:10px;margin-left:12px}
 
 /* Tips */
-.tip-box{padding:12px 16px;border-radius:10px;font-size:11px;line-height:1.6;margin-top:10px}
+.tip-box{padding:12px 16px;border-radius: 14px;font-size:11px;line-height:1.6;margin-top:10px}
 .tip-box.warn{background:var(--y-bg);border:1px solid var(--y);color:var(--y-d)}
 .tip-box.info{background:var(--b-bg);border:1px solid var(--b);color:var(--b-d)}
 .tip-box.good{background:var(--g-bg);border:1px solid var(--g);color:var(--g-d)}
 
 /* Two col */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px}
 
 /* Card mini */
-.mini-card{background:var(--s-50);border-radius:10px;padding:14px 16px;border:1px solid var(--s-200)}
+.mini-card{background:var(--s-50);border-radius: 14px;padding:14px 16px;border:1px solid var(--s-200)}
 .mini-card h4{font-size:12px;font-weight:700;margin-bottom:6px;color:var(--s-800)}
 .mini-card p{font-size:11px;color:var(--s-600);line-height:1.7}
 .mini-card ul{font-size:11px;color:var(--s-600);padding-left:16px;line-height:1.8}
@@ -86,13 +86,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px 24px;
+  border-radius: 16px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1000px;
+  max-width: 1200px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -104,7 +104,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -123,11 +123,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 .topnav-item {
   position: relative;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -161,7 +161,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -228,7 +228,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
 .site-shell {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 24px;
   box-sizing: border-box;
@@ -259,12 +259,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   height: auto;
 }
 body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .site-shell { padding-left: 12px; padding-right: 12px; }
 }
 
@@ -308,7 +308,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 <a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
-      <span class="tn-label">全站地图</span>
+      <span class="tn-label">站点地图</span>
     </a>
     <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
