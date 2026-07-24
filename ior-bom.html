@@ -47,7 +47,7 @@ tr:hover { background: #fef9f4; }
 .legend { display: flex; gap: 15px; margin-bottom: 15px; font-size: 12px; }
 .legend-item { display: flex; align-items: center; gap: 5px; }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.welcome { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.welcome { background: white; padding: 40px; border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 .welcome h2 { color: #ff6b35; margin-bottom: 15px; }
 .welcome .point { margin: 12px 0; padding-left: 20px; position: relative; }
 .welcome .point:before { content: "▸"; position: absolute; left: 0; color: #ff6b35; font-weight: bold; }
@@ -60,13 +60,13 @@ tr:hover { background: #fef9f4; }
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px 24px;
+  border-radius: 16px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1000px;
+  max-width: 1200px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -78,7 +78,7 @@ tr:hover { background: #fef9f4; }
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -97,11 +97,11 @@ tr:hover { background: #fef9f4; }
 }
 .topnav-item {
   position: relative;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -135,7 +135,7 @@ tr:hover { background: #fef9f4; }
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -199,12 +199,12 @@ tr:hover { background: #fef9f4; }
   .topnav-menu { flex-wrap: wrap; }
 }
 
-.container{max-width:1000px;margin:0 auto;}
+.container{max-width:1200px;margin:0 auto;}
 
 /* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
 .site-shell {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 24px;
   box-sizing: border-box;
@@ -235,12 +235,12 @@ tr:hover { background: #fef9f4; }
   height: auto;
 }
 body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .site-shell { padding-left: 12px; padding-right: 12px; }
 }
 
@@ -279,7 +279,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 <a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
-      <span class="tn-label">全站地图</span>
+      <span class="tn-label">站点地图</span>
     </a>
     <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
