@@ -186,13 +186,14 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   cursor: pointer;
   transition: all .2s;
   user-select: none;
+  line-height: 1;  /* 强制统一行高，避免 emoji 字符上下抖动 */
 }
 .topnav-item:hover, .topnav-item.active {
   background: rgba(16,185,129,0.2);
   color: #fff;
 }
-.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; }
-.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; }
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
 .topnav-badge {
   background: #ef4444;
   color: #fff;
@@ -216,16 +217,17 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   z-index: 200;
 }
 .topnav-item.has-dropdown {
-  padding-bottom: 16px;  /* 桥接 hover */
+  /* 不增加 padding，靠 ::after 做桥接，保持所有菜单项高度一致 */
 }
 .topnav-item.has-dropdown::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  top: 100%;
   left: 0;
   right: 0;
-  height: 16px;
+  height: 12px;
   background: transparent;
+  z-index: 1;
 }
 .topnav-item.has-dropdown:hover .topnav-dropdown { display: block; }
 /* 右侧对齐下拉（用于最后一个菜单如"我"） */
