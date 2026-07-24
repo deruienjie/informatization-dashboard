@@ -108,7 +108,7 @@
     @media (max-width: 980px) { .app { grid-template-columns: 1fr; } .sidebar { padding: 16px; } .file-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .sidebar-foot { margin-top: 0; } .workspace { padding: 22px 16px 28px; } .overview { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tip { grid-template-columns: 1fr; } .topbar { flex-direction: column; } .top-actions { justify-content: flex-start; } }
     @media (max-width: 560px) { .file-list { grid-template-columns: 1fr; } .editor-head { flex-direction: column; } .toolbar-note { margin-left: 0; width: 100%; } textarea { min-height: 470px; padding: 16px; } }
   
-/* ===== 统一顶部导航 V2（5 板块 · 桥接 hover） ===== */
+/* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border-radius: 14px;
@@ -116,8 +116,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 auto 24px auto;  /* 上下 0，左右 auto：自身居中，不依赖父容器 */
-  max-width: 1340px;  /* 与 .container 同宽，无论是否有父容器都限宽居中 */
+  margin: 0 auto 24px auto;
+  max-width: 1340px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -160,7 +160,7 @@
   cursor: pointer;
   transition: all .2s;
   user-select: none;
-  line-height: 1;  /* 强制统一行高，避免 emoji 字符上下抖动 */
+  line-height: 1;
 }
 .topnav-item:hover, .topnav-item.active {
   background: rgba(16,185,129,0.2);
@@ -177,73 +177,48 @@
   margin-left: 4px;
   font-weight: 600;
 }
+
+/* ── Dropdown ── */
 .topnav-dropdown {
   display: none;
   position: absolute;
   top: 100%;
-  padding-top: 12px;  /* 12px hover 缓冲，算 dropdown 自身，hover 链不断 */
   left: 0;
   min-width: 220px;
-  background: transparent;  /* 整体透明，让 padding 区域可穿透 */
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   z-index: 200;
 }
-.topnav-dropdown::before {
-  content: '';
-  position: absolute;
-  top: 12px;  /* 跳过 padding-top */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #1e293b;
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  z-index: -1;
-}
-.topnav-dropdown::after {
-  content: '';
-  position: absolute;
-  top: 12px;
-  left: 0;
-  right: 0;
-  height: calc(100% - 12px);
-  border: 1px solid #334155;
-  border-top: none;
-  border-radius: 0 0 10px 10px;
-  pointer-events: none;
-  z-index: -1;
-}
+
+/* 30px 透明 hover 桥接 — 保证鼠标从菜单项移到下拉时 hover 链连续 */
 .topnav-item.has-dropdown::after {
   content: '';
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
-  height: 4px;  /* 留 4px 桥接冗余 */
+  left: -8px;
+  right: -8px;
+  height: 30px;
   background: transparent;
-  z-index: 2;
+  z-index: 190;
 }
-.topnav-item.has-dropdown:hover .topnav-dropdown,
-.topnav-item.has-dropdown:hover .topnav-dropdown:hover {
+.topnav-item.has-dropdown:hover .topnav-dropdown {
   display: block;
 }
-/* 右侧对齐下拉（用于末尾菜单如"我"） */
+
+/* 右侧对齐下拉（末尾菜单如"知识沉淀"/"我"） */
 .topnav-item.has-dropdown-right .topnav-dropdown {
   left: auto;
   right: 0;
 }
 .topnav-item.has-dropdown-right::after {
   left: auto;
-  right: 0;
+  right: -8px;
 }
-/* 右侧对齐下拉（用于最后一个菜单如"我"） */
-.topnav-item.has-dropdown-right .topnav-dropdown {
-  left: auto;
-  right: 0;
-}
-.topnav-item.has-dropdown-right::after {
-  left: auto;
-  right: 0;
-}
+
+/* Dropdown 内部 */
 .topnav-dropdown a {
   display: block;
   padding: 7px 10px;
@@ -252,25 +227,6 @@
   text-decoration: none;
   border-radius: 5px;
   white-space: nowrap;
-  position: relative;  /* 让 a 在 ::before/::after 之上 */
-  z-index: 1;
-}
-.topnav-dropdown .divider {
-  height: 1px;
-  background: #334155;
-  margin: 4px 6px;
-  position: relative;
-  z-index: 1;
-}
-.topnav-dropdown .tn-section {
-  padding: 6px 12px 4px;
-  font-size: 11px;
-  color: #64748b;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  z-index: 1;
 }
 .topnav-dropdown a:hover {
   background: rgba(16,185,129,0.15);
@@ -289,6 +245,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
@@ -296,6 +253,7 @@
 </head>
 <body>
   
+
 
 <div class="topnav">
   <a href="index.html" class="topnav-brand">
@@ -358,6 +316,8 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>
 
 </div>
