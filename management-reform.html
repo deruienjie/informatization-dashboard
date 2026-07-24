@@ -15,7 +15,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1000px;margin:0 auto;padding:20px 24px}
+.container{max-width:1200px;margin:0 auto;padding: 24px 32px}
 
 .header{
   background:linear-gradient(135deg,#0f172a,#1e293b,#3c3489);
@@ -44,7 +44,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 /* Stats row */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center}
+.stat-card{background:#fff;border-radius: 14px;padding:16px 20px;border:1px solid var(--s-200);text-align:center}
 .stat-value{font-size:24px;font-weight:700;color:var(--s-800);line-height:1}
 .stat-value.purple{color:var(--p-d)}
 .stat-value.green{color:var(--g-d)}
@@ -52,7 +52,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
 
 /* Cards grid */
-.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
 
 .reform-card{
   background:#fff;border-radius:14px;padding:20px;
@@ -102,7 +102,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* Flow timeline */
 .flow-row{
   display:flex;align-items:center;gap:6px;flex-wrap:wrap;
-  background:var(--s-50);padding:12px 16px;border-radius:10px;margin-bottom:10px;
+  background:var(--s-50);padding:12px 16px;border-radius: 14px;margin-bottom:10px;
   font-size:12px;
 }
 .flow-step{
@@ -119,7 +119,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px
 }
 .change-item{
-  background:var(--s-50);border-radius:10px;padding:14px 16px;
+  background:var(--s-50);border-radius: 14px;padding:14px 16px;
   border:1px solid var(--s-200)
 }
 .change-item .change-title{font-size:12px;font-weight:600;color:var(--s-700);margin-bottom:6px}
@@ -159,13 +159,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px 24px;
+  border-radius: 16px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1000px;
+  max-width: 1200px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -177,7 +177,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -196,11 +196,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 .topnav-item {
   position: relative;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -234,7 +234,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -301,7 +301,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
 .site-shell {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 24px;
   box-sizing: border-box;
@@ -332,12 +332,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   height: auto;
 }
 body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .site-shell { padding-left: 12px; padding-right: 12px; }
 }
 
@@ -381,7 +381,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 <a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
-      <span class="tn-label">全站地图</span>
+      <span class="tn-label">站点地图</span>
     </a>
     <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
@@ -513,8 +513,8 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     <span class="flow-new">按齐套领用</span>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-    <div style="background:var(--r-bg);border-radius:10px;padding:12px 14px;border:1px solid #fca5a5">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+    <div style="background:var(--r-bg);border-radius: 14px;padding:12px 14px;border:1px solid #fca5a5">
       <div style="font-size:12px;font-weight:500;color:var(--r-d);margin-bottom:6px">⚠️ 现状（项目制）</div>
       <ul style="font-size:11px;color:var(--s-600);line-height:1.8;list-style:none;padding:0">
         <li>▪ 工程按项目出BOM，同物料重复出现</li>
@@ -523,7 +523,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <li>▪ 共用件无法通用，天天协调催料</li>
       </ul>
     </div>
-    <div style="background:var(--g-bg);border-radius:10px;padding:12px 14px;border:1px solid #6ee7b7">
+    <div style="background:var(--g-bg);border-radius: 14px;padding:12px 14px;border:1px solid #6ee7b7">
       <div style="font-size:12px;font-weight:500;color:var(--g-d);margin-bottom:6px">✅ 未来（物料制）</div>
       <ul style="font-size:11px;color:var(--s-600);line-height:1.8;list-style:none;padding:0">
         <li>▪ 工程标准化，物料精简50%</li>
