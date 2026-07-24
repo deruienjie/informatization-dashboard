@@ -16,7 +16,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1000px;margin:0 auto;padding:20px 24px}
+.container{max-width:1200px;margin:0 auto;padding: 24px 32px}
 
 .header{
   background:linear-gradient(135deg,#0f172a,#1e293b,#065f46);
@@ -66,9 +66,9 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 
 /* Category Grid */
-.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
 .cat-card{
-  background:#fff;border-radius:12px;overflow:hidden;
+  background:#fff;border-radius: 14px;overflow:hidden;
   border:1px solid var(--s-200);transition:transform .2s;
 }
 .cat-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.05)}
@@ -90,7 +90,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 /* Detail Entry */
 .detail-card{
-  background:#fff;border-radius:12px;padding:20px 24px;
+  background:#fff;border-radius: 14px;padding: 24px 32px;
   border:1px solid var(--s-200);margin-bottom:16px
 }
 .detail-card .detail-head{
@@ -125,7 +125,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   background:#eef2ff;border-radius:8px;padding:10px 14px;font-size:11px;color:#4338ca;border:0.5px solid #c7d2fe;margin-top:10px;line-height:1.6
 }
 
-.footer{text-align:center;padding:20px 24px;color:var(--s-400);font-size:11px}
+.footer{text-align:center;padding: 24px 32px;color:var(--s-400);font-size:11px}
 
 @media (max-width:768px){
   .container{padding:12px}
@@ -156,13 +156,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px 24px;
+  border-radius: 16px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1000px;
+  max-width: 1200px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -174,7 +174,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -193,11 +193,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 .topnav-item {
   position: relative;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -231,7 +231,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -298,7 +298,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
 .site-shell {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 24px;
   box-sizing: border-box;
@@ -329,12 +329,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   height: auto;
 }
 body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .site-shell { padding-left: 12px; padding-right: 12px; }
 }
 
@@ -380,7 +380,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 <a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
-      <span class="tn-label">全站地图</span>
+      <span class="tn-label">站点地图</span>
     </a>
     <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◉</span>
