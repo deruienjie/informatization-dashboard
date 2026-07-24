@@ -206,19 +206,37 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .topnav-dropdown {
   display: none;
   position: absolute;
-  top: 100%;  /* 紧贴 item 底部 */
-  margin-top: 12px;  /* 12px 视觉间隙放在 dropdown 自身，hover 链不会断 */
+  top: 100%;
+  padding-top: 12px;  /* 12px hover 缓冲，算 dropdown 自身，hover 链不断 */
   left: 0;
   min-width: 220px;
-  background: #1e293b;
-  border-radius: 10px;
-  padding: 8px;
-  border: 1px solid #334155;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  background: transparent;  /* 整体透明，让 padding 区域可穿透 */
   z-index: 200;
 }
-.topnav-item.has-dropdown {
-  /* 不增加 padding，靠 ::after 做桥接，保持所有菜单项高度一致 */
+.topnav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 12px;  /* 跳过 padding-top */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1e293b;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: -1;
+}
+.topnav-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  height: calc(100% - 12px);
+  border: 1px solid #334155;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  pointer-events: none;
+  z-index: -1;
 }
 .topnav-item.has-dropdown::after {
   content: '';
@@ -226,13 +244,22 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   top: 100%;
   left: 0;
   right: 0;
-  height: 12px;
+  height: 4px;  /* 留 4px 桥接冗余 */
   background: transparent;
-  z-index: 2;  /* 高于 dropdown，确保鼠标经过 ::after 时父级仍 hover */
+  z-index: 2;
 }
 .topnav-item.has-dropdown:hover .topnav-dropdown,
 .topnav-item.has-dropdown:hover .topnav-dropdown:hover {
   display: block;
+}
+/* 右侧对齐下拉（用于末尾菜单如"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: 0;
 }
 /* 右侧对齐下拉（用于最后一个菜单如"我"） */
 .topnav-item.has-dropdown-right .topnav-dropdown {
@@ -251,6 +278,25 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   border-radius: 5px;
   white-space: nowrap;
+  position: relative;  /* 让 a 在 ::before/::after 之上 */
+  z-index: 1;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 4px 6px;
+  position: relative;
+  z-index: 1;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
 }
 .topnav-dropdown a:hover {
   background: rgba(16,185,129,0.15);
