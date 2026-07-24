@@ -249,6 +249,8 @@
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
+
+.container{max-width:1200px;margin:0 auto;}
 </style>
 </head>
 <body>
@@ -280,7 +282,9 @@
         <a href="ehr-center.html">👥 EHR 系统</a>
         <a href="it-panorama.html">💻 IT 全景</a>
         <div class="divider"></div>
-        <a href="company-intro.html">🏢 公司背景</a>
+        
+<div class="container">
+<a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
     </div>
@@ -623,5 +627,7 @@
     detectBrowserSupport(); setupDragAndDrop(); renderLists(); updateMeta();
     if (Object.keys(snapshots).length) selectItem('project', 'snapshot');
   </script>
+</div>
+
 </body>
 </html>
