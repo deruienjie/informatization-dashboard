@@ -3,112 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>物料管理模式转型 · 管理变革中心</title>
+<title>站点地图 · 杰德瑞恩J 信息化驾驶舱</title>
 <style>
-:root {
-  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
-  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
-  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
-  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
-  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
-  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1200px;margin:0 auto;padding: 24px 32px}
-
-.header{
-  background:linear-gradient(135deg,#0f172a,#1e293b,#3c3489);
-  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
-  position:relative;overflow:hidden;
-}
-.header::after{
-  content:'';position:absolute;top:-50%;right:-10%;
-  width:400px;height:400px;
-  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%;
-}
-.header h1{font-size:22px;font-weight:700;position:relative;z-index:1}
-.header .sub{font-size:12px;color:#94a3b8;margin-top:4px;position:relative;z-index:1}
-.header .back-link{display:inline-block;margin-top:10px;font-size:11px;color:#a5b4fc;text-decoration:none}
-.header .back-link:hover{color:#fff}
-
-.section{margin-bottom:24px}
-.section-title{font-size:16px;font-weight:600;color:var(--s-800);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--s-200)}
-
-.card{background:#fff;border-radius:14px;padding: 24px 32px;border:1px solid var(--s-200);margin-bottom:14px}
-
-.info-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
-.info-card{
-  background:#fff;border-radius: 14px;padding:16px;border:1px solid var(--s-200);text-align:center
-}
-.info-card .num{font-size:26px;font-weight:700;line-height:1}
-.info-card .num.purple{color:var(--p-d)}
-.info-card .num.green{color:var(--g-d)}
-.info-card .num.blue{color:var(--b-d)}
-.info-card .lbl{font-size:11px;color:var(--s-400);margin-top:4px}
-
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
-.compare-card{border-radius: 14px;padding:16px 20px}
-.compare-card.old{background:var(--r-bg);border:1px solid #fca5a5}
-.compare-card.new{background:var(--g-bg);border:1px solid #6ee7b7}
-.compare-card .title{font-size:13px;font-weight:600;margin-bottom:8px}
-.compare-card.old .title{color:var(--r-d)}
-.compare-card.new .title{color:var(--g-d)}
-.compare-card ul{list-style:none;font-size:12px;line-height:2;color:var(--s-600)}
-
-.flow-section{background:#fff;border-radius:14px;padding: 24px 32px;border:1px solid var(--s-200);margin-bottom:16px}
-.flow-row{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-  background:var(--s-50);border-radius: 14px;padding:14px 18px;margin-bottom:10px
-}
-.flow-label{font-size:12px;font-weight:500;color:var(--s-600);width:60px;flex-shrink:0}
-.flow-step{
-  padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;white-space:nowrap
-}
-.step-old{background:var(--r-bg);color:var(--r-d)}
-.step-new{background:var(--g-bg);color:var(--g-d)}
-.step-mid{background:var(--b-bg);color:var(--b-d)}
-.step-sys{background:var(--p-bg);color:var(--p-d)}
-.flow-arr{color:var(--s-400);font-size:11px}
-.flow-note{font-size:11px;color:var(--s-400);margin-left:68px;padding:2px 0}
-
-.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sys-card{border-radius: 14px;padding:14px 16px;background:var(--s-50);border:1px solid var(--s-200)}
-.sys-card h4{font-size:12px;font-weight:600;margin-bottom:6px}
-.sys-card ul{list-style:none;font-size:11px;line-height:1.9;color:var(--s-600)}
-.sys-card ul li::before{content:'▪ ';color:var(--s-400)}
-
-.footer{text-align:center;padding: 24px 32px;color:var(--s-400);font-size:11px}
-
-@media (max-width:768px){
-  .container{padding:12px}
-  .header{padding:16px}
-  .info-grid{grid-template-columns:1fr 1fr}
-  .compare-grid{grid-template-columns:1fr}
-  .sys-grid{grid-template-columns:1fr}
-  .flow-row{font-size:11px;padding:10px;gap:4px}
-  .flow-label{width:auto;margin-bottom:4px}
-  .flow-note{margin-left:0}
-}
-
-/* ── Dropdown Menu ── */
-.nav-item{position:relative;display:inline-block;padding-bottom:8px}
-.nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
-.nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
-.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
-.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
-.nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
-.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
-.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
-.nav-item .dropdown .sub a:hover{color:#34d399}
-.nav-item .dropdown .divider{height:1px;background:#334155;margin:4px 6px}
-/* ── Breadcrumb ── */
-.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
-.breadcrumb a{color:#60a5fa;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
-.breadcrumb .sep{color:var(--s-400)}
-.breadcrumb .current{color:var(--s-200);font-weight:500}
 
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
@@ -168,17 +64,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   background: rgba(16,185,129,0.2);
   color: #fff;
 }
-.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
+.topnav-item .tn-icon { font-size: 15px; opacity: 0.9; line-height: 1; vertical-align: middle; }
 .topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
-.topnav-badge {
-  background: #ef4444;
-  color: #fff;
-  font-size: 10px;
-  padding: 1px 5px;
-  border-radius: 8px;
-  margin-left: 4px;
-  font-weight: 600;
-}
 
 /* ── Dropdown ── */
 .topnav-dropdown {
@@ -188,14 +75,12 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   z-index: 200;
 }
-
-/* 30px 透明 hover 桥接 — 保证鼠标从菜单项移到下拉时 hover 链连续 */
 .topnav-item.has-dropdown::after {
   content: '';
   position: absolute;
@@ -209,8 +94,6 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .topnav-item.has-dropdown:hover .topnav-dropdown {
   display: block;
 }
-
-/* 右侧对齐下拉（末尾菜单如"知识沉淀"/"我"） */
 .topnav-item.has-dropdown-right .topnav-dropdown {
   left: auto;
   right: 0;
@@ -219,8 +102,6 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: auto;
   right: -8px;
 }
-
-/* Dropdown 内部 */
 .topnav-dropdown a {
   display: block;
   padding: 7px 10px;
@@ -252,30 +133,20 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   .topnav-menu { flex-wrap: wrap; }
 }
 
-/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 24px;
-  box-sizing: border-box;
+/* ===== 通用样式 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 24px 32px;
 }
-.site-shell > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.site-shell > .container {
-  width: 100% !important;
-  max-width: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-.site-shell > .topnav {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box;
-}
+
+.site-shell { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 0 24px; box-sizing: border-box; }
+.site-shell > * { max-width: 100%; box-sizing: border-box; }
+.site-shell > .topnav { width: 100% !important; max-width: none !important; box-sizing: border-box; }
 .site-shell.presentation-shell {
   position: fixed;
   top: 20px;
@@ -292,18 +163,95 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   box-sizing: border-box;
 }
 @media (max-width: 1200px) {
-  .site-shell { padding-left: 12px; padding-right: 12px; }
+  .site-shell { padding-left: 16px; padding-right: 16px; }
 }
+
+/* ===== 站点地图专属样式 ===== */
+.map-header {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #fff;
+  border-radius: 18px;
+  padding: 36px 40px;
+  margin-bottom: 24px;
+}
+.map-header h1 { font-size: 30px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.3px; }
+.map-header .sub { font-size: 15px; color: #94a3b8; }
+.map-header .stats { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+.map-header .stat { background: rgba(255,255,255,0.08); padding: 10px 16px; border-radius: 10px; }
+.map-header .stat .v { font-size: 22px; font-weight: 700; color: #10b981; }
+.map-header .stat .l { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+.map-section {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+.map-section h2 {
+  font-size: 19px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.map-section h2 .icon { font-size: 24px; }
+.map-section h2 .count {
+  font-size: 12px;
+  font-weight: 500;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-left: auto;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.map-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all .2s;
+  font-size: 14px;
+}
+.map-link:hover {
+  transform: translateY(-2px);
+  border-color: #10b981;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.1);
+  color: #0f172a;
+}
+.map-link .ico { font-size: 18px; flex-shrink: 0; }
+.map-link .name { font-weight: 500; flex: 1; }
+.map-link .tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.map-link .tag.dev { background: #fef3c7; color: #92400e; }
+.map-link .tag.todo { background: #fee2e2; color: #991b1b; }
 
 </style>
 </head>
 <body>
 <div class="site-shell">
-<div class="container">
-
-
-
-
 <div class="topnav">
   <a href="index.html" class="topnav-brand">
     <span class="logo">●</span>
@@ -317,9 +265,8 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     <a href="business-scenarios.html" class="topnav-item">
       <span class="tn-icon">▤</span>
       <span class="tn-label">业务场景</span>
-      <span class="topnav-badge">2</span>
     </a>
-        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -333,8 +280,8 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
     </div>
-<a href="site-map.html" class="topnav-item">
-      <span class="tn-icon">▦</span>
+    <a href="site-map.html" class="topnav-item active">
+      <span class="tn-icon">🗺</span>
       <span class="tn-label">站点地图</span>
     </a>
     <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
@@ -350,213 +297,121 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
     </div>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="site-map.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
-        <div class="tn-section">个人信息</div>
+        <a href="site-map.html">🗺️ 站点地图</a>
+        <div class="divider"></div>
         <a href="key-files-overview.html">📋 我的笔记</a>
         <a href="key-files-manager.html">⭐ 收藏夹</a>
-        <a href="site-map.html">📌 最近浏览</a>
         <div class="divider"></div>
-        <div class="tn-section">设置</div>
         <a href="index.html">⚙️ 偏好</a>
       </div>
     </div>
   </div>
 </div>
 
-</div>
-
-</div>
-
-<div class="page-title">
-<h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">📦 物料管理模式转型</h1>
-</div>
-
-
-<!-- Quick Info -->
-<div class="info-grid">
-  <div class="info-card" style="text-align:left;padding:16px 20px">
-    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
-      <strong>推动背景：</strong>公司从定制化项目转向标准产品制造（9大产品系列），原有按项目管料的方式导致同物料重复下单、仓库物料锁死在各项目、共用件无法通用天天协调。
-    </div>
-  </div>
-  <div class="info-card">
-    <div class="num purple">9</div>
-    <div class="lbl">标准产品系列</div>
-  </div>
-  <div class="info-card">
-    <div class="num green">600→300</div>
-    <div class="lbl">物料种类精简目标</div>
+<div class="map-header">
+  <h1>🗺️ 站点地图</h1>
+  <div class="sub">杰德瑞恩J · 信息化驾驶舱 全站 31 页 · 一目了然</div>
+  <div class="stats">
+    <div class="stat"><div class="v">31</div><div class="l">总页面数</div></div>
+    <div class="stat"><div class="v">8</div><div class="l">类目</div></div>
+    <div class="stat"><div class="v">4</div><div class="l">系统中心</div></div>
+    <div class="stat"><div class="v">5</div><div class="l">PLM 模块</div></div>
   </div>
 </div>
 
-<!-- Compare: Before vs After -->
-<div class="section">
-  <div class="section-title">现状 vs 未来</div>
-  <div class="compare-grid">
-    <div class="compare-card old">
-      <div class="title">⚠️ 现状（项目制）</div>
-      <ul>
-        <li>工程按项目出BOM，同物料在不同项目重复出现</li>
-        <li>采购同物料需下多行，供应商散单多</li>
-        <li>仓库按项目区域堆放，物料锁死在各项目中</li>
-        <li>共用件无法跨项目通用，天天协调催料</li>
-        <li>多地交货常发错仓（深圳/肇庆/湛江/贵阳）</li>
-      </ul>
-    </div>
-    <div class="compare-card new">
-      <div class="title">✅ 未来（物料制）</div>
-      <ul>
-        <li>工程标准化BOM，共用件统一，物料精简50%</li>
-        <li>采购按物料合并下单，同供应商可谈阶梯价</li>
-        <li>仓库按物料品类分区（超市式管理）</li>
-        <li>共用件集中备库，按排产从各物料区领用</li>
-        <li>新增"共用/专用"字段，仓库一目了然</li>
-      </ul>
-    </div>
+<!-- 0. 控制台首页 -->
+<div class="map-section">
+  <h2><span class="icon">🏠</span> 控制台<span class="count">1 页</span></h2>
+  <div class="map-grid">
+    <a href="index.html" class="map-link"><span class="ico">⌂</span><span class="name">控制台首页</span><span class="tag">入口</span></a>
   </div>
 </div>
 
-<!-- Business Flow -->
-<div class="section">
-  <div class="section-title">业务流程图</div>
-  <div class="flow-section">
-
-    <div class="flow-row">
-      <span class="flow-label">工程阶段</span>
-      <span class="flow-step step-old">各项目独立BOM</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">标准化BOM（共用件统一）</span>
-    </div>
-    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
-
-    <div class="flow-row">
-      <span class="flow-label">采购阶段</span>
-      <span class="flow-step step-old">项目各自下采购申请</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-mid">MRP运算合并同物料</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">按物料汇总下单</span>
-    </div>
-    <div class="flow-note">同项目内同物料 → 合并成一行；跨项目同物料 → 分行标不同交期，放同一张订单</div>
-    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
-
-    <div class="flow-row">
-      <span class="flow-label">仓储阶段</span>
-      <span class="flow-step step-old">按项目区域存放</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">按物料品类分区（超市式）</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-sys">共用/专用字段标识</span>
-    </div>
-    <div class="flow-note">共用件放共用区，专用件按产品系列分区，每种物料固定储位</div>
-    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
-
-    <div class="flow-row">
-      <span class="flow-label">生产阶段</span>
-      <span class="flow-step step-old">追项目催料协调</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">按物料齐套领用</span>
-      <span class="flow-arr">→</span>
-      <span class="flow-step step-new">良性循环</span>
-    </div>
-    <div class="flow-note">共用件集中备库 → 生产领料时从各物料区分别拣料 → 按排产节奏齐套</div>
-
+<!-- 1. 业务场景中心 -->
+<div class="map-section">
+  <h2><span class="icon">▤</span> 业务场景中心<span class="count">2 页</span></h2>
+  <div class="map-grid">
+    <a href="business-scenarios.html" class="map-link"><span class="ico">▤</span><span class="name">业务场景总览</span><span class="tag">新</span></a>
+    <a href="outsourcing-cost-allocation.html" class="map-link"><span class="ico">💼</span><span class="name">委外生产与成本归集</span><span class="tag">07-23</span></a>
+    <a href="ior-bom.html" class="map-link"><span class="ico">🍊</span><span class="name">IOR 飞针 X4E0156-165</span><span class="tag">07-23</span></a>
   </div>
 </div>
 
-<!-- System Changes -->
-<div class="section">
-  <div class="section-title">系统变更清单</div>
-  <div class="sys-grid">
-    <div class="sys-card">
-      <h4 style="color:var(--b-d)">ERP 采购模块</h4>
-      <ul>
-        <li>采购申请单新增"共用/专用"字段</li>
-        <li>同项目同物料自动合并</li>
-        <li>跨项目同物料分行不同交期</li>
-        <li>下推时自动合并同物料到一行</li>
-      </ul>
-    </div>
-    <div class="sys-card">
-      <h4 style="color:var(--g-d)">ERP 仓储模块</h4>
-      <ul>
-        <li>仓库位重新规划（物料制分区）</li>
-        <li>共用件区域设置（约300个储位）</li>
-        <li>多地入库防错机制</li>
-        <li>调拨流程（深圳集中收货→各地）</li>
-      </ul>
-    </div>
-    <div class="sys-card">
-      <h4 style="color:var(--y-d)">工程 PLM</h4>
-      <ul>
-        <li>每周合并2款物料（标准化推进）</li>
-        <li>BOM标准化</li>
-        <li>共用件统一推进</li>
-        <li>从600项精简至200-300项目标</li>
-      </ul>
-    </div>
-    <div class="sys-card">
-      <h4 style="color:var(--p-d)">悟空 APS</h4>
-      <ul>
-        <li>MRP运算逻辑调整</li>
-        <li>按物料制跑排产</li>
-        <li>齐套检查优化</li>
-        <li>备货预测模型调整</li>
-      </ul>
-    </div>
+<!-- 2. 系统中心 -->
+<div class="map-section">
+  <h2><span class="icon">▦</span> 系统中心<span class="count">4 大系统</span></h2>
+  <div class="map-grid">
+    <a href="erp-center.html" class="map-link"><span class="ico">📦</span><span class="name">ERP 项目实施中心</span><span class="tag">上线</span></a>
+    <a href="plm-center.html" class="map-link"><span class="ico">🔧</span><span class="name">PLM 项目实施中心</span><span class="tag dev">启动</span></a>
+    <a href="ehr-center.html" class="map-link"><span class="ico">👥</span><span class="name">EHR 系统中心</span><span class="tag">上线</span></a>
+    <a href="it-panorama.html" class="map-link"><span class="ico">💻</span><span class="name">IT 全景</span><span class="tag">在线</span></a>
   </div>
 </div>
 
-<!-- Key Decisions -->
-<div class="section">
-  <div class="section-title">会议关键决议</div>
-  <div class="card">
-    <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <thead>
-        <tr style="border-bottom:2px solid var(--p);color:var(--p-d);font-weight:600">
-          <td style="padding:8px 12px;width:40%">事项</td>
-          <td style="padding:8px 12px">决议</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">共用件 vs 专用件</td>
-          <td style="padding:8px 12px;color:var(--s-600)">共用件按物料制管理；专用件仍按产品型号管理；打样件在深圳走项目制</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">订单合并规则</td>
-          <td style="padding:8px 12px;color:var(--s-600)">同项目同物料合并一行；跨项目同物料分行不同交期（放同一张单）</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">新字段</td>
-          <td style="padding:8px 12px;color:var(--s-600)">采购订单行新增"共用/专用"字段，仓库据此决定存放位置</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">仓库管理模式</td>
-          <td style="padding:8px 12px;color:var(--s-600)">按物料品类分区（超市式），共用件集中存放，每款物料固定储位</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--s-200)">
-          <td style="padding:8px 12px;font-weight:500">多地交付</td>
-          <td style="padding:8px 12px;color:var(--s-600)">深圳集中收货→检验→调拨到各地；供应商送错需自行调回</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;font-weight:500">项目号命名</td>
-          <td style="padding:8px 12px;color:var(--s-600)">备货场景下不叫"项目号"，改为"产品型号"（如X41、X61、X4M等）</td>
-        </tr>
-      </tbody>
-    </table>
+<!-- 3. ERP 子页 -->
+<div class="map-section">
+  <h2><span class="icon">📦</span> ERP 项目实施<span class="count">8 页</span></h2>
+  <div class="map-grid">
+    <a href="erp-finance.html" class="map-link"><span class="ico">💰</span><span class="name">ERP 财务模块</span></a>
+    <a href="erp-finance-flow.html" class="map-link"><span class="ico">💱</span><span class="name">财务流程</span></a>
+    <a href="erp-procurement.html" class="map-link"><span class="ico">🛒</span><span class="name">ERP 采购模块</span></a>
+    <a href="erp-procurement-detail.html" class="map-link"><span class="ico">📋</span><span class="name">采购明细</span></a>
+    <a href="erp-procurement-analysis.html" class="map-link"><span class="ico">📊</span><span class="name">采购分析</span></a>
+    <a href="erp-procurement-warehouse.html" class="map-link"><span class="ico">🏪</span><span class="name">采购仓储</span></a>
+    <a href="erp-procurement-solution.html" class="map-link"><span class="ico">💡</span><span class="name">采购方案</span></a>
+    <a href="management-reform.html" class="map-link"><span class="ico">⚙️</span><span class="name">管理变革中心</span></a>
   </div>
 </div>
 
-<div class="footer">
-  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
+<!-- 4. PLM 子页 -->
+<div class="map-section">
+  <h2><span class="icon">🔧</span> PLM 项目实施<span class="count">5 页</span></h2>
+  <div class="map-grid">
+    <a href="plm-kickoff.html" class="map-link"><span class="ico">🚀</span><span class="name">PLM 启动会</span><span class="tag dev">启动</span></a>
+    <a href="plm-business-flow.html" class="map-link"><span class="ico">🔄</span><span class="name">PLM 业务流程</span></a>
+    <a href="plm-org-plm.html" class="map-link"><span class="ico">🏢</span><span class="name">PLM 组织</span></a>
+    <a href="plm-product-matrix.html" class="map-link"><span class="ico">📐</span><span class="name">产品矩阵</span></a>
+    <a href="plm-requirements.html" class="map-link"><span class="ico">📝</span><span class="name">需求清单</span></a>
+  </div>
 </div>
 
+<!-- 5. EHR 子页 -->
+<div class="map-section">
+  <h2><span class="icon">👥</span> EHR 系统<span class="count">4 页</span></h2>
+  <div class="map-grid">
+    <a href="hr-system-process.html" class="map-link"><span class="ico">📋</span><span class="name">HR 流程</span></a>
+    <a href="hr-system-policy.html" class="map-link"><span class="ico">📜</span><span class="name">HR 制度</span></a>
+    <a href="hr-requirement-template.html" class="map-link"><span class="ico">📝</span><span class="name">需求模板</span></a>
+    <a href="italent-recruit-manual.html" class="map-link"><span class="ico">📖</span><span class="name">招聘手册</span></a>
+  </div>
 </div>
+
+<!-- 6. 公司 / IT 全景 -->
+<div class="map-section">
+  <h2><span class="icon">🏢</span> 公司 / IT 全景<span class="count">3 页</span></h2>
+  <div class="map-grid">
+    <a href="company-intro.html" class="map-link"><span class="ico">🏢</span><span class="name">公司背景</span></a>
+    <a href="company-informatization.html" class="map-link"><span class="ico">🖥️</span><span class="name">公司信息化</span></a>
+    <a href="reform-material.html" class="map-link"><span class="ico">📦</span><span class="name">物料管理转型</span></a>
+  </div>
+</div>
+
+<!-- 7. 知识沉淀 -->
+<div class="map-section">
+  <h2><span class="icon">◉</span> 知识沉淀<span class="count">2 页</span></h2>
+  <div class="map-grid">
+    <a href="key-files-overview.html" class="map-link"><span class="ico">📚</span><span class="name">杰德瑞恩知识网络</span></a>
+    <a href="key-files-manager.html" class="map-link"><span class="ico">🗂️</span><span class="name">归档文件柜</span></a>
+  </div>
+</div>
+
+<div style="margin-top:24px;text-align:center;font-size:13px;color:#94a3b8">本平台为个人知识网络体系 · 2026-07-24 · v1.0 全站标准</div>
+
 </div>
 </body>
 </html>
