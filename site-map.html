@@ -3,36 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🗺️ 全站地图 · 橙子自动化信息化展示平台</title>
+<title>物料管理模式转型 · 管理变革中心</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background:#f8fafc; color:#1e293b; line-height:1.7; }
-.header { background:linear-gradient(135deg,#0f172a,#1e293b,#312e81); color:#fff; padding:48px 32px; text-align:center; }
-.header h1 { font-size:36px; font-weight:700; margin-bottom:8px; }
-.header .sub { font-size:16px; color:#94a3b8; }
-.header .meta { display:inline-block; margin-top:16px; padding:6px 16px; background:rgba(16,185,129,.2); border:1px solid rgba(16,185,129,.4); border-radius:20px; font-size:13px; color:#34d399; }
-.container { max-width:1200px; margin:32px auto; padding:0 24px; }
-.search-bar { background:#fff; border:2px solid #e2e8f0; border-radius:12px; padding:12px 20px; display:flex; align-items:center; gap:12px; margin-bottom:32px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-.search-bar input { flex:1; border:none; outline:none; font-size:16px; padding:8px; }
-.search-bar input::placeholder { color:#94a3b8; }
-.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,.05); }
-.section h2 { font-size:24px; font-weight:700; color:#0f172a; padding-bottom:16px; border-bottom:2px solid #e2e8f0; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
-.section h2 .count { font-size:14px; color:#64748b; background:#f1f5f9; padding:4px 12px; border-radius:20px; font-weight:500; }
-.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
-.card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; text-decoration:none; color:inherit; transition:all .25s; display:block; }
-.card:hover { transform:translateY(-3px); border-color:#10b981; background:#fff; box-shadow:0 8px 20px rgba(16,185,129,.1); }
-.card .name { font-size:18px; font-weight:700; color:#0f172a; margin-bottom:8px; word-break:break-all; }
-.card .title { font-size:14px; color:#475569; margin-bottom:6px; }
-.card .desc { font-size:14px; color:#64748b; line-height:1.6; min-height:42px; }
-.card .meta { display:flex; gap:8px; margin-top:12px; font-size:13px; color:#94a3b8; }
-.card .meta span { padding:3px 10px; background:#e2e8f0; border-radius:12px; }
-.empty { text-align:center; padding:40px; color:#94a3b8; font-size:16px; }
-@media (max-width:768px) {
-  .header h1 { font-size:24px; }
-  .container { padding:0 16px; }
-  .section { padding:20px; }
-  .cards { grid-template-columns:1fr; }
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
 }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#0f172a,#1e293b,#3c3489);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);border-radius:50%;
+}
+.header h1{font-size:22px;font-weight:700;position:relative;z-index:1}
+.header .sub{font-size:12px;color:#94a3b8;margin-top:4px;position:relative;z-index:1}
+.header .back-link{display:inline-block;margin-top:10px;font-size:11px;color:#a5b4fc;text-decoration:none}
+.header .back-link:hover{color:#fff}
+
+.section{margin-bottom:24px}
+.section-title{font-size:16px;font-weight:600;color:var(--s-800);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--s-200)}
+
+.card{background:#fff;border-radius:14px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:14px}
+
+.info-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.info-card{
+  background:#fff;border-radius:12px;padding:16px;border:1px solid var(--s-200);text-align:center
+}
+.info-card .num{font-size:26px;font-weight:700;line-height:1}
+.info-card .num.purple{color:var(--p-d)}
+.info-card .num.green{color:var(--g-d)}
+.info-card .num.blue{color:var(--b-d)}
+.info-card .lbl{font-size:11px;color:var(--s-400);margin-top:4px}
+
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.compare-card{border-radius:12px;padding:16px 20px}
+.compare-card.old{background:var(--r-bg);border:1px solid #fca5a5}
+.compare-card.new{background:var(--g-bg);border:1px solid #6ee7b7}
+.compare-card .title{font-size:13px;font-weight:600;margin-bottom:8px}
+.compare-card.old .title{color:var(--r-d)}
+.compare-card.new .title{color:var(--g-d)}
+.compare-card ul{list-style:none;font-size:12px;line-height:2;color:var(--s-600)}
+
+.flow-section{background:#fff;border-radius:14px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:16px}
+.flow-row{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  background:var(--s-50);border-radius:10px;padding:14px 18px;margin-bottom:10px
+}
+.flow-label{font-size:12px;font-weight:500;color:var(--s-600);width:60px;flex-shrink:0}
+.flow-step{
+  padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;white-space:nowrap
+}
+.step-old{background:var(--r-bg);color:var(--r-d)}
+.step-new{background:var(--g-bg);color:var(--g-d)}
+.step-mid{background:var(--b-bg);color:var(--b-d)}
+.step-sys{background:var(--p-bg);color:var(--p-d)}
+.flow-arr{color:var(--s-400);font-size:11px}
+.flow-note{font-size:11px;color:var(--s-400);margin-left:68px;padding:2px 0}
+
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sys-card{border-radius:10px;padding:14px 16px;background:var(--s-50);border:1px solid var(--s-200)}
+.sys-card h4{font-size:12px;font-weight:600;margin-bottom:6px}
+.sys-card ul{list-style:none;font-size:11px;line-height:1.9;color:var(--s-600)}
+.sys-card ul li::before{content:'▪ ';color:var(--s-400)}
+
+.footer{text-align:center;padding:20px 24px;color:var(--s-400);font-size:11px}
+
+@media (max-width:768px){
+  .container{padding:12px}
+  .header{padding:16px}
+  .info-grid{grid-template-columns:1fr 1fr}
+  .compare-grid{grid-template-columns:1fr}
+  .sys-grid{grid-template-columns:1fr}
+  .flow-row{font-size:11px;padding:10px;gap:4px}
+  .flow-label{width:auto;margin-bottom:4px}
+  .flow-note{margin-left:0}
+}
+
+/* ── Dropdown Menu ── */
+.nav-item{position:relative;display:inline-block;padding-bottom:8px}
+.nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
+.nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
+.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
+.nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
+.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
+.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
+.nav-item .dropdown .sub a:hover{color:#34d399}
+.nav-item .dropdown .divider{height:1px;background:#334155;margin:4px 6px}
+/* ── Breadcrumb ── */
+.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
+.breadcrumb a{color:#60a5fa;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
+.breadcrumb .sep{color:var(--s-400)}
+.breadcrumb .current{color:var(--s-200);font-weight:500}
 
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
@@ -179,14 +255,9 @@ body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 </head>
 <body>
 
-<div class="page-title">
-<h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">🗺️ 全站地图</h1>
-</div>
-
-
 <div class="container">
 
-  
+
 
 
 <div class="topnav">
@@ -218,7 +289,7 @@ body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
     </div>
-    <a href="site-map.html" class="topnav-item active">
+    <a href="site-map.html" class="topnav-item">
       <span class="tn-icon">▦</span>
       <span class="tn-label">全站地图</span>
     </a>
@@ -256,282 +327,191 @@ body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 
 </div>
 
-<div class="search-bar">
-    <span style="font-size:24px">🔍</span>
-    <input type="text" id="searchInput" placeholder="搜索页面名 / 标题 / 描述..." autofocus>
-  </div>
-
-  <div class="section" data-category="🏠 首页">
-    <h2>🏠 首页 <span class="count">1 个页面</span></h2>
-    <div class="cards">
-      <a href="index.html" class="card" data-search="index.html 橙子自动化 · 信息化展示平台 🏭 橙子自动化 · 信息化展示平台">
-        <div class="name">📄 index.html</div>
-        <div class="title">橙子自动化 · 信息化展示平台</div>
-        <div class="desc">🏭 橙子自动化 · 信息化展示平台</div>
-        <div class="meta"><span>💾 12KB</span><span>🔗 首页</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="📦 ERP 模块">
-    <h2>📦 ERP 模块 <span class="count">8 个页面</span></h2>
-    <div class="cards">
-      <a href="erp-center.html" class="card" data-search="erp-center.html ERP 项目实施中心 · 橙子自动化 📦 ERP 项目实施中心">
-        <div class="name">📄 erp-center.html</div>
-        <div class="title">ERP 项目实施中心 · 橙子自动化</div>
-        <div class="desc">📦 ERP 项目实施中心</div>
-        <div class="meta"><span>💾 17KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-      <a href="erp-finance-flow.html" class="card" data-search="erp-finance-flow.html 财务业务流程图解 · ERP · 橙子自动化 💰 财务业务流程图解">
-        <div class="name">📄 erp-finance-flow.html</div>
-        <div class="title">财务业务流程图解 · ERP · 橙子自动化</div>
-        <div class="desc">💰 财务业务流程图解</div>
-        <div class="meta"><span>💾 18KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-      <a href="erp-finance.html" class="card" data-search="erp-finance.html 财务业务场景 · ERP · 橙子自动化 📊 财务业务场景">
-        <div class="name">📄 erp-finance.html</div>
-        <div class="title">财务业务场景 · ERP · 橙子自动化</div>
-        <div class="desc">📊 财务业务场景</div>
-        <div class="meta"><span>💾 28KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-      <a href="erp-procurement-analysis.html" class="card" data-search="erp-procurement-analysis.html 业务解析 · 采购订单合并下推 🔍 业务解析：采购订单合并下推">
-        <div class="name">📄 erp-procurement-analysis.html</div>
-        <div class="title">业务解析 · 采购订单合并下推</div>
-        <div class="desc">🔍 业务解析：采购订单合并下推</div>
-        <div class="meta"><span>💾 14KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-      <a href="erp-procurement-detail.html" class="card" data-search="erp-procurement-detail.html 问题详情 · ERP采购与共用料管理 问题详情">
-        <div class="name">📄 erp-procurement-detail.html</div>
-        <div class="title">问题详情 · ERP采购与共用料管理</div>
-        <div class="desc">问题详情</div>
-        <div class="meta"><span>💾 31KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-      <a href="erp-procurement-solution.html" class="card" data-search="erp-procurement-solution.html 解决方案 · 采购订单合并下推 📋 解决方案：采购订单合并下推">
-        <div class="name">📄 erp-procurement-solution.html</div>
-        <div class="title">解决方案 · 采购订单合并下推</div>
-        <div class="desc">📋 解决方案：采购订单合并下推</div>
-        <div class="meta"><span>💾 33KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-      <a href="erp-procurement-warehouse.html" class="card" data-search="erp-procurement-warehouse.html 仓库方案对比 · 共享料管理 📦 仓库方案对比：共享料管理">
-        <div class="name">📄 erp-procurement-warehouse.html</div>
-        <div class="title">仓库方案对比 · 共享料管理</div>
-        <div class="desc">📦 仓库方案对比：共享料管理</div>
-        <div class="meta"><span>💾 26KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-      <a href="erp-procurement.html" class="card" data-search="erp-procurement.html ERP · 采购管理 · 需求 📦 ERP · 采购管理">
-        <div class="name">📄 erp-procurement.html</div>
-        <div class="title">ERP · 采购管理 · 需求</div>
-        <div class="desc">📦 ERP · 采购管理</div>
-        <div class="meta"><span>💾 12KB</span><span>🔗 ERP 项目实施</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="🔧 PLM 模块">
-    <h2>🔧 PLM 模块 <span class="count">7 个页面</span></h2>
-    <div class="cards">
-      <a href="plm-business-flow.html" class="card" data-search="plm-business-flow.html 全业务流程全景 · 橙子自动化 PLM 📊 全业务流程全景">
-        <div class="name">📄 plm-business-flow.html</div>
-        <div class="title">全业务流程全景 · 橙子自动化 PLM</div>
-        <div class="desc">📊 全业务流程全景</div>
-        <div class="meta"><span>💾 30KB</span><span>🔗 PLM 项目实施</span></div>
-      </a>
-      <a href="plm-center.html" class="card" data-search="plm-center.html PLM项目实施中心 · 橙子自动化 🔧 PLM 项目实施中心">
-        <div class="name">📄 plm-center.html</div>
-        <div class="title">PLM项目实施中心 · 橙子自动化</div>
-        <div class="desc">🔧 PLM 项目实施中心</div>
-        <div class="meta"><span>💾 38KB</span><span>🔗 PLM 项目实施</span></div>
-      </a>
-      <a href="plm-kickoff.html" class="card" data-search="plm-kickoff.html PLM项目启动会 · 橙子自动化 ">
-        <div class="name">📄 plm-kickoff.html</div>
-        <div class="title">PLM项目启动会 · 橙子自动化</div>
-        <div class="meta"><span>💾 91KB</span><span>🔗 PLM 项目实施</span></div>
-      </a>
-      <a href="plm-kickoff_before_restructure.html" class="card" data-search="plm-kickoff_before_restructure.html PLM项目启动会 · 橙子自动化 ">
-        <div class="name">📄 plm-kickoff_before_restructure.html</div>
-        <div class="title">PLM项目启动会 · 橙子自动化</div>
-        <div class="meta"><span>💾 93KB</span><span>🔗 PLM 项目实施</span></div>
-      </a>
-      <a href="plm-org-plm.html" class="card" data-search="plm-org-plm.html 部门 × PLM 关联分析 · 橙子自动化 PLM 👥 部门 × PLM 关联分析">
-        <div class="name">📄 plm-org-plm.html</div>
-        <div class="title">部门 × PLM 关联分析 · 橙子自动化 PLM</div>
-        <div class="desc">👥 部门 × PLM 关联分析</div>
-        <div class="meta"><span>💾 14KB</span><span>🔗 PLM 项目实施</span></div>
-      </a>
-      <a href="plm-product-matrix.html" class="card" data-search="plm-product-matrix.html 公司产品矩阵 · 橙子自动化 PLM 🏗️ 公司产品矩阵">
-        <div class="name">📄 plm-product-matrix.html</div>
-        <div class="title">公司产品矩阵 · 橙子自动化 PLM</div>
-        <div class="desc">🏗️ 公司产品矩阵</div>
-        <div class="meta"><span>💾 20KB</span><span>🔗 PLM 项目实施</span></div>
-      </a>
-      <a href="plm-requirements.html" class="card" data-search="plm-requirements.html PLM需求全景 · 橙子自动化 PLM 📋 PLM 需求全景">
-        <div class="name">📄 plm-requirements.html</div>
-        <div class="title">PLM需求全景 · 橙子自动化 PLM</div>
-        <div class="desc">📋 PLM 需求全景</div>
-        <div class="meta"><span>💾 15KB</span><span>🔗 PLM 项目实施</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="👥 HR/EHR 模块">
-    <h2>👥 HR/EHR 模块 <span class="count">5 个页面</span></h2>
-    <div class="cards">
-      <a href="ehr-center.html" class="card" data-search="ehr-center.html EHR 系统中心 · 橙子自动化 👥 EHR 系统中心">
-        <div class="name">📄 ehr-center.html</div>
-        <div class="title">EHR 系统中心 · 橙子自动化</div>
-        <div class="desc">👥 EHR 系统中心</div>
-        <div class="meta"><span>💾 29KB</span><span>🔗 EHR 系统</span></div>
-      </a>
-      <a href="hr-requirement-template.html" class="card" data-search="hr-requirement-template.html HR系统需求收集模板 · 橙子自动化 📋 HR系统需求收集表">
-        <div class="name">📄 hr-requirement-template.html</div>
-        <div class="title">HR系统需求收集模板 · 橙子自动化</div>
-        <div class="desc">📋 HR系统需求收集表</div>
-        <div class="meta"><span>💾 18KB</span><span>🔗 EHR 系统</span></div>
-      </a>
-      <a href="hr-system-policy.html" class="card" data-search="hr-system-policy.html HR系统操作SOP手册 · 橙子自动化 📋 HR系统操作SOP手册">
-        <div class="name">📄 hr-system-policy.html</div>
-        <div class="title">HR系统操作SOP手册 · 橙子自动化</div>
-        <div class="desc">📋 HR系统操作SOP手册</div>
-        <div class="meta"><span>💾 44KB</span><span>🔗 EHR 系统</span></div>
-      </a>
-      <a href="hr-system-process.html" class="card" data-search="hr-system-process.html HR系统全流程梳理 · 橙子自动化 👥 HR系统全流程梳理">
-        <div class="name">📄 hr-system-process.html</div>
-        <div class="title">HR系统全流程梳理 · 橙子自动化</div>
-        <div class="desc">👥 HR系统全流程梳理</div>
-        <div class="meta"><span>💾 46KB</span><span>🔗 EHR 系统</span></div>
-      </a>
-      <a href="italent-recruit-manual.html" class="card" data-search="italent-recruit-manual.html 橙子互动 iTalent 招聘系统操作手册 · v1.0 🍊 橙子互动 iTalent 招聘系统操作手册">
-        <div class="name">📄 italent-recruit-manual.html</div>
-        <div class="title">橙子互动 iTalent 招聘系统操作手册 · v1.0</div>
-        <div class="desc">🍊 橙子互动 iTalent 招聘系统操作手册</div>
-        <div class="meta"><span>💾 23KB</span><span>🔗 EHR 系统</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="🏢 公司">
-    <h2>🏢 公司 <span class="count">2 个页面</span></h2>
-    <div class="cards">
-      <a href="company-informatization.html" class="card" data-search="company-informatization.html 橙子自动化 · 信息化全景数据流转图 🏭 橙子自动化 · 信息化全景数据流转图">
-        <div class="name">📄 company-informatization.html</div>
-        <div class="title">橙子自动化 · 信息化全景数据流转图</div>
-        <div class="desc">🏭 橙子自动化 · 信息化全景数据流转图</div>
-        <div class="meta"><span>💾 35KB</span><span>🔗 公司概览</span></div>
-      </a>
-      <a href="company-intro.html" class="card" data-search="company-intro.html 橙子自动化 · 公司背景与产品布局 📋 橙子自动化 · 公司背景与产品布局">
-        <div class="name">📄 company-intro.html</div>
-        <div class="title">橙子自动化 · 公司背景与产品布局</div>
-        <div class="desc">📋 橙子自动化 · 公司背景与产品布局</div>
-        <div class="meta"><span>💾 17KB</span><span>🔗 公司概览</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="💻 IT 部门">
-    <h2>💻 IT 部门 <span class="count">2 个页面</span></h2>
-    <div class="cards">
-      <a href="it-panorama.html" class="card" data-search="it-panorama.html IT部门全景 · 橙子自动化 💻 橙子自动化 · IT 部门全景">
-        <div class="name">📄 it-panorama.html</div>
-        <div class="title">IT部门全景 · 橙子自动化</div>
-        <div class="desc">💻 橙子自动化 · IT 部门全景</div>
-        <div class="meta"><span>💾 17KB</span><span>🔗 IT 全景</span></div>
-      </a>
-      <a href="key-files-overview.html" class="card" data-search="key-files-overview.html 关键文件总览 · 只读面板 关键文件只读面板">
-        <div class="name">📄 key-files-overview.html</div>
-        <div class="title">关键文件总览 · 只读面板</div>
-        <div class="desc">关键文件只读面板</div>
-        <div class="meta"><span>💾 20KB</span><span>🔗 IT 全景</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="⚙️ 管理变革">
-    <h2>⚙️ 管理变革 <span class="count">1 个页面</span></h2>
-    <div class="cards">
-      <a href="management-reform.html" class="card" data-search="management-reform.html 管理变革中心 · 橙子自动化 ⚙️ 管理变革中心">
-        <div class="name">📄 management-reform.html</div>
-        <div class="title">管理变革中心 · 橙子自动化</div>
-        <div class="desc">⚙️ 管理变革中心</div>
-        <div class="meta"><span>💾 14KB</span><span>🔗 管理变革</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="📋 业务场景">
-    <h2>📋 业务场景 <span class="count">2 个页面</span></h2>
-    <div class="cards">
-      <a href="ior-bom.html" class="card" data-search="ior-bom.html 🍊 IOR-X4E0156 飞针测试设备 BOM 学习系统 🍊 IOR-X4E0156 E系列单面四飞针测试设备（近端）">
-        <div class="name">📄 ior-bom.html</div>
-        <div class="title">🍊 IOR-X4E0156 飞针测试设备 BOM 学习系统</div>
-        <div class="desc">🍊 IOR-X4E0156 E系列单面四飞针测试设备（近端）</div>
-        <div class="meta"><span>💾 138KB</span><span>🔗 业务场景学习</span></div>
-      </a>
-      <a href="outsourcing-cost-allocation.html" class="card" data-search="outsourcing-cost-allocation.html 🍊 委外生产与成本归集流程优化 | 会议纪要学习 🍊 委外生产与成本归集流程优化">
-        <div class="name">📄 outsourcing-cost-allocation.html</div>
-        <div class="title">🍊 委外生产与成本归集流程优化 | 会议纪要学习</div>
-        <div class="desc">🍊 委外生产与成本归集流程优化</div>
-        <div class="meta"><span>💾 10KB</span><span>🔗 业务场景学习</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="🗺️ 工具">
-    <h2>🗺️ 工具 <span class="count">1 个页面</span></h2>
-    <div class="cards">
-      <a href="site-map.html" class="card" data-search="site-map.html 全站地图 · 橙子自动化 🗺️ 全站地图">
-        <div class="name">📄 site-map.html</div>
-        <div class="title">全站地图 · 橙子自动化</div>
-        <div class="desc">🗺️ 全站地图</div>
-        <div class="meta"><span>💾 9KB</span><span>🔗 导航</span></div>
-      </a>
-    </div>
-  </div>
-  <div class="section" data-category="📄 其他">
-    <h2>📄 其他 <span class="count">2 个页面</span></h2>
-    <div class="cards">
-      <a href="key-files-manager.html" class="card" data-search="key-files-manager.html 关键文件工作台 · 实时版 关键文件工作台">
-        <div class="name">📄 key-files-manager.html</div>
-        <div class="title">关键文件工作台 · 实时版</div>
-        <div class="desc">关键文件工作台</div>
-        <div class="meta"><span>💾 29KB</span><span>🔗 其他</span></div>
-      </a>
-      <a href="reform-material.html" class="card" data-search="reform-material.html 物料管理模式转型 · 管理变革中心 📦 物料管理模式转型">
-        <div class="name">📄 reform-material.html</div>
-        <div class="title">物料管理模式转型 · 管理变革中心</div>
-        <div class="desc">📦 物料管理模式转型</div>
-        <div class="meta"><span>💾 13KB</span><span>🔗 其他</span></div>
-      </a>
-    </div>
-  </div>
-
-  <div class="section" id="noResults" style="display:none">
-    <div class="empty">😢 没找到匹配的页面，试试其他关键词</div>
-  </div>
-
+<div class="page-title">
+<h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">📦 物料管理模式转型</h1>
 </div>
 
-<script>
-const searchInput = document.getElementById('searchInput');
-const sections = document.querySelectorAll('.section[data-category]');
-const noResults = document.getElementById('noResults');
 
-searchInput.addEventListener('input', function() {
-  const query = this.value.toLowerCase().trim();
-  let totalVisible = 0;
+<!-- Quick Info -->
+<div class="info-grid">
+  <div class="info-card" style="text-align:left;padding:16px 20px">
+    <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+      <strong>推动背景：</strong>公司从定制化项目转向标准产品制造（9大产品系列），原有按项目管料的方式导致同物料重复下单、仓库物料锁死在各项目、共用件无法通用天天协调。
+    </div>
+  </div>
+  <div class="info-card">
+    <div class="num purple">9</div>
+    <div class="lbl">标准产品系列</div>
+  </div>
+  <div class="info-card">
+    <div class="num green">600→300</div>
+    <div class="lbl">物料种类精简目标</div>
+  </div>
+</div>
 
-  sections.forEach(function(section) {
-    let visibleInSection = 0;
-    const cards = section.querySelectorAll('.card');
+<!-- Compare: Before vs After -->
+<div class="section">
+  <div class="section-title">现状 vs 未来</div>
+  <div class="compare-grid">
+    <div class="compare-card old">
+      <div class="title">⚠️ 现状（项目制）</div>
+      <ul>
+        <li>工程按项目出BOM，同物料在不同项目重复出现</li>
+        <li>采购同物料需下多行，供应商散单多</li>
+        <li>仓库按项目区域堆放，物料锁死在各项目中</li>
+        <li>共用件无法跨项目通用，天天协调催料</li>
+        <li>多地交货常发错仓（深圳/肇庆/湛江/贵阳）</li>
+      </ul>
+    </div>
+    <div class="compare-card new">
+      <div class="title">✅ 未来（物料制）</div>
+      <ul>
+        <li>工程标准化BOM，共用件统一，物料精简50%</li>
+        <li>采购按物料合并下单，同供应商可谈阶梯价</li>
+        <li>仓库按物料品类分区（超市式管理）</li>
+        <li>共用件集中备库，按排产从各物料区领用</li>
+        <li>新增"共用/专用"字段，仓库一目了然</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-    cards.forEach(function(card) {
-      const searchText = card.dataset.search.toLowerCase();
-      if (!query || searchText.includes(query)) {
-        card.style.display = 'block';
-        visibleInSection++;
-        totalVisible++;
-      } else {
-        card.style.display = 'none';
-      }
-    });
+<!-- Business Flow -->
+<div class="section">
+  <div class="section-title">业务流程图</div>
+  <div class="flow-section">
 
-    section.style.display = visibleInSection > 0 ? 'block' : 'none';
-  });
+    <div class="flow-row">
+      <span class="flow-label">工程阶段</span>
+      <span class="flow-step step-old">各项目独立BOM</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">标准化BOM（共用件统一）</span>
+    </div>
+    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
 
-  noResults.style.display = totalVisible === 0 ? 'block' : 'none';
-});
-</script>
+    <div class="flow-row">
+      <span class="flow-label">采购阶段</span>
+      <span class="flow-step step-old">项目各自下采购申请</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-mid">MRP运算合并同物料</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">按物料汇总下单</span>
+    </div>
+    <div class="flow-note">同项目内同物料 → 合并成一行；跨项目同物料 → 分行标不同交期，放同一张订单</div>
+    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
 
+    <div class="flow-row">
+      <span class="flow-label">仓储阶段</span>
+      <span class="flow-step step-old">按项目区域存放</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">按物料品类分区（超市式）</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-sys">共用/专用字段标识</span>
+    </div>
+    <div class="flow-note">共用件放共用区，专用件按产品系列分区，每种物料固定储位</div>
+    <div style="text-align:center;color:#cbd5e1;font-size:10px;margin:-4px 0">↓</div>
+
+    <div class="flow-row">
+      <span class="flow-label">生产阶段</span>
+      <span class="flow-step step-old">追项目催料协调</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">按物料齐套领用</span>
+      <span class="flow-arr">→</span>
+      <span class="flow-step step-new">良性循环</span>
+    </div>
+    <div class="flow-note">共用件集中备库 → 生产领料时从各物料区分别拣料 → 按排产节奏齐套</div>
+
+  </div>
+</div>
+
+<!-- System Changes -->
+<div class="section">
+  <div class="section-title">系统变更清单</div>
+  <div class="sys-grid">
+    <div class="sys-card">
+      <h4 style="color:var(--b-d)">ERP 采购模块</h4>
+      <ul>
+        <li>采购申请单新增"共用/专用"字段</li>
+        <li>同项目同物料自动合并</li>
+        <li>跨项目同物料分行不同交期</li>
+        <li>下推时自动合并同物料到一行</li>
+      </ul>
+    </div>
+    <div class="sys-card">
+      <h4 style="color:var(--g-d)">ERP 仓储模块</h4>
+      <ul>
+        <li>仓库位重新规划（物料制分区）</li>
+        <li>共用件区域设置（约300个储位）</li>
+        <li>多地入库防错机制</li>
+        <li>调拨流程（深圳集中收货→各地）</li>
+      </ul>
+    </div>
+    <div class="sys-card">
+      <h4 style="color:var(--y-d)">工程 PLM</h4>
+      <ul>
+        <li>每周合并2款物料（标准化推进）</li>
+        <li>BOM标准化</li>
+        <li>共用件统一推进</li>
+        <li>从600项精简至200-300项目标</li>
+      </ul>
+    </div>
+    <div class="sys-card">
+      <h4 style="color:var(--p-d)">悟空 APS</h4>
+      <ul>
+        <li>MRP运算逻辑调整</li>
+        <li>按物料制跑排产</li>
+        <li>齐套检查优化</li>
+        <li>备货预测模型调整</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Key Decisions -->
+<div class="section">
+  <div class="section-title">会议关键决议</div>
+  <div class="card">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="border-bottom:2px solid var(--p);color:var(--p-d);font-weight:600">
+          <td style="padding:8px 12px;width:40%">事项</td>
+          <td style="padding:8px 12px">决议</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">共用件 vs 专用件</td>
+          <td style="padding:8px 12px;color:var(--s-600)">共用件按物料制管理；专用件仍按产品型号管理；打样件在深圳走项目制</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">订单合并规则</td>
+          <td style="padding:8px 12px;color:var(--s-600)">同项目同物料合并一行；跨项目同物料分行不同交期（放同一张单）</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">新字段</td>
+          <td style="padding:8px 12px;color:var(--s-600)">采购订单行新增"共用/专用"字段，仓库据此决定存放位置</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">仓库管理模式</td>
+          <td style="padding:8px 12px;color:var(--s-600)">按物料品类分区（超市式），共用件集中存放，每款物料固定储位</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--s-200)">
+          <td style="padding:8px 12px;font-weight:500">多地交付</td>
+          <td style="padding:8px 12px;color:var(--s-600)">深圳集中收货→检验→调拨到各地；供应商送错需自行调回</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;font-weight:500">项目号命名</td>
+          <td style="padding:8px 12px;color:var(--s-600)">备货场景下不叫"项目号"，改为"产品型号"（如X41、X61、X4M等）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品
+</div>
+
+</div>
 </body>
 </html>
