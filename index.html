@@ -3,620 +3,1452 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>控制台首页 · 杰德瑞恩J 信息化驾驶舱</title>
+<title>杰德瑞恩生活手册 v2.0</title>
 <style>
-
-/* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
-.topnav {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 16px;
-  padding: 14px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto 24px auto;
-  max-width: 1200px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  position: relative;
-  z-index: 100;
+:root {
+  --bg: #f0f2f5; --card: #fff; --text: #1a1a2e; --sub: #6b7280; --muted: #9ca3af;
+  --blue: #2563eb; --blue-light: #eff6ff;
+  --green: #059669; --green-light: #ecfdf5;
+  --orange: #ea580c; --orange-light: #fff7ed;
+  --red: #dc2626; --red-light: #fef2f2;
+  --purple: #7c3aed; --purple-light: #f5f3ff;
+  --amber: #d97706; --amber-light: #fffbeb;
+  --border: #e5e7eb; --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.03);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.06);
 }
-.topnav-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 600;
-  font-size: 16px;
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height:1.6; -webkit-font-smoothing: antialiased; }
+.topnav { background:#fff; border-bottom:1px solid var(--border); padding:0 24px; height:60px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+.topnav .logo { font-size:17px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.topnav .nav-links { display:flex; gap:2px; }
+.topnav .nav-links a { padding:8px 14px; border-radius:8px; text-decoration:none; color:var(--sub); font-size:13.5px; font-weight:500; transition:all 0.15s; white-space:nowrap; }
+.topnav .nav-links a:hover, .topnav .nav-links a.active { background:#f0f2f5; color:var(--text); }
+.topnav .version { font-size:11px; color:var(--muted); font-weight:500; }
+.page { display:none; }
+.page.active { display:block; }
+.container { max-width:1200px; margin:0 auto; padding:24px; }
+.hero { background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); border-radius:16px; padding:36px 32px; color:#fff; margin-bottom:24px; position:relative; overflow:hidden; }
+.hero::after { content:''; position:absolute; top:-40%; right:-5%; width:350px; height:350px; background:radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%); border-radius:50%; }
+.hero h1 { font-size:26px; font-weight:800; margin-bottom:6px; position:relative; z-index:1; }
+.hero p { color:rgba(255,255,255,0.55); font-size:14px; margin-bottom:18px; position:relative; z-index:1; }
+.hero-row { display:flex; gap:14px; flex-wrap:wrap; position:relative; z-index:1; }
+.hero-stat { background:rgba(255,255,255,0.08); padding:12px 16px; border-radius:10px; min-width:130px; backdrop-filter:blur(8px); }
+.hero-stat .val { font-size:22px; font-weight:800; color:#fff; }
+.hero-stat .lbl { font-size:11px; color:rgba(255,255,255,0.6); margin-top:2px; }
+.sec-hdr { display:flex; align-items:center; justify-content:space-between; margin:24px 0 14px; }
+.sec-hdr h2 { font-size:18px; font-weight:800; }
+.sec-hdr .badge { font-size:11px; font-weight:700; padding:3px 10px; background:var(--blue-light); color:var(--blue); border-radius:10px; }
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.g23 { display:grid; grid-template-columns:1.4fr 1fr; gap:14px; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+.g4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+.card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); overflow:hidden; }
+.card-hdr { padding:14px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.card-hdr h3 { font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.card-body { padding:18px; }
+.mod-card { background:#fff; border-radius:var(--radius); border:1px solid var(--border); padding:22px; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
+.mod-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); border-color:var(--blue); }
+.mod-card .mod-icon { font-size:36px; margin-bottom:10px; }
+.mod-card .mod-name { font-size:16px; font-weight:800; margin-bottom:4px; }
+.mod-card .mod-desc { font-size:12px; color:var(--sub); margin-bottom:12px; line-height:1.5; }
+.mod-card .mod-stat { display:flex; gap:14px; padding-top:10px; border-top:1px solid #f3f4f6; }
+.mod-card .mod-stat-item .v { font-size:18px; font-weight:800; }
+.mod-card .mod-stat-item .l { font-size:10px; color:var(--sub); }
+.mod-card.urgent { border-left:4px solid var(--red); }
+.mod-card.active { border-left:4px solid var(--blue); }
+.mod-card.warn { border-left:4px solid var(--orange); }
+.mod-card.relax { border-left:4px solid var(--green); }
+.prop-card { border:2px solid var(--border); border-radius:var(--radius); padding:18px; background:#fafbfc; transition:border-color 0.2s,box-shadow 0.2s; }
+.prop-card:hover { border-color:var(--blue); box-shadow:var(--shadow-md); }
+.prop-card.rec { border-color:var(--green); background:var(--green-light); }
+.prop-card .prop-name { font-size:16px; font-weight:700; margin-bottom:3px; }
+.prop-card .prop-meta { font-size:12px; color:var(--sub); margin-bottom:10px; }
+.prop-card .prop-tags { display:flex; gap:5px; margin-bottom:10px; flex-wrap:wrap; }
+.prop-card .prop-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.prop-card .prop-stat { background:#fff; border-radius:8px; padding:9px; border:1px solid var(--border); text-align:center; }
+.prop-card .prop-stat .val { font-size:17px; font-weight:800; }
+.prop-card .prop-stat .lbl { font-size:10px; color:var(--sub); }
+.btn { display:inline-flex; align-items:center; gap:5px; padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; border:none; cursor:pointer; text-decoration:none; transition:all 0.15s; }
+.btn-pri { background:var(--blue); color:#fff; }
+.btn-pri:hover { background:#1d4ed8; }
+.btn-out { background:#fff; color:var(--blue); border:1.5px solid var(--blue); }
+.btn-out:hover { background:var(--blue-light); }
+.btn-gh { background:transparent; color:var(--sub); }
+.btn-gh:hover { background:#f3f4f6; color:var(--text); }
+.btn-xs { padding:3px 8px; font-size:11px; }
+.btn-warn { background:var(--orange); color:#fff; }
+.btn-warn:hover { background:#c2410c; }
+.tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10.5px; font-weight:700; }
+.tag-g { background:var(--green-light); color:var(--green); }
+.tag-b { background:var(--blue-light); color:var(--blue); }
+.tag-o { background:var(--orange-light); color:var(--orange); }
+.tag-r { background:var(--red-light); color:var(--red); }
+.tag-p { background:var(--purple-light); color:var(--purple); }
+.tag-a { background:var(--amber-light); color:var(--amber); }
+.progress { height:6px; background:#e5e7eb; border-radius:3px; margin:8px 0; overflow:hidden; }
+.progress-bar { height:100%; border-radius:3px; transition:width 0.3s; }
+.tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+table th { text-align:left; padding:9px 10px; font-weight:700; color:var(--sub); font-size:10.5px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:2px solid var(--border); white-space:nowrap; }
+table td { padding:10px; border-bottom:1px solid #f3f4f6; white-space:nowrap; }
+table tr:hover td { background:#fafbfc; }
+table .hl { font-weight:700; }
+.sr { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f3f4f6; font-size:13px; }
+.sr:last-child { border-bottom:none; }
+.sr .sr-l { color:var(--sub); }
+.sr .sr-r { font-weight:700; }
+.cmp-bar { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fff; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:14px; }
+.cmp-bar .cmp-title { font-size:14px; font-weight:700; }
+.cost-row { display:grid; grid-template-columns:140px 1fr 100px; gap:12px; align-items:center; padding:6px 0; border-bottom:1px solid #f3f4f6; font-size:13px; }
+.cost-row:last-child { border-bottom:none; }
+.cost-row .cost-name { color:var(--sub); font-size:12px; }
+.cost-row .cost-bar { height:10px; background:#f3f4f6; border-radius:5px; overflow:hidden; }
+.cost-row .cost-fill { height:100%; border-radius:5px; transition:width 0.4s; }
+.cost-row .cost-val { text-align:right; font-weight:700; }
+.sum-box { background:linear-gradient(135deg,#f8fafc,#f0fdf4); border-radius:var(--radius); padding:18px; border:1px solid var(--border); text-align:center; }
+.sum-box .sum-val { font-size:34px; font-weight:900; line-height:1; }
+.sum-box .sum-lbl { font-size:12px; color:var(--sub); margin-top:4px; }
+.sum-box.warn { background:linear-gradient(135deg,#fff7ed,#fef2f2); border-color:var(--orange); }
+.subnav { display:flex; gap:2px; padding:8px 14px; background:#fff; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:14px; flex-wrap:wrap; }
+.subnav a { padding:6px 12px; border-radius:6px; font-size:12.5px; color:var(--sub); text-decoration:none; font-weight:500; }
+.subnav a:hover, .subnav a.active { background:var(--blue-light); color:var(--blue); }
+.sub-page { display:none; }
+.sub-page.active { display:block; }
+.footer { text-align:center; padding:28px; color:var(--muted); font-size:11px; border-top:1px solid var(--border); margin-top:28px; }
+.timeline { position:relative; padding-left:26px; }
+.timeline::before { content:''; position:absolute; left:10px; top:8px; bottom:8px; width:2px; background:var(--border); }
+.tl-item { position:relative; padding:10px 0; }
+.tl-item::before { content:''; position:absolute; left:-20px; top:14px; width:8px; height:8px; border-radius:50%; background:var(--border); border:2px solid #fff; }
+.tl-item.active::before { background:var(--blue); }
+.tl-item.done::before { background:var(--green); }
+.tl-item .tl-t { font-weight:700; font-size:13px; }
+.tl-item .tl-d { font-size:11px; color:var(--sub); margin-top:1px; }
+.phase-card { border-radius:var(--radius); padding:16px 18px; margin-bottom:10px; background:#f8fafc; border:1px solid var(--border); }
+.phase-card .phase-lbl { display:inline-block; padding:2px 10px; border-radius:10px; font-size:11px; font-weight:700; margin-bottom:8px; }
+.phase-card .phase-items { display:flex; gap:6px; flex-wrap:wrap; }
+.phase-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 10px; background:#fff; border:1px solid var(--border); border-radius:6px; font-size:11.5px; }
+.chip-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.dot-blue { background:var(--blue); }
+.dot-orange { background:var(--orange); }
+.dot-green { background:var(--green); }
+.dot-purple { background:var(--purple); }
+.dot-red { background:var(--red); }
+.filter-chip { padding:4px 12px; border-radius:16px; font-size:12px; font-weight:500; border:1px solid var(--border); background:#fff; cursor:pointer; transition:all 0.15s; }
+.filter-chip.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+.filter-chip:hover:not(.active) { border-color:var(--blue); color:var(--blue); }
+.cmp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+.cmp-detail-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); border:2px solid var(--border); padding:20px; transition:all 0.2s; position:relative; }
+.cmp-detail-card:hover { border-color:var(--blue); box-shadow:var(--shadow-md); }
+.cmp-detail-card.rec { border-color:var(--green); background:#fafff6; }
+.cmp-detail-card .cmp-rank { font-size:32px; font-weight:900; color:#e5e7eb; position:absolute; right:16px; top:12px; }
+.cmp-detail-card .cmp-name { font-size:18px; font-weight:800; margin-bottom:4px; }
+.cmp-detail-card .cmp-addr { font-size:12px; color:var(--sub); margin-bottom:10px; }
+.cmp-detail-card .cmp-tags { margin-bottom:10px; display:flex; gap:4px; flex-wrap:wrap; }
+.cmp-detail-card .cmp-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.cmp-stat { background:#f8fafc; border-radius:8px; padding:10px; text-align:center; }
+.cmp-stat .cmp-val { font-size:18px; font-weight:800; }
+.cmp-stat .cmp-lbl { font-size:10px; color:var(--sub); }
+.cmp-detail-card .cmp-commute { margin-bottom:12px; }
+.cmp-detail-card .cmp-commute .cr { display:flex; align-items:center; gap:6px; padding:5px 8px; border-radius:6px; background:#f8fafc; margin-bottom:4px; font-size:12px; }
+.cmp-detail-card .cmp-commute .cr .cr-time { font-weight:700; margin-left:auto; }
+.radar-wrap { background:#fff; border-radius:var(--radius); padding:20px; border:1px solid var(--border); height:100%; }
+.radar-title { font-size:14px; font-weight:700; margin-bottom:12px; }
+.radar-row { display:flex; align-items:center; margin-bottom:8px; font-size:12px; }
+.radar-row .rr-l { width:70px; text-align:right; padding-right:10px; color:var(--sub); flex-shrink:0; }
+.radar-row .rr-bar { flex:1; height:8px; background:#f0f2f5; border-radius:4px; overflow:hidden; }
+.radar-row .rr-fill { height:100%; border-radius:4px; }
+.radar-row .rr-val { width:36px; text-align:right; font-weight:700; font-size:11px; padding-left:8px; flex-shrink:0; }
+.calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.calc-input { margin-bottom:12px; }
+.calc-input label { display:block; font-size:12px; font-weight:600; color:var(--sub); margin-bottom:4px; }
+.calc-input input, .calc-input select { width:100%; padding:8px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:14px; font-family:inherit; transition:border-color 0.15s; }
+.calc-input input:focus { outline:none; border-color:var(--blue); }
+.calc-result { background:linear-gradient(135deg,#f8fafc,#f0fdf4); border-radius:var(--radius); padding:20px; border:1px solid var(--border); }
+.calc-result .big-num { font-size:36px; font-weight:900; }
+.m-val { display:inline-block; }
+.m-formula { display:block; margin-top:4px; font-size:10px; line-height:1.5; color:var(--sub); padding:4px 6px; background:#f8fafc; border-radius:4px; border-left:2px solid var(--blue); }
+.m-formula b { color:var(--blue); font-weight:700; }
+.act-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid #f3f4f6; font-size:13px; }
+.act-item:last-child { border-bottom:none; }
+.act-item .act-icon { width:18px; flex-shrink:0; text-align:center; }
+.act-item.done { color:var(--green); }
+.act-item.doing { color:var(--blue); font-weight:600; }
+.act-item.todo { color:var(--sub); }
+@media (max-width:900px) {
+  .g2,.g23 { grid-template-columns:1fr; }
+  .g3 { grid-template-columns:1fr 1fr; }
+  .g4 { grid-template-columns:1fr 1fr; }
+  .hero { padding:24px 20px; }
+  .hero h1 { font-size:21px; }
+  .topnav .nav-links { display:none; }
+  .calc-grid { grid-template-columns:1fr; }
+  .cmp-grid { grid-template-columns:1fr; }
 }
-.topnav-brand .logo {
-  width: 28px; height: 28px;
-  background: linear-gradient(135deg, #10b981, #06b6d4);
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 16px;
+@media (max-width:560px) {
+  .g3,.g4 { grid-template-columns:1fr; }
+  .hero-row { flex-direction:column; }
 }
-.topnav-menu {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-.topnav-item {
-  position: relative;
-  padding: 9px 16px;
-  border-radius: 8px;
-  color: #cbd5e1;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  transition: all .2s;
-  user-select: none;
-  line-height: 1;
-}
-.topnav-item:hover, .topnav-item.active {
-  background: rgba(16,185,129,0.2);
-  color: #fff;
-}
-.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
-.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
-.topnav-badge {
-  background: #ef4444;
-  color: #fff;
-  font-size: 10px;
-  padding: 1px 5px;
-  border-radius: 8px;
-  margin-left: 4px;
-  font-weight: 600;
-}
-
-/* ── Dropdown ── */
-.topnav-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 220px;
-  background: #1e293b;
-  border-radius: 10px;
-  padding: 8px;
-  border: 1px solid #334155;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  z-index: 200;
-}
-
-/* 30px 透明 hover 桥接 — 保证鼠标从菜单项移到下拉时 hover 链连续 */
-.topnav-item.has-dropdown::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: -8px;
-  right: -8px;
-  height: 30px;
-  background: transparent;
-  z-index: 190;
-}
-.topnav-item.has-dropdown:hover .topnav-dropdown {
-  display: block;
-}
-
-/* 右侧对齐下拉（末尾菜单如"知识沉淀"/"我"） */
-.topnav-item.has-dropdown-right .topnav-dropdown {
-  left: auto;
-  right: 0;
-}
-.topnav-item.has-dropdown-right::after {
-  left: auto;
-  right: -8px;
-}
-
-/* Dropdown 内部 */
-.topnav-dropdown a {
-  display: block;
-  padding: 7px 10px;
-  font-size: 12px;
-  color: #cbd5e1;
-  text-decoration: none;
-  border-radius: 5px;
-  white-space: nowrap;
-}
-.topnav-dropdown a:hover {
-  background: rgba(16,185,129,0.15);
-  color: #34d399;
-}
-.topnav-dropdown .divider {
-  height: 1px;
-  background: #334155;
-  margin: 6px 4px;
-}
-.topnav-dropdown .tn-section {
-  padding: 6px 12px 4px;
-  font-size: 11px;
-  color: #64748b;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-@media (max-width: 768px) {
-  .topnav-menu { flex-wrap: wrap; }
-}
-
-/* ===== 通用样式 ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  background: #f8fafc;
-  color: #1e293b;
-  line-height: 1.6;
-  min-height: 100vh;
-  padding: 24px 32px;
-}
-.container { max-width: 1400px; margin: 0 auto; }
-
-/* ===== 面包屑 ===== */
-.breadcrumb {
-  padding: 8px 16px;
-  font-size: 12px;
-  color: #64748b;
-  margin-bottom: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.breadcrumb a { color: #3b82f6; text-decoration: none; }
-.breadcrumb .sep { color: #cbd5e1; }
-.breadcrumb .current { color: #1e293b; font-weight: 500; }
-
-/* ===== 按钮 ===== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: #10b981;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-}
-.btn:hover { background: #059669; }
-.btn-secondary { background: #fff; color: #475569; border: 1px solid #e2e8f0; }
-.btn-secondary:hover { background: #f1f5f9; }
-
-.container { max-width: 1400px; margin: 0 auto; }
-.welcome-bar {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  color: #fff;
-  border-radius: 18px;
-  padding: 36px 40px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
-.welcome-bar h1 { font-size: 30px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.3px; }
-.welcome-bar .sub { font-size: 15px; color: #94a3b8; }
-.welcome-bar::after {
-  content: '';
-  position: absolute;
-  top: -50%; right: -10%;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
-  border-radius: 50%;
-}
-
-/* ===== KPI 条 ===== */
-.kpi-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-.kpi-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 24px 20px;
-  text-align: center;
-}
-.kpi-value {
-  font-size: 36px;
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1;
-}
-.kpi-card.k1 .kpi-value { color: #10b981; }
-.kpi-card.k2 .kpi-value { color: #3b82f6; }
-.kpi-card.k3 .kpi-value { color: #8b5cf6; }
-.kpi-card.k4 .kpi-value { color: #f59e0b; }
-.kpi-label { font-size: 14px; color: #475569; margin-top: 10px; font-weight: 500; }
-.kpi-meta { font-size: 13px; color: #94a3b8; margin-top: 4px; }
-
-/* ===== Section ===== */
-.section {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 28px 32px;
-  margin-bottom: 24px;
-}
-.section h2 {
-  font-size: 19px;
-  font-weight: 600;
-  color: #0f172a;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.section h2 .meta-tag {
-  font-size: 11px;
-  font-weight: 400;
-  background: #f1f5f9;
-  color: #475569;
-  padding: 3px 10px;
-  border-radius: 20px;
-}
-
-/* ===== 角色快速通道 ===== */
-.role-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-}
-.role-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 24px 16px;
-  text-align: center;
-  text-decoration: none;
-  color: #1e293b;
-  transition: all .2s;
-}
-.role-card:hover {
-  transform: translateY(-2px);
-  border-color: #10b981;
-  background: #fff;
-  box-shadow: 0 6px 16px rgba(16,185,129,0.1);
-}
-.role-card .r-icon { font-size: 34px; margin-bottom: 10px; }
-.role-card .r-title { font-size: 16px; font-weight: 600; }
-.role-card .r-sub { font-size: 13px; color: #64748b; margin-top: 6px; }
-.role-card.placeholder {
-  background: #f8fafc;
-  border: 2px dashed #cbd5e1;
-  opacity: 0.6;
-}
-
-/* ===== 时间线 ===== */
-.timeline { position: relative; padding-left: 24px; }
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 8px; top: 6px; bottom: 6px;
-  width: 2px;
-  background: #e2e8f0;
-}
-.tl-item {
-  position: relative;
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-}
-.tl-item::before {
-  content: '';
-  position: absolute;
-  left: -22px; top: 16px;
-  width: 12px; height: 12px;
-  background: #fff;
-  border: 3px solid #10b981;
-  border-radius: 50%;
-}
-.tl-item.fresh::before { background: #10b981; }
-.tl-date { font-size: 13px; color: #64748b; font-weight: 500; }
-.tl-title { font-size: 16px; color: #0f172a; margin: 6px 0; font-weight: 600; }
-.tl-meta { font-size: 14px; color: #64748b; }
-.tl-meta a { color: #3b82f6; text-decoration: none; }
-.tl-meta a:hover { text-decoration: underline; }
-
-/* ===== 系统健康度 ===== */
-.sys-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-.sys-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px;
-}
-.sys-name { font-size: 15px; font-weight: 600; color: #0f172a; }
-.sys-status {
-  display: inline-block;
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  margin-left: 6px;
-  font-weight: 500;
-}
-.sys-status.live { background: #d1fae5; color: #065f46; }
-.sys-status.dev  { background: #fef3c7; color: #92400e; }
-.sys-status.todo { background: #fee2e2; color: #991b1b; }
-.sys-progress {
-  margin-top: 10px;
-  height: 6px;
-  background: #e2e8f0;
-  border-radius: 3px;
-  overflow: hidden;
-}
-.sys-bar { height: 100%; border-radius: 3px; }
-.sys-bar.live { background: #10b981; }
-.sys-bar.dev { background: #f59e0b; }
-.sys-bar.todo { background: #ef4444; }
-.sys-meta { font-size: 13px; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
-
-@media (max-width: 768px) {
-  .kpi-row, .role-grid, .sys-grid { grid-template-columns: 1fr 1fr; }
-  .topnav-menu { flex-wrap: wrap; }
-}
-
-/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 24px;
-  box-sizing: border-box;
-}
-.site-shell > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.site-shell > .container {
-  width: 100% !important;
-  max-width: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-.site-shell > .topnav {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box;
-}
-.site-shell.presentation-shell {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  padding: 0;
-  height: auto;
-}
-body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-@media (max-width: 1200px) {
-  .site-shell { padding-left: 16px; padding-right: 16px; }
-}
-
 </style>
 </head>
 <body>
-<div class="site-shell">
+
+<nav class="topnav">
+  <div class="logo">📘 杰德瑞恩生活手册</div>
+  <div class="nav-links">
+    <a href="#" data-page="home" class="active">🏠 首页</a>
+    <a href="#" data-page="car">🚗 车子</a>
+    <a href="#" data-page="housing">🏢 房子</a>
+    <a href="#" data-page="invest">💰 投资</a>
+    <a href="#" data-page="profile">👤 个人档案</a>
+  </div>
+  <span class="version">v2.0 · 更新于 2026-07-26</span>
+</nav>
+
+
+<main class="page active" id="pg-home">
 <div class="container">
 
-
-<div class="topnav">
-  <a href="index.html" class="topnav-brand">
-    <span class="logo">●</span>
-    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
-  </a>
-  <div class="topnav-menu">
-    <a href="index.html" class="topnav-item active">
-      <span class="tn-icon">⌂</span>
-      <span class="tn-label">首页</span>
-    </a>
-    <a href="business-scenarios.html" class="topnav-item">
-      <span class="tn-icon">▤</span>
-      <span class="tn-label">业务场景</span>
-      <span class="tn-badge">2</span>
-    </a>
-        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
-      <span class="tn-icon">▦</span>
-      <span class="tn-label">系统中心</span>
-      <span class="tn-arrow">▾</span>
-      <div class="topnav-dropdown">
-        <a href="erp-center.html">📦 ERP 项目实施</a>
-        <a href="plm-center.html">🔧 PLM 项目实施</a>
-        <a href="ehr-center.html">👥 EHR 系统</a>
-        <a href="it-panorama.html">💻 IT 全景</a>
-        <div class="divider"></div>
-        <a href="company-intro.html">🏢 公司背景</a>
-        <a href="management-reform.html">⚙️ 管理变革</a>
-      </div>
-    </div>
-<a href="site-map.html" class="topnav-item">
-      <span class="tn-icon">▦</span>
-      <span class="tn-label">站点地图</span>
-    </a>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
-      <span class="tn-icon">◉</span>
-      <span class="tn-label">知识沉淀</span>
-      <span class="tn-arrow">▾</span>
-      <div class="topnav-dropdown">
-        <div class="tn-section">内部知识网络</div>
-        <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
-        <a href="key-files-manager.html">🗂️ 归档文件柜</a>
-        <div class="divider"></div>
-        <div class="tn-section">个人成长</div>
-        <a href="flow-vs-short-video.html">◎ 心流与短视频</a>
-        <div class="divider"></div>
-        <div class="tn-section">外部参考</div>
-        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
-      </div>
-    </div>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
-      <span class="tn-icon">◔</span>
-      <span class="tn-label">我</span>
-      <span class="tn-arrow">▾</span>
-      <div class="topnav-dropdown">
-        <div class="tn-section">个人信息</div>
-        <a href="site-map.html">🗺️ 站点地图</a>
-        <div class="divider"></div>
-        <a href="key-files-overview.html">📋 我的笔记</a>
-        <a href="key-files-manager.html">⭐ 收藏夹</a>
-        <a href="site-map.html">📌 最近浏览</a>
-        <div class="divider"></div>
-        <div class="tn-section">设置</div>
-        <a href="index.html">⚙️ 偏好</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <!-- 欢迎条 -->
-  <div class="welcome-bar">
-    <h1>下午好，杰德瑞恩J</h1>
-    <div class="sub">2026-07-23 18:09 · 今日有 <strong style="color:#10b981">2 个新业务场景</strong> 待沉淀，<strong style="color:#3b82f6">3 个</strong> 待办事项</div>
-  </div>
-
-  <!-- KPI 条 -->
-  <div class="kpi-row">
-    <div class="kpi-card k1">
-      <div class="kpi-value">4</div>
-      <div class="kpi-label">ERP 模块上线</div>
-      <div class="kpi-meta">销售/采购/库存/财务</div>
-    </div>
-    <div class="kpi-card k2">
-      <div class="kpi-value">2</div>
-      <div class="kpi-label">业务场景学习页</div>
-      <div class="kpi-meta">07-23 委外 + IOR BOM</div>
-    </div>
-    <div class="kpi-card k3">
-      <div class="kpi-value">31</div>
-      <div class="kpi-label">总页面数</div>
-      <div class="kpi-meta">按 10 类分布</div>
-    </div>
-    <div class="kpi-card k4">
-      <div class="kpi-value">14</div>
-      <div class="kpi-label">铁律</div>
-      <div class="kpi-meta">指导所有内容沉淀</div>
+  <!-- Hero -->
+  <div class="hero">
+    <h1>📘 个人生活知识网络</h1>
+    <p>房子 · 车子 · 投资 · 个人档案 —— 一切个人决策，一站式沉淀</p>
+    <div class="hero-row">
+      <div class="hero-stat"><div class="val">4</div><div class="lbl">生活模块</div></div>
+      <div class="hero-stat"><div class="val">12+</div><div class="lbl">楼盘数据</div></div>
+      <div class="hero-stat"><div class="val">2套</div><div class="lbl">用车方案</div></div>
+      <div class="hero-stat"><div class="val">¥2.9万</div><div class="lbl">基金持仓</div></div>
     </div>
   </div>
 
-  <!-- 5 角色快速通道 -->
-  <div class="section">
-    <h2>🚀 我是 · 角色快速通道（自用复盘工具）</h2>
-    <div class="role-grid">
-      <a href="it-panorama.html" class="role-card">
-        <div class="r-icon">💻</div>
-        <div class="r-title">IT 主管</div>
-        <div class="r-sub">系统健康 + 工单进度</div>
-      </a>
-      <a href="erp-finance.html" class="role-card">
-        <div class="r-icon">💰</div>
-        <div class="r-title">财务视角</div>
-        <div class="r-sub">应付/成本/凭证</div>
-      </a>
-      <a href="erp-procurement.html" class="role-card">
-        <div class="r-icon">📦</div>
-        <div class="r-title">采购视角</div>
-        <div class="r-sub">委外/库存/价格</div>
-      </a>
-      <a href="plm-center.html" class="role-card">
-        <div class="r-icon">🔬</div>
-        <div class="r-title">研发视角</div>
-        <div class="r-sub">PLM + BOM 审批</div>
-      </a>
-      <a href="management-reform.html" class="role-card">
-        <div class="r-icon">👔</div>
-        <div class="r-title">老板视角</div>
-        <div class="r-sub">自我复盘工具</div>
-      </a>
+  <!-- 4 大模块入口 -->
+  <div class="sec-hdr"><h2>🧭 4 大生活模块</h2></div>
+  <div class="g4" style="margin-bottom:22px;">
+    <div class="mod-card active" data-page="car">
+      <div class="mod-icon">🚗</div>
+      <div class="mod-name">车子</div>
+      <div class="mod-desc">买二手车 vs 租车方案对比。年均成本、累计 5/10 年、决策建议。</div>
+      <div class="mod-stat">
+        <div class="mod-stat-item"><div class="v" style="color:var(--blue);">2</div><div class="l">对比方案</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--green);">¥28k</div><div class="l">年均成本</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--orange);">3天后</div><div class="l">建议决策</div></div>
+      </div>
     </div>
-    <div style="margin-top:14px;font-size:12px;color:#64748b;text-align:center;">⚠️ 全部 dashboard 为自用复盘（铁律 14），非汇报场景</div>
-  </div>
 
-  <!-- 业务场景时间线 -->
-  <div class="section">
-    <h2>📋 业务场景时间线 <span class="meta-tag">最新在上</span><a href="business-scenarios.html" style="margin-left:auto;font-size:12px;color:#3b82f6;text-decoration:none">查看全部 →</a></h2>
-    <div class="timeline">
-      <div class="tl-item fresh">
-        <div class="tl-date">2026-07-24 · 今天</div>
-        <div class="tl-title">◎ 个人成长 → 心流工作与刷短视频的认知疲劳机制</div>
-        <div class="tl-meta">注意力切换 / 奖赏波动 / 心理内耗 · <a href="flow-vs-short-video.html">打开 →</a></div>
+    <div class="mod-card active" data-page="housing">
+      <div class="mod-icon">🏢</div>
+      <div class="mod-name">房子</div>
+      <div class="mod-desc">深圳 12 盘对比、贷款测算、装修预算、家具采购。从看房到入住全流程。</div>
+      <div class="mod-stat">
+        <div class="mod-stat-item"><div class="v" style="color:var(--green);">12</div><div class="l">楼盘</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--blue);">¥2,326</div><div class="l">最低月供</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--purple);">20%</div><div class="l">全流程进度</div></div>
       </div>
-      <div class="tl-item fresh">
-        <div class="tl-date">2026-07-23 · 今天</div>
-        <div class="tl-title">💼 ERP / 财务 → 委外生产与成本归集流程优化</div>
-        <div class="tl-meta">6 章节会议纪要 · 跨财务+采购+生产 · <a href="outsourcing-cost-allocation.html">打开 →</a></div>
+    </div>
+
+    <div class="mod-card warn" data-page="invest">
+      <div class="mod-icon">💰</div>
+      <div class="mod-name">投资</div>
+      <div class="mod-desc">基金持仓 ¥2.9 万、房产投资、机器人/AI/电网行业逻辑。黄金防御为主。</div>
+      <div class="mod-stat">
+        <div class="mod-stat-item"><div class="v" style="color:var(--green);">¥29.5k</div><div class="l">总资产</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--red);">-7.4%</div><div class="l">整体收益</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--blue);">7</div><div class="l">持仓</div></div>
       </div>
-      <div class="tl-item">
-        <div class="tl-date">2026-07-23</div>
-        <div class="tl-title">🍊 PLM / 研发 → IOR 飞针 X4E0156-165（E 系列单面四飞针）</div>
-        <div class="tl-meta">BOM 556 零件 · 机械标准件 125 + 非标件 286 + 电气标准件 145 · <a href="ior-bom.html">打开 →</a></div>
-      </div>
-      <div class="tl-item" style="opacity:0.4">
-        <div class="tl-date">2026-07-22</div>
-        <div class="tl-title">⚙️ 4 个网站 bug 综合修复（菜单延迟/全站地图/入口/双入口）</div>
-        <div class="tl-meta">纯技术修复 — 已完成</div>
-      </div>
-      <div class="tl-item" style="opacity:0.3">
-        <div class="tl-date">——</div>
-        <div class="tl-title">📝 更多历史沉淀（部署在归档文件柜）</div>
-        <div class="tl-meta"><a href="key-files-manager.html">查归档 →</a></div>
+    </div>
+
+    <div class="mod-card relax" data-page="profile">
+      <div class="mod-icon">👤</div>
+      <div class="mod-name">个人档案</div>
+      <div class="mod-desc">基本信息、财务快照、行动计划（看房/购车/饮食/健身/学习）。</div>
+      <div class="mod-stat">
+        <div class="mod-stat-item"><div class="v" style="color:var(--blue);">¥21.5k</div><div class="l">月到手</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--green);">186cm</div><div class="l">身高</div></div>
+        <div class="mod-stat-item"><div class="v" style="color:var(--orange);">5</div><div class="l">行动待办</div></div>
       </div>
     </div>
   </div>
 
-  <!-- 系统健康度 -->
-  <div class="section">
-    <h2>🏢 系统健康度 · 4 大系统</h2>
-    <div class="sys-grid">
-      <div class="sys-card">
-        <div class="sys-name">📦 ERP<span class="sys-status live">上线</span></div>
-        <div class="sys-progress"><div class="sys-bar live" style="width:66%"></div></div>
-        <div class="sys-meta">4/6 模块上线（销售/采购/库存/财务）· 共用料/PLM 对接在途</div>
+  <!-- 紧急/今日清单 -->
+  <div class="g23" style="margin-bottom:22px;">
+    <div class="card">
+      <div class="card-hdr"><h3>⚡ 待办行动 · 优先级排序</h3><span class="badge" style="background:var(--red-light);color:var(--red);">5 项进行中</span></div>
+      <div class="card-body">
+        <div class="act-item doing"><span class="act-icon">🔴</span><span>【高优】车成本对比 → 决策买/租方案（3 天内）</span></div>
+        <div class="act-item doing"><span class="act-icon">🔴</span><span>【高优】深铁璟城售楼处实地看房</span></div>
+        <div class="act-item doing"><span class="act-icon">🟡</span><span>【中优】关注福汇阁后续退房/常态化房源</span></div>
+        <div class="act-item doing"><span class="act-icon">🟡</span><span>【中优】准备学历证书、社保清单（认购所需）</span></div>
+        <div class="act-item doing"><span class="act-icon">🟢</span><span>【低优】基金定投计划：机器人 ETF 观望 3 个月后再评估</span></div>
+        <div class="act-item done"><span class="act-icon">✅</span><span>完成 12 个深圳保障房数据入库对比</span></div>
+        <div class="act-item done"><span class="act-icon">✅</span><span>完成深铁璟城/福汇阁贷款能力测算</span></div>
+        <div class="act-item done"><span class="act-icon">✅</span><span>确认两人深圳户籍状态</span></div>
       </div>
-      <div class="sys-card">
-        <div class="sys-name">🔧 PLM<span class="sys-status dev">启动</span></div>
-        <div class="sys-progress"><div class="sys-bar dev" style="width:15%"></div></div>
-        <div class="sys-meta">启动会 7 月初已开 · 业务流程梳理阶段</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card">
+        <div class="card-hdr"><h3>💰 财务快照</h3></div>
+        <div class="card-body">
+          <div class="sr"><span class="sr-l">你 · 月到手</span><span class="sr-r">¥13,500</span></div>
+          <div class="sr"><span class="sr-l">女友 · 月到手</span><span class="sr-r">¥8,000</span></div>
+          <div class="sr" style="font-weight:700;"><span>家庭月收入</span><span style="color:var(--green);">¥21,500</span></div>
+          <div class="sr"><span class="sr-l">当前月租</span><span class="sr-r" style="color:var(--red);">−¥4,000</span></div>
+          <div class="sr"><span class="sr-l">月供实付（若购深铁璟城）</span><span class="sr-r" style="color:var(--orange);">−¥2,326</span></div>
+          <div class="sr"><span class="sr-l">公积金余额</span><span class="sr-r">¥94,000</span></div>
+          <div class="sr"><span class="sr-l">基金总市值</span><span class="sr-r">¥21,537</span></div>
+          <div class="sr" style="font-weight:700;"><span>🏦 可支配净额/月</span><span style="color:var(--green);">¥15,174</span></div>
+        </div>
       </div>
-      <div class="sys-card">
-        <div class="sys-name">👥 EHR<span class="sys-status live">上线</span></div>
-        <div class="sys-progress"><div class="sys-bar live" style="width:80%"></div></div>
-        <div class="sys-meta">47 节点排查完成 · 9 项 SOP 待持续优化</div>
-      </div>
-      <div class="sys-card">
-        <div class="sys-name">💻 IT<span class="sys-status live">在线</span></div>
-        <div class="sys-progress"><div class="sys-bar live" style="width:90%"></div></div>
-        <div class="sys-meta">搬迁项目进行中 · 弱电网线/机房在途</div>
+      <div class="card">
+        <div class="card-hdr"><h3>📊 系统更新时间</h3></div>
+        <div class="card-body" style="font-size:12px;color:var(--sub);">
+          <div style="padding:4px 0;"><b style="color:var(--text);">2026-07-26</b> · v2.0 上线 · 5 模块架构重构 + 🚗 车子模块首次沉淀</div>
+          <div style="padding:4px 0;"><b style="color:var(--text);">2026-07-25</b> · 北森 EHR 职务序列导入修正（v1.5）</div>
+          <div style="padding:4px 0;"><b style="color:var(--text);">2026-05-16</b> · 购房全流程系统 v1.0 沉淀（12 盘数据）</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div style="margin-top:24px;text-align:center;font-size:12px;color:#94a3b8">本平台为个人知识网络体系（铁律 14）· 内容是"我给自己看的笔记" · 2026-07-23 18:09</div>
+  <!-- 决策树 -->
+  <div class="sec-hdr"><h2>🌳 当前关键决策树</h2><span class="badge">需在 30 天内决断</span></div>
+  <div class="g2" style="margin-bottom:22px;">
+    <div class="card" style="background:linear-gradient(135deg,#eff6ff,#fff);">
+      <div class="card-hdr" style="border-bottom:2px solid var(--blue);"><h3 style="color:var(--blue);">🚗 车 · 决策路径</h3></div>
+      <div class="card-body" style="font-size:12px;">
+        <div style="padding:8px;background:#fff;border-left:3px solid var(--blue);border-radius:4px;margin-bottom:6px;">
+          <b>通勤距离</b> → 若 &lt;5km → 选<a href="#" data-page="car"><b>租车</b></a> ✅<br>
+          若 5-15km → 选<a href="#" data-page="car"><b>租车</b></a> ⚠️ 平衡<br>
+          若 &gt;15km → 选<a href="#" data-page="car"><b>买车</b></a> ✅
+        </div>
+        <div style="padding:8px;background:#fff;border-left:3px solid var(--green);border-radius:4px;margin-bottom:6px;">
+          <b>周末外出频次</b> → &lt;2 次/月 → 租车<br>
+          2-4 次/月 → 平衡<br>
+          &gt;4 次/月 → 买车
+        </div>
+        <div style="padding:8px;background:#fff;border-left:3px solid var(--orange);border-radius:4px;">
+          <b>回家频次（梅州）</b> → &lt;2 次/年 → 租车<br>
+          3-4 次/年 → 平衡<br>
+          &gt;4 次/年 → 买车
+        </div>
+      </div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#ecfdf5,#fff);">
+      <div class="card-hdr" style="border-bottom:2px solid var(--green);"><h3 style="color:var(--green);">🏢 房 · 决策路径</h3></div>
+      <div class="card-body" style="font-size:12px;">
+        <div style="padding:8px;background:#fff;border-left:3px solid var(--green);border-radius:4px;margin-bottom:6px;">
+          <b>首选</b> → <a href="#" data-page="housing">深铁璟城</a>（2.40万/㎡，165万，首付24万）<br>
+          ✅ 价格优势 + 通勤5站 · 期房 2026.12 交付
+        </div>
+        <div style="padding:8px;background:#fff;border-left:3px solid var(--orange);border-radius:4px;margin-bottom:6px;">
+          <b>备选</b> → <a href="#" data-page="housing">安居福汇阁</a>（3.04万/㎡，213万，首付32万）<br>
+          ✅ 现房即买即住 · 仅 28 套（7.9 摇号）
+        </div>
+        <div style="padding:8px;background:#fff;border-left:3px solid var(--red);border-radius:4px;">
+          <b>暂缓</b> → <a href="#" data-page="housing">庆宜华苑棚改</a>（~5.0万/㎡，超预算 26 万）<br>
+          ❌ 单价高、超预算 · 仅长期跟踪
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
+<div class="footer">杰德瑞恩生活手册 v2.0 · 个人决策沉淀 · 更新于 2026-07-26</div>
+</main>
+
+
+<main class="page" id="pg-car">
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero" style="background:linear-gradient(135deg,#dc2626 0%,#b91c1c 50%,#7f1d1d 100%);">
+    <h1>🚗 车的年均成本对比</h1>
+    <p>买二手车（特斯拉 Model 3）vs 租车（节假日+偶尔用车）—— 两种方案的年均成本、累计 10 年支出、决策建议</p>
+    <div class="hero-row">
+      <div class="hero-stat"><div class="val">¥28.0k</div><div class="lbl">方案一 · 买车 · 年均</div></div>
+      <div class="hero-stat"><div class="val">¥28.5k</div><div class="lbl">方案二 · 租车 · 年均</div></div>
+      <div class="hero-stat"><div class="val" style="color:#fbbf24;">≈ 持平</div><div class="lbl">差额（10年）</div></div>
+      <div class="hero-stat"><div class="val">100,000</div><div class="lbl">买车一次性投入</div></div>
+    </div>
+  </div>
+
+  <!-- 核心结论 -->
+  <div class="card" style="margin-bottom:22px;background:linear-gradient(135deg,#fff7ed,#fef3c7);border:1px solid var(--orange);">
+    <div class="card-body">
+      <div style="font-size:14px;font-weight:800;color:var(--orange);margin-bottom:8px;">🎯 核心结论</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--text);">
+        <b>年均成本基本持平</b>（约 28,000 元/年），但两种方案的<b>资金占用</b>和<b>灵活性</b>差异巨大：
+        <br>• 方案一需要<b>一次性投入 10 万</b>（占用流动资金），但随时可用、面子加成；
+        <br>• 方案二<b>零前期投入</b>，但需要预约、节假日溢价 2-3 倍。
+        <br><br>
+        💡 <b>决策关键不在钱，在于场景</b>：通勤距离、周末外出频次、回梅州频次、个人对自有车的偏好。
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. 方案一：二手车 -->
+  <div class="sec-hdr"><h2>🚘 方案一：买二手特斯拉（车价 10 万）</h2><span class="badge" style="background:var(--blue-light);color:var(--blue);">年均 ¥28,000</span></div>
+
+  <div class="g2" style="margin-bottom:14px;">
+    <!-- 折旧/车价 -->
+    <div class="card">
+      <div class="card-hdr"><h3>💰 折旧 + 车价分摊</h3><span class="badge" style="background:var(--red-light);color:var(--red);">最大头</span></div>
+      <div class="card-body">
+        <div class="cost-row"><span class="cost-name">购车款（10万）</span><div class="cost-bar"><div class="cost-fill" style="width:100%;background:var(--red);"></div></div><span class="cost-val" style="color:var(--red);">100,000</span></div>
+        <div class="cost-row"><span class="cost-name">年均车价分摊（÷8年）</span><div class="cost-bar"><div class="cost-fill" style="width:80%;background:var(--orange);"></div></div><span class="cost-val" style="color:var(--orange);">12,500</span></div>
+        <div class="cost-row"><span class="cost-name">年均折旧（5年残值3万）</span><div class="cost-bar"><div class="cost-fill" style="width:88%;background:var(--orange);"></div></div><span class="cost-val" style="color:var(--orange);">14,000</span></div>
+        <div style="font-size:11px;color:var(--sub);margin-top:8px;padding:8px;background:var(--orange-light);border-radius:6px;">
+          💡 电动车折旧比油车快：3 年跌 50%，5 年跌 70%，8 年基本报废。
+          按 5 年使用 → 残值 3 万，年均折旧 14,000。
+        </div>
+      </div>
+    </div>
+
+    <!-- 保险 + 其他 -->
+    <div class="card">
+      <div class="card-hdr"><h3>📋 保险 + 杂费</h3></div>
+      <div class="card-body">
+        <div class="cost-row"><span class="cost-name">交强险</span><div class="cost-bar"><div class="cost-fill" style="width:6%;background:var(--blue);"></div></div><span class="cost-val">950</span></div>
+        <div class="cost-row"><span class="cost-name">商业险（三者200万+车损）</span><div class="cost-bar"><div class="cost-fill" style="width:40%;background:var(--blue);"></div></div><span class="cost-val">6,050</span></div>
+        <div class="cost-row"><span class="cost-name">停车费（深圳 500/月）</span><div class="cost-bar"><div class="cost-fill" style="width:40%;background:var(--blue);"></div></div><span class="cost-val">6,000</span></div>
+        <div class="cost-row"><span class="cost-name">保养 + 洗车 + 维修</span><div class="cost-bar"><div class="cost-fill" style="width:13%;background:var(--blue);"></div></div><span class="cost-val">2,000</span></div>
+        <div class="cost-row"><span class="cost-name">高速费（回家 4 次/年）</span><div class="cost-bar"><div class="cost-fill" style="width:3%;background:var(--blue);"></div></div><span class="cost-val">400</span></div>
+        <div class="cost-row"><span class="cost-name">违章 + 其他</span><div class="cost-bar"><div class="cost-fill" style="width:2%;background:var(--blue);"></div></div><span class="cost-val">200</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 充电费 -->
+  <div class="card" style="margin-bottom:22px;">
+    <div class="card-hdr"><h3>⚡ 充电费（按 1.5 万公里/年）</h3><span class="badge" style="background:var(--green-light);color:var(--green);">年均 ¥1,500</span></div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">
+        <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:11px;color:var(--sub);">总公里数</div>
+          <div style="font-size:22px;font-weight:800;color:var(--text);">15,000 km</div>
+          <div style="font-size:10px;color:var(--sub);">深圳通勤 + 周末 + 回家</div>
+        </div>
+        <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:11px;color:var(--sub);">Model 3 电耗</div>
+          <div style="font-size:22px;font-weight:800;color:var(--blue);">15 kWh</div>
+          <div style="font-size:10px;color:var(--sub);">每百公里</div>
+        </div>
+        <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:11px;color:var(--sub);">年总电耗</div>
+          <div style="font-size:22px;font-weight:800;color:var(--blue);">2,250 kWh</div>
+          <div style="font-size:10px;color:var(--sub);">≈ 2250 度</div>
+        </div>
+        <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:11px;color:var(--sub);">混合电价</div>
+          <div style="font-size:22px;font-weight:800;color:var(--green);">≈ 0.67 元/度</div>
+          <div style="font-size:10px;color:var(--sub);">家充 70% + 公充 30%</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--sub);margin-top:10px;padding:8px;background:var(--green-light);border-radius:6px;color:var(--green);">
+        💡 比油车省多了！同公里数油车约 12,000 元/年（按 8L/100km × 7.5元/L）。电动车 5 年可省 ≈ 5 万油费。
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 方案二：租车 -->
+  <div class="sec-hdr"><h2>🚙 方案二：租车（按需租）</h2><span class="badge" style="background:var(--green-light);color:var(--green);">年均 ¥28,500</span></div>
+
+  <div class="card" style="margin-bottom:14px;">
+    <div class="card-hdr"><h3>📅 节假日 + 周末租车明细</h3></div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>场景</th><th>天数</th><th>单价（元/天）</th><th>小计（元）</th><th>说明</th>
+        </tr></thead>
+        <tbody>
+          <tr style="background:#fef2f2;">
+            <td class="hl">🧨 春节回家</td><td>10</td><td>1,000</td><td class="hl" style="color:var(--red);">10,000</td><td>节假日溢价 2-3 倍</td>
+          </tr>
+          <tr>
+            <td class="hl">🏖️ 五一</td><td>5</td><td>600</td><td>3,000</td><td>5 天小长假</td>
+          </tr>
+          <tr>
+            <td class="hl">🇨🇳 国庆</td><td>7</td><td>700</td><td>4,900</td><td>7 天大长假</td>
+          </tr>
+          <tr>
+            <td>🎄 元旦</td><td>3</td><td>500</td><td>1,500</td><td></td>
+          </tr>
+          <tr>
+            <td>🌸 清明</td><td>3</td><td>400</td><td>1,200</td><td></td>
+          </tr>
+          <tr>
+            <td>🐉 端午</td><td>3</td><td>400</td><td>1,200</td><td></td>
+          </tr>
+          <tr>
+            <td>🌕 中秋</td><td>3</td><td>400</td><td>1,200</td><td></td>
+          </tr>
+          <tr>
+            <td>🚗 偶尔周末（5-8次）</td><td>8</td><td>400</td><td>3,200</td><td>短途自驾、应急</td>
+          </tr>
+          <tr>
+            <td>🚕 网约车补充</td><td>12 月</td><td>200/月</td><td>2,400</td><td>日常打车</td>
+          </tr>
+          <tr style="background:#fff7ed;font-weight:700;">
+            <td colspan="3" style="text-align:right;">💰 年合计</td>
+            <td style="color:var(--orange);">28,600</td>
+            <td>取整 <b>¥28,500</b></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 5 年/10 年累计对比 -->
+  <div class="sec-hdr"><h2>📊 5 年/10 年累计成本对比</h2><span class="badge">长跑视角</span></div>
+  <div class="g3" style="margin-bottom:22px;">
+    <div class="sum-box">
+      <div class="sum-val" style="color:var(--blue);">¥140,000</div>
+      <div class="sum-lbl">方案一 · 5 年累计</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:6px;">28,000 × 5</div>
+    </div>
+    <div class="sum-box">
+      <div class="sum-val" style="color:var(--green);">¥142,500</div>
+      <div class="sum-lbl">方案二 · 5 年累计</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:6px;">28,500 × 5</div>
+    </div>
+    <div class="sum-box warn">
+      <div class="sum-val" style="color:var(--orange);">+¥2,500</div>
+      <div class="sum-lbl">方案二比方案一贵</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:6px;">基本持平</div>
+    </div>
+    <div class="sum-box">
+      <div class="sum-val" style="color:var(--blue);">¥280,000</div>
+      <div class="sum-lbl">方案一 · 10 年累计</div>
+    </div>
+    <div class="sum-box">
+      <div class="sum-val" style="color:var(--green);">¥285,000</div>
+      <div class="sum-lbl">方案二 · 10 年累计</div>
+    </div>
+    <div class="sum-box warn">
+      <div class="sum-val" style="color:var(--orange);">+¥5,000</div>
+      <div class="sum-lbl">10 年差距</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:6px;">几乎可忽略</div>
+    </div>
+  </div>
+
+  <!-- 4. 关键决策因素 -->
+  <div class="sec-hdr"><h2>🎯 决策关键 · 不在钱 在场景</h2></div>
+  <div class="g2" style="margin-bottom:22px;">
+    <div class="card">
+      <div class="card-hdr" style="border-bottom:2px solid var(--green);"><h3 style="color:var(--green);">✅ 适合买车的场景</h3></div>
+      <div class="card-body" style="font-size:13px;line-height:1.8;">
+        <div>🚇 <b>通勤距离 > 15km</b>（地铁超过 1 小时）</div>
+        <div>🏖️ <b>周末外出 > 4 次/月</b>（租车周末紧俏）</div>
+        <div>🏠 <b>回梅州 > 4 次/年</b>（春节以外的节假日也回）</div>
+        <div>👶 <b>3-5 年内有生育计划</b>（带娃出行刚需）</div>
+        <div>💼 <b>工作需要车辆</b>（如客户拜访、跑工地）</div>
+        <div>💰 <b>现金充裕</b>（10 万购车不影响生活质量）</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr" style="border-bottom:2px solid var(--blue);"><h3 style="color:var(--blue);">✅ 适合租车的场景</h3></div>
+      <div class="card-body" style="font-size:13px;line-height:1.8;">
+        <div>🚇 <b>通勤距离 < 10km</b>（地铁/打车足够）</div>
+        <div>🏠 <b>周末外出 < 2 次/月</b>（生活规律）</div>
+        <div>🏠 <b>回梅州 < 2 次/年</b>（节假日合并租车）</div>
+        <div>💰 <b>现金紧张</b>（10 万购车款用来付首付更划算）</div>
+        <div>🎯 <b>追求灵活</b>（想换不同车型体验）</div>
+        <div>🚗 <b>怕麻烦</b>（保养、剐蹭、保险都不用操心）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 关键参数 + 公式 -->
+  <div class="sec-hdr"><h2>📐 关键参数与计算公式</h2></div>
+  <div class="card">
+    <div class="card-body">
+      <div class="g2">
+        <div>
+          <div style="font-weight:700;color:var(--blue);margin-bottom:6px;">📐 方案一 公式</div>
+          <div style="font-size:12px;font-family:Consolas,monospace;background:var(--blue-light);padding:10px;border-radius:6px;line-height:1.6;">
+            年均成本 = 车价分摊 + 折旧 + 保险 + 充电 + 停车 + 其他<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 12,500 + 14,000 + 7,000 + 1,500 + 6,000 + 2,600<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <b>43,600 元/年</b><br>
+            <br>
+            扣除车价分摊（不计入现金流）：<br>
+            实际使用成本 = 31,100 元/年<br>
+            10 年使用成本 ≈ 280,000 - 100,000 残值<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 28,000 元/年（按 8 年使用）
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--green);margin-bottom:6px;">📐 方案二 公式</div>
+          <div style="font-size:12px;font-family:Consolas,monospace;background:var(--green-light);padding:10px;border-radius:6px;line-height:1.6;">
+            年均成本 = 节假日 + 偶尔 + 网约车<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = (春节 + 五一 + 国庆 + 元旦 + 清明 + 端午 + 中秋)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + 周末偶尔 + 网约车<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = (10000 + 3000 + 4900 + 1500 + 1200×3)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + 3200 + 2400<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <b>28,600 元/年</b><br>
+            <br>
+            弹性调整：<br>
+            • 多 1 次周末 → +400<br>
+            • 多回 1 次家 → +2,500
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 我的最终建议 -->
+  <div class="card" style="margin-bottom:22px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid var(--blue);">
+    <div class="card-hdr" style="border-bottom:2px solid var(--blue);"><h3 style="color:var(--blue);">💡 我的建议 · 暂缓买车，先租车</h3></div>
+    <div class="card-body" style="font-size:13px;line-height:1.8;">
+      <div style="padding:10px;background:#fff;border-radius:8px;margin-bottom:8px;">
+        <b>当前优先级：</b>房子首付 > 车子使用<br>
+        <span style="color:var(--sub);font-size:12px;">10 万购车款 ≈ 首付 6% 加分项，或可作 1 年的家庭应急储备</span>
+      </div>
+      <div style="padding:10px;background:#fff;border-radius:8px;margin-bottom:8px;">
+        <b>建议行动（未来 3-6 个月）：</b>
+        <ol style="margin-top:4px;padding-left:20px;">
+          <li>先租房 6-12 个月，体验真实用车需求</li>
+          <li>记录每次租车的实际频次 + 真实成本</li>
+          <li>若 6 个月后月均租车 > 3000 元 → 重新评估买车</li>
+          <li>若买房落地、装修完成 → 重新评估是否需要长期用车</li>
+        </ol>
+      </div>
+      <div style="padding:10px;background:var(--amber-light);border-radius:8px;color:var(--amber);font-size:12px;">
+        ⚠️ 重新评估的触发条件：① 回梅州 > 3 次/年 ② 周末租车溢价严重（节假日租不到）③ 通勤场景变化（如换工作到更远的地方）
+      </div>
+    </div>
+  </div>
+
 </div>
+<div class="footer">杰德瑞恩生活手册 v2.0 · 🚗 车子模块 · 更新于 2026-07-26</div>
+</main>
+
+
+<main class="page" id="pg-housing">
+<div class="container">
+
+  <!-- Sub-nav -->
+  <div class="subnav" style="margin-top:8px;">
+    <a href="#" data-subpage="h-compare" class="active">📊 楼盘对比</a>
+    <a href="#" data-subpage="h-loan">💰 贷款测算</a>
+    <a href="#" data-subpage="h-reno">📐 装修管理</a>
+    <a href="#" data-subpage="h-furniture">🛋️ 家具清单</a>
+    <a href="#" data-subpage="h-profile">👤 购房档案</a>
+  </div>
+
+  <!-- 楼盘对比（原 compare）-->
+  <div class="sub-page active" id="h-compare">
+    
+<div class="container">
+
+  <div class="sec-hdr" style="margin-top:8px;"><h2>📊 楼盘全对比分析</h2><span class="badge">12个项目 · 7维度评分</span></div>
+
+  <!-- 筛选栏 -->
+  <div class="cmp-bar">
+    <div class="cmp-title">筛选条件</div>
+    <div class="cmp-filters">
+      <span class="filter-chip active" data-filter="all">全部</span>
+      <span class="filter-chip" data-filter="recommend">⭐ 推荐</span>
+      <span class="filter-chip" data-filter="ready">✅ 现房</span>
+      <span class="filter-chip" data-filter="cheap">💰 低价(&lt;2.5万)</span>
+      <span class="filter-chip" data-filter="suitable">🎯 适合我</span>
+    </div>
+  </div>
+
+  <!-- 顶部对比表 -->
+  <div class="card" style="margin-bottom:16px;"><div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>排名</th><th>项目</th><th>区域</th><th>均价</th><th>两房总价</th><th>首付</th><th>月供</th><th>你通勤</th><th>女友通勤</th><th>交付</th><th>房源</th><th>评分</th>
+      </tr></thead>
+      <tbody id="cmpTableBody"></tbody>
+    </table>
+  </div></div>
+
+  <!-- 推荐项目详情卡片 -->
+  <div class="sec-hdr"><h2>⭐ 重点推荐 · 详细对比</h2></div>
+  <div class="g2" style="margin-bottom:16px;">
+
+    <!-- 深铁璟城 -->
+    <div class="cmp-detail-card rec" style="position:relative;">
+      <div class="cmp-rank">🥇</div>
+      <div style="position:relative;z-index:1;">
+        <div class="cmp-name">深铁璟城</div>
+        <div class="cmp-addr">📍 宝安松岗 · 11号线碧头站上盖TOD</div>
+        <div class="cmp-tags"><span class="tag tag-g">🏆 首推</span><span class="tag tag-o">期房</span><span class="tag tag-b">低月供</span></div>
+        <div class="cmp-stats">
+          <div class="cmp-stat" style="background:#ecfdf5;"><div class="cmp-val" style="color:var(--green);">2.40万</div><div class="cmp-lbl">均价/㎡</div></div>
+          <div class="cmp-stat"><div class="cmp-val">165万</div><div class="cmp-lbl">两房总价(~69㎡)</div></div>
+          <div class="cmp-stat" style="background:#ecfdf5;"><div class="cmp-val" style="color:var(--green);">24万</div><div class="cmp-lbl">首付15%</div></div>
+          <div class="cmp-stat" style="background:#ecfdf5;"><div class="cmp-val m-val" data-total="165" style="color:var(--green);">2,326</div><div class="cmp-lbl">月供实付/月</div><div class="m-formula"></div></div>
+        </div>
+        <div class="cmp-commute">
+          <div class="cr">🧑<span>你→桥头</span><span class="cr-time" style="color:var(--green);">🚇 5站·12分钟</span></div>
+          <div class="cr">👩<span>女友→固戍</span><span class="cr-time" style="color:var(--orange);">🚇 换乘1次·~45分钟</span></div>
+        </div>
+        <div style="font-size:12px;color:var(--sub);margin-bottom:10px;">
+          💰 首付自筹仅15.4万 · 公积金余额9.4万可用 · 纯公积金贷140.8万(2.6%)
+        </div>
+        <div class="prop-act"><button class="btn btn-pri btn-xs">🔍 详细分析</button><button class="btn btn-out btn-xs">📍 看房记录</button></div>
+      </div>
+    </div>
+
+    <!-- 安居福汇阁 -->
+    <div class="cmp-detail-card" style="position:relative;">
+      <div class="cmp-rank">🥈</div>
+      <div style="position:relative;z-index:1;">
+        <div class="cmp-name">安居福汇阁</div>
+        <div class="cmp-addr">📍 宝安福海·育桥路90号·步行900m到桥头站</div>
+        <div class="cmp-tags"><span class="tag tag-o">🥈 备选</span><span class="tag tag-b">现房</span><span class="tag tag-r">🔥 7.9摇号</span></div>
+        <div class="cmp-stats">
+          <div class="cmp-stat" style="background:#fff7ed;"><div class="cmp-val" style="color:var(--orange);">3.04万</div><div class="cmp-lbl">均价/㎡</div></div>
+          <div class="cmp-stat"><div class="cmp-val">213万</div><div class="cmp-lbl">两房总价(~70㎡)</div></div>
+          <div class="cmp-stat" style="background:#fff7ed;"><div class="cmp-val" style="color:var(--orange);">32万</div><div class="cmp-lbl">首付15%</div></div>
+          <div class="cmp-stat" style="background:#fff7ed;"><div class="cmp-val m-val" data-total="213" style="color:var(--orange);">3,970</div><div class="cmp-lbl">月供实付/月</div><div class="m-formula"></div></div>
+        </div>
+        <div class="cmp-commute">
+          <div class="cr">🧑<span>你→桥头</span><span class="cr-time" style="color:var(--green);">🚶 步行900m·10分钟</span></div>
+          <div class="cr">👩<span>女友→固戍</span><span class="cr-time" style="color:var(--blue);">🚇 换乘1次·~30分钟</span></div>
+        </div>
+        <div style="font-size:12px;color:var(--sub);margin-bottom:10px;">
+          ✅ 现房即买即住 · 2023年12月已竣工 · 毛坯交付 · 两房仅10套 · 7.9已摇号
+        </div>
+        <div class="prop-act"><button class="btn btn-out btn-xs">🔍 详细分析</button><button class="btn btn-out btn-xs">📍 看房记录</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 六维雷达对比图 (文字版) -->
+  <div class="sec-hdr"><h2>🎯 六维雷达对比</h2><span class="badge">深铁璟城 vs 安居福汇阁</span></div>
+  <div class="g2" style="margin-bottom:22px;">
+    <div class="radar-wrap">
+      <div class="radar-title" style="color:var(--green);">🏆 深铁璟城</div>
+      <div class="radar-row"><span class="rr-l">价格优势</span><div class="rr-bar"><div class="rr-fill" style="width:95%;background:var(--green);"></div></div><span class="rr-val">95</span></div>
+      <div class="radar-row"><span class="rr-l">通勤便利</span><div class="rr-bar"><div class="rr-fill" style="width:70%;background:var(--blue);"></div></div><span class="rr-val">70</span></div>
+      <div class="radar-row"><span class="rr-l">现房即住</span><div class="rr-bar"><div class="rr-fill" style="width:50%;background:var(--orange);"></div></div><span class="rr-val">50</span></div>
+      <div class="radar-row"><span class="rr-l">房源充足</span><div class="rr-bar"><div class="rr-fill" style="width:100%;background:var(--green);"></div></div><span class="rr-val">100</span></div>
+      <div class="radar-row"><span class="rr-l">地段价值</span><div class="rr-bar"><div class="rr-fill" style="width:55%;background:var(--blue);"></div></div><span class="rr-val">55</span></div>
+      <div class="radar-row"><span class="rr-l">生活配套</span><div class="rr-bar"><div class="rr-fill" style="width:65%;background:var(--purple);"></div></div><span class="rr-val">65</span></div>
+    </div>
+    <div class="radar-wrap">
+      <div class="radar-title" style="color:var(--orange);">🥈 安居福汇阁</div>
+      <div class="radar-row"><span class="rr-l">价格优势</span><div class="rr-bar"><div class="rr-fill" style="width:65%;background:var(--orange);"></div></div><span class="rr-val">65</span></div>
+      <div class="radar-row"><span class="rr-l">通勤便利</span><div class="rr-bar"><div class="rr-fill" style="width:95%;background:var(--green);"></div></div><span class="rr-val">95</span></div>
+      <div class="radar-row"><span class="rr-l">现房即住</span><div class="rr-bar"><div class="rr-fill" style="width:100%;background:var(--green);"></div></div><span class="rr-val">100</span></div>
+      <div class="radar-row"><span class="rr-l">房源充足</span><div class="rr-bar"><div class="rr-fill" style="width:20%;background:var(--red);"></div></div><span class="rr-val">20</span></div>
+      <div class="radar-row"><span class="rr-l">地段价值</span><div class="rr-bar"><div class="rr-fill" style="width:75%;background:var(--green);"></div></div><span class="rr-val">75</span></div>
+      <div class="radar-row"><span class="rr-l">生活配套</span><div class="rr-bar"><div class="rr-fill" style="width:70%;background:var(--purple);"></div></div><span class="rr-val">70</span></div>
+    </div>
+  </div>
+
+  <!-- 翻身四杰 -->
+  <div class="sec-hdr"><h2>🏘️ 翻身四杰（邻里间家园附近）</h2></div>
+  <div class="g4" style="margin-bottom:22px;">
+    <div class="cmp-detail-card">
+      <div class="cmp-name" style="font-size:15px;">庆宜华苑棚改二期</div>
+      <div class="cmp-addr">宝安新安 · 灵芝站 5/12 号线换乘附近</div>
+      <div class="cmp-tags"><span class="tag tag-o">📅 预计 2026</span><span class="tag tag-b">两房104套</span><span class="tag tag-r">超预算</span></div>
+      <div class="cmp-stats">
+        <div class="cmp-stat"><div class="cmp-val">~5.00万</div><div class="cmp-lbl">预计均价</div></div>
+        <div class="cmp-stat"><div class="cmp-val">340万</div><div class="cmp-lbl">两房总价</div></div>
+        <div class="cmp-stat"><div class="cmp-val" style="color:var(--red);">51万</div><div class="cmp-lbl">首付15%</div></div>
+        <div class="cmp-stat"><div class="cmp-val m-val" data-total="340" style="color:var(--red);">6,800+</div><div class="cmp-lbl">月供实付/月</div><div class="m-formula"></div></div>
+      </div>
+      <div style="font-size:11px;color:var(--sub);">⚠️ 单价 5 万、51 万首付远超 25 万预算上限 ❌ 暂不建议主推</div>
+    </div>
+    <div class="cmp-detail-card">
+      <div class="cmp-name" style="font-size:15px;">海乐华府</div>
+      <div class="cmp-addr">宝安新安 · 翻身路与海乐路</div>
+      <div class="cmp-tags"><span class="tag tag-b">现房</span><span class="tag tag-r">仅三房</span></div>
+      <div class="cmp-stats">
+        <div class="cmp-stat"><div class="cmp-val">4.92万</div><div class="cmp-lbl">均价</div></div>
+        <div class="cmp-stat"><div class="cmp-val">418万</div><div class="cmp-lbl">三房总价</div></div>
+        <div class="cmp-stat"><div class="cmp-val" style="color:var(--red);">63万</div><div class="cmp-lbl">首付15%</div></div>
+        <div class="cmp-stat"><div class="cmp-val m-val" data-total="418">8,200+</div><div class="cmp-lbl">月供实付/月</div><div class="m-formula"></div></div>
+      </div>
+      <div style="font-size:11px;color:var(--sub);">❌ 仅三房起步，总价418万</div>
+    </div>
+    <div class="cmp-detail-card">
+      <div class="cmp-name" style="font-size:15px;">海岸悦府</div>
+      <div class="cmp-addr">宝安新安 · 翻身路与新乐路</div>
+      <div class="cmp-tags"><span class="tag tag-b">现房</span><span class="tag tag-r">仅三房</span></div>
+      <div class="cmp-stats">
+        <div class="cmp-stat"><div class="cmp-val">5.05万</div><div class="cmp-lbl">均价（精装）</div></div>
+        <div class="cmp-stat"><div class="cmp-val">424万</div><div class="cmp-lbl">三房总价</div></div>
+        <div class="cmp-stat"><div class="cmp-val" style="color:var(--red);">64万</div><div class="cmp-lbl">首付15%</div></div>
+        <div class="cmp-stat"><div class="cmp-val m-val" data-total="424">8,300+</div><div class="cmp-lbl">月供实付/月</div><div class="m-formula"></div></div>
+      </div>
+      <div style="font-size:11px;color:var(--sub);">❌ 翻身最贵，三房起步424万</div>
+    </div>
+    <div class="cmp-detail-card">
+      <div class="cmp-name" style="font-size:15px;">天健和郡府</div>
+      <div class="cmp-addr">宝安新安 · 创业一路</div>
+      <div class="cmp-tags"><span class="tag tag-b">现房</span><span class="tag tag-o">仅有9套</span></div>
+      <div class="cmp-stats">
+        <div class="cmp-stat"><div class="cmp-val">4.69万</div><div class="cmp-lbl">均价（精装）</div></div>
+        <div class="cmp-stat"><div class="cmp-val">324万</div><div class="cmp-lbl">两房总价</div></div>
+        <div class="cmp-stat"><div class="cmp-val" style="color:var(--red);">49万</div><div class="cmp-lbl">首付15%</div></div>
+        <div class="cmp-stat"><div class="cmp-val m-val" data-total="324">6,500+</div><div class="cmp-lbl">月供实付/月</div><div class="m-formula"></div></div>
+      </div>
+      <div style="font-size:11px;color:var(--sub);">⚠️ 翻身最便宜但仍超预算</div>
+    </div>
+  </div>
+
+  <!-- 灵芝专项 · 深度分析 -->
+  <div class="sec-hdr"><h2>📍 灵芝地铁站 · 专项深度分析</h2><span class="badge" style="background:var(--red-light);color:var(--red);">超预算 · 暂不建议主推</span></div>
+  <div class="g2" style="margin-bottom:16px;">
+
+    <!-- 左侧：核心结论 + 评分 -->
+    <div class="card" style="background:linear-gradient(135deg,#fef2f2,#fff);">
+      <div class="card-hdr" style="border-bottom:2px solid var(--red);"><h3 style="color:var(--red);">❌ 核心结论：单价 5 万、首付 51 万、远超 25 万预算</h3></div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:11px;color:var(--sub);">单价</div>
+            <div style="font-size:22px;font-weight:800;color:var(--red);">~5.00万</div>
+            <div style="font-size:10px;color:var(--sub);">是深铁璟城的 2.1 倍</div>
+          </div>
+          <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:11px;color:var(--sub);">两房首付 15%</div>
+            <div style="font-size:22px;font-weight:800;color:var(--red);">51万</div>
+            <div style="font-size:10px;color:var(--red);">超预算 26 万（+104%）</div>
+          </div>
+          <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:11px;color:var(--sub);">月供实付</div>
+            <div style="font-size:22px;font-weight:800;color:var(--orange);"><span class="m-val" data-total="340">6,800+</span></div>
+            <div class="m-formula" style="font-size:10px;color:var(--sub);"></div>
+          </div>
+          <div style="padding:10px;background:#fff;border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:11px;color:var(--sub);">综合评分</div>
+            <div style="font-size:22px;font-weight:800;color:var(--orange);">30 / 100</div>
+            <div style="font-size:10px;color:var(--sub);">性价比偏低</div>
+          </div>
+        </div>
+        <div style="padding:10px;background:var(--red-light);border-radius:8px;font-size:12px;color:var(--red);font-weight:600;">
+          ⚠️ 风险提示：即使公积金 9.4 万全部动用，自筹首付仍需 41.6 万<br>
+          ❌ 结论：当前预算下不可行，<b>建议放弃主推，仅作为长期跟踪</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧：5 维评分 -->
+    <div class="card">
+      <div class="card-hdr" style="border-bottom:2px solid var(--orange);"><h3 style="color:var(--orange);">📊 5 维评分 · 灵芝棚改二期</h3></div>
+      <div class="card-body">
+        <div class="radar-row"><span class="rr-l">价格优势</span><div class="rr-bar"><div class="rr-fill" style="width:25%;background:var(--red);"></div></div><span class="rr-val" style="color:var(--red);">25</span></div>
+        <div class="radar-row"><span class="rr-l">通勤便利</span><div class="rr-bar"><div class="rr-fill" style="width:85%;background:var(--green);"></div></div><span class="rr-val" style="color:var(--green);">85</span></div>
+        <div class="radar-row"><span class="rr-l">现房即住</span><div class="rr-bar"><div class="rr-fill" style="width:20%;background:var(--red);"></div></div><span class="rr-val" style="color:var(--red);">20</span></div>
+        <div class="radar-row"><span class="rr-l">地段价值</span><div class="rr-bar"><div class="rr-fill" style="width:80%;background:var(--green);"></div></div><span class="rr-val" style="color:var(--green);">80</span></div>
+        <div class="radar-row"><span class="rr-l">生活配套</span><div class="rr-bar"><div class="rr-fill" style="width:75%;background:var(--green);"></div></div><span class="rr-val" style="color:var(--green);">75</span></div>
+        <div style="margin-top:12px;padding:10px;background:var(--blue-light);border-radius:8px;font-size:11px;color:var(--blue);">
+          💡 唯二亮点：<b>灵芝站双地铁换乘</b>（5/12 号线）+ <b>新安核心地段</b><br>
+          但价格门槛过高，预算硬伤
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 三盘快速对比 -->
+  <div class="sec-hdr" style="margin-top:8px;"><h2>⚖️ 三盘快速对比 · 主力备选 vs 灵芝棚改</h2><span class="badge">核心 4 维度</span></div>
+  <div class="card" style="margin-bottom:16px;"><div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>维度</th><th>🏆 深铁璟城</th><th>🥈 安居福汇阁</th><th>📅 庆宜华苑棚改二期</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><b>单价 / ㎡</b></td><td style="color:var(--green);font-weight:700;">2.40 万 ✅</td><td style="color:var(--orange);font-weight:700;">3.04 万</td><td style="color:var(--red);font-weight:700;">~5.00 万 ❌</td></tr>
+        <tr><td><b>两房总价</b></td><td>165 万</td><td>213 万</td><td>340 万</td></tr>
+        <tr><td><b>首付 15%</b></td><td style="color:var(--green);">24 万 ✅ 达标</td><td style="color:var(--orange);">32 万 ⚠️ 超 7 万</td><td style="color:var(--red);">51 万 ❌ 超 26 万</td></tr>
+        <tr><td><b>月供实付</b></td><td class="m-val" data-total="165" style="color:var(--green);">2,326 ✅</td><td class="m-val" data-total="213" style="color:var(--orange);">3,970 ⚠️</td><td class="m-val" data-total="340" style="color:var(--red);">6,800+ ❌</td></tr>
+        <tr><td><b>通勤 · 你→桥头</b></td><td>🚇 5 站 12 分钟</td><td>🚶 步行 900m 10 分钟</td><td>🚇 换乘 1 次 ~20 分钟</td></tr>
+        <tr><td><b>通勤 · 女友→固戍</b></td><td>🚇 换乘 1 次 ~45 分钟</td><td>🚇 换乘 1 次 ~30 分钟</td><td>🚇 换乘 1 次 ~30 分钟</td></tr>
+        <tr><td><b>交付时间</b></td><td>2026.12 期房</td><td>2023.12 现房 ✅</td><td>2026 预计 期房 ⚠️</td></tr>
+        <tr><td><b>房源</b></td><td>1200+ 充足</td><td>28 紧张（7.9 摇号）</td><td>104 适中</td></tr>
+        <tr><td><b>综合评分</b></td><td style="color:var(--green);font-weight:700;">85 🥇</td><td style="color:var(--blue);font-weight:700;">80 🥈</td><td style="color:var(--orange);font-weight:700;">30 ❌</td></tr>
+        <tr style="background:var(--red-light);"><td><b>建议</b></td><td style="color:var(--green);font-weight:700;">✅ 首选</td><td style="color:var(--orange);font-weight:700;">✅ 备选</td><td style="color:var(--red);font-weight:700;">❌ 暂不主推</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+
+  <!-- 灵芝通勤详解 + 申购资格 -->
+  <div class="g2" style="margin-bottom:22px;">
+    <div class="card">
+      <div class="card-hdr"><h3>🚇 灵芝站 · 双地铁通勤详解</h3></div>
+      <div class="card-body">
+        <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--blue-light);border-radius:8px;margin-bottom:8px;">
+          <div style="font-size:18px;">🚇</div>
+          <div style="flex:1;">
+            <div style="font-size:11px;color:var(--sub);">你 → 桥头（工作地）</div>
+            <div style="font-size:14px;font-weight:700;color:var(--blue);">5 号线灵芝 → 宝安中心（1 站）→ 11 号线桥头（4 站）</div>
+            <div style="font-size:11px;color:var(--sub);">换乘 1 次 · 约 18-22 分钟 · 比福汇阁步行多 8-12 分钟</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--blue-light);border-radius:8px;margin-bottom:8px;">
+          <div style="font-size:18px;">🚇</div>
+          <div style="flex:1;">
+            <div style="font-size:11px;color:var(--sub);">女友 → 固戍（工作地）</div>
+            <div style="font-size:14px;font-weight:700;color:var(--blue);">5 号线灵芝 → 宝安中心（1 站）→ 11 号线固戍（5 站）</div>
+            <div style="font-size:11px;color:var(--sub);">换乘 1 次 · 约 22-28 分钟 · 与福汇阁相当</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--sub);padding:6px 0;">
+          📌 灵芝站是 5/12 号线换乘站，去<b>南山/福田/罗湖</b>也方便（5 号线直达前海湾、深圳北）<br>
+          📌 对比：深铁璟城松岗 11 号线到科技园要 1 小时+，灵芝 5 号线到南山核心仅 30 分钟
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><h3>📋 申购资格提示</h3></div>
+      <div class="card-body">
+        <div style="font-size:12px;line-height:1.7;">
+          <div style="margin-bottom:8px;"><b>✅ 学历门槛：</b>全日制本科及以上（或技师/高层次人才）</div>
+          <div style="margin-bottom:8px;"><b>✅ 户籍：</b>申请人 + 共同申请人均需<b>深圳户籍</b></div>
+          <div style="margin-bottom:8px;"><b>✅ 社保：</b>累计缴纳 <b>3 年以上</b></div>
+          <div style="margin-bottom:8px;"><b>✅ 单身：</b>第一队列 35 周岁 / 其他 30 周岁</div>
+          <div style="padding:10px;background:var(--orange-light);border-radius:8px;font-size:11px;color:var(--orange);">
+            ⚠️ <b>预计 2026 年开售</b>，届时需关注宝安区住建局通告<br>
+            ⚠️ 配售均价 <b>~5.0 万</b>，可能略高于本次估算（参考一期价格）<br>
+            💡 建议：即使超预算，仍可关注 → <b>未来收入提升或房源降价时重新评估</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><div class="footer">购房全流程管理系统 · 数据来源：深圳住建局官网 · 更新于 2026年7月</div>
+
+  </div>
+
+  <!-- 贷款测算（原 loan）-->
+  <div class="sub-page" id="h-loan">
+    
+<div class="container">
+  <div class="sec-hdr" style="margin-top:8px;"><h2>💰 贷款测算器</h2></div>
+  <div class="calc-grid" style="margin-bottom:22px;">
+    <div class="card"><div class="card-hdr"><h3>📝 参数输入</h3></div><div class="card-body">
+      <div class="calc-input"><label>房屋总价（万元）</label><input type="number" id="totalPrice" value="165.6" step="0.1"></div>
+      <div class="calc-input"><label>首付比例</label><select id="downPaymentRatio"><option value="15">15%</option><option value="20">20%</option><option value="30">30%</option></select></div>
+      <div class="calc-input"><label>公积金余额（万元）</label><input type="number" id="gjjBalance" value="9.4" step="0.1"></div>
+      <div class="calc-input"><label>公积金月缴（元）</label><input type="number" id="gjjMonthly" value="3300"></div>
+      <div class="calc-input"><label>公积金贷款利率</label><select id="gjjRate"><option value="2.6">2.60%（5年以上）</option><option value="2.85">2.85%</option></select></div>
+      <div class="calc-input"><label>商贷利率</label><select id="commercialRate"><option value="3.1">3.10%</option><option value="3.3">3.30%</option></select></div>
+      <div class="calc-input"><label>贷款年限</label><select id="loanYears"><option value="30">30年</option><option value="25">25年</option><option value="20">20年</option></select></div>
+    </div></div>
+    <div class="card"><div class="card-hdr"><h3>📊 测算结果</h3></div><div class="card-body">
+      <div class="calc-result" id="calcResult">
+        <div style="font-size:12px;color:var(--sub);margin-bottom:4px;">月供实付</div>
+        <div class="big-num" style="color:var(--green);" id="monthlyPay">2,326</div>
+        <div style="font-size:12px;color:var(--sub);">元/月</div>
+        <div class="sr" style="margin-top:14px;"><span class="sr-l">总房价</span><span class="sr-r" id="rTotal">165.6万</span></div>
+        <div class="sr"><span class="sr-l">首付总额</span><span class="sr-r" id="rDown">24.8万</span></div>
+        <div class="sr"><span class="sr-l">自掏首付</span><span class="sr-r" style="color:var(--green);" id="rSelfDown">15.4万</span></div>
+        <div class="sr"><span class="sr-l">贷款总额</span><span class="sr-r" id="rLoan">140.8万</span></div>
+        <div class="sr"><span class="sr-l">公积金贷款</span><span class="sr-r" style="color:var(--blue);">140.8万</span></div>
+        <div class="sr"><span class="sr-l">商贷部分</span><span class="sr-r" id="rCommercial">0万</span></div>
+        <div class="sr"><span class="sr-l">月供总额</span><span class="sr-r" id="rMonthlyTotal">5,626</span></div>
+        <div class="sr"><span class="sr-l">公积金冲抵</span><span class="sr-r" style="color:var(--green);">−3,300</span></div>
+        <div class="sr" style="font-weight:700;border-top:2px solid var(--border);margin-top:4px;padding-top:10px;">
+          <span>💵 每月实付</span><span style="font-size:18px;color:var(--green);" id="rActual">2,326</span>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div><div class="footer">购房全流程管理系统</div>
+
+  </div>
+
+  <!-- 装修（原 reno）-->
+  <div class="sub-page" id="h-reno">
+    
+<div class="container"><div class="sec-hdr" style="margin-top:8px;"><h2>📐 装修预算与进度管理</h2></div>
+  <div class="g3" style="margin-bottom:16px;">
+    <div class="card"><div class="card-hdr"><h3>🎨 设计方案</h3></div><div class="card-body"><div style="color:var(--muted);text-align:center;padding:30px;">待购房后启动 · 在此对比装修风格和设计方案</div></div></div>
+    <div class="card"><div class="card-hdr"><h3>💰 预算明细</h3></div><div class="card-body"><div style="color:var(--muted);text-align:center;padding:30px;">待启动 · 硬装+软装+家电分项预算</div></div></div>
+    <div class="card"><div class="card-hdr"><h3>📅 施工排期</h3></div><div class="card-body"><div style="color:var(--muted);text-align:center;padding:30px;">待启动 · 装修公司报价对比· 施工进度跟踪</div></div></div>
+  </div>
+</div><div class="footer">购房全流程管理系统</div>
+
+  </div>
+
+  <!-- 家具（原 furniture）-->
+  <div class="sub-page" id="h-furniture">
+    
+<div class="container"><div class="sec-hdr" style="margin-top:8px;"><h2>🛋️ 家具家电采购清单</h2></div>
+  <div class="card"><div class="card-body">
+    <table><thead><tr><th>空间</th><th>物品</th><th>预算</th><th>品牌候选</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>客厅</td><td>沙发</td><td>3,000-5,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>客厅</td><td>电视</td><td>3,000-6,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>客厅</td><td>餐桌椅</td><td>1,500-3,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>主卧</td><td>床+床垫</td><td>3,000-5,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>主卧</td><td>衣柜</td><td>2,000-4,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>厨房</td><td>冰箱</td><td>2,000-4,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>厨房</td><td>洗衣机</td><td>1,500-3,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>厨房</td><td>空调</td><td>2,000-4,000×2</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>全屋</td><td>灯具</td><td>1,000-2,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr><td>全屋</td><td>窗帘</td><td>1,000-2,000</td><td>—</td><td>⏳ 待选</td></tr>
+      <tr style="font-weight:700;background:#f6fdf9;"><td colspan="2">💰 预算合计</td><td>20,000-38,000</td><td colspan="2" style="color:var(--green);">待细化</td></tr>
+    </tbody></table>
+  </div></div>
+</div><div class="footer">购房全流程管理系统</div>
+
+  </div>
+
+  <!-- 购房档案（原 profile，单独在这里）-->
+  <div class="sub-page" id="h-profile">
+    
+<div class="container">
+  <div class="sec-hdr" style="margin-top:8px;"><h2>👤 个人档案</h2></div>
+  <div class="g3" style="margin-bottom:22px;">
+    <div class="card"><div class="card-hdr"><h3>🧑 基本信息</h3></div><div class="card-body">
+      <div class="sr"><span class="sr-l">姓名</span><span class="sr-r">杰德瑞恩J</span></div>
+      <div class="sr"><span class="sr-l">月到手收入</span><span class="sr-r">¥13,500</span></div>
+      <div class="sr"><span class="sr-l">公积金余额</span><span class="sr-r">¥60,000</span></div>
+      <div class="sr"><span class="sr-l">公积金月缴</span><span class="sr-r">¥3,300</span></div>
+      <div class="sr"><span class="sr-l">工作地点</span><span class="sr-r">桥头站（11号线）</span></div>
+      <div class="sr"><span class="sr-l">深户</span><span class="sr-r" style="color:var(--green);">✅ 已确认</span></div>
+    </div></div>
+    <div class="card"><div class="card-hdr"><h3>👩 女友信息</h3></div><div class="card-body">
+      <div class="sr"><span class="sr-l">月到手收入</span><span class="sr-r">¥8,000</span></div>
+      <div class="sr"><span class="sr-l">公积金余额</span><span class="sr-r">¥34,000</span></div>
+      <div class="sr"><span class="sr-l">公积金月缴</span><span class="sr-r">¥1,700</span></div>
+      <div class="sr"><span class="sr-l">工作地点</span><span class="sr-r">固戍站（1号线，明年）</span></div>
+      <div class="sr"><span class="sr-l">当前地点</span><span class="sr-r">平峦山站（12号线）</span></div>
+      <div class="sr"><span class="sr-l">深户</span><span class="sr-r" style="color:var(--green);">✅ 已确认</span></div>
+    </div></div>
+    <div class="card"><div class="card-hdr"><h3>✅ 行动清单</h3></div><div class="card-body" style="font-size:13px;">
+      <div style="padding:6px 0;border-bottom:1px solid #f3f4f6;color:var(--green);">✅ 确认两人深户状态</div>
+      <div style="padding:6px 0;border-bottom:1px solid #f3f4f6;color:var(--green);">✅ 楼盘数据入库对比</div>
+      <div style="padding:6px 0;border-bottom:1px solid #f3f4f6;color:var(--green);">✅ 贷款能力测算完成</div>
+      <div style="padding:6px 0;border-bottom:1px solid #f3f4f6;">⬜ 准备学历证书、社保清单</div>
+      <div style="padding:6px 0;border-bottom:1px solid #f3f4f6;">⬜ <b>去深铁璟城售楼处看房</b></div>
+      <div style="padding:6px 0;border-bottom:1px solid #f3f4f6;">⬜ 关注福汇阁后续退房/常态化</div>
+      <div style="padding:6px 0;">⬜ 核实两人社保累计年限</div>
+    </div></div>
+  </div>
+</div><div class="footer">购房全流程管理系统</div>
+
+  </div>
+
+</div>
+</main>
+
+
+<main class="page" id="pg-invest">
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero" style="background:linear-gradient(135deg,#059669 0%,#047857 50%,#064e3b 100%);">
+    <h1>💰 投资全景</h1>
+    <p>基金持仓 · 房产 · 行业逻辑 —— 个人投资组合一站式管理</p>
+    <div class="hero-row">
+      <div class="hero-stat"><div class="val">¥29,562</div><div class="lbl">总资产</div></div>
+      <div class="hero-stat"><div class="val">¥21,537</div><div class="lbl">证券市值</div></div>
+      <div class="hero-stat"><div class="val" style="color:#fbbf24;">-7.4%</div><div class="lbl">整体收益</div></div>
+      <div class="hero-stat"><div class="val">7</div><div class="lbl">持仓</div></div>
+    </div>
+  </div>
+
+  <!-- 基金持仓 -->
+  <div class="sec-hdr"><h2>📊 基金持仓（东方财富）</h2><span class="badge" style="background:var(--red-light);color:var(--red);">整体浮亏 ¥1,857</span></div>
+  <div class="card" style="margin-bottom:22px;">
+    <div class="card-body">
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>基金/股票</th><th>代码</th><th>市值</th><th>仓位</th><th>盈亏</th><th>收益率</th><th>定位</th><th>操作</th>
+        </tr></thead>
+        <tbody>
+          <tr style="background:#fff7ed;">
+            <td class="hl">🥇 黄金ETF</td><td>518880</td><td>¥9,908</td><td><b style="color:var(--orange);">46%</b></td><td style="color:var(--red);">−¥888</td><td style="color:var(--red);">−8.2%</td><td>防御 · 核心</td><td><span class="tag tag-o">持有</span></td>
+          </tr>
+          <tr>
+            <td class="hl">⚡ 电网设备ETF</td><td>560660</td><td>¥4,340</td><td><b style="color:var(--blue);">20%</b></td><td style="color:var(--red);">−¥134</td><td style="color:var(--red);">−3.0%</td><td>防御 · 公用事业</td><td><span class="tag tag-g">持有</span></td>
+          </tr>
+          <tr style="background:#fef2f2;">
+            <td class="hl">🤖 机器人ETF</td><td>159551</td><td>¥3,633</td><td><b style="color:var(--red);">17%</b></td><td style="color:var(--red);">−¥761</td><td style="color:var(--red);">−17.3%</td><td>进攻 · 观望</td><td><span class="tag tag-r">3个月后再评估</span></td>
+          </tr>
+          <tr>
+            <td class="hl">🛢️ 中国石油</td><td>600028</td><td>¥2,420</td><td><b style="color:var(--blue);">11%</b></td><td style="color:var(--red);">−¥56</td><td style="color:var(--red);">−2.3%</td><td>防御 · 高股息</td><td><span class="tag tag-g">持有</span></td>
+          </tr>
+          <tr>
+            <td class="hl">🏆 黄金股基金</td><td>518580</td><td>¥761</td><td><b>3.5%</b></td><td style="color:var(--red);">−¥17</td><td style="color:var(--red);">−2.2%</td><td>⚠️ 黄金股票基金（不是山东黄金）</td><td><span class="tag tag-g">持有</span></td>
+          </tr>
+          <tr>
+            <td class="hl">💰 中证红利ETF</td><td>515080</td><td>¥476</td><td><b>2.2%</b></td><td style="color:var(--red);">−¥2.6</td><td style="color:var(--red);">−0.6%</td><td>防御 · 高股息</td><td><span class="tag tag-g">持有</span></td>
+          </tr>
+          <tr style="background:#f0fdf4;">
+            <td class="hl">🆕 人工智能AI ETF</td><td>515980</td><td>—</td><td>—</td><td>—</td><td>—</td><td>进攻 · 新入</td><td><span class="tag tag-b">观察</span></td>
+          </tr>
+          <tr style="background:#f0fdf4;">
+            <td class="hl">🆕 芯片ETF</td><td>159995</td><td>—</td><td>—</td><td>—</td><td>—</td><td>进攻 · 新入</td><td><span class="tag tag-b">观察</span></td>
+          </tr>
+          <tr style="background:var(--blue-light);font-weight:700;">
+            <td colspan="2">💵 现金</td><td>¥7,924</td><td><b>27%</b></td><td colspan="4" style="color:var(--blue);">≈ 24% 仓位 · 等待机会</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 投资逻辑 -->
+  <div class="sec-hdr"><h2>🎯 投资逻辑与策略</h2></div>
+  <div class="g2" style="margin-bottom:22px;">
+    <div class="card" style="background:linear-gradient(135deg,#fff7ed,#fff);border:1px solid var(--orange);">
+      <div class="card-hdr" style="border-bottom:2px solid var(--orange);"><h3 style="color:var(--orange);">🥇 防御核心（≈ 60% 仓位）</h3></div>
+      <div class="card-body" style="font-size:13px;line-height:1.8;">
+        <b>黄金 + 电网 + 中石油 + 红利</b><br>
+        <span style="color:var(--sub);">逻辑：</span>全球不确定性加剧（战争、AI 泡沫、关税）→ 防御资产抗跌<br>
+        <span style="color:var(--sub);">目标：</span>年化 4-6%，跑赢通胀<br>
+        <span style="color:var(--sub);">操作：</span>逢低加仓，不做短线
+      </div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#fef2f2,#fff);border:1px solid var(--red);">
+      <div class="card-hdr" style="border-bottom:2px solid var(--red);"><h3 style="color:var(--red);">⚔️ 进攻观望（≈ 17% 仓位）</h3></div>
+      <div class="card-body" style="font-size:13px;line-height:1.8;">
+        <b>机器人 ETF + AI ETF + 芯片 ETF</b><br>
+        <span style="color:var(--sub);">逻辑：</span>宇树等人形机器人产业化、AI 算力爆发、国产芯片替代<br>
+        <span style="color:var(--sub);">风险：</span>产业逻辑 ≠ 股价马上涨，宏观黑天鹅不可预测<br>
+        <span style="color:var(--sub);">操作：</span>机器人 ETF 已割一半 · 剩余 3 个月后再评估
+      </div>
+    </div>
+  </div>
+
+  <!-- 重要教训 -->
+  <div class="card" style="margin-bottom:22px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid var(--amber);">
+    <div class="card-hdr" style="border-bottom:2px solid var(--amber);"><h3 style="color:var(--amber);">⚠️ 重要教训</h3></div>
+    <div class="card-body" style="font-size:13px;line-height:1.8;">
+      <div style="padding:10px;background:#fff;border-radius:8px;margin-bottom:8px;">
+        <b>🤖 机器人 ETF 亏损 17.3% 的根因</b><br>
+        买在高点（年初）→ 美伊开打 → 风险偏好骤降 → 暴跌<br>
+        半个月前已割肉一半 · 剩余 3 个月后再评估<br>
+        <span style="color:var(--sub);font-size:12px;">教训：行业逻辑对 ≠ 股价马上涨，宏观黑天鹅不可预测</span>
+      </div>
+      <div style="padding:10px;background:#fff;border-radius:8px;">
+        <b>🛡️ 主要担忧</b><br>
+        担心战争扩大导致 AI 泡沫炸裂，机器人 ETF 进一步暴跌<br>
+        <span style="color:var(--sub);font-size:12px;">应对：保持 27% 现金仓位，逢低分批加防御资产</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="footer">杰德瑞恩生活手册 v2.0 · 💰 投资模块 · 更新于 2026-07-26</div>
+</main>
+
+
+<main class="page" id="pg-profile">
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero" style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 50%,#5b21b6 100%);">
+    <h1>👤 个人档案</h1>
+    <p>基本信息 · 家庭财务 · 行动计划 —— 一切以终为始</p>
+    <div class="hero-row">
+      <div class="hero-stat"><div class="val">28</div><div class="lbl">年龄</div></div>
+      <div class="hero-stat"><div class="val">186cm</div><div class="lbl">身高</div></div>
+      <div class="hero-stat"><div class="val">95kg</div><div class="lbl">体重</div></div>
+      <div class="hero-stat"><div class="val">¥21.5k</div><div class="lbl">家庭月收入</div></div>
+    </div>
+  </div>
+
+  <!-- 基本信息 -->
+  <div class="sec-hdr"><h2>🧑‍🤝‍🧑 家庭成员</h2></div>
+  <div class="g2" style="margin-bottom:22px;">
+    <div class="card">
+      <div class="card-hdr"><h3>🧑 杰德瑞恩（你）</h3></div>
+      <div class="card-body">
+        <div class="sr"><span class="sr-l">职业</span><span class="sr-r">橙子自动化 · IT 项目经理</span></div>
+        <div class="sr"><span class="sr-l">职业目标</span><span class="sr-r">信息技术总监</span></div>
+        <div class="sr"><span class="sr-l">月到手收入</span><span class="sr-r">¥13,500</span></div>
+        <div class="sr"><span class="sr-l">公积金月缴</span><span class="sr-r">¥3,300</span></div>
+        <div class="sr"><span class="sr-l">公积金余额</span><span class="sr-r">¥60,000</span></div>
+        <div class="sr"><span class="sr-l">工作地点</span><span class="sr-r">11 号线 · 桥头站</span></div>
+        <div class="sr"><span class="sr-l">户籍</span><span class="sr-r" style="color:var(--green);">✅ 深圳户籍</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><h3>👩 女朋友</h3></div>
+      <div class="card-body">
+        <div class="sr"><span class="sr-l">月到手收入</span><span class="sr-r">¥8,000</span></div>
+        <div class="sr"><span class="sr-l">公积金月缴</span><span class="sr-r">¥1,700</span></div>
+        <div class="sr"><span class="sr-l">公积金余额</span><span class="sr-r">¥34,000</span></div>
+        <div class="sr"><span class="sr-l">工作地点</span><span class="sr-r">12 号线 · 平峦山站（明年调 1 号线固戍）</span></div>
+        <div class="sr"><span class="sr-l">家乡</span><span class="sr-r">广东 · 梅州</span></div>
+        <div class="sr"><span class="sr-l">户籍</span><span class="sr-r" style="color:var(--green);">✅ 深圳户籍</span></div>
+        <div class="sr" style="font-weight:700;"><span>家庭公积金合计</span><span style="color:var(--blue);">¥94,000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 家庭财务 -->
+  <div class="sec-hdr"><h2>💰 家庭财务全貌</h2></div>
+  <div class="g3" style="margin-bottom:22px;">
+    <div class="sum-box">
+      <div class="sum-val" style="color:var(--green);">¥21,500</div>
+      <div class="sum-lbl">月到手收入合计</div>
+    </div>
+    <div class="sum-box warn">
+      <div class="sum-val" style="color:var(--orange);">¥5,000</div>
+      <div class="sum-lbl">月固定支出（房租+生活）</div>
+    </div>
+    <div class="sum-box">
+      <div class="sum-val" style="color:var(--blue);">¥16,500</div>
+      <div class="sum-lbl">月可支配</div>
+    </div>
+  </div>
+
+  <!-- 健身目标 -->
+  <div class="sec-hdr"><h2>🏃 健身与饮食</h2></div>
+  <div class="g2" style="margin-bottom:22px;">
+    <div class="card">
+      <div class="card-hdr"><h3>💪 健身目标</h3></div>
+      <div class="card-body" style="font-size:13px;line-height:1.7;">
+        <div class="sr"><span class="sr-l">身高 / 体重</span><span class="sr-r">186cm / 95kg</span></div>
+        <div class="sr"><span class="sr-l">运动频率</span><span class="sr-r">3-5 次/周（80% 力量训练）</span></div>
+        <div class="sr"><span class="sr-l">运动时长</span><span class="sr-r">1-2 小时/次</span></div>
+        <div class="sr"><span class="sr-l">目标</span><span class="sr-r">同时减脂 + 增肌（身体重组）</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><h3>🍱 饮食</h3></div>
+      <div class="card-body" style="font-size:13px;line-height:1.7;">
+        <div class="sr"><span class="sr-l">热量目标</span><span class="sr-r">2600-2800 kcal（缺口 500）</span></div>
+        <div class="sr"><span class="sr-l">蛋白质</span><span class="sr-r">120-140g</span></div>
+        <div class="sr"><span class="sr-l">脂肪</span><span class="sr-r">70-85g</span></div>
+        <div class="sr"><span class="sr-l">碳水</span><span class="sr-r">270-320g</span></div>
+        <div class="sr"><span class="sr-l">禁忌</span><span class="sr-r">清淡广式 · 油腻辣敏感</span></div>
+        <div class="sr"><span class="sr-l">饮食模式</span><span class="sr-r">白天少 · 晚上多 · 火龙果+奇亚籽</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 行动清单 -->
+  <div class="sec-hdr"><h2>📋 行动清单（按优先级）</h2></div>
+  <div class="card">
+    <div class="card-body">
+      <div class="act-item doing"><span class="act-icon">🔴</span><span>【高优】车成本对比 → 决策买/租方案</span></div>
+      <div class="act-item doing"><span class="act-icon">🔴</span><span>【高优】深铁璟城实地看房 · 决策购房</span></div>
+      <div class="act-item doing"><span class="act-icon">🟡</span><span>【中优】关注福汇阁退房/常态化房源</span></div>
+      <div class="act-item doing"><span class="act-icon">🟡</span><span>【中优】准备学历证书 + 社保清单（认购所需）</span></div>
+      <div class="act-item doing"><span class="act-icon">🟢</span><span>【低优】基金定投计划 · 机器人 ETF 3 个月后再评估</span></div>
+      <div class="act-item done"><span class="act-icon">✅</span><span>完成 12 个深圳保障房数据入库对比</span></div>
+      <div class="act-item done"><span class="act-icon">✅</span><span>完成深铁璟城/福汇阁贷款能力测算</span></div>
+      <div class="act-item done"><span class="act-icon">✅</span><span>确认两人深圳户籍状态</span></div>
+    </div>
+  </div>
+
+</div>
+<div class="footer">杰德瑞恩生活手册 v2.0 · 👤 个人档案 · 更新于 2026-07-26</div>
+</main>
+
+<script>
+(function(){
+  /* ── 主导航切换 ── */
+  var mainLinks = document.querySelectorAll('[data-page]');
+  var mainPages = document.querySelectorAll('.page');
+  function switchMain(name) {
+    mainPages.forEach(function(p){ p.classList.remove('active'); });
+    mainLinks.forEach(function(a){ a.classList.remove('active'); });
+    var target = document.getElementById('pg-' + name);
+    if (target) target.classList.add('active');
+    mainLinks.forEach(function(a){
+      if (a.dataset.page === name) a.classList.add('active');
+    });
+    /* 切换时重置子导航到第一个 sub-page */
+    var firstSub = target && target.querySelector('.sub-page');
+    if (firstSub) {
+      target.querySelectorAll('.sub-page').forEach(function(s){ s.classList.remove('active'); });
+      firstSub.classList.add('active');
+      target.querySelectorAll('[data-subpage]').forEach(function(a){ a.classList.remove('active'); });
+      var firstSubLink = target.querySelector('[data-subpage]');
+      if (firstSubLink) firstSubLink.classList.add('active');
+    }
+    window.scrollTo(0, 0);
+  }
+  mainLinks.forEach(function(link){
+    link.addEventListener('click', function(e){
+      var page = this.dataset.page;
+      if (page) {
+        e.preventDefault();
+        switchMain(page);
+      }
+    });
+  });
+
+  /* ── 房子子导航切换 ── */
+  var subLinks = document.querySelectorAll('[data-subpage]');
+  subLinks.forEach(function(link){
+    link.addEventListener('click', function(e){
+      var sub = this.dataset.subpage;
+      if (sub) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.page');
+        if (parent) {
+          parent.querySelectorAll('.sub-page').forEach(function(s){ s.classList.remove('active'); });
+          var tgt = parent.querySelector('#' + sub);
+          if (tgt) tgt.classList.add('active');
+          parent.querySelectorAll('[data-subpage]').forEach(function(a){ a.classList.remove('active'); });
+          this.classList.add('active');
+          window.scrollTo(0, 0);
+        }
+      }
+    });
+  });
+
+  /* ── 房贷计算（从原 JS 复用） ── */
+  function pmt(p, r, n) {
+    if (r === 0) return p / n;
+    return p * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+  }
+  function calcMonthlyByTotal(totalWan, opts) {
+    opts = opts || {};
+    var gjjMon = opts.gjjMon != null ? opts.gjjMon : (parseFloat(document.getElementById('gjjMonthly') && document.getElementById('gjjMonthly').value) || 3300);
+    var gjjRate = opts.gjjRate != null ? opts.gjjRate : (parseFloat(document.getElementById('gjjRate') && document.getElementById('gjjRate').value) / 100 || 0.026);
+    var comRate = opts.comRate != null ? opts.comRate : (parseFloat(document.getElementById('commercialRate') && document.getElementById('commercialRate').value) / 100 || 0.031);
+    var years = opts.years != null ? opts.years : (parseInt(document.getElementById('loanYears') && document.getElementById('loanYears').value) || 30);
+    var gjjLimit = 1760000;
+    var total = totalWan * 10000;
+    var down = total * 0.15;
+    var loan = total - down;
+    var gjj = Math.min(loan, gjjLimit);
+    var com = Math.max(0, loan - gjj);
+    var months = years * 12;
+    var gjjM = gjj > 0 ? pmt(gjj, gjjRate / 12, months) : 0;
+    var comM = com > 0 ? pmt(com, comRate / 12, months) : 0;
+    var totalM = gjjM + comM;
+    var actual = Math.max(0, totalM - gjjMon);
+    var interest30y = totalM * months - loan;
+    return {
+      totalWan: totalWan, downWan: Math.round(down / 10000),
+      loanWan: Math.round(loan / 10000), gjjWan: Math.round(gjj / 10000),
+      comWan: Math.round(com / 10000), monthlyTotal: Math.round(totalM),
+      actual: Math.round(actual), interest30y: Math.round(interest30y / 10000 * 10) / 10,
+      loanRepayWan: Math.round((loan + interest30y) / 10000 * 10) / 10,
+      totalCostWan: Math.round((down + loan + interest30y) / 10000 * 10) / 10,
+      gjjMon: gjjMon
+    };
+  }
+  function formatFormula(r) {
+    if (!r || r.loanWan <= 0) return '';
+    var parts = [];
+    if (r.gjjWan > 0) parts.push('公积金' + r.gjjWan + '万×2.6%=' + Math.round(pmt(r.gjjWan*10000, 0.026/12, 360)).toLocaleString());
+    if (r.comWan > 0) parts.push('商贷' + r.comWan + '万×3.1%=' + Math.round(pmt(r.comWan*10000, 0.031/12, 360)).toLocaleString());
+    return '贷款本金' + (r.loanWan * 1).toFixed(1) + '万：' + (parts.join(' + ')) + ' = 月供总额' + r.monthlyTotal.toLocaleString() + ' − 公积金冲抵' + r.gjjMon.toLocaleString() + ' = <b>每月实付' + r.actual.toLocaleString() + '</b><br>30年利息' + r.interest30y.toFixed(1) + '万 · 贷款本息合计' + r.loanRepayWan.toFixed(1) + '万 · 含首付购房总支出' + r.totalCostWan.toFixed(1) + '万';
+  }
+  function applyMonthlyDisplays() {
+    document.querySelectorAll('[data-total]').forEach(function(el){
+      var tw = parseFloat(el.getAttribute('data-total'));
+      if (!tw || isNaN(tw)) { el.textContent = '—'; return; }
+      var r = calcMonthlyByTotal(tw);
+      el.textContent = r.actual.toLocaleString();
+      var sib = el.nextElementSibling;
+      if (!sib) sib = el.parentElement.nextElementSibling;
+      while (sib && !sib.classList.contains('m-formula')) sib = sib.nextElementSibling;
+      if (sib) sib.innerHTML = formatFormula(r);
+      else el.title = formatFormula(r);
+    });
+  }
+
+  /* ── 房贷贷款计算器 ── */
+  function calcLoan() {
+    var totalEl = document.getElementById('totalPrice');
+    if (!totalEl) return;
+    var total = parseFloat(totalEl.value) * 10000;
+    var ratio = parseFloat(document.getElementById('downPaymentRatio').value) / 100;
+    var gjjBal = parseFloat(document.getElementById('gjjBalance').value) * 10000;
+    var gjjMon = parseFloat(document.getElementById('gjjMonthly').value);
+    var gjjRate = parseFloat(document.getElementById('gjjRate').value) / 100;
+    var comRate = parseFloat(document.getElementById('commercialRate').value) / 100;
+    var years = parseInt(document.getElementById('loanYears').value);
+    var gjjLimit = 1760000;
+    if (isNaN(total) || total <= 0) return;
+    var down = total * ratio;
+    var selfDown = Math.max(0, down - gjjBal);
+    var loan = total - down;
+    var gjjLoan = Math.min(loan, gjjLimit);
+    var comLoan = Math.max(0, loan - gjjLoan);
+    var months = years * 12;
+    var mrG = gjjRate / 12, mrC = comRate / 12;
+    var gjjMonthly = gjjLoan > 0 ? pmt(gjjLoan, mrG, months) : 0;
+    var comMonthly = comLoan > 0 ? pmt(comLoan, mrC, months) : 0;
+    var totalMonthly = gjjMonthly + comMonthly;
+    var actualMonthly = Math.max(0, totalMonthly - gjjMon);
+    document.getElementById('monthlyPay').textContent = Math.round(actualMonthly).toLocaleString();
+    document.getElementById('rTotal').textContent = (total/10000).toFixed(1) + '万';
+    document.getElementById('rDown').textContent = (down/10000).toFixed(1) + '万';
+    document.getElementById('rSelfDown').textContent = (selfDown/10000).toFixed(1) + '万';
+    document.getElementById('rLoan').textContent = (loan/10000).toFixed(1) + '万';
+    document.getElementById('rCommercial').textContent = (comLoan/10000).toFixed(1) + '万';
+    document.getElementById('rMonthlyTotal').textContent = Math.round(totalMonthly).toLocaleString();
+    document.getElementById('rActual').textContent = Math.round(actualMonthly).toLocaleString();
+    applyMonthlyDisplays();
+  }
+
+  /* ── 楼盘对比筛选（原 compare 页用） ── */
+  var projects = [
+    {rank:'🥇1',name:'深铁璟城',area:'松岗',price:'2.40',total:'165万',totalWan:165,down:'24万',monthly:'2,326',commute:'5站12分钟',commute2:'~45分钟',delivery:'2026.12',units:'1200+',score:'85', tags:['star','cheap']},
+    {rank:'🥈2',name:'安居福汇阁',area:'福海',price:'3.04',total:'213万',totalWan:213,down:'32万',monthly:'3,970',commute:'步行10分钟',commute2:'~30分钟',delivery:'2023.12✅',units:'28',score:'80', tags:['star','ready','suitable']},
+    {rank:'3',name:'庆宜华苑棚改二期',area:'新安·灵芝',price:'~5.00',total:'340万',totalWan:340,down:'51万',monthly:'6,800+',commute:'换乘1次·~20分',commute2:'换乘1次·~30分',delivery:'2026.12 预计',units:'104',score:'30', tags:[]},
+    {rank:'4',name:'新城华苑',area:'沙井',price:'3.00',total:'210万',totalWan:210,down:'31万',monthly:'—',commute:'2站',commute2:'~35分钟',delivery:'2024.12',units:'1',score:'35', tags:[]},
+    {rank:'5',name:'和瑞府',area:'光明',price:'2.89',total:'200万',totalWan:200,down:'30万',monthly:'—',commute:'换乘远',commute2:'换乘远',delivery:'2025.12',units:'~200',score:'30', tags:[]},
+    {rank:'6',name:'御棠上府',area:'光明',price:'2.74',total:'185万',totalWan:185,down:'28万',monthly:'—',commute:'换乘远',commute2:'换乘远',delivery:'2025.09',units:'少量',score:'25', tags:[]},
+    {rank:'7',name:'颢龙苑',area:'龙岗',price:'2.31',total:'157万',totalWan:157,down:'24万',monthly:'—',commute:'换乘远',commute2:'换乘远',delivery:'2023.12',units:'~400',score:'35', tags:['cheap']},
+    {rank:'8',name:'海乐华府',area:'新安',price:'4.92',total:'仅三房',totalWan:0,down:'—',monthly:'—',commute:'~35分钟',commute2:'~20分钟',delivery:'2021.12',units:'21',score:'45', tags:[]},
+    {rank:'9',name:'和郡府',area:'新安',price:'4.69',total:'324万',totalWan:324,down:'49万',monthly:'—',commute:'~35分钟',commute2:'~20分钟',delivery:'2025.12',units:'少量',score:'45', tags:[]},
+    {rank:'10',name:'海岸悦府',area:'新安',price:'5.05',total:'仅三房',totalWan:0,down:'—',monthly:'—',commute:'~35分钟',commute2:'~10分钟',delivery:'2023.12',units:'128',score:'30', tags:[]},
+    {rank:'11',name:'华越龙苑',area:'龙华',price:'3.96',total:'仅四房',totalWan:0,down:'—',monthly:'—',commute:'远',commute2:'~50分钟',delivery:'2025.12',units:'~530',score:'25', tags:[]},
+    {rank:'12',name:'深铁熙府',area:'南山',price:'5.90',total:'350万+',totalWan:350,down:'53万',monthly:'—',commute:'极远',commute2:'~50分钟',delivery:'2026.12',units:'有房',score:'15', tags:[]}
+  ];
+  var activeFilter = 'all';
+  function renderTable() {
+    var tbody = document.getElementById('cmpTableBody');
+    if (!tbody) return;
+    var rows = projects.filter(function(p){
+      if (activeFilter === 'all') return true;
+      if (activeFilter === 'recommend') return p.tags.indexOf('star') >= 0;
+      if (activeFilter === 'ready') return p.tags.indexOf('ready') >= 0;
+      if (activeFilter === 'cheap') return p.tags.indexOf('cheap') >= 0;
+      if (activeFilter === 'suitable') return p.tags.indexOf('suitable') >= 0 || p.tags.indexOf('star') >= 0;
+      return true;
+    });
+    tbody.innerHTML = rows.map(function(p){
+      var cls = p.rank.indexOf('3') === 0 ? 'style="color:#999;"' : (p.rank.indexOf('1') === 0 ? 'style="background:#f6fdf9;"' : (p.rank.indexOf('2') === 0 ? 'style="background:#fffbf0;"' : ''));
+      var mTxt = p.monthly;
+      if (p.totalWan && p.totalWan > 0) {
+        var r = calcMonthlyByTotal(p.totalWan);
+        mTxt = r.actual.toLocaleString();
+      }
+      return '<tr '+cls+'><td class="hl">'+p.rank+'</td><td class="hl">'+p.name+'</td><td>'+p.area+'</td><td style="font-weight:600;">'+p.price+'万</td><td class="hl">'+p.total+'</td><td>'+p.down+'</td><td><span class="m-val" data-total="'+p.totalWan+'">'+mTxt+'</span></td><td>'+p.commute+'</td><td>'+p.commute2+'</td><td>'+p.delivery+'</td><td>'+p.units+'</td><td style="font-weight:700;">'+p.score+'</td></tr>';
+    }).join('');
+    applyMonthlyDisplays();
+  }
+  document.querySelectorAll('.filter-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      document.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('active'); });
+      this.classList.add('active');
+      activeFilter = this.dataset.filter;
+      renderTable();
+    });
+  });
+
+  /* 绑定贷款计算输入 */
+  var calcInputs = document.querySelectorAll('#totalPrice, #downPaymentRatio, #gjjBalance, #gjjMonthly, #gjjRate, #commercialRate, #loanYears');
+  calcInputs.forEach(function(input){
+    if (input) {
+      input.addEventListener('input', calcLoan);
+      input.addEventListener('change', calcLoan);
+    }
+  });
+
+  /* Init */
+  renderTable();
+  calcLoan();
+  applyMonthlyDisplays();
+})();
+</script>
 </body>
 </html>
