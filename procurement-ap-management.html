@@ -73,6 +73,8 @@ table td strong{color:var(--g-d)}
 .sub-nav{display:flex;gap:4px;margin-top:10px;font-size:11px;color:var(--s-400);flex-wrap:wrap}
 .sub-nav a{color:var(--b);text-decoration:none}
 .sub-nav a:hover{text-decoration:underline}
+.scene-nav{display:flex;gap:8px;flex-wrap:wrap;background:#fff;border:1px solid var(--s-200);border-radius:12px;padding:10px 12px;margin:0 0 18px;position:sticky;top:10px;z-index:20;box-shadow:0 4px 12px rgba(15,23,42,.05)}
+.scene-nav a{font-size:11px;color:var(--s-600);padding:5px 9px;border-radius:7px;text-decoration:none}.scene-nav a:hover,.scene-nav a.active{background:var(--g-bg);color:var(--g-d);font-weight:700}
 
 .footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
 
@@ -148,16 +150,23 @@ table td strong{color:var(--g-d)}
   <h1>💰 采购 AP 业务场景 · 应付全生命周期管理</h1>
   <div class="sub">3 个 Excel 文档构成采购 AP"民间 ERP" · 2026-07-27 沉淀 · 采购部 / 财务部 / IT</div>
   <div class="header-nav">
-    <a href="erp-procurement.html" class="active">采购管理</a>
-    <a href="erp-procurement-detail.html">业务解析</a>
-    <a href="erp-procurement-solution.html">解决方案</a>
-    <a href="erp-procurement-analysis.html">数据分析</a>
-    <a href="erp-procurement-warehouse.html">仓库协同</a>
+    <a href="erp-procurement.html">← 采购管理中心</a>
+    <a href="procurement-ap-management.html" class="active">💰 供应商 AP</a>
+    <a href="erp-finance.html">财务协同</a>
   </div>
 </div>
 
+<div class="scene-nav">
+  <a href="#background" class="active">1. 业务背景</a>
+  <a href="#panorama">2. 业务全景</a>
+  <a href="#documents">3. 三个文档</a>
+  <a href="#erp">4. ERP 判断</a>
+  <a href="#roadmap">5. 实施路线</a>
+  <a href="#ai">6. AI 增值</a>
+</div>
+
 <!-- ═══ ① 业务背景 ═══ -->
-<div class="section-label">
+<div class="section-label" id="background">
   <span class="icon">📌</span>
   <span class="text">业务背景：为什么有 3 个 Excel</span>
   <span class="badge">1 / 6</span>
@@ -187,7 +196,7 @@ table td strong{color:var(--g-d)}
 </div>
 
 <!-- ═══ ② 业务全景 ═══ -->
-<div class="section-label">
+<div class="section-label" id="panorama">
   <span class="icon">🗺️</span>
   <span class="text">业务全景：3 个文档的层级关系</span>
   <span class="badge">2 / 6</span>
@@ -243,7 +252,7 @@ table td strong{color:var(--g-d)}
 </div>
 
 <!-- ═══ ③ 3 个文档逐个讲明白 ═══ -->
-<div class="section-label">
+<div class="section-label" id="documents">
   <span class="icon">📑</span>
   <span class="text">3 个文档各管什么？</span>
   <span class="badge">3 / 6</span>
@@ -260,13 +269,13 @@ table td strong{color:var(--g-d)}
       <tr><td>供应商编码</td><td>02.01.01.xxx</td><td>怡合达在公司系统的唯一编号</td></tr>
       <tr><td>简称</td><td><strong>怡合达</strong></td><td>短名（日常沟通用）</td></tr>
       <tr><td>合同及对账单</td><td>2024 年 4 月份货款</td><td>这笔钱对应哪笔合同</td></tr>
-      <tr><td>对账单金额</td><td>39,7485.18</td><td>对账确认的金额</td></tr>
+      <tr><td>对账单金额</td><td>397,485.18</td><td>对账确认的金额</td></tr>
       <tr><td>结算方式</td><td>票到 90 天</td><td>收到发票后 90 天内付</td></tr>
       <tr><td>开票情况</td><td>已开发票</td><td>对方开发票了没</td></tr>
       <tr><td>收票日期</td><td>2024/4/28</td><td>哪天收到发票</td></tr>
       <tr><td><strong>应付款年月日</strong></td><td><strong>2024/7/27</strong></td><td><strong>算出来该哪一天付（收票+90 天）</strong></td></tr>
       <tr><td>已付款金额</td><td>0</td><td>已付了多少钱</td></tr>
-      <tr><td><strong>未付金额</strong></td><td><strong>39,7485.18</strong></td><td><strong>还欠着多少</strong></td></tr>
+      <tr><td><strong>未付金额</strong></td><td><strong>397,485.18</strong></td><td><strong>还欠着多少</strong></td></tr>
     </tbody>
   </table>
 
@@ -336,7 +345,7 @@ table td strong{color:var(--g-d)}
 </div>
 
 <!-- ═══ ④ ERP 能不能做 ═══ -->
-<div class="section-label">
+<div class="section-label" id="erp">
   <span class="icon">🏢</span>
   <span class="text">ERP 能不能做？金蝶星空 AP 模块映射</span>
   <span class="badge">4 / 6</span>
@@ -387,7 +396,7 @@ table td strong{color:var(--g-d)}
 </div>
 
 <!-- ═══ ⑤ 4 步走实施路线图 ═══ -->
-<div class="section-label">
+<div class="section-label" id="roadmap">
   <span class="icon">🗺️</span>
   <span class="text">实施路线图：4 步走（按 ROI 排序）</span>
   <span class="badge">5 / 6</span>
@@ -441,7 +450,7 @@ table td strong{color:var(--g-d)}
 </div>
 
 <!-- ═══ ⑥ AI 增值场景 ═══ -->
-<div class="section-label">
+<div class="section-label" id="ai">
   <span class="icon">🤖</span>
   <span class="text">AI 能做什么？——诊断层 7 大场景</span>
   <span class="badge">6 / 6</span>
