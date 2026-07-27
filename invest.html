@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资中心 · 杰德瑞恩J 信息化驾驶舱</title>
+<style>
+
+/* ===== 统一顶部导航 V2 ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 14px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto 24px auto;
+  max-width: 1200px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+.topnav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: #fff;
+  font-weight: 600; font-size: 15px;
+}
+.topnav-brand .logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 16px;
+}
+.topnav-menu { display: flex; gap: 6px; align-items: center; }
+.topnav-item {
+  position: relative;
+  padding: 8px 14px; border-radius: 8px;
+  color: #cbd5e1; text-decoration: none;
+  font-size: 13px; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+  cursor: pointer; transition: all .2s;
+  user-select: none; line-height: 1;
+}
+.topnav-item:hover, .topnav-item.active {
+  background: rgba(16,185,129,0.2); color: #fff;
+}
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; }
+.topnav-badge {
+  background: #ef4444; color: #fff;
+  font-size: 10px; padding: 1px 5px;
+  border-radius: 8px; margin-left: 4px; font-weight: 600;
+}
+.topnav-dropdown {
+  display: none;
+  position: absolute; top: 100%; left: 0;
+  min-width: 220px; background: #1e293b;
+  border-radius: 10px; padding: 8px;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 200;
+}
+.topnav-item.has-dropdown::after {
+  content: ''; position: absolute;
+  top: 100%; left: -8px; right: -8px;
+  height: 30px; background: transparent; z-index: 190;
+}
+.topnav-item.has-dropdown:hover .topnav-dropdown { display: block; }
+.topnav-item.has-dropdown-right .topnav-dropdown { left: auto; right: 0; }
+.topnav-item.has-dropdown-right::after { left: auto; right: -8px; }
+.topnav-dropdown a {
+  display: block; padding: 7px 10px;
+  font-size: 12px; color: #cbd5e1;
+  text-decoration: none; border-radius: 5px; white-space: nowrap;
+}
+.topnav-dropdown a:hover {
+  background: rgba(16,185,129,0.15); color: #34d399;
+}
+.topnav-dropdown .divider { height: 1px; background: #334155; margin: 6px 4px; }
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px; font-size: 11px;
+  color: #64748b; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+@media (max-width: 768px) { .topnav-menu { flex-wrap: wrap; } }
+
+/* ===== 通用 ===== */
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: var(--s-50); color: var(--s-700);
+  line-height: 1.6; min-height: 100vh; padding: 20px 24px;
+}
+.site-shell { max-width: 1200px; margin: 0 auto; }
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* ===== 面包屑 ===== */
+.breadcrumb {
+  padding: 8px 16px; font-size: 12px; color: #64748b;
+  margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 6px;
+}
+.breadcrumb a { color: #3b82f6; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: #cbd5e1; }
+.breadcrumb .current { color: #1e293b; font-weight: 500; }
+
+/* ===== 页面头部 ===== */
+.page-header {
+  background: linear-gradient(135deg, #0f172a 0%, #065f46 50%, #064e3b 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative; overflow: hidden;
+}
+.page-header::after {
+  content: ''; position: absolute;
+  top: -50%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.page-header h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; position: relative; z-index: 1; }
+.page-header .sub { font-size: 13px; color: #94a3b8; position: relative; z-index: 1; }
+.page-header .badge-row { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
+.page-header .tag {
+  font-size: 11px; padding: 3px 10px;
+  border-radius: 20px; background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ===== Section ===== */
+.section {
+  background: #fff; border: 1px solid var(--s-200);
+  border-radius: 14px; padding: 24px 28px; margin-bottom: 20px;
+}
+.section h2 {
+  font-size: 17px; font-weight: 600; color: #0f172a;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+.section h2 .meta-tag {
+  font-size: 11px; font-weight: 400;
+  background: #f1f5f9; color: #475569;
+  padding: 3px 10px; border-radius: 20px;
+}
+.section p { font-size: 14px; color: #475569; line-height: 1.75; margin-bottom: 12px; }
+
+/* ===== KPI ===== */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; margin-bottom: 24px;
+}
+.kpi-card {
+  background: #fff; border: 1px solid var(--s-200);
+  border-radius: 12px; padding: 20px; text-align: center;
+}
+.kpi-value {
+  font-size: 26px; font-weight: 600; color: #0f172a;
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+.kpi-card.k1 .kpi-value { color: #10b981; }
+.kpi-card.k2 .kpi-value { color: #3b82f6; }
+.kpi-card.k3 .kpi-value { color: #8b5cf6; }
+.kpi-card.k4 .kpi-value { color: #f59e0b; }
+.kpi-label { font-size: 12px; color: #64748b; margin-top: 8px; }
+.kpi-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+/* ===== 分组 ===== */
+.group { margin-bottom: 22px; }
+.group-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.group-icon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  font-size: 18px;
+}
+.group-icon.market { background: var(--g-bg); color: var(--g-d); }
+.group-icon.house { background: var(--y-bg); color: var(--y-d); }
+.group-icon.life { background: var(--p-bg); color: var(--p-d); }
+.group-title { font-size: 16px; font-weight: 600; color: #0f172a; }
+.group-sub { font-size: 11px; color: #94a3b8; }
+
+/* ===== 卡片网格 ===== */
+.card-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.card {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--s-200);
+  border-radius: 12px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all .2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(15,23,42,0.08);
+  border-color: var(--g);
+}
+.card.fresh {
+  border: 2px solid var(--g);
+  background: linear-gradient(145deg, #fff, #ecfdf5);
+}
+.card h3 { font-size: 15px; color: #0f172a; margin-bottom: 6px; font-weight: 600; }
+.card p { font-size: 12px; color: #64748b; min-height: 36px; line-height: 1.6; }
+.card .link {
+  display: block; margin-top: 12px;
+  font-size: 11px; font-weight: 600; color: var(--g-d);
+}
+.card.placeholder {
+  background: #f8fafc; border: 2px dashed #cbd5e1;
+  cursor: default;
+}
+.card.placeholder:hover {
+  transform: none; box-shadow: none; border-color: #cbd5e1;
+}
+.card .placeholder-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 600;
+  background: #f1f5f9; color: #94a3b8;
+  padding: 2px 8px; border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 768px) {
+  body { padding: 12px; }
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .page-header { padding: 20px; }
+  .section { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="site-shell">
+
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item">
+      <span class="tn-icon">⌂</span>
+      <span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span>
+      <span class="tn-label">业务场景</span>
+    </a>
+    <div class="topnav-item has-dropdown" tabindex="0" role="button"
+         data-href="erp-center.html"
+         onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">系统中心</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </div>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">站点地图</span>
+    </a>
+    <div class="topnav-item has-dropdown has-dropdown-right" tabindex="0" role="button"
+         data-href="key-files-overview.html"
+         onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }">
+      <span class="tn-icon">◉</span>
+      <span class="tn-label">知识沉淀</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
+        <a href="key-files-manager.html">🗂️ 归档文件柜</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown has-dropdown-right" tabindex="0" role="button"
+         data-href="site-map.html"
+         onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }">
+      <span class="tn-icon">◔</span>
+      <span class="tn-label">我</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">导航</div>
+        <a href="site-map.html">🗺️ 站点地图</a>
+        <a href="index.html">🏠 返回首页</a>
+        <a href="business-scenarios.html">▤ 业务场景总览</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<nav class="breadcrumb">
+  <a href="index.html">首页</a>
+  <span class="sep">/</span>
+  <a href="business-scenarios.html">业务场景</a>
+  <span class="sep">/</span>
+  <span class="current">投资中心</span>
+</nav>
+
+<header class="page-header">
+  <h1>💰 投资中心</h1>
+  <div class="sub">个人投资相关业务场景的入口 · 金融市场 + 房产分析</div>
+  <div class="badge-row">
+    <span class="tag">📦 03_投资</span>
+    <span class="tag">🆕 1 个新场景</span>
+    <span class="tag">📅 2026-07-27</span>
+  </div>
+</header>
+
+<!-- 总览 -->
+<section class="section">
+  <h2>总览 <span class="meta-tag">当前沉淀</span></h2>
+
+  <div class="kpi-row">
+    <div class="kpi-card k1">
+      <div class="kpi-value">2</div>
+      <div class="kpi-label">子分类</div>
+      <div class="kpi-meta">金融市场 / 房产分析</div>
+    </div>
+    <div class="kpi-card k2">
+      <div class="kpi-value">1</div>
+      <div class="kpi-label">已沉淀业务场景</div>
+      <div class="kpi-meta">市值金字塔</div>
+    </div>
+    <div class="kpi-card k3">
+      <div class="kpi-value">3</div>
+      <div class="kpi-label">规划中</div>
+      <div class="kpi-meta">PE 估值 / 现金流贴现 / 行业周期</div>
+    </div>
+    <div class="kpi-card k4">
+      <div class="kpi-value">2026</div>
+      <div class="kpi-label">最近更新</div>
+      <div class="kpi-meta">2026-07-27</div>
+    </div>
+  </div>
+
+  <p>投资模块主要沉淀两类内容：<strong>金融市场认知</strong>（股票、基金、ETF 等的估值方法和避坑指南）和<strong>房产分析</strong>（深圳/惠州/龙岩等地的购房决策模型）。后续会按业务场景一页一页补齐。</p>
+</section>
+
+<!-- 金融市场分组 -->
+<section class="group">
+  <div class="group-head">
+    <span class="group-icon market">📈</span>
+    <div>
+      <div class="group-title">金融市场</div>
+      <div class="group-sub">股票 / 基金 / ETF · 估值方法与决策框架</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <a class="card fresh" href="invest-market-cap.html">
+      <h3>📊 市值金字塔</h3>
+      <p>从长鑫存储 IPO 说起：1000 亿市值里到底有多少真金白银？讲清"市值 ≠ 现金"这个核心误区。</p>
+      <span class="link">🆕 2026-07-27 新发布 →</span>
+    </a>
+
+    <div class="card placeholder">
+      <span class="placeholder-tag">规划中</span>
+      <h3>📐 PE 估值实战</h3>
+      <p>怎么用 PE 判断一只票贵不贵？不同行业的合理 PE 区间。以及"估值杀"为什么会发生。</p>
+      <div style="font-size:11px;color:#94a3b8;margin-top:12px;">📌 规划中 · 预计 2026-08</div>
+    </div>
+
+    <div class="card placeholder">
+      <span class="placeholder-tag">规划中</span>
+      <h3>💧 现金流贴现（DCF）入门</h3>
+      <p>把"未来 10 年的盈利"折现到现在看值多少钱。最严谨的估值方法，也是最反人性的。</p>
+      <div style="font-size:11px;color:#94a3b8;margin-top:12px;">📌 规划中</div>
+    </div>
+
+    <div class="card placeholder">
+      <span class="placeholder-tag">规划中</span>
+      <h3>🌊 行业周期与择时</h3>
+      <p>DRAM/存储芯片的周期规律、白酒/医药/新能源的轮动节奏。怎么判断现在是贵还是便宜。</p>
+      <div style="font-size:11px;color:#94a3b8;margin-top:12px;">📌 规划中</div>
+    </div>
+  </div>
+</section>
+
+<!-- 房产分析分组 -->
+<section class="group">
+  <div class="group-head">
+    <span class="group-icon house">🏠</span>
+    <div>
+      <div class="group-title">房产分析</div>
+      <div class="group-sub">自住 / 投资购房决策模型 · 城市与片区选择</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card placeholder">
+      <span class="placeholder-tag">规划中</span>
+      <h3>🏙️ 深圳购房决策框架</h3>
+      <p>首套刚需怎么选？南山/福田/宝安/龙岗的性价比对比、地铁规划、学区溢价。</p>
+      <div style="font-size:11px;color:#94a3b8;margin-top:12px;">📌 规划中</div>
+    </div>
+
+    <div class="card placeholder">
+      <span class="placeholder-tag">规划中</span>
+      <h3>🏔️ 惠州惠阳 vs 龙岩长住对比</h3>
+      <p>给老爹长住的房子：惠州（客家文化 + 干燥）和龙岩（老家 + 潮湿）的多维度对比。</p>
+      <div style="font-size:11px;color:#94a3b8;margin-top:12px;">📌 规划中</div>
+    </div>
+  </div>
+</section>
+
+<!-- 进入方式说明 -->
+<section class="section">
+  <h2>怎么新增场景 <span class="meta-tag">维护说明</span></h2>
+  <p>每次学到新的投资认知、或遇到重要决策时，按以下流程沉淀：</p>
+  <ol style="padding-left:24px;color:#475569;font-size:14px;line-height:1.9;">
+    <li>新建业务场景页（命名：<code>invest-&lt;场景&gt;.html</code>）</li>
+    <li>按"8 章节标准结构"组织内容（背景/公式/机制/对比/案例/启示/FAQ/变更日志）</li>
+    <li>在本页（invest.html）加场景卡片</li>
+    <li>更新 <code>business-scenarios.html</code> 和 <code>site-map.html</code> 的入口</li>
+    <li>走 Contents API 推到 GitHub Pages</li>
+  </ol>
+  <p style="margin-top:8px;">完整规范见：<a href="key-files-overview.html" style="color:#3b82f6;">关键文件总览</a> 中的"信息化驾驶舱 · 网站标准手册"。</p>
+</section>
+
+<footer style="text-align:center;padding:24px 0;color:#94a3b8;font-size:12px;">
+  📮 想加新场景？告诉我：「加一个 Y 场景」
+  <br><br>
+  杰德瑞恩J · 信息化驾驶舱 · 投资中心
+</footer>
+
+</div>
+</div>
+</body>
+</html>
