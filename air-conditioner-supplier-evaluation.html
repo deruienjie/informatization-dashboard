@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌬️ 空调集中控制 · 供应商方案分析实战 | 业务场景学习</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --o:#f97316;--o-bg:#ffedd5;--o-d:#9a3412;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:24px 32px}
+
+/* ── 顶部导航（复用 V2 规范） ── */
+.topnav{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border-radius:16px;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;margin:0 auto 24px auto;max-width:1200px;box-shadow:0 4px 16px rgba(0,0,0,0.1);position:relative;z-index:100}
+.topnav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:600;font-size:16px}
+.topnav-brand .logo{width:28px;height:28px;background:linear-gradient(135deg,#10b981,#06b6d4);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.topnav-menu{display:flex;gap:6px;align-items:center}
+.topnav-item{position:relative;padding:9px 16px;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:all .2s;user-select:none;line-height:1}
+.topnav-item:hover,.topnav-item.active{background:rgba(16,185,129,.2);color:#fff}
+.topnav-item .tn-icon{font-size:14px;opacity:.9;line-height:1;vertical-align:middle}
+.topnav-item .tn-arrow{font-size:9px;opacity:.6;line-height:1;vertical-align:middle}
+.topnav-badge{background:#ef4444;color:#fff;font-size:10px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:600}
+.topnav-dropdown{display:none;position:absolute;top:100%;left:0;min-width:220px;background:#1e293b;border-radius:14px;padding:8px;border:1px solid #334155;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:200}
+.topnav-item.has-dropdown::after{content:'';position:absolute;top:100%;left:-8px;right:-8px;height:30px;background:transparent;z-index:190}
+.topnav-item.has-dropdown:hover .topnav-dropdown{display:block}
+.topnav-item.has-dropdown-right .topnav-dropdown{left:auto;right:0}
+.topnav-item.has-dropdown-right::after{left:auto;right:-8px}
+.topnav-dropdown a{display:block;padding:7px 10px;font-size:12px;color:#cbd5e1;text-decoration:none;border-radius:5px;white-space:nowrap}
+.topnav-dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
+.topnav-dropdown .divider{height:1px;background:#334155;margin:6px 4px}
+.topnav-dropdown .tn-section{padding:6px 12px 4px;font-size:11px;color:#64748b;font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+
+/* ── 通用容器 ── */
+.section{margin-bottom:24px}
+.section-title{font-size:16px;font-weight:600;color:var(--s-800);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--s-200);display:flex;align-items:center;gap:8px}
+.section-num{background:linear-gradient(135deg,#0f172a,#3c3489);color:#fff;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.card{background:#fff;border-radius:14px;padding:24px 32px;border:1px solid var(--s-200);margin-bottom:14px}
+.footer{text-align:center;padding:24px 32px;color:var(--s-400);font-size:11px}
+
+/* ── 信息卡片 ── */
+.info-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.info-card{background:#fff;border-radius:14px;padding:16px;border:1px solid var(--s-200);text-align:center}
+.info-card .num{font-size:26px;font-weight:700;line-height:1}
+.info-card .num.purple{color:var(--p-d)}
+.info-card .num.green{color:var(--g-d)}
+.info-card .num.blue{color:var(--b-d)}
+.info-card .num.orange{color:var(--o-d)}
+.info-card .num.red{color:var(--r-d)}
+.info-card .lbl{font-size:11px;color:var(--s-400);margin-top:4px}
+
+/* ── 三家方案并列卡片 ── */
+.vendor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.vendor-card{border-radius:14px;padding:20px 22px;border:2px solid var(--s-200);background:#fff;position:relative;overflow:hidden}
+.vendor-card.warn{border-color:#fca5a5;background:linear-gradient(180deg,#fff5f5,#fff)}
+.vendor-card.ok{border-color:#6ee7b7;background:linear-gradient(180deg,#f0fdf4,#fff)}
+.vendor-card.empty{border-color:#fcd34d;background:linear-gradient(180deg,#fffbeb,#fff)}
+.vendor-card .v-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.vendor-card .v-logo{width:48px;height:48px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:24px;color:#fff;font-weight:700}
+.vendor-card .v-name{font-size:14px;font-weight:700;color:var(--s-800)}
+.vendor-card .v-loc{font-size:10px;color:var(--s-400);margin-top:2px}
+.vendor-card .v-price{font-size:28px;font-weight:800;line-height:1;margin:8px 0 4px}
+.vendor-card .v-price.green{color:var(--g-d)}
+.vendor-card .v-price.red{color:var(--r-d)}
+.vendor-card .v-price.gray{color:var(--s-400)}
+.vendor-card .v-price-sub{font-size:11px;color:var(--s-400)}
+.vendor-card .v-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600;margin-top:6px}
+.vendor-card .v-tag.r{background:var(--r-bg);color:var(--r-d)}
+.vendor-card .v-tag.g{background:var(--g-bg);color:var(--g-d)}
+.vendor-card .v-tag.y{background:var(--y-bg);color:var(--y-d)}
+.vendor-card .v-list{list-style:none;font-size:11px;line-height:1.9;color:var(--s-600);margin-top:10px;padding-top:10px;border-top:1px dashed var(--s-200)}
+.vendor-card .v-list li::before{content:'▪ ';color:var(--s-400)}
+.vendor-card .v-list li.bad::before{content:'⚠️ '}
+.vendor-card .v-list li.bad{color:var(--r-d);font-weight:600}
+.vendor-card .v-list li.good{color:var(--g-d)}
+
+/* ── 楼层空调分布 ── */
+.floor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.floor-card{background:var(--s-50);border-radius:10px;padding:12px;border:1px solid var(--s-200);text-align:center}
+.floor-card .f-num{font-size:22px;font-weight:700;color:var(--b-d);line-height:1}
+.floor-card .f-lbl{font-size:11px;color:var(--s-400);margin-top:4px}
+.floor-card .f-detail{font-size:10px;color:var(--s-600);margin-top:6px;line-height:1.4}
+
+/* ── 4步分析法教学 ── */
+.method-step{border-radius:14px;padding:24px 28px;margin-bottom:16px;position:relative;border:2px solid var(--s-200);background:#fff}
+.method-step.step-1{border-color:var(--b);background:linear-gradient(135deg,#eff6ff,#fff)}
+.method-step.step-2{border-color:var(--g);background:linear-gradient(135deg,#f0fdf4,#fff)}
+.method-step.step-3{border-color:var(--r);background:linear-gradient(135deg,#fef2f2,#fff)}
+.method-step.step-4{border-color:var(--p);background:linear-gradient(135deg,#faf5ff,#fff)}
+.method-step .step-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.method-step .step-num{width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff}
+.method-step.step-1 .step-num{background:var(--b)}
+.method-step.step-2 .step-num{background:var(--g)}
+.method-step.step-3 .step-num{background:var(--r)}
+.method-step.step-4 .step-num{background:var(--p)}
+.method-step .step-title{font-size:18px;font-weight:700;color:var(--s-800)}
+.method-step .step-q{font-size:12px;color:var(--s-600);margin-top:2px;font-style:italic}
+.method-step .lesson{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;border-left:4px solid var(--b-d);font-size:13px;line-height:1.7;color:var(--s-700)}
+.method-step.step-2 .lesson{border-left-color:var(--g-d)}
+.method-step.step-3 .lesson{border-left-color:var(--r-d)}
+.method-step.step-4 .lesson{border-left-color:var(--p-d)}
+.method-step .demo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.method-step .demo-card{background:#fff;border-radius:10px;padding:14px;border:1px solid var(--s-200)}
+.method-step .demo-card .demo-title{font-size:12px;font-weight:600;margin-bottom:8px;color:var(--s-700)}
+.method-step .demo-card.bad-demo{border-color:#fca5a5;background:#fff5f5}
+.method-step .demo-card.good-demo{border-color:#6ee7b7;background:#f0fdf4}
+.method-step .demo-card .demo-title.bad{color:var(--r-d)}
+.method-step .demo-card .demo-title.good{color:var(--g-d)}
+
+/* ── 思路地图（Mermaid容器） ── */
+.thinking-map{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:14px;padding:32px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden}
+.thinking-map::before{content:'';position:absolute;top:-30%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);border-radius:50%}
+.thinking-map h3{color:#fff;font-size:18px;margin-bottom:6px;position:relative;z-index:1}
+.thinking-map .sub{color:#94a3b8;font-size:12px;margin-bottom:24px;position:relative;z-index:1}
+.thinking-map .map-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative;z-index:1}
+.thinking-map .map-step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:16px 14px;backdrop-filter:blur(8px)}
+.thinking-map .map-step .icon{font-size:24px;margin-bottom:8px;display:block}
+.thinking-map .map-step .num-tag{display:inline-block;background:rgba(16,185,129,.3);color:#34d399;font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600;margin-bottom:6px}
+.thinking-map .map-step h4{color:#fff;font-size:13px;font-weight:600;margin-bottom:6px}
+.thinking-map .map-step p{color:#94a3b8;font-size:11px;line-height:1.5}
+
+/* ── 待办清单 ── */
+.todo-list{background:#fff;border-radius:14px;padding:24px 32px;border:1px solid var(--s-200)}
+.todo-list .todo-item{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-radius:10px;margin-bottom:8px;background:var(--s-50);border-left:4px solid var(--b)}
+.todo-list .todo-item.urgent{border-left-color:var(--r);background:var(--r-bg)}
+.todo-list .todo-item.important{border-left-color:var(--y);background:var(--y-bg)}
+.todo-list .todo-num{width:28px;height:28px;border-radius:50%;background:var(--b);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px}
+.todo-list .todo-item.urgent .todo-num{background:var(--r)}
+.todo-list .todo-item.important .todo-num{background:var(--y-d)}
+.todo-list .todo-text{font-size:13px;color:var(--s-700);font-weight:500;line-height:1.5}
+.todo-list .todo-owner{font-size:11px;color:var(--s-400);margin-top:3px}
+
+/* ── 顶层决策卡（彩色对比） ── */
+.decision-banner{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:24px 32px;border-radius:14px;margin-bottom:16px;display:flex;align-items:center;gap:18px}
+.decision-banner .db-icon{font-size:36px}
+.decision-banner .db-title{font-size:14px;font-weight:700;color:#34d399}
+.decision-banner .db-text{font-size:12px;color:#cbd5e1;margin-top:4px;line-height:1.6}
+
+/* ── 大图标信息卡（教学） ── */
+.lesson-card{background:#fff;border-radius:14px;padding:24px 28px;border:1px solid var(--s-200);margin-bottom:14px;display:flex;gap:18px;align-items:flex-start}
+.lesson-card .lc-icon{width:64px;height:64px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
+.lesson-card .lc-icon.blue{background:var(--b-bg);color:var(--b-d)}
+.lesson-card .lc-icon.green{background:var(--g-bg);color:var(--g-d)}
+.lesson-card .lc-icon.red{background:var(--r-bg);color:var(--r-d)}
+.lesson-card .lc-icon.purple{background:var(--p-bg);color:var(--p-d)}
+.lesson-card .lc-content h4{font-size:14px;font-weight:600;color:var(--s-800);margin-bottom:6px}
+.lesson-card .lc-content p{font-size:12px;color:var(--s-600);line-height:1.7}
+
+/* ── 数据表格 ── */
+table{width:100%;border-collapse:collapse;font-size:12px}
+table th{background:var(--s-100);color:var(--s-700);padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--s-200)}
+table td{padding:10px 12px;border-bottom:1px solid var(--s-200);color:var(--s-700)}
+table tr:hover td{background:var(--s-50)}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600}
+.badge.r{background:var(--r-bg);color:var(--r-d)}
+.badge.g{background:var(--g-bg);color:var(--g-d)}
+.badge.y{background:var(--y-bg);color:var(--y-d)}
+.badge.b{background:var(--b-bg);color:var(--b-d)}
+
+/* ── 响应式 ── */
+@media (max-width:768px){
+  .container{padding:12px}
+  .topnav{padding:14px 16px;flex-wrap:wrap}
+  .topnav-menu{flex-wrap:wrap;font-size:12px}
+  .info-grid{grid-template-columns:1fr 1fr}
+  .vendor-grid{grid-template-columns:1fr}
+  .floor-grid{grid-template-columns:repeat(2,1fr)}
+  .thinking-map .map-grid{grid-template-columns:1fr 1fr}
+  .method-step .demo{grid-template-columns:1fr}
+  .decision-banner{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- 顶部导航 -->
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item">
+      <span class="tn-icon">⌂</span><span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span><span class="tn-label">业务场景</span>
+      <span class="topnav-badge">3</span>
+    </a>
+    <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+      <span class="tn-icon">▦</span><span class="tn-label">系统中心</span><span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </div>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span><span class="tn-label">站点地图</span>
+    </a>
+    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+      <span class="tn-icon">◉</span><span class="tn-label">知识沉淀</span><span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
+        <a href="key-files-manager.html">🗂️ 归档文件柜</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+      <span class="tn-icon">◔</span><span class="tn-label">我</span><span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">个人信息</div>
+        <a href="key-files-overview.html">📋 我的笔记</a>
+        <a href="key-files-manager.html">⭐ 收藏夹</a>
+        <a href="site-map.html">📌 最近浏览</a>
+        <div class="divider"></div>
+        <div class="tn-section">设置</div>
+        <a href="index.html">⚙️ 偏好</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 面包屑 -->
+<div style="font-size:11px;color:var(--s-400);margin:-12px 0 16px 0">
+  <a href="index.html" style="color:#60a5fa;text-decoration:none">首页</a>
+  <span style="margin:0 4px">/</span>
+  <a href="business-scenarios.html" style="color:#60a5fa;text-decoration:none">业务场景</a>
+  <span style="margin:0 4px">/</span>
+  <span style="color:var(--s-700);font-weight:500">空调集中控制供应商分析</span>
+</div>
+
+<!-- 顶部决策横幅 -->
+<div class="decision-banner">
+  <div class="db-icon">🌬️</div>
+  <div>
+    <div class="db-title">空调集中控制 · 供应商方案分析实战教学</div>
+    <div class="db-text">📌 这是一份"实战教学页"，不是单纯的产品介绍。<br>
+    🎯 用 3 家真实供应商方案做案例，<strong>手把手教你</strong>怎么看一份方案——下次遇到任何供应商报价都能照着分析。</div>
+  </div>
+</div>
+
+<!-- 模块 ① 思路地图 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">1</span>📌 拿到方案先看什么？5步分析思路地图</div>
+  <div class="thinking-map">
+    <h3>🎯 供应商方案分析 · 5 步法</h3>
+    <p class="sub">不论什么方案，先按这 5 步走一遍，10 分钟内就能判断它靠不靠谱</p>
+    <div class="map-grid">
+      <div class="map-step">
+        <span class="icon">🔍</span>
+        <span class="num-tag">第 1 步</span>
+        <h4>看清楚是啥</h4>
+        <p>看清楚：方案里到底卖的是什么产品？几个型号？分别管什么？</p>
+      </div>
+      <div class="map-step">
+        <span class="icon">✅</span>
+        <span class="num-tag">第 2 步</span>
+        <h4>能不能用</h4>
+        <p>拿你的需求清单逐项对：方案里的产品能覆盖你的所有设备吗？有没有漏？</p>
+      </div>
+      <div class="map-step">
+        <span class="icon">💰</span>
+        <span class="num-tag">第 3 步</span>
+        <h4>值不值</h4>
+        <p>同样的产品，单价多少？总价多少？跟其他家比，贵在哪便宜在哪？</p>
+      </div>
+      <div class="map-step">
+        <span class="icon">⚠️</span>
+        <span class="num-tag">第 4 步</span>
+        <h4>有没有坑</h4>
+        <p>翻报价单小字：有没有数量门槛？有没有附加费？质保多久？有没有有效期？</p>
+      </div>
+      <div class="map-step">
+        <span class="icon">🔮</span>
+        <span class="num-tag">第 5 步</span>
+        <h4>长期靠不靠</h4>
+        <p>坏了好不好修？平台要不要年费？能不能加新设备？售后响应多快？</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 模块 ② 项目背景 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">2</span>🏢 项目背景速览（让方案有数可依）</div>
+  <div class="info-grid">
+    <div class="info-card" style="text-align:left;padding:16px 20px">
+      <div style="font-size:12px;color:var(--s-600);line-height:1.8">
+        <strong>📋 项目目标：</strong>新厂 38 台空调做<strong>集中控制</strong>，能远程开关、调温、看用电、异常告警<br>
+        <strong>🏭 规模：</strong>4 个楼层、5 个空调品牌（混牌分体空调）<br>
+        <strong>💡 难点：</strong>不是单一品牌，要找能<strong>同时控制 5 个品牌</strong>的方案
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="num purple">38</div>
+      <div class="lbl">空调总数（台）</div>
+    </div>
+    <div class="info-card">
+      <div class="num blue">5</div>
+      <div class="lbl">混牌品牌数</div>
+    </div>
+  </div>
+
+  <!-- 楼层空调分布 -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h4 style="font-size:13px;font-weight:600;color:var(--s-800)">📊 38 台空调的楼层分布</h4>
+      <span style="font-size:11px;color:var(--s-400)">2 楼暂无空调</span>
+    </div>
+    <div class="floor-grid">
+      <div class="floor-card">
+        <div class="f-num">11</div>
+        <div class="f-lbl">1F · 一楼</div>
+        <div class="f-detail">5P 天花机为主<br>+ 1.5P 挂机 3 台</div>
+      </div>
+      <div class="floor-card" style="opacity:0.5">
+        <div class="f-num" style="color:var(--s-400)">0</div>
+        <div class="f-lbl">2F · 二楼</div>
+        <div class="f-detail">暂无空调</div>
+      </div>
+      <div class="floor-card">
+        <div class="f-num">8</div>
+        <div class="f-lbl">3F · 三楼</div>
+        <div class="f-detail">5P 天花机 6<br>+ 1.5P 挂机 2</div>
+      </div>
+      <div class="floor-card">
+        <div class="f-num">8</div>
+        <div class="f-lbl">4F · 四楼</div>
+        <div class="f-detail">5P 天花机 6<br>+ 2P 挂机 2</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <div class="floor-card" style="flex:1;text-align:left;padding:14px 18px">
+        <div style="font-size:11px;color:var(--s-400)">5F · 五楼</div>
+        <div style="font-size:22px;font-weight:700;color:var(--b-d);margin:2px 0">11 台</div>
+        <div style="font-size:11px;color:var(--s-600);line-height:1.5">5P 天花机 1 + 5P 立式柜机 1 + 3P 柜机 1 + 2P 挂机 3 + 1.5P 挂机 5</div>
+      </div>
+    </div>
+
+    <!-- 品牌分布 -->
+    <div style="margin-top:18px;padding-top:14px;border-top:1px dashed var(--s-200)">
+      <div style="font-size:12px;font-weight:600;color:var(--s-800);margin-bottom:10px">🎨 5 个品牌分布</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge b" style="font-size:12px;padding:6px 12px">美的 22 台</span>
+        <span class="badge g" style="font-size:12px;padding:6px 12px">奥克斯 8 台</span>
+        <span class="badge y" style="font-size:12px;padding:6px 12px">小天鹅 5 台</span>
+        <span class="badge r" style="font-size:12px;padding:6px 12px">海信 2 台</span>
+        <span class="badge" style="background:#e0e7ff;color:#3730a3;font-size:12px;padding:6px 12px">华凌 1 台</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 模块 ③ 三家方案并列对比 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">3</span>📋 三家供应商方案并列对比</div>
+
+  <!-- 教学提示 -->
+  <div class="lesson-card">
+    <div class="lc-icon blue">💡</div>
+    <div class="lc-content">
+      <h4>为什么要三家放一起看？</h4>
+      <p>很多人看方案只盯一家，结果被销售带着走。<strong>并列对比</strong>能让你立刻看出：谁便宜、谁坑多、谁没诚意。把方案当"考卷"，三家一起批改最清楚。</p>
+    </div>
+  </div>
+
+  <div class="vendor-grid">
+    <!-- 绿米 -->
+    <div class="vendor-card empty">
+      <div class="v-head">
+        <div class="v-logo" style="background:linear-gradient(135deg,#f59e0b,#f97316)">🏠</div>
+        <div>
+          <div class="v-name">深圳绿米 Aqara</div>
+          <div class="v-loc">📍 深圳 · 距离最近</div>
+        </div>
+      </div>
+      <div class="v-price gray">— —</div>
+      <div class="v-price-sub">没有报价文件</div>
+      <span class="v-tag y">⚠️ 资料缺失</span>
+      <ul class="v-list">
+        <li class="bad">文件里只有你自己的空调清单</li>
+        <li class="bad">没有绿米的正式报价</li>
+        <li class="good">距离近，本地化服务方便</li>
+        <li class="good">品牌大，IoT 经验丰富</li>
+      </ul>
+    </div>
+
+    <!-- 星纵 -->
+    <div class="vendor-card ok">
+      <div class="v-head">
+        <div class="v-logo" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">📡</div>
+        <div>
+          <div class="v-name">厦门星纵 Milesight</div>
+          <div class="v-loc">📍 厦门 · 异地</div>
+        </div>
+      </div>
+      <div class="v-price green">¥45,553</div>
+      <div class="v-price-sub">含硬件 + 平台 + 安装</div>
+      <span class="v-tag g">✅ 报价完整</span>
+      <ul class="v-list">
+        <li class="good">ACC10x 三款控制器全覆盖</li>
+        <li class="good">4G Cat-1 自带 8 年流量</li>
+        <li class="good">红外码库兼容 8 个主流品牌</li>
+        <li class="good">AIoT 平台一体机（¥20,000）</li>
+        <li>安装费 ¥5,941（明码标价）</li>
+        <li>质保 1 年 + 远程技术支持</li>
+      </ul>
+    </div>
+
+    <!-- 派谷 -->
+    <div class="vendor-card warn">
+      <div class="v-head">
+        <div class="v-logo" style="background:linear-gradient(135deg,#ef4444,#dc2626)">⚡</div>
+        <div>
+          <div class="v-name">广州派谷（亚禾）</div>
+          <div class="v-loc">📍 广州 · 距离较近</div>
+        </div>
+      </div>
+      <div class="v-price green">¥23,790</div>
+      <div class="v-price-sub">不含税 · 价格最低</div>
+      <span class="v-tag r">⚠️ 有数量门槛</span>
+      <ul class="v-list">
+        <li class="good">价格是星纵的一半</li>
+        <li class="good">后台软件赠送（省 ¥18,000）</li>
+        <li class="good">4G 流量共享池（10 元 8 年）</li>
+        <li class="bad">⚠️ 数量门槛：≥100 台才有效</li>
+        <li class="bad">⚠️ 布线安装"非我方完成"</li>
+        <li class="bad">⚠️ 报价有效期仅 1 个月</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 数字对比表 -->
+  <div class="card">
+    <div style="font-size:12px;font-weight:600;color:var(--s-800);margin-bottom:10px">💰 一眼对比三家价格（数字会说真话）</div>
+    <table>
+      <thead>
+        <tr>
+          <th>对比项</th>
+          <th style="color:var(--y-d)">深圳绿米</th>
+          <th style="color:var(--b-d)">厦门星纵</th>
+          <th style="color:var(--r-d)">广州派谷</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>硬件单价（1.5P 控制器）</strong></td>
+          <td>—</td>
+          <td>¥357 / 台</td>
+          <td style="color:var(--g-d);font-weight:700">¥290 / 台</td>
+        </tr>
+        <tr>
+          <td><strong>硬件单价（5P 控制器）</strong></td>
+          <td>—</td>
+          <td>¥601 / 台</td>
+          <td style="color:var(--g-d);font-weight:700">¥425 / 台</td>
+        </tr>
+        <tr>
+          <td><strong>集中控制平台</strong></td>
+          <td>—</td>
+          <td>¥20,000</td>
+          <td style="color:var(--g-d);font-weight:700">赠送</td>
+        </tr>
+        <tr>
+          <td><strong>安装费</strong></td>
+          <td>—</td>
+          <td>¥5,941（对方做）</td>
+          <td>¥9,000（我方找别人做）</td>
+        </tr>
+        <tr style="background:var(--y-bg)">
+          <td><strong>总价</strong></td>
+          <td style="color:var(--s-400)">未报价</td>
+          <td><strong>¥45,553.80</strong></td>
+          <td style="color:var(--g-d);font-weight:700"><strong>¥23,790</strong></td>
+        </tr>
+        <tr>
+          <td><strong>数量门槛</strong></td>
+          <td>—</td>
+          <td>无</td>
+          <td style="color:var(--r-d);font-weight:600">⚠️ ≥100 台</td>
+        </tr>
+        <tr>
+          <td><strong>本地化</strong></td>
+          <td style="color:var(--g-d);font-weight:600">✅ 深圳（最近）</td>
+          <td>⚠️ 厦门（远）</td>
+          <td style="color:var(--g-d);font-weight:600">✅ 广州（近）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 模块 ④ 4 步分析法实战演练 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">4</span>🧠 4 步分析法实战演练（核心教学）</div>
+  <p style="font-size:12px;color:var(--s-600);margin:-6px 0 14px 8px;line-height:1.7">每一步都<strong>用真实方案演示</strong>，看完就能照着用</p>
+
+  <!-- 第 1 步：能不能用（适配性） -->
+  <div class="method-step step-1">
+    <div class="step-head">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">能不能用（适配性）</div>
+        <div class="step-q">❓ 方案里的产品能覆盖我所有的空调吗？有没有漏？</div>
+      </div>
+    </div>
+    <div class="lesson">
+      <strong>🎓 为什么要先看"能不能用"？</strong>再便宜、再大牌，如果有一半空调控制不了，这方案就废了。<strong>适配性是 0 和 1 的关系</strong>——能用就行，不能用就出局。
+    </div>
+    <div class="demo">
+      <div class="demo-card good-demo">
+        <div class="demo-title good">✅ 合格方案长这样</div>
+        <div style="font-size:12px;line-height:1.7;color:var(--s-700)">
+          • 方案列出<strong>你所有空调类型</strong>对应的产品<br>
+          • 每类空调<strong>有明确数量</strong>（如 5P 天花机 22 台）<br>
+          • 红外码库或协议<strong>列出能兼容的品牌清单</strong><br>
+          • 销售能回答"38 台不同品牌能 100% 控制吗？"
+        </div>
+      </div>
+      <div class="demo-card bad-demo">
+        <div class="demo-title bad">⚠️ 不合格方案长这样</div>
+        <div style="font-size:12px;line-height:1.7;color:var(--s-700)">
+          • 只给"通用空调控制器"——没说能管 5P 三相电<br>
+          • 列的兼容品牌<strong>没有你用的"华凌"</strong><br>
+          • 报价里只写了数量，<strong>没写每类适配几台</strong><br>
+          • 销售含糊"应该可以"——无法落地
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:14px;background:#fff;border-radius:10px;border:1px solid var(--s-200);font-size:13px;line-height:1.7">
+      <strong style="color:var(--b-d)">📌 本项目验证结果：</strong>
+      <table style="margin-top:8px">
+        <thead>
+          <tr>
+            <th>供应商</th>
+            <th>38 台覆盖</th>
+            <th>5 品牌兼容</th>
+            <th>结论</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>绿米</td>
+            <td>❌ 没报价</td>
+            <td>❌ 待核实</td>
+            <td><span class="badge y">无法判断</span></td>
+          </tr>
+          <tr>
+            <td>星纵</td>
+            <td>✅ ACC101/102/103 三款</td>
+            <td>✅ 红外覆盖 8 个主流品牌</td>
+            <td><span class="badge g">✅ 通过</span></td>
+          </tr>
+          <tr>
+            <td>派谷</td>
+            <td>✅ AC120 三款</td>
+            <td>✅ 同类红外方案</td>
+            <td><span class="badge g">✅ 通过</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 第 2 步：值不值（性价比） -->
+  <div class="method-step step-2">
+    <div class="step-head">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">值不值（性价比）</div>
+        <div class="step-q">❓ 同样的东西谁便宜？贵的贵在哪？有没有水分？</div>
+      </div>
+    </div>
+    <div class="lesson">
+      <strong>🎓 怎么判断值不值？</strong>三个数字必须看：①<strong>硬件单价</strong>（核心）②<strong>平台软件费</strong>（大坑，很多人漏算）③<strong>安装费</strong>（隐形大头）。加起来再比。
+    </div>
+    <div class="demo">
+      <div class="demo-card good-demo">
+        <div class="demo-title good">✅ 这样比价才科学</div>
+        <div style="font-size:12px;line-height:1.8;color:var(--s-700)">
+          • 把每家拆成<strong>硬件 + 软件 + 安装</strong>三项<br>
+          • 硬件看<strong>同类产品单价</strong>（如 5P 控制器）<br>
+          • 软件看是<strong>买断还是年费</strong><br>
+          • 安装看<strong>谁来做、要多少钱</strong><br>
+          • 最后<strong>算总账</strong>，别只看一项便宜
+        </div>
+      </div>
+      <div class="demo-card bad-demo">
+        <div class="demo-title bad">⚠️ 常见陷阱</div>
+        <div style="font-size:12px;line-height:1.8;color:var(--s-700)">
+          • 只比硬件单价 → 忽略平台年费<br>
+          • 不问安装 → 后来被加价 50%<br>
+          • 不问税费 → 13% 增值税多花几千<br>
+          • 不问质保期 → 1 年后坏了自费
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:14px;background:#fff;border-radius:10px;border:1px solid var(--s-200);font-size:13px;line-height:1.7">
+      <strong style="color:var(--g-d)">📌 本项目对比结果：</strong>
+      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--g-bg);border:1px solid #6ee7b7;border-radius:10px;padding:12px">
+          <div style="font-size:11px;color:var(--g-d);font-weight:600">派谷硬件便宜 ¥15,000+</div>
+          <div style="font-size:24px;font-weight:800;color:var(--g-d);margin:4px 0">¥14,410</div>
+          <div style="font-size:11px;color:var(--s-600)">vs 星纵 ¥39,612</div>
+        </div>
+        <div style="background:var(--r-bg);border:1px solid #fca5a5;border-radius:10px;padding:12px">
+          <div style="font-size:11px;color:var(--r-d);font-weight:600">派谷软件免费</div>
+          <div style="font-size:24px;font-weight:800;color:var(--r-d);margin:4px 0">¥0</div>
+          <div style="font-size:11px;color:var(--s-600)">vs 星纵 ¥20,000</div>
+        </div>
+      </div>
+      <p style="margin-top:10px;font-size:12px;color:var(--s-700);line-height:1.7">
+        💡 <strong>初步结论</strong>：派谷便宜一半（¥23,790 vs ¥45,553）。但便宜≠值，下一步看有没有坑。
+      </p>
+    </div>
+  </div>
+
+  <!-- 第 3 步：有没有坑（风险条款） -->
+  <div class="method-step step-3">
+    <div class="step-head">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">有没有坑（风险条款）</div>
+        <div class="step-q">❓ 报价单里藏着哪些"小字陷阱"？</div>
+      </div>
+    </div>
+    <div class="lesson">
+      <strong>🎓 什么是"坑"？</strong>报价单正文看着很美好，<strong>底下小字</strong>才是真实条款。比如"价格有效期 3 天"——你没注意，3 天后对方涨价 20% 你也只能认。
+    </div>
+    <div class="demo">
+      <div class="demo-card good-demo">
+        <div class="demo-title good">✅ 报价单要看的 5 个坑位</div>
+        <div style="font-size:12px;line-height:1.9;color:var(--s-700)">
+          1️⃣ <strong>数量门槛</strong>：写"≥100 台有效"？小心<br>
+          2️⃣ <strong>有效期</strong>：1 周？1 月？过期作废<br>
+          3️⃣ <strong>税费</strong>：含税？加 13%？<br>
+          4️⃣ <strong>附加项</strong>：安装谁做？另收？<br>
+          5️⃣ <strong>付款条件</strong>：30%？50%？预付多少？
+        </div>
+      </div>
+      <div class="demo-card bad-demo">
+        <div class="demo-title bad">⚠️ 派谷报价里的"坑"</div>
+        <div style="font-size:12px;line-height:1.8;color:var(--s-700);color:var(--r-d);font-weight:600">
+          坑 ①：<span style="color:var(--s-700);font-weight:400">"数量≥100 台数量有效"</span>——你只有 38 台<br>
+          坑 ②：<span style="color:var(--s-700);font-weight:400">"布线安装非我方完成"</span>——需另找人<br>
+          坑 ③：<span style="color:var(--s-700);font-weight:400">"有效期一个月"</span>——2026.08.21 后涨价<br>
+          坑 ④：<span style="color:var(--s-700);font-weight:400">"报价不含税"</span>——开票 +13%
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:16px;background:#fff;border-radius:10px;border:2px solid var(--r);font-size:13px;line-height:1.7">
+      <strong style="color:var(--r-d)">🎯 派谷报价真实成本估算：</strong>
+      <table style="margin-top:8px">
+        <tr><td>标称报价</td><td style="text-align:right">¥23,790</td></tr>
+        <tr><td>+ 数量不足，按"经销价"上浮 30%</td><td style="text-align:right;color:var(--r-d)">+ ¥7,137</td></tr>
+        <tr><td>+ 布线安装（自己找人，按星纵标准）</td><td style="text-align:right;color:var(--r-d)">+ ¥6,000</td></tr>
+        <tr><td>+ 13% 增值税</td><td style="text-align:right;color:var(--r-d)">+ ¥4,819</td></tr>
+        <tr style="background:var(--r-bg);font-weight:700"><td>实际总价</td><td style="text-align:right">≈ ¥41,746</td></tr>
+      </table>
+      <p style="margin-top:10px;font-size:12px;color:var(--s-700)">
+        💡 <strong>这就是"看坑"的价值</strong>——表面便宜 ¥21,000，算完坑后只便宜 ¥3,800。
+      </p>
+    </div>
+  </div>
+
+  <!-- 第 4 步：长期靠不靠得住 -->
+  <div class="method-step step-4">
+    <div class="step-head">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">长期靠不靠得住（售后/扩展）</div>
+        <div class="step-q">❓ 装完了坏了找谁？以后能加新空调吗？</div>
+      </div>
+    </div>
+    <div class="lesson">
+      <strong>🎓 为什么这一条最容易被忽略？</strong>招标时大家都盯着"价格"，没人问"5 年后怎么办"。结果是空调控制器成了"孤儿"——APP 下线、固件不更新、新空调加不进去。
+    </div>
+    <div class="demo">
+      <div class="demo-card good-demo">
+        <div class="demo-title good">✅ 售后要问的 5 件事</div>
+        <div style="font-size:12px;line-height:1.9;color:var(--s-700)">
+          1️⃣ <strong>质保多久</strong>？1 年？3 年？终身？<br>
+          2️⃣ <strong>质保范围</strong>：含安装？含平台？含流量？<br>
+          3️⃣ <strong>售后响应</strong>：本地几小时到？远程多快？<br>
+          4️⃣ <strong>扩展能力</strong>：能加新设备吗？要不要再付费？<br>
+          5️⃣ <strong>数据归属</strong>：数据存在哪？能导出吗？
+        </div>
+      </div>
+      <div class="demo-card bad-demo">
+        <div class="demo-title bad">⚠️ 两家方案售后对比</div>
+        <div style="font-size:12px;line-height:1.8;color:var(--s-700)">
+          <strong>星纵：</strong>1 年质保 + 1 年远程支持<br>
+          <strong>派谷：</strong>1 年质保，过保后只收人工+材料费<br>
+          ⚠️ <strong style="color:var(--r-d)">都没写"5 年后怎么办"</strong>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:14px;background:#fff;border-radius:10px;border:1px solid var(--s-200);font-size:13px;line-height:1.7">
+      <strong style="color:var(--p-d)">📌 还要再问的几个关键问题：</strong>
+      <ul style="margin-top:8px;padding-left:20px;line-height:1.9;font-size:12px;color:var(--s-700)">
+        <li>平台是 SaaS（年费）还是买断？</li>
+        <li>控制器固件能远程升级吗？升级收费吗？</li>
+        <li>空调控制记录保存多久？能不能导出能耗报表？</li>
+        <li>APP/网页平台会不会下线？下线了控制器还能用吗？</li>
+        <li>未来加 10 台空调，控制器单价还是 ¥290 / ¥357 吗？</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 模块 ⑤ 下一步行动 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">5</span>✅ 下一步行动清单</div>
+  <div class="todo-list">
+    <div class="todo-item urgent">
+      <div class="todo-num">1</div>
+      <div>
+        <div class="todo-text">🔥 立刻追问绿米销售——为什么文件夹里只有你自己的清单？要求提供 38 台分体空调的正式报价单（5 品牌兼容方案）</div>
+        <div class="todo-owner">⏰ 优先级：紧急 · 否则这个供应商就是"陪跑"</div>
+      </div>
+    </div>
+    <div class="todo-item urgent">
+      <div class="todo-num">2</div>
+      <div>
+        <div class="todo-text">🔥 跟派谷周颖（18988979934）谈判——38 台能否破例走报价价？如果不能，拿到经销价的正式报价单（含安装税费明细）</div>
+        <div class="todo-owner">⏰ 报价 2026-08-21 到期 · 1 个月内必须定</div>
+      </div>
+    </div>
+    <div class="todo-item important">
+      <div class="todo-num">3</div>
+      <div>
+        <div class="todo-text">⚡ 让星纵和派谷都提供：平台软件 demo（你要亲自操作）、现场或远程技术支持响应时效承诺、是否支持接入公司现有弱电系统</div>
+        <div class="todo-owner">🎯 排除"看着行、用着不行"</div>
+      </div>
+    </div>
+    <div class="todo-item important">
+      <div class="todo-num">4</div>
+      <div>
+        <div class="todo-text">💡 考虑补询"首推"的广州超科自动化（谭宏 18302007161）——38 台 5 品牌全覆盖、红外学习 100% 兼容、有小鹏汽车案例、广州上门方便</div>
+        <div class="todo-owner">🎯 你之前对比表里的首推，但这次没在文件夹里 → 可能漏询价</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">5</div>
+      <div>
+        <div class="todo-text">📋 整理一份《供应商方案评估表》给老板——把 3 家（或 4 家）方案按 4 步分析法打分，方便老板拍板</div>
+        <div class="todo-owner">🎯 输出决策依据，不是替老板决定</div>
+      </div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">6</div>
+      <div>
+        <div class="todo-text">🔍 确认合同细节——质保期、付款条件、违约责任、平台数据归属（参考第 4 步问的 5 件事）</div>
+        <div class="todo-owner">🎯 签合同前最后一道防线</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 一句话总结 -->
+<div class="card" style="background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;border:0;margin-top:16px">
+  <div style="font-size:14px;font-weight:600;color:#34d399;margin-bottom:10px">🎓 这页学完你应该能回答这 4 个问题</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12px;color:#cbd5e1;line-height:1.8">
+    <div>① 拿到任何方案，<strong style="color:#fff">先看哪 5 步</strong>？</div>
+    <div>② 怎么判断方案<strong style="color:#fff">能不能用</strong>？</div>
+    <div>③ 报价单里<strong style="color:#fff">隐藏哪些坑</strong>？</div>
+    <div>④ 怎么判断供应商<strong style="color:#fff">长期靠不靠得住</strong>？</div>
+  </div>
+</div>
+
+<div class="footer">
+  🌬️ 空调集中控制 · 供应商方案分析 ｜ 业务场景沉淀 · 杰德瑞恩J 出品<br>
+  📅 实战案例：2026-07-27 整理 ｜ 数据来源：腾讯文档云盘"空调集中控制"文件夹
+</div>
+
+</div>
+</body>
+</html>
