@@ -30,7 +30,7 @@
 
 ## 📅 维护
 
-最后更新: 2026-07-23
+最后更新: 2026-07-27
 
 
 ## 📋 会议纪要学习（业务场景沉淀）
@@ -40,5 +40,7 @@
 | 委外生产与成本归集流程优化 | ERP / 财务 | [outsourcing-cost-allocation.html](https://deruienjie.github.io/informatization-dashboard/outsourcing-cost-allocation.html) |
 | 采购 AP 应付全生命周期管理 | ERP / 采购 / 财务 | [procurement-ap-management.html](https://deruienjie.github.io/informatization-dashboard/procurement-ap-management.html) |
 | 采购订单合并下推 | ERP / 采购 | [procurement-order-consolidation.html](https://deruienjie.github.io/informatization-dashboard/procurement-order-consolidation.html) |
+| 市值金字塔 | 投资 / 金融市场 | [invest-market-cap.html](https://deruienjie.github.io/informatization-dashboard/invest-market-cap.html) |
+| PE 估值实战 | 投资 / 金融市场 | [invest-pe-valuation.html](https://deruienjie.github.io/informatization-dashboard/invest-pe-valuation.html) |
 
 > 规则：所有有学习价值的业务场景（会议纪要、流程文档、最佳实践）都会沉淀为学习网页，按 **系统 → 项目 → 模块 → 业务场景** 层级组织。采购模块主页：[erp-procurement.html](https://deruienjie.github.io/informatization-dashboard/erp-procurement.html)。
