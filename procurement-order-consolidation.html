@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>采购管理 · 采购订单合并下推 | 信息化驾驶舱</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;--o-d:#9a3412;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
+.container{max-width:1000px;margin:0 auto;padding:20px 24px}
+
+.header{
+  background:linear-gradient(135deg,#064e3b,#065f46,#047857);
+  border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  position:relative;overflow:hidden;
+}
+.header::after{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(16,185,129,.2),transparent 70%);border-radius:50%;
+}
+.header-left{position:relative;z-index:1}
+.header h1{font-size:22px;font-weight:700}
+.header .sub{font-size:12px;color:#a7f3d0;margin-top:4px}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap}
+.header-nav a{
+  font-size:12px;padding:6px 14px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:#a7f3d0;text-decoration:none;transition:all .2s;white-space:nowrap
+}
+.header-nav a:hover,.header-nav a.active{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--g);color:#fff;padding:2px 8px;border-radius:10px}
+
+.card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:12px}
+
+/* ── Flow diagram ── */
+.flow-container{overflow-x:auto;padding:8px 0}
+.flow-row{display:flex;align-items:flex-start;gap:6px;min-width:max-content;padding:16px 4px}
+.flow-node{
+  flex-shrink:0;width:130px;border-radius:12px;padding:14px 8px;text-align:center;
+  border:2px solid;transition:transform .15s;
+}
+.flow-node:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.flow-node .n-icon{font-size:22px;margin-bottom:4px}
+.flow-node .n-title{font-size:12px;font-weight:700;margin-bottom:2px}
+.flow-node .n-sub{font-size:9px;line-height:1.4}
+.flow-arrow{
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--s-400);font-weight:700;flex-shrink:0;width:22px;padding-top:35px;
+}
+.flow-node.green{background:var(--g-bg);border-color:var(--g)}.flow-node.green .n-title{color:var(--g-d)}
+.flow-node.blue{background:var(--b-bg);border-color:var(--b)}.flow-node.blue .n-title{color:var(--b-d)}
+.flow-node.orange{background:var(--o-bg);border-color:var(--o)}.flow-node.orange .n-title{color:var(--o-d)}
+.flow-node.purple{background:var(--p-bg);border-color:var(--p)}.flow-node.purple .n-title{color:var(--p-d)}
+.flow-node.yellow{background:var(--y-bg);border-color:var(--y)}.flow-node.yellow .n-title{color:var(--y-d)}
+
+/* ── Clickable flow nodes ── */
+.flow-node.clickable{cursor:pointer;position:relative}
+.flow-node.clickable:hover{border-width:3px;margin:-1px}
+.flow-node.highlight{box-shadow:0 0 0 4px rgba(245,158,11,.2);border-color:var(--y)!important}
+.flow-node.highlight .n-title{color:var(--y-d)!important}
+.flow-node.highlight .n-icon::after{content:'⚠️';font-size:10px;position:relative;top:-8px}
+
+/* ── Requirement card ── */
+.req-card{
+  border-radius:14px;padding:24px 28px;background:linear-gradient(135deg,#fff,#fef2f2);
+  border:2px solid var(--r);position:relative;
+}
+.req-card h3{font-size:16px;font-weight:700;color:var(--r-d);margin-bottom:8px}
+.req-card p{font-size:13px;color:var(--s-700);line-height:1.7;margin-bottom:16px}
+.req-card .req-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.req-card .meta-tag{font-size:10px;padding:3px 10px;border-radius:12px;font-weight:600}
+.req-card .meta-tag.red{background:var(--r-bg);color:var(--r-d)}
+
+/* ── Action buttons ── */
+.btn-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:10px;font-size:14px;font-weight:700;
+  text-decoration:none;border:2px solid;transition:all .2s;cursor:pointer;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.btn-analysis{
+  background:var(--o-bg);color:var(--o-d);border-color:var(--o);
+}
+.btn-analysis:hover{background:var(--o);color:#fff}
+.btn-solution{
+  background:var(--g-bg);color:var(--g-d);border-color:var(--g);
+}
+.btn-solution:hover{background:var(--g);color:#fff}
+
+/* ── Sub pages nav ── */
+.sub-nav{display:flex;gap:4px;margin-top:10px;font-size:11px;color:var(--s-400)}
+.sub-nav a{color:var(--b);text-decoration:none}
+.sub-nav a:hover{text-decoration:underline}
+
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .header{padding:18px 20px}.header h1{font-size:18px}
+  .btn-row{flex-direction:column}.btn{justify-content:center}
+}
+
+/* ── Dropdown Menu ── */
+.nav-item{position:relative;display:inline-block;padding-bottom:8px}
+.nav-item>a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block}
+.nav-item>a:hover,.nav-item.active>a{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+.nav-item .dropdown{display:none;position:absolute;top:100%;left:0;min-width:200px;background:#1e293b;border-radius:8px;padding:6px;margin-top:8px;padding-top:12px;border:0.5px solid #334155;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.nav-item:hover .dropdown{display:block;animation:dropdownFade .2s ease .15s both}@keyframes dropdownFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.nav-item .dropdown{transition:opacity .15s}/* hover delay fix 2026-07-23 */
+.nav-item .dropdown a{display:block;padding:6px 10px;font-size:11px;color:#cbd5e1;text-decoration:none;border-radius:4px;white-space:nowrap}
+.nav-item .dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
+.nav-item .dropdown .sub{padding-left:16px;font-size:10px;color:#64748b}
+.nav-item .dropdown .sub a{font-size:10px;color:#94a3b8;padding:3px 10px}
+.nav-item .dropdown .sub a:hover{color:#34d399}
+.nav-item .dropdown .divider{height:1px;background:#334155;margin:4px 6px}
+/* ── Breadcrumb ── */
+.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
+.breadcrumb a{color:#60a5fa;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
+.breadcrumb .sep{color:var(--s-400)}
+.breadcrumb .current{color:var(--s-200);font-weight:500}
+
+/* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 14px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto 24px auto;
+  max-width: 1000px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.topnav-brand .logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+.topnav-menu {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.topnav-item {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+  line-height: 1;
+}
+.topnav-item:hover, .topnav-item.active {
+  background: rgba(16,185,129,0.2);
+  color: #fff;
+}
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
+.topnav-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+/* ── Dropdown ── */
+.topnav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 200;
+}
+
+/* 30px 透明 hover 桥接 — 保证鼠标从菜单项移到下拉时 hover 链连续 */
+.topnav-item.has-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: -8px;
+  right: -8px;
+  height: 30px;
+  background: transparent;
+  z-index: 190;
+}
+.topnav-item.has-dropdown:hover .topnav-dropdown {
+  display: block;
+}
+
+/* 右侧对齐下拉（末尾菜单如"知识沉淀"/"我"） */
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: -8px;
+}
+
+/* Dropdown 内部 */
+.topnav-dropdown a {
+  display: block;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.topnav-dropdown a:hover {
+  background: rgba(16,185,129,0.15);
+  color: #34d399;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 6px 4px;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .topnav-menu { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+
+
+
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item">
+      <span class="tn-icon">⌂</span>
+      <span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span>
+      <span class="tn-label">业务场景</span>
+      <span class="topnav-badge">2</span>
+    </a>
+    <a href="erp-center.html" class="topnav-item has-dropdown">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">系统中心</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </a>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md" class="topnav-item has-dropdown has-dropdown-right">
+      <span class="tn-icon">◉</span>
+      <span class="tn-label">知识沉淀</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
+        <a href="site-map.html">🗂️ 全站地图</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </a>
+    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
+      <span class="tn-icon">◔</span>
+      <span class="tn-label">我</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">个人信息</div>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
+        <div class="divider"></div>
+        <div class="tn-section">设置</div>
+        <a href="#">⚙️ 偏好</a>
+      </div>
+    </a>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<div class="page-title">
+<div style="font-size:11px;color:#64748b;margin-bottom:8px"><a href="business-scenarios.html" style="color:#3b82f6;text-decoration:none">业务场景</a> / <a href="erp-center.html" style="color:#3b82f6;text-decoration:none">ERP 项目实施</a> / <a href="erp-procurement.html" style="color:#3b82f6;text-decoration:none">采购管理</a> / 采购订单合并下推</div>
+<h1 style="font-size:20px;color:#1e293b;margin:0 0 6px 0;font-weight:700;">🔀 采购订单合并下推</h1><div style="font-size:12px;color:#64748b;margin-bottom:16px;">采购订单合并下推 · 2026-06-29 提出 · 物控 → 采购 → 多部门推进中</div>
+</div>
+<!-- ═══ FLOW DIAGRAM ═══ -->
+<div class="section-label">
+  <span class="icon">🔁</span>
+  <span class="text">采购业务流程</span>
+  <span class="badge">AS-IS 现状流程</span>
+</div>
+
+<div class="card" style="overflow-x:auto;padding:16px 12px">
+  <div class="flow-container">
+    <div class="flow-row">
+      <div class="flow-node blue">
+        <div class="n-icon">👤</div>
+        <div class="n-title">项目提出</div>
+        <div class="n-sub">各项目经理<br>提出物料需求</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node green">
+        <div class="n-icon">📋</div>
+        <div class="n-title">物控创建</div>
+        <div class="n-sub">在ERP创建<br>采购申请单</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node green">
+        <div class="n-icon">🔄</div>
+        <div class="n-title">下推采购订单</div>
+        <div class="n-sub">按项目逐个<br>下推PO</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <!-- 问题节点 -->
+      <div class="flow-node yellow highlight clickable" onclick="document.getElementById('req-card').scrollIntoView({behavior:'smooth'})">
+        <div class="n-icon">⚠️</div>
+        <div class="n-title">问题：重复下推</div>
+        <div class="n-sub">同一物料<br>被多个项目<br>分开下推PO</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node orange">
+        <div class="n-icon">🏭</div>
+        <div class="n-title">供应商交付</div>
+        <div class="n-sub">按PO分别<br>送货到仓库</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node purple">
+        <div class="n-icon">📦</div>
+        <div class="n-title">仓库收货</div>
+        <div class="n-sub">分N次收货<br>分N次入库</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node blue">
+        <div class="n-icon">💰</div>
+        <div class="n-title">财务结算</div>
+        <div class="n-sub">按PO分摊<br>到各项目</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font-size:10px;color:var(--s-400);margin-top:4px">
+    ⚠️ 黄色节点为当前痛点：同一物料被多个项目分开下推PO，导致物控/采购/仓库三方重复劳动
+  </div>
+</div>
+
+<!-- ═══ KEY INSIGHT ═══ -->
+<div style="background:#fef3c7;border:1.5px solid var(--y);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--y-d);margin-bottom:12px;line-height:1.6">
+  <strong>📊 核心问题一句话：</strong>同一个物料被3-10个项目同时申请 → 物控在ERP中逐个下推生成3-10张采购订单 → 采购逐个询价下单 → 仓库分批收货 → 三方都重复劳动，议价权也被稀释。
+</div>
+
+<!-- ═══ REQUIREMENT ═══ -->
+<div class="section-label">
+  <span class="icon">📋</span>
+  <span class="text">采购需求清单</span>
+  <span class="badge" style="background:var(--r)">1条</span>
+</div>
+
+<div class="req-card" id="req-card">
+  <h3>🔥 需求：采购订单合并下推</h3>
+  <p>
+    同一物料被多项目申请时，物控在ERP中应支持<strong>"勾选多行采购申请 → 一键合并下推为一张采购订单"</strong>，
+    而非按项目逐个下推。合并后由采购统一询价下单，供应商一次送货，仓库一次入库，各项目按需领料。
+  </p>
+  <div class="req-meta">
+    <span class="meta-tag red">优先级 P0</span>
+    <span class="meta-tag red">物控提出</span>
+    <span class="meta-tag red">影响：物控/采购/仓库</span>
+  </div>
+  <div class="btn-row">
+    <a href="erp-procurement-analysis.html" class="btn btn-analysis">
+      🔍 业务解析：为什么会发生这个问题？
+    </a>
+    <a href="erp-procurement-solution.html" class="btn btn-solution">
+      📋 解决方案：怎么实现合并下推？
+    </a>
+  </div>
+  <div class="sub-nav">
+    <a href="erp-procurement.html">← 采购管理中心</a> · 
+    <a href="erp-procurement-analysis.html">业务解析</a> · 
+    <a href="erp-procurement-solution.html">解决方案</a> · 
+    <a href="procurement-ap-management.html">💰 供应商 AP 场景</a>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  橙子自动化 · 信息化项目组 · ERP 采购管理 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
+</div>
+
+</div>
+</body>
+</html>
