@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>采购 AP 业务场景 · 全生命周期管理 | 业务场景学习</title>
+<style>
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --o:#f97316;--o-bg:#fff7ed;--o-d:#9a3412;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);line-height:1.6;min-height:100vh}
+.container{max-width:1000px;margin:0 auto;padding:20px 24px}
+
+.header{background:linear-gradient(135deg,#064e3b,#065f46,#047857);border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.2),transparent 70%);border-radius:50%}
+.header h1{font-size:22px;font-weight:700;position:relative;z-index:1}
+.header .sub{font-size:12px;color:#a7f3d0;margin-top:4px;position:relative;z-index:1}
+.header-nav{display:flex;gap:8px;position:relative;z-index:1;flex-wrap:wrap;margin-top:14px}
+.header-nav a{font-size:12px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#a7f3d0;text-decoration:none;transition:all .2s;white-space:nowrap}
+.header-nav a:hover,.header-nav a.active{background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);color:#fff}
+
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:24px}
+.section-label .icon{font-size:18px}
+.section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
+.section-label .badge{font-size:10px;background:var(--g);color:#fff;padding:2px 8px;border-radius:10px}
+
+.card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:12px}
+.card h2{font-size:17px;font-weight:700;color:var(--g-d);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--g-bg)}
+.card h3{color:var(--s-800);font-size:15px;margin:14px 0 8px;font-weight:600}
+.card p{font-size:13px;color:var(--s-700);margin:6px 0;line-height:1.7}
+.card ul,.card ol{margin:6px 0 6px 22px;font-size:13px;color:var(--s-700);line-height:1.8}
+
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+table th{background:var(--g-bg);color:var(--g-d);padding:8px 10px;text-align:left;font-weight:600;border-bottom:2px solid var(--g)}
+table td{padding:8px 10px;border-bottom:1px solid var(--s-200);color:var(--s-700)}
+table tr:hover{background:var(--s-50)}
+table td strong{color:var(--g-d)}
+
+.flow-container{overflow-x:auto;padding:8px 0}
+.flow-row{display:flex;align-items:flex-start;gap:6px;min-width:max-content;padding:16px 4px}
+.flow-node{flex-shrink:0;width:140px;border-radius:12px;padding:12px 8px;text-align:center;border:2px solid;transition:transform .15s}
+.flow-node:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.flow-node .n-icon{font-size:20px;margin-bottom:3px}
+.flow-node .n-title{font-size:12px;font-weight:700;margin-bottom:2px}
+.flow-node .n-sub{font-size:9px;line-height:1.4}
+.flow-arrow{display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--s-400);font-weight:700;flex-shrink:0;width:22px;padding-top:32px}
+.flow-node.green{background:var(--g-bg);border-color:var(--g)}.flow-node.green .n-title{color:var(--g-d)}
+.flow-node.blue{background:var(--b-bg);border-color:var(--b)}.flow-node.blue .n-title{color:var(--b-d)}
+.flow-node.orange{background:var(--o-bg);border-color:var(--o)}.flow-node.orange .n-title{color:var(--o-d)}
+.flow-node.purple{background:var(--p-bg);border-color:var(--p)}.flow-node.purple .n-title{color:var(--p-d)}
+.flow-node.yellow{background:var(--y-bg);border-color:var(--y)}.flow-node.yellow .n-title{color:var(--y-d)}
+
+.highlight-box{background:#fef3c7;border:1.5px solid var(--y);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--y-d);margin-bottom:12px;line-height:1.6}
+.danger-box{background:#fee2e2;border:1.5px solid var(--r);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--r-d);margin-bottom:12px;line-height:1.6}
+.success-box{background:var(--g-bg);border:1.5px solid var(--g);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--g-d);margin-bottom:12px;line-height:1.6}
+.info-box{background:var(--b-bg);border:1.5px solid var(--b);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--b-d);margin-bottom:12px;line-height:1.6}
+
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;border:2px solid;transition:all .2s;cursor:pointer}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.btn-analysis{background:var(--o-bg);color:var(--o-d);border-color:var(--o)}
+.btn-analysis:hover{background:var(--o);color:#fff}
+.btn-solution{background:var(--g-bg);color:var(--g-d);border-color:var(--g)}
+.btn-solution:hover{background:var(--g);color:#fff}
+
+.sub-nav{display:flex;gap:4px;margin-top:10px;font-size:11px;color:var(--s-400);flex-wrap:wrap}
+.sub-nav a{color:var(--b);text-decoration:none}
+.sub-nav a:hover{text-decoration:underline}
+
+.footer{text-align:center;padding:24px;color:var(--s-400);font-size:11px;border-top:1px solid var(--s-200);margin-top:24px}
+
+@media(max-width:768px){
+  .header{padding:18px 20px}.header h1{font-size:18px}
+  .btn-row{flex-direction:column}.btn{justify-content:center}
+}
+
+.topnav{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border-radius:14px;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;margin:0 auto 24px auto;max-width:1000px;box-shadow:0 4px 16px rgba(0,0,0,.1);position:relative;z-index:100}
+.topnav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:600;font-size:15px}
+.topnav-brand .logo{width:28px;height:28px;background:linear-gradient(135deg,#10b981,#06b6d4);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.topnav-menu{display:flex;gap:6px;align-items:center}
+.topnav-item{position:relative;padding:8px 14px;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:all .2s;user-select:none;line-height:1}
+.topnav-item:hover,.topnav-item.active{background:rgba(16,185,129,.2);color:#fff}
+.topnav-item .tn-icon{font-size:14px;opacity:.9;line-height:1;vertical-align:middle}
+.topnav-item .tn-arrow{font-size:9px;opacity:.6;line-height:1;vertical-align:middle}
+.topnav-badge{background:#ef4444;color:#fff;font-size:10px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:600}
+.topnav-dropdown{display:none;position:absolute;top:100%;left:0;min-width:220px;background:#1e293b;border-radius:10px;padding:8px;border:1px solid #334155;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:200}
+.topnav-item.has-dropdown::after{content:'';position:absolute;top:100%;left:-8px;right:-8px;height:30px;background:transparent;z-index:190}
+.topnav-item.has-dropdown:hover .topnav-dropdown{display:block}
+.topnav-item.has-dropdown-right .topnav-dropdown{left:auto;right:0}
+.topnav-item.has-dropdown-right::after{left:auto;right:-8px}
+.topnav-dropdown a{display:block;padding:7px 10px;font-size:12px;color:#cbd5e1;text-decoration:none;border-radius:5px;white-space:nowrap}
+.topnav-dropdown a:hover{background:rgba(16,185,129,.15);color:#34d399}
+.topnav-dropdown .divider{height:1px;background:#334155;margin:6px 4px}
+.topnav-dropdown .tn-section{padding:6px 12px 4px;font-size:11px;color:#64748b;font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+@media(max-width:768px){.topnav-menu{flex-wrap:wrap}}
+
+.breadcrumb{padding:6px 32px;font-size:11px;color:var(--s-400);margin:-12px 0 16px 0;display:flex;flex-wrap:wrap;gap:4px}
+.breadcrumb a{color:#60a5fa;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline;color:#93c5fd}
+.breadcrumb .sep{color:var(--s-400)}
+.breadcrumb .current{color:var(--s-200);font-weight:500}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item"><span class="tn-icon">⌂</span><span class="tn-label">首页</span></a>
+    <a href="business-scenarios.html" class="topnav-item active"><span class="tn-icon">▤</span><span class="tn-label">业务场景</span><span class="topnav-badge">3</span></a>
+    <a href="erp-center.html" class="topnav-item has-dropdown">
+      <span class="tn-icon">▦</span><span class="tn-label">系统中心</span><span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </a>
+    <a href="site-map.html" class="topnav-item"><span class="tn-icon">▦</span><span class="tn-label">全站地图</span></a>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">首页</a><span class="sep">/</span>
+  <a href="business-scenarios.html">业务场景</a><span class="sep">/</span>
+  <a href="erp-center.html">ERP 项目实施</a><span class="sep">/</span>
+  <a href="erp-procurement.html">采购管理</a><span class="sep">/</span>
+  <span class="current">AP 全生命周期</span>
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <h1>💰 采购 AP 业务场景 · 应付全生命周期管理</h1>
+  <div class="sub">3 个 Excel 文档构成采购 AP"民间 ERP" · 2026-07-27 沉淀 · 采购部 / 财务部 / IT</div>
+  <div class="header-nav">
+    <a href="erp-procurement.html" class="active">采购管理</a>
+    <a href="erp-procurement-detail.html">业务解析</a>
+    <a href="erp-procurement-solution.html">解决方案</a>
+    <a href="erp-procurement-analysis.html">数据分析</a>
+    <a href="erp-procurement-warehouse.html">仓库协同</a>
+  </div>
+</div>
+
+<!-- ═══ ① 业务背景 ═══ -->
+<div class="section-label">
+  <span class="icon">📌</span>
+  <span class="text">业务背景：为什么有 3 个 Excel</span>
+  <span class="badge">1 / 6</span>
+</div>
+
+<div class="card">
+  <h2>一句话讲清楚</h2>
+  <p>采购部每月要付几十甚至上百家供应商的货款。他们用 3 个腾讯文档（云盘里的 Excel）手工维护<strong>"从对账到付款到核销"</strong>的全过程，跨 7 年累积到 4000+ 行明细。文档存在云盘路径：<code style="background:var(--g-bg);padding:2px 6px;border-radius:4px;color:var(--g-d)">云盘 › 橙子自动化信息化 › AI › 采购部文件</code>。</p>
+
+  <h3>三个文档的真实身份</h3>
+  <table>
+    <thead><tr><th>文档</th><th>身份</th><th>数据规模</th><th>核心功能</th></tr></thead>
+    <tbody>
+      <tr><td><strong>供应商付款情况登记表 20260723</strong></td><td>📒 账本</td><td>16 sheet · ~4000 行（2019 至今）</td><td>每笔应付从下单到付清的完整档案</td></tr>
+      <tr><td><strong>月结款&amp;关联流程事前审批 2026074</strong></td><td>📋 审批单</td><td>3 sheet · ~100 行/批次</td><td>月结款批量审批 + 银行流水核对</td></tr>
+      <tr><td><strong>供应商货款数据统计 20260713</strong></td><td>📊 仪表盘</td><td>18+ sheet · 200-1000 行/sheet</td><td>账龄 / 月度 / 品牌 / 项目多维透视</td></tr>
+    </tbody>
+  </table>
+
+  <h3>核心痛点（采购自己也讲不明白）</h3>
+  <ul>
+    <li><strong>同一笔数据重复录入 3 次</strong>：明细台账、审批表、透视分析各自维护</li>
+    <li><strong>跨年累积 4000+ 行</strong>，手工维护极易出错（看 sheet 000008 有"已付 ≠ 对账金额"的情况）</li>
+    <li><strong>银行流水与 AP 单据靠人肉对账</strong>，容易漏单 / 重复付</li>
+    <li><strong>账龄 / 月度透视全靠透视表重算</strong>，没法实时看"下月要付多少"</li>
+  </ul>
+</div>
+
+<!-- ═══ ② 业务全景 ═══ -->
+<div class="section-label">
+  <span class="icon">🗺️</span>
+  <span class="text">业务全景：3 个文档的层级关系</span>
+  <span class="badge">2 / 6</span>
+</div>
+
+<div class="card">
+  <h2>数据流：账本 → 审批单 → 仪表盘</h2>
+  <p>3 个文档不是平行的，是<strong>一层层往上滚动</strong>的关系。底层是明细账本，中间层是审批动作，顶层是分析报表。</p>
+
+  <div class="flow-container">
+    <div class="flow-row">
+      <div class="flow-node blue">
+        <div class="n-icon">📋</div>
+        <div class="n-title">合同 / PO</div>
+        <div class="n-sub">采购订单<br>结算条款</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node green">
+        <div class="n-icon">📨</div>
+        <div class="n-title">收料 / 发票</div>
+        <div class="n-sub">供应商送货<br>对方开发票</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node blue">
+        <div class="n-icon">🏦</div>
+        <div class="n-title">银行流水</div>
+        <div class="n-sub">实际打款<br>网银导出</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node green">
+        <div class="n-icon">📒</div>
+        <div class="n-title">文件1 · 账本</div>
+        <div class="n-sub">~4000 行<br>全周期明细</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node orange">
+        <div class="n-icon">📋</div>
+        <div class="n-title">文件2 · 审批单</div>
+        <div class="n-sub">批量审批<br>流水核对</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node purple">
+        <div class="n-icon">📊</div>
+        <div class="n-title">文件3 · 仪表盘</div>
+        <div class="n-sub">账龄/月度<br>多维分析</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    💡 <strong>关键洞察：</strong>账本是数据源、审批单是动作记录、仪表盘是从账本"重新切片"看问题。3 个文档互相依赖但每个都手工维护一遍，造成重复劳动。
+  </div>
+</div>
+
+<!-- ═══ ③ 3 个文档逐个讲明白 ═══ -->
+<div class="section-label">
+  <span class="icon">📑</span>
+  <span class="text">3 个文档各管什么？</span>
+  <span class="badge">3 / 6</span>
+</div>
+
+<div class="card">
+  <h2>📒 文件 1：账本（供应商付款情况登记表）</h2>
+  <p>核心功能：记录<strong>每一家供应商的每一笔应付</strong>，从对账开始到付清为止的全生命周期。</p>
+
+  <h3>关键字段（以怡合达 2024 年 4 月货款为例）</h3>
+  <table>
+    <thead><tr><th>字段</th><th>实例值</th><th>业务含义</th></tr></thead>
+    <tbody>
+      <tr><td>供应商编码</td><td>02.01.01.xxx</td><td>怡合达在公司系统的唯一编号</td></tr>
+      <tr><td>简称</td><td><strong>怡合达</strong></td><td>短名（日常沟通用）</td></tr>
+      <tr><td>合同及对账单</td><td>2024 年 4 月份货款</td><td>这笔钱对应哪笔合同</td></tr>
+      <tr><td>对账单金额</td><td>39,7485.18</td><td>对账确认的金额</td></tr>
+      <tr><td>结算方式</td><td>票到 90 天</td><td>收到发票后 90 天内付</td></tr>
+      <tr><td>开票情况</td><td>已开发票</td><td>对方开发票了没</td></tr>
+      <tr><td>收票日期</td><td>2024/4/28</td><td>哪天收到发票</td></tr>
+      <tr><td><strong>应付款年月日</strong></td><td><strong>2024/7/27</strong></td><td><strong>算出来该哪一天付（收票+90 天）</strong></td></tr>
+      <tr><td>已付款金额</td><td>0</td><td>已付了多少钱</td></tr>
+      <tr><td><strong>未付金额</strong></td><td><strong>39,7485.18</strong></td><td><strong>还欠着多少</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>文件 1 还包含的特殊子表</h3>
+  <ul>
+    <li><strong>分期付款计划</strong>（sheet 00000a）：跟供应商谈好"分 8 期每月付 15 万"时，记录排期表</li>
+    <li><strong>凭证明细</strong>（sheet 00000c）：从银行打出去的每一笔钱，记录"凭证字号 + 摘要 + 金额"</li>
+    <li><strong>现款支付</strong>（sheet 00000f/000011/000012）：不走月结、单独打款的采购付款（如嘉立创商城充值 1 万）</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>📋 文件 2：审批单（月结款&amp;关联流程事前审批）</h2>
+  <p>核心功能：定期从文件 1 捞出"到期该付的"，打包成一张"请求付款"的清单，送给领导签字。签字后财务打款，再附银行流水核对。</p>
+
+  <h3>审批单典型格式（2026/6/30 批次为例）</h3>
+  <table>
+    <thead><tr><th>序号</th><th>供应商</th><th>金额</th><th>付款原因</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>东莞怡合达</td><td>325,208.67</td><td>支付 2025/11 尾款</td><td>银承（四大行）</td></tr>
+      <tr><td>2</td><td>深圳龙威信达</td><td>62,989.00</td><td>支付 2026/5 货款</td><td>银承</td></tr>
+      <tr><td>3</td><td>米思米（中国）</td><td>55,401.07</td><td>支付 2026/4 货款</td><td>现金</td></tr>
+      <tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+    </tbody>
+  </table>
+
+  <h3>审批单的关键字段</h3>
+  <ul>
+    <li><strong>银行账号 + 开户行 + 银行行号</strong>（12 位联行号，避免打错账号）</li>
+    <li><strong>是否需要提供无欠税证明</strong>（税务合规检查，金额超阈值必查）</li>
+    <li><strong>支付方式</strong>：银承（银行承兑汇票）/ 现金 / 银承（四大行）</li>
+    <li><strong>附件 sheet 000003</strong>：从网银导出的实际出账流水（用于事后对账）</li>
+  </ul>
+
+  <div class="info-box">
+    🔄 <strong>业务频率：</strong>一般每月/每季度一批，每批 10-30 家供应商一起审批，单批金额从几万到几百万不等。
+  </div>
+</div>
+
+<div class="card">
+  <h2>📊 文件 3：仪表盘（供应商货款数据统计）</h2>
+  <p>核心功能：不录新数据，<strong>只从文件 1 的明细里"重新切片"看问题</strong>。给领导/采购自己看"全局视角"。</p>
+
+  <h3>5 个常用切片视角</h3>
+  <table>
+    <thead><tr><th>视角</th><th>怎么切</th><th>看什么</th></tr></thead>
+    <tbody>
+      <tr><td><strong>账龄分析</strong></td><td>按"应付款日期"分组</td><td>哪些钱拖了 N 个月还没付（逾期风险）</td></tr>
+      <tr><td><strong>月度透视</strong></td><td>行=供应商，列=1-9 月</td><td>每月要给谁付多少钱（资金排期）</td></tr>
+      <tr><td><strong>品牌/项目</strong></td><td>按"供应品牌"或"项目"分组</td><td>每个项目今年要花多少钱（成本归集）</td></tr>
+      <tr><td><strong>供应商主数据</strong></td><td>按"金额等级 0-4 + 分类 A-S"</td><td>哪些供应商重要、要重点维护</td></tr>
+      <tr><td><strong>历史对比</strong></td><td>按月汇总 vs 去年</td><td>采购金额增长趋势 / 异常波动</td></tr>
+    </tbody>
+  </table>
+
+  <h3>供应商金额等级（采购内部"重要性"分级）</h3>
+  <table>
+    <thead><tr><th>等级</th><th>含义</th><th>典型供应商</th></tr></thead>
+    <tbody>
+      <tr><td><strong>0</strong></td><td>大额，付款优先级最高</td><td>中天机器人、汉传、雷赛、凌江、旺鑫盛、凯裕丰、鹏辉</td></tr>
+      <tr><td>1</td><td>中等大额</td><td>怡合达、立万民、宏利源</td></tr>
+      <tr><td>2</td><td>中额</td><td>鑫跃、基蓝青石、祥禾、琳科德</td></tr>
+      <tr><td>3</td><td>中小额</td><td>恒天翊、美锐精密、胜和鑫、鼎拓达、芯锐诺、锦一</td></tr>
+      <tr><td>4</td><td>小额、网购类</td><td>卓信、力信、鑫特固、思特博恩</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ ④ ERP 能不能做 ═══ -->
+<div class="section-label">
+  <span class="icon">🏢</span>
+  <span class="text">ERP 能不能做？金蝶星空 AP 模块映射</span>
+  <span class="badge">4 / 6</span>
+</div>
+
+<div class="card">
+  <h2>结论：金蝶云星空 AP 模块 100% 覆盖</h2>
+  <div class="success-box">
+    ✅ <strong>3 个文档能做的事，金蝶 AP 模块全部开箱即用，字段都对应得上，不需要写代码、不需要定制。</strong>
+  </div>
+
+  <h3>金蝶 AP 模块 vs 3 个 Excel 对照表</h3>
+  <table>
+    <thead><tr><th>业务环节</th><th>Excel 手工做法</th><th>金蝶星空标准 AP 模块</th><th>替代度</th></tr></thead>
+    <tbody>
+      <tr><td>供应商主数据</td><td>文件 3 sheet 000005 维护等级/分类/品牌</td><td>供应商档案 + 供应商分类 + 扩展字段</td><td>100%</td></tr>
+      <tr><td>合同/PO 条款</td><td>文件 1 sheet 00000c 写结算方式</td><td>采购合同/采购订单的"付款条款"字段</td><td>100%</td></tr>
+      <tr><td>应付明细</td><td>文件 1 sheet 000008 ~4000 行</td><td>应付单 + 应付明细账（按单据维度）</td><td>100%</td></tr>
+      <tr><td>银行流水</td><td>文件 2 sheet 000003 手工导</td><td>银企直联（上海银行）/ 手工导入对账单</td><td>100%</td></tr>
+      <tr><td>月结款审批</td><td>文件 2 sheet 000002</td><td>付款申请单 + 工作流（按金额/供应商分类走不同审批人）</td><td>100%</td></tr>
+      <tr><td>账龄分析</td><td>文件 3 sheet 000007/00000c</td><td>AP 标准账龄分析报表</td><td>100%</td></tr>
+      <tr><td>月度透视</td><td>文件 3 sheet 00000a/b/d/e</td><td>应付汇总表（按供应商/月份/项目）</td><td>100%</td></tr>
+      <tr><td>银行对账</td><td>文件 2 手工核</td><td>银企对账模块</td><td>100%</td></tr>
+      <tr><td>供应商对账单</td><td>隐含在 sheet 000008</td><td>供应商对账单（按单据汇总）</td><td>100%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>ERP 没有完全替代的 2 个细节</h3>
+  <ul>
+    <li><strong>金额等级 0-4</strong>：采购内部的"金额重要性等级"，非财务标准字段 → 需用供应商自定义字段</li>
+    <li><strong>出账备注</strong>里的"暂不付""互抵"等非结构化文字 → 需扩展备注字段或走智能识别</li>
+  </ul>
+
+  <h3>为什么现在还在用 Excel？（4 个真实原因）</h3>
+  <table>
+    <thead><tr><th>#</th><th>原因</th><th>验证方法</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>金蝶 AP 模块没启用完整流程</strong>——只有付款单，PO→入库→发票的链路是断的</td><td>抽查 10 笔怡合达对账单，看 ERP 里能否找到对应单据</td></tr>
+      <tr><td>2</td><td><strong>供应商主数据缺"采购内部字段"</strong>——金蝶供应商档案有"结算方式"，但没"金额等级 0-4""品牌"</td><td>让采购打开金蝶供应商档案，看字段够不够用</td></tr>
+      <tr><td>3</td><td><strong>银企直联没接通</strong>——文件 2 sheet 000003 流水是手工从网银导的</td><td>问财务上海银行 03006381021 账号有没有接银企直联</td></tr>
+      <tr><td>4</td><td><strong>历史包袱太重</strong>——2019 年开始用 Excel，4000+ 行历史数据，迁回 ERP 工作量大</td><td>看文件 1 最早的应付是哪一年</td></tr>
+    </tbody>
+  </table>
+
+  <div class="danger-box">
+    ⚠️ <strong>真相：</strong>不是金蝶 ERP 不能做，是<strong>没把 ERP 那个 AP 模块用到位</strong>。采购走的是"金蝶 + Excel 双轨"——金蝶开付款单是给财务做账用的，Excel 才是采购自己"看家"的台账。
+  </div>
+</div>
+
+<!-- ═══ ⑤ 4 步走实施路线图 ═══ -->
+<div class="section-label">
+  <span class="icon">🗺️</span>
+  <span class="text">实施路线图：4 步走（按 ROI 排序）</span>
+  <span class="badge">5 / 6</span>
+</div>
+
+<div class="card">
+  <h2>从"Excel 民间 ERP"升级到"金蝶 + AI"标准 AP 体系</h2>
+
+  <div class="flow-container">
+    <div class="flow-row">
+      <div class="flow-node blue">
+        <div class="n-icon">1️⃣</div>
+        <div class="n-title">补主数据</div>
+        <div class="n-sub">1-2 周<br>主数据进 ERP</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node green">
+        <div class="n-icon">2️⃣</div>
+        <div class="n-title">跑通流程</div>
+        <div class="n-sub">1-2 月<br>PO→付款 全链路</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node orange">
+        <div class="n-icon">3️⃣</div>
+        <div class="n-title">审批上工作流</div>
+        <div class="n-sub">1-2 月<br>月结款 自动化</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node purple">
+        <div class="n-icon">4️⃣</div>
+        <div class="n-title">AI 干诊断</div>
+        <div class="n-sub">持续<br>智能预警/对账</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>4 步走的详细动作</h3>
+  <table>
+    <thead><tr><th>步骤</th><th>时间</th><th>动作</th><th>干掉什么</th><th>价值</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. 补主数据</strong></td><td>1-2 周</td><td>把金额等级、品牌、分类、结算方式录入金蝶供应商档案</td><td>—</td><td>数据基础</td></tr>
+      <tr><td><strong>2. 跑通流程</strong></td><td>1-2 月</td><td>PO→入库→发票→付款申请→付款单→核销 完整链路</td><td>文件 1（明细台账）80%</td><td>采购脱离 Excel</td></tr>
+      <tr><td><strong>3. 审批上工作流</strong></td><td>1-2 月</td><td>月结款事前审批用金蝶工作流（按金额/分类自动派单）</td><td>文件 2（审批单）90%</td><td>领导少签 80% 字</td></tr>
+      <tr><td><strong>4. AI 干诊断</strong></td><td>持续</td><td>银行流水对账 / 长期挂账预警 / 合同合规检查 / 智能审批助手</td><td>人工诊断 100%</td><td>从自动化升级到智能化</td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box">
+    💡 <strong>关键判断：</strong>如果只做第 1+2 步，Excel 台账能干掉 80%。第 3 步干掉 90%。第 4 步的 AI 才是从"自动化"升级到"智能化"——但前提是前 3 步先把数据基础打好。
+  </div>
+</div>
+
+<!-- ═══ ⑥ AI 增值场景 ═══ -->
+<div class="section-label">
+  <span class="icon">🤖</span>
+  <span class="text">AI 能做什么？——诊断层 7 大场景</span>
+  <span class="badge">6 / 6</span>
+</div>
+
+<div class="card">
+  <h2>AI 的价值边界：帮不上"录入"、能帮"诊断"</h2>
+  <div class="info-box">
+    🧠 <strong>核心原则：</strong>数据来源层（录入新供应商/对账单/银行流水）AI 不能猜、不能造，必须人工或 ERP 自动采集。AI 的价值在"诊断+增值层"——用规则+模型扫描已有数据，发现异常、预测风险、辅助决策。
+  </div>
+
+  <h3>7 大 AI 诊断场景</h3>
+  <table>
+    <thead><tr><th>场景</th><th>做什么</th><th>价值</th><th>实现路径</th></tr></thead>
+    <tbody>
+      <tr><td>🔍 <strong>银行流水自动对账</strong></td><td>解析回单 → 匹配 AP 单据 → 标记差异</td><td>替代文件 2 sheet 000003 人肉对账</td><td>银企直联 + AI 规则匹配</td></tr>
+      <tr><td>⚠️ <strong>长期挂账预警</strong></td><td>扫 &gt;6/12/24 月未付记录</td><td>2019 年至今仍有"暂不付（供应商已忘记此笔）"这类</td><td>定期扫描 + 飞书/钉钉推送</td></tr>
+      <tr><td>📈 <strong>现金流预测</strong></td><td>账龄 × 计划付款日 → 预测未来 30/60/90 天资金缺口</td><td>给财务提前知道"下月要准备多少钱"</td><td>跟财务模块联动</td></tr>
+      <tr><td>🛡️ <strong>合同条款合规检查</strong></td><td>结算方式"票到 60 天"但实际 90 天才付 → 标记违约风险</td><td>避免供应商友好关系被破坏</td><td>合同条款字段 + 实际付款日对比</td></tr>
+      <tr><td>💬 <strong>智能审批助手</strong></td><td>扫描付款单 + 历史 → 提示"该供应商本月已付 3 次共 50 万，是否正常"</td><td>领导签字前多一道"风险扫描"</td><td>嵌入付款审批流</td></tr>
+      <tr><td>📑 <strong>月度对账单自动生成</strong></td><td>ERP 应付款 → 按供应商汇总成对账单（Excel 模板）</td><td>替代文件 1 sheet 000008 手工汇总</td><td>模板 + 定时任务</td></tr>
+      <tr><td>🏷️ <strong>备注智能分类</strong></td><td>扫"暂不付""互抵""已忘记"等关键词 → 自动打标签</td><td>出账备注字段结构化</td><td>NLP 分类</td></tr>
+    </tbody>
+  </table>
+
+  <h3>AI vs ERP vs BI 的边界</h3>
+  <table>
+    <thead><tr><th>层级</th><th>工具</th><th>干的事</th><th>占比</th></tr></thead>
+    <tbody>
+      <tr><td>📊 <strong>数据层</strong></td><td>金蝶 AP</td><td>收料、发票、付款、核销（4 个文档的原始数据）</td><td>80% 工作量</td></tr>
+      <tr><td>📈 <strong>报表层</strong></td><td>BI（苍穹/简道云/飞书多维表格）</td><td>文件 3 的多维透视、账龄、月度汇总</td><td>15%</td></tr>
+      <tr><td>🤖 <strong>诊断层</strong></td><td><strong>AI</strong></td><td>异常扫描、智能对账、风险预警、智能审批</td><td>5%，但<strong>最值钱</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="success-box">
+    ✅ <strong>建议优先级：</strong>第 1+2+3 步先做完（基础数据 + 流程贯通 + 审批上工作流），干掉 90% 手工。第 4 步 AI 是<strong>锦上添花</strong>，不是<strong>雪中送炭</strong>。不要先上 AI 再补基础，那是本末倒置。
+  </div>
+</div>
+
+<!-- ═══ 立即验证 ═══ -->
+<div class="section-label">
+  <span class="icon">🧪</span>
+  <span class="text">立即验证：3 个问题判断 ERP 是否用到位</span>
+</div>
+
+<div class="card">
+  <h2>挑 1 家供应商（建议"东莞怡合达"），问采购 3 个问题</h2>
+  <table>
+    <thead><tr><th>#</th><th>问题</th><th>"能"的含义</th><th>"不能"的含义</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>这家在金蝶 ERP 里的供应商档案完整吗？</td><td>有"结算方式 = 票到 90 天"这个字段</td><td>主数据缺失，需补录</td></tr>
+      <tr><td>2</td><td>在金蝶里能不能查到这家的"所有未付明细"？</td><td>应付明细账可查</td><td>AP 模块未启用</td></tr>
+      <tr><td>3</td><td>走金蝶付款申请单能不能自动算出"按结算方式算出来的应付款日期"？</td><td>系统自动算</td><td>付款条款字段未配</td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box">
+    🔍 <strong>3 个都能 → </strong>说明 ERP 用到位了，是采购习惯问题，可直接推第 3 步（审批上工作流）。<br><br>
+    🔍 <strong>3 个都不能 → </strong>ERP 那个 AP 模块需要启用/补课，先做第 1+2 步。
+  </div>
+</div>
+
+<!-- ═══ 相关页面 ═══ -->
+<div class="section-label">
+  <span class="icon">🔗</span>
+  <span class="text">相关页面</span>
+</div>
+<div class="card">
+  <div class="btn-row">
+    <a href="erp-procurement.html" class="btn btn-solution">📦 采购管理主页</a>
+    <a href="erp-procurement-analysis.html" class="btn btn-analysis">🔍 数据分析</a>
+    <a href="erp-finance.html" class="btn btn-solution">💰 财务管理</a>
+    <a href="outsourcing-cost-allocation.html" class="btn btn-analysis">📋 委外成本归集</a>
+  </div>
+  <div class="sub-nav" style="margin-top:14px">
+    <a href="erp-procurement.html">采购管理</a> · 
+    <a href="erp-procurement-detail.html">业务解析</a> · 
+    <a href="erp-procurement-solution.html">解决方案</a> · 
+    <a href="erp-procurement-analysis.html">数据分析</a> · 
+    <a href="erp-procurement-warehouse.html">仓库协同</a> · 
+    <a href="erp-finance.html">财务管理</a>
+  </div>
+</div>
+
+<div class="footer">
+  橙子自动化 · 信息化项目组 · 采购 AP 业务场景学习 ｜ 杰德瑞恩J 出品 ｜ 2026 年 7 月
+</div>
+
+</div>
+</body>
+</html>
