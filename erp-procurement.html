@@ -16,7 +16,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1200px;margin:0 auto;padding: 24px 32px}
+.container{max-width:1000px;margin:0 auto;padding:20px 24px}
 
 .header{
   background:linear-gradient(135deg,#064e3b,#065f46,#047857);
@@ -45,13 +45,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .section-label .text{font-size:16px;font-weight:700;color:var(--s-800)}
 .section-label .badge{font-size:10px;background:var(--g);color:#fff;padding:2px 8px;border-radius:10px}
 
-.card{background:#fff;border-radius: 14px;padding: 24px 32px;border:1px solid var(--s-200);margin-bottom:12px}
+.card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--s-200);margin-bottom:12px}
 
 /* ── Flow diagram ── */
 .flow-container{overflow-x:auto;padding:8px 0}
 .flow-row{display:flex;align-items:flex-start;gap:6px;min-width:max-content;padding:16px 4px}
 .flow-node{
-  flex-shrink:0;width:130px;border-radius: 14px;padding:14px 8px;text-align:center;
+  flex-shrink:0;width:130px;border-radius:12px;padding:14px 8px;text-align:center;
   border:2px solid;transition:transform .15s;
 }
 .flow-node:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
@@ -83,14 +83,14 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .req-card h3{font-size:16px;font-weight:700;color:var(--r-d);margin-bottom:8px}
 .req-card p{font-size:13px;color:var(--s-700);line-height:1.7;margin-bottom:16px}
 .req-card .req-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.req-card .meta-tag{font-size:10px;padding:3px 10px;border-radius: 14px;font-weight:600}
+.req-card .meta-tag{font-size:10px;padding:3px 10px;border-radius:12px;font-weight:600}
 .req-card .meta-tag.red{background:var(--r-bg);color:var(--r-d)}
 
 /* ── Action buttons ── */
 .btn-row{display:flex;gap:14px;flex-wrap:wrap}
 .btn{
   display:inline-flex;align-items:center;gap:8px;
-  padding:14px 28px;border-radius: 14px;font-size:14px;font-weight:700;
+  padding:14px 28px;border-radius:10px;font-size:14px;font-weight:700;
   text-decoration:none;border:2px solid;transition:all .2s;cursor:pointer;
 }
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
@@ -137,13 +137,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 16px;
-  padding: 14px 28px;
+  border-radius: 14px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1200px;
+  max-width: 1000px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -155,7 +155,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -174,11 +174,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 .topnav-item {
   position: relative;
-  padding: 9px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -212,7 +212,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -275,54 +275,9 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
-
-/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 24px;
-  box-sizing: border-box;
-}
-.site-shell > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.site-shell > .container {
-  width: 100% !important;
-  max-width: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-.site-shell > .topnav {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box;
-}
-.site-shell.presentation-shell {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  padding: 0;
-  height: auto;
-}
-body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-@media (max-width: 1200px) {
-  .site-shell { padding-left: 12px; padding-right: 12px; }
-}
-
 </style>
 </head>
 <body>
-<div class="site-shell">
 <div class="container">
 
 
@@ -343,7 +298,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
       <span class="tn-label">业务场景</span>
       <span class="topnav-badge">2</span>
     </a>
-        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="erp-center.html" class="topnav-item has-dropdown">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -356,38 +311,38 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
-    </div>
-<a href="site-map.html" class="topnav-item">
-      <span class="tn-icon">▦</span>
-      <span class="tn-label">站点地图</span>
     </a>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">内部知识网络</div>
-        <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
-        <a href="key-files-manager.html">🗂️ 归档文件柜</a>
+        <a href="../杰德瑞恩知识网络/杰德瑞恩知识网络_索引.md">📚 杰德瑞恩知识网络</a>
+        <a href="filing-cabinet.html">🗂️ 归档文件柜</a>
         <div class="divider"></div>
         <div class="tn-section">外部参考</div>
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
-    </div>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    </a>
+    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
-        <a href="key-files-overview.html">📋 我的笔记</a>
-        <a href="key-files-manager.html">⭐ 收藏夹</a>
-        <a href="site-map.html">📌 最近浏览</a>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
         <div class="divider"></div>
         <div class="tn-section">设置</div>
-        <a href="index.html">⚙️ 偏好</a>
+        <a href="#">⚙️ 偏好</a>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 
@@ -459,7 +414,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
 </div>
 
 <!-- ═══ KEY INSIGHT ═══ -->
-<div style="background:#fef3c7;border:1.5px solid var(--y);border-radius: 14px;padding:12px 16px;font-size:12px;color:var(--y-d);margin-bottom:12px;line-height:1.6">
+<div style="background:#fef3c7;border:1.5px solid var(--y);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--y-d);margin-bottom:12px;line-height:1.6">
   <strong>📊 核心问题一句话：</strong>同一个物料被3-10个项目同时申请 → 物控在ERP中逐个下推生成3-10张采购订单 → 采购逐个询价下单 → 仓库分批收货 → 三方都重复劳动，议价权也被稀释。
 </div>
 
@@ -491,7 +446,8 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   </div>
   <div class="sub-nav">
     <a href="erp-procurement-analysis.html">业务解析</a> · 
-    <a href="erp-procurement-solution.html">解决方案</a>
+    <a href="erp-procurement-solution.html">解决方案</a> · 
+    <a href="procurement-ap-management.html">💰 AP 业务场景</a>
   </div>
 </div>
 
@@ -500,7 +456,6 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   橙子自动化 · 信息化项目组 · ERP 采购管理 ｜ 杰德瑞恩J 出品 ｜ 2026年7月
 </div>
 
-</div>
 </div>
 </body>
 </html>
