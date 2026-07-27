@@ -38,7 +38,7 @@
 | 业务场景 | 模块 | 链接 |
 |---|---|---|
 | 委外生产与成本归集流程优化 | ERP / 财务 | [outsourcing-cost-allocation.html](https://deruienjie.github.io/informatization-dashboard/outsourcing-cost-allocation.html) |
-| 空调集中控制 · 供应商方案分析实战 | IT / 智能化 / 设施管理 | [air-conditioner-supplier-evaluation.html](https://deruienjie.github.io/informatization-dashboard/air-conditioner-supplier-evaluation.html) |
 | 采购 AP 应付全生命周期管理 | ERP / 采购 / 财务 | [procurement-ap-management.html](https://deruienjie.github.io/informatization-dashboard/procurement-ap-management.html) |
+| 采购订单合并下推 | ERP / 采购 | [procurement-order-consolidation.html](https://deruienjie.github.io/informatization-dashboard/procurement-order-consolidation.html) |
 
-> 规则：所有有学习价值的业务场景（会议纪要、流程文档、最佳实践）都会沉淀为学习网页，按 **系统 → 项目 → 模块 → 业务场景** 层级组织。
+> 规则：所有有学习价值的业务场景（会议纪要、流程文档、最佳实践）都会沉淀为学习网页，按 **系统 → 项目 → 模块 → 业务场景** 层级组织。采购模块主页：[erp-procurement.html](https://deruienjie.github.io/informatization-dashboard/erp-procurement.html)。
