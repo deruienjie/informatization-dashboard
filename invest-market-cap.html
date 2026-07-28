@@ -501,21 +501,45 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
 </nav>
 
 <header class="page-header">
-  <h1>📊 市值金字塔</h1>
+  <h1>📊 市值金字塔 <span style="font-size:13px;color:#94a3b8;font-weight:400;margin-left:6px;">小白版 v2.0</span></h1>
   <div class="sub">从长鑫存储上市说起：1000 亿市值里，到底有多少真金白银？</div>
   <div class="badge-row">
     <span class="tag">🏷️ 金融市场</span>
     <span class="tag">📚 概念扫盲</span>
+    <span class="tag">🚦 小白友好</span>
     <span class="tag">⏱️ 10 分钟读完</span>
-    <span class="tag">📅 2026-07-27</span>
+    <span class="tag">📅 2026-07-28 v2</span>
   </div>
 </header>
 
 <!-- 1. 业务背景 -->
-<section class="section" id="bg">
+<section class="section" id="bg" style="background:linear-gradient(135deg,#ecfdf5,#f0fdfa);border:2px solid #10b981;">
+  <h2>🚦 小白先看这 3 步（5 分钟版） <span class="meta-tag">0 基础也能懂</span></h2>
+  <p style="font-size:15px;color:#0f172a;">如果你是<strong>彻底的小白</strong>，只要看完这 3 步，就能跟人聊"市值"不掉队：</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px;">
+    <div style="background:#fff;border:2px solid #10b981;border-radius:12px;padding:18px;">
+      <div style="font-size:24px;font-weight:700;color:#065f46;">① 什么是市值？</div>
+      <p style="font-size:13px;color:#475569;margin-top:8px;line-height:1.7;">市值 = 股价 × 总股本。<br>大白话：<strong>"市场觉得这家公司值多少钱"</strong>。<br>注意：这不是公司账上有的钱，是大家"愿意付的总价"。</p>
+    </div>
+    <div style="background:#fff;border:2px solid #f59e0b;border-radius:12px;padding:18px;">
+      <div style="font-size:24px;font-weight:700;color:#92400e;">② 钱从哪来？</div>
+      <p style="font-size:13px;color:#475569;margin-top:8px;line-height:1.7;">1,000 亿市值里，<br>只有 80 亿是<strong>真金白银</strong>（&lt; 8%），<br>其余 920 亿都是"市场预期"。</p>
+    </div>
+    <div style="background:#fff;border:2px solid #ef4444;border-radius:12px;padding:18px;">
+      <div style="font-size:24px;font-weight:700;color:#991b1b;">③ 风险在哪？</div>
+      <p style="font-size:13px;color:#475569;margin-top:8px;line-height:1.7;">高市值 = <strong>市场情绪 + 估值溢价</strong>叠加。<br>情绪一退，<strong>市值可腰斩 60%+</strong>，<br>但公司经营可能完全没变。</p>
+    </div>
+  </div>
+  <div style="background:#fef3c7;padding:12px 16px;border-radius:8px;margin-top:14px;font-size:13px;color:#78350f;border-left:4px solid #f59e0b;">
+    📌 <strong>读完后：</strong>如果想看长鑫存储这个真实案例，跳到第五章；想知道"为什么市值会虚高"，看第三章的 4 大机制。
+  </div>
+</section>
+
+<section class="section" id="bg2">
   <h2>一、业务背景 <span class="meta-tag">为什么讲这个</span></h2>
   <p>2026 年 7 月，<strong>长鑫存储（CXMT）</strong>在科创板 IPO 上市。上市首日开盘大涨，总市值最高突破 <strong>1300 亿</strong>。很多人第一反应是："这家公司账上真有 1300 亿现金吗？"</p>
   <p>答案是：<strong>不是</strong>。市值 1300 亿，公司账上趴着的真金白银可能只有 50-80 亿——<strong>不到市值的 10%</strong>。剩下的 90%，都是市场对未来赚钱能力的定价，也就是<strong>估值</strong>。</p>
+  <p style="background:#dbeafe;padding:12px 16px;border-radius:8px;border-left:4px solid #3b82f6;font-size:13px;color:#1e40af;">💡 <strong>小白级理解：</strong>想象你开一家奶茶店，开了 6 个月生意不错，有人出价 100 万买你的店。这 100 万叫"市值"，但你账上现金可能只有 5 万——剩下 95 万是对方"觉得你未来能赚那么多"的钱。</p>
   <p>这一页把"市值到底是个啥"讲清楚，避免被"千亿市值"这种大词唬住，也避免在估值虚高时头脑发热追高。</p>
 </section>
 
@@ -527,6 +551,15 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
     <div class="formula">市值 ＝ 股价 × 总股本</div>
     <div class="formula-desc">两个变量 × 一个乘法，就这么简单</div>
   </div>
+
+  <h3>🧮 一步一步算给你看（小白版）</h3>
+  <p style="background:#f0f9ff;padding:14px 18px;border-radius:10px;border-left:4px solid #3b82f6;">
+    长鑫存储 IPO 当天的样子：<br>
+    <strong>① 股价</strong> = 38 元（最近一次成交价，<strong>每秒钟都在变</strong>）<br>
+    <strong>② 总股本</strong> = 37 亿股（公司一共发了这么多股票，<strong>IPO 后基本不变</strong>）<br>
+    <strong>③ 用公式：38 元 × 37 亿股 = 1,406 亿元</strong><br>
+    → 长鑫存储当天的市值 ≈ <strong>1,400 亿</strong>
+  </p>
 
   <table class="data">
     <thead>
@@ -555,12 +588,14 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
   </table>
 
   <p><strong>关键注意</strong>：1,400 亿市值，谁都没有真的出过 1,400 亿现金。它只是"如果按当前股价把所有股票买下来要花的钱"——<strong>估值，不是现金</strong>。</p>
+  <p style="background:#fee2e2;padding:12px 16px;border-radius:10px;border-left:4px solid #ef4444;font-size:13px;color:#991b1b;">🚨 <strong>小白级理解：</strong>"市值 1,400 亿"听起来像公司有 1,400 亿现金可以花。完全不是！公司账上可能只有 80 亿现金，其余 1,320 亿是"市场以为这家公司未来能赚到的钱"。股价每天涨涨跌跌，<strong>但公司账上的一分钱都没变</strong>。</p>
 </section>
 
 <!-- 3. 为什么上市后市值虚高 -->
 <section class="section" id="why-high">
   <h2>三、为什么上市后市值会"虚高"？ <span class="meta-tag">4 大机制</span></h2>
   <p>同样是这家年净利润 15 亿的公司，按传统制造业 PE 给 15 倍的话，市值应该值 225 亿。但实际给到了 1,400 亿，多出来的 6 倍，<strong>全靠 4 个市场机制叠加</strong>：</p>
+  <p style="background:#fef3c7;padding:12px 16px;border-radius:10px;border-left:4px solid #f59e0b;font-size:13px;color:#78350f;">💡 <strong>小白级理解：</strong>想象一个本来卖 12 元的东西，上市第一天突然被炒到 38 元。本身体没变（公司还是那个公司），但因为 4 个原因，价格涨了 3 倍多——这就是"虚火"。</p>
 
   <div class="mech-grid">
     <div class="mech-card m1">
@@ -590,6 +625,7 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
   </div>
 
   <p style="margin-top:14px;"><strong>叠加效应</strong>：本来年净利润 15 亿的公司，按传统 PE 只值 225 亿；但因为以上 4 个机制，硬是被市场炒到 1,400 亿。<strong>这就是估值的"虚火"</strong>。</p>
+  <p style="background:#fee2e2;padding:12px 16px;border-radius:10px;border-left:4px solid #ef4444;font-size:13px;color:#991b1b;">🚨 <strong>小白记忆口诀：</strong>"一二三缺一"——一二级价差、PE 倍数高、流通盘稀缺、国产替代溢价。任何一个机制单独出现不至于这么疯，<strong>4 个一起上才是"千亿市值"</strong>。以后看到新上市公司，挨个对照这 4 个，判断"虚火"程度。</p>
 </section>
 
 <!-- 4. 市值 vs 真金白银（核心 SVG） -->
@@ -691,12 +727,14 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
     </tbody>
   </table>
   <p>只有这三块是真钱。<strong>其他市值涨跌都是"浮盈/浮亏"</strong>，要卖出去那一刻才变成现金。</p>
+  <p style="background:#dbeafe;padding:12px 16px;border-radius:10px;border-left:4px solid #3b82f6;font-size:13px;color:#1e40af;">💡 <strong>小白级理解：</strong>把市值想成"你手机上的股票账户余额"。余额 1000 亿，你随时能花吗？不能——要"卖出"那一刻才变成你银行卡里的钱。中间的浮盈浮亏只是数字变化，<strong>真钱进账只有 ① IPO 收到的 + ② 每年净利润（且能分红）</strong>这两块。</p>
 </section>
 
 <!-- 5. 长鑫存储案例 -->
 <section class="section" id="case">
   <h2>五、案例：长鑫存储 <span class="meta-tag">实际背景</span></h2>
   <p>把上面那套理论套到一家真实公司上，看就清楚了。</p>
+  <p style="background:#dbeafe;padding:12px 16px;border-radius:10px;border-left:4px solid #3b82f6;font-size:13px;color:#1e40af;">💡 <strong>小白级理解：</strong>长鑫存储 = 中国<strong>唯一</strong>能跟三星、海力士正面刚的 DRAM 工厂。"唯一"两个字很重要——稀缺性 = 估值溢价。这个背景后面会反复用到。</p>
 
   <table class="data">
     <thead><tr><th>项目</th><th>数字</th><th>说明</th></tr></thead>
@@ -722,6 +760,7 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
 <section class="section" id="takeaway">
   <h2>六、投资启示 <span class="meta-tag">应用到决策</span></h2>
   <p>搞清"市值 ≠ 真金白银"之后，落到实操上能避开哪些坑：</p>
+  <p style="background:#ecfdf5;padding:12px 16px;border-radius:10px;border-left:4px solid #10b981;font-size:13px;color:#065f46;">📋 <strong>小白用法：</strong>每次听到"千亿市值"、"万亿赛道"这种宣传话术，挨个对照下面 5 条自检。任何一条让你答"不知道"，就先别买。</p>
 
   <table class="data">
     <thead><tr><th>启示</th><th>怎么用</th></tr></thead>
@@ -752,7 +791,7 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
 
 <!-- 7. FAQ -->
 <section class="section" id="faq">
-  <h2>七、常见问题 <span class="meta-tag">FAQ</span></h2>
+  <h2>七、常见问题 <span class="meta-tag">FAQ（小白朴素版）</span></h2>
 
   <div class="faq-item">
     <div class="faq-q">市值和股价有什么区别？</div>
@@ -784,8 +823,13 @@ table.data .hl-amber { color: #f59e0b; font-weight: 600; }
 <section class="section" id="changelog">
   <h2>八、变更日志 <span class="meta-tag">更新记录</span></h2>
   <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">2026-07-28 · 今天</div>
+      <div class="tl-title">v2.0 小白版 · 顶部加"小白先看 3 步"导引</div>
+      <p style="font-size:13px;color:#64748b;margin-top:6px;">每章加"小白级理解"白话注释（奶茶店/手机余额/西瓜摊等类比）；市值 4 大机制加"一二三缺一"口诀；投资启示改为小白自检框架。</p>
+    </div>
     <div class="tl-item fresh">
-      <div class="tl-date">2026-07-27 · 今天</div>
+      <div class="tl-date">2026-07-27 · v1.0</div>
       <div class="tl-title">首次发布 · 长鑫存储上市市值话题</div>
       <p style="font-size:13px;color:#64748b;margin-top:6px;">基于 7 月长鑫 IPO 的实际数据 + 8 章节结构整理。市值金字塔 SVG 作为核心可视化。</p>
     </div>
