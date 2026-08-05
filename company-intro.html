@@ -71,7 +71,7 @@
   .cards-4 { grid-template-columns:repeat(4,1fr); }
   .cards-6 { grid-template-columns:repeat(3,1fr); }
   .card {
-    background:#fff; border-radius:14px; padding: 24px 32px;
+    background:#fff; border-radius:14px; padding:20px 24px;
     border:1px solid var(--slate-200); transition:transform .2s, box-shadow .2s;
   }
   .card:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,.06); }
@@ -106,7 +106,7 @@
   .footer { text-align:center; padding:24px 48px 40px; color:var(--slate-600); font-size:12px; }
 
   @media (max-width:768px) {
-    .header { padding: 24px 32px; }
+    .header { padding:20px 24px; }
     .hero { padding:40px 24px; }
     .hero h2 { font-size:24px; }
     .section { padding:0 24px 32px; }
@@ -119,13 +119,13 @@
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 16px;
-  padding: 14px 28px;
+  border-radius: 14px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1200px;
+  max-width: 1000px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -137,7 +137,7 @@
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -156,11 +156,11 @@
 }
 .topnav-item {
   position: relative;
-  padding: 9px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -194,7 +194,7 @@
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -258,55 +258,15 @@
   .topnav-menu { flex-wrap: wrap; }
 }
 
-.container{max-width:1200px;margin:0 auto;}
-
-/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 24px;
-  box-sizing: border-box;
-}
-.site-shell > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.site-shell > .container {
-  width: 100% !important;
-  max-width: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-.site-shell > .topnav {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box;
-}
-.site-shell.presentation-shell {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  padding: 0;
-  height: auto;
-}
-body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-@media (max-width: 1200px) {
-  .site-shell { padding-left: 12px; padding-right: 12px; }
-}
-
+.container{max-width:1000px;margin:0 auto;}
 </style>
+  <script src="shared-topnav.js" data-site-topnav-loader="true" defer></script>
 </head>
 <body>
-<div class="site-shell">
+
+
+
+
 <div class="topnav">
   <a href="index.html" class="topnav-brand">
     <span class="logo">●</span>
@@ -322,7 +282,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
       <span class="tn-label">业务场景</span>
       <span class="topnav-badge">2</span>
     </a>
-        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="erp-center.html" class="topnav-item has-dropdown">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -332,15 +292,17 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="ehr-center.html">👥 EHR 系统</a>
         <a href="it-panorama.html">💻 IT 全景</a>
         <div class="divider"></div>
-        <a href="company-intro.html">🏢 公司背景</a>
+        
+<div class="container">
+<a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
-    </div>
-<a href="site-map.html" class="topnav-item">
-      <span class="tn-icon">▦</span>
-      <span class="tn-label">站点地图</span>
     </a>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <a href="key-files-overview.html" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
@@ -352,21 +314,21 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <div class="tn-section">外部参考</div>
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
-    </div>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    </a>
+    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
-        <a href="key-files-overview.html">📋 我的笔记</a>
-        <a href="key-files-manager.html">⭐ 收藏夹</a>
-        <a href="site-map.html">📌 最近浏览</a>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
         <div class="divider"></div>
         <div class="tn-section">设置</div>
-        <a href="index.html">⚙️ 偏好</a>
+        <a href="#">⚙️ 偏好</a>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 
@@ -578,6 +540,6 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   橙子自动化 · 信息化项目组 ｜ 杰德瑞恩J 出品 ｜ 数据来源：2026年7月公司内部培训纪要
 </div>
 </div>
-</div>
+
 </body>
 </html>
