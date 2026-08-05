@@ -15,7 +15,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--s-50);color:var(--s-700);min-height:100vh}
-.container{max-width:1200px;margin:0 auto;padding: 24px 32px}
+.container{max-width:1000px;margin:0 auto;padding:20px 24px}
 
 /* ── Header ── */
 .header{
@@ -42,7 +42,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 
 /* ── Stats ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
-.stat-card{background:#fff;border-radius: 14px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card{background:#fff;border-radius:12px;padding:16px 20px;border:1px solid var(--s-200);text-align:center;transition:transform .2s,box-shadow .2s}
 .stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
 .stat-value{font-size:24px;font-weight:700;line-height:1}
 .stat-label{font-size:11px;color:var(--s-400);margin-top:4px}
@@ -58,13 +58,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
 
 /* ── Card ── */
-.card{background:#fff;border-radius: 14px;padding:18px 20px;border:1px solid var(--s-200)}
+.card{background:#fff;border-radius:12px;padding:18px 20px;border:1px solid var(--s-200)}
 .card .card-title{font-size:14px;font-weight:700;color:var(--s-800);margin-bottom:8px;display:flex;align-items:center;gap:8px}
 
 /* ── Module nav cards ── */
 .mod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .mod-card{
-  border-radius: 14px;padding:20px 16px;border:2px solid;
+  border-radius:12px;padding:20px 16px;border:2px solid;
   position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;
   text-decoration:none;display:block;
 }
@@ -123,13 +123,13 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 16px;
-  padding: 14px 28px;
+  border-radius: 14px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1200px;
+  max-width: 1000px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -141,7 +141,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -160,11 +160,11 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 }
 .topnav-item {
   position: relative;
-  padding: 9px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -198,7 +198,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -261,54 +261,10 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sa
 @media (max-width: 768px) {
   .topnav-menu { flex-wrap: wrap; }
 }
-
-/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 24px;
-  box-sizing: border-box;
-}
-.site-shell > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.site-shell > .container {
-  width: 100% !important;
-  max-width: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-.site-shell > .topnav {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box;
-}
-.site-shell.presentation-shell {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  padding: 0;
-  height: auto;
-}
-body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-@media (max-width: 1200px) {
-  .site-shell { padding-left: 12px; padding-right: 12px; }
-}
-
 </style>
+  <script src="shared-topnav.js" data-site-topnav-loader="true" defer></script>
 </head>
 <body>
-<div class="site-shell">
 <div class="container">
 
 
@@ -329,7 +285,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
       <span class="tn-label">业务场景</span>
       <span class="topnav-badge">2</span>
     </a>
-        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="erp-center.html" class="topnav-item has-dropdown">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -342,12 +298,12 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
-    </div>
-<a href="site-map.html" class="topnav-item">
-      <span class="tn-icon">▦</span>
-      <span class="tn-label">站点地图</span>
     </a>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <a href="key-files-overview.html" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
@@ -359,21 +315,21 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <div class="tn-section">外部参考</div>
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
-    </div>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    </a>
+    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
-        <a href="key-files-overview.html">📋 我的笔记</a>
-        <a href="key-files-manager.html">⭐ 收藏夹</a>
-        <a href="site-map.html">📌 最近浏览</a>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
         <div class="divider"></div>
         <div class="tn-section">设置</div>
-        <a href="index.html">⚙️ 偏好</a>
+        <a href="#">⚙️ 偏好</a>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 
@@ -408,7 +364,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
 <!-- ═══════════════════════════════════════════ -->
 <!-- 🔥 诊断启动指南 — 不知道从哪入手？看这里 -->
 <!-- ═══════════════════════════════════════════ -->
-<div style="background:linear-gradient(135deg,#fef3c7,#fef9c3,#fef3c7);border:2px solid var(--y);border-radius:14px;padding: 24px 32px;margin-bottom:16px">
+<div style="background:linear-gradient(135deg,#fef3c7,#fef9c3,#fef3c7);border:2px solid var(--y);border-radius:14px;padding:20px 24px;margin-bottom:16px">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
     <span style="font-size:22px">🚀</span>
     <span style="font-size:16px;font-weight:700;color:var(--y-d)">诊断启动 — 不知道从哪入手？从这里开始</span>
@@ -419,7 +375,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
 
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
     <!-- Phase 1 -->
-    <div style="background:#fff;border-radius: 14px;padding:14px;border:1.5px solid var(--r)">
+    <div style="background:#fff;border-radius:10px;padding:14px;border:1.5px solid var(--r)">
       <div style="font-size:11px;font-weight:700;color:var(--r-d);margin-bottom:6px">🔴 Phase 1 — 逐人访谈（1天）</div>
       <div style="font-size:11px;color:var(--s-600);line-height:1.6;margin-bottom:8px">
         每个HR岗位聊15分钟，只问<strong>3个问题</strong>：
@@ -435,7 +391,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 
     <!-- Phase 2 -->
-    <div style="background:#fff;border-radius: 14px;padding:14px;border:1.5px solid var(--y)">
+    <div style="background:#fff;border-radius:10px;padding:14px;border:1.5px solid var(--y)">
       <div style="font-size:11px;font-weight:700;color:var(--y-d);margin-bottom:6px">🟡 Phase 2 — 验证Top 3（2天）</div>
       <div style="font-size:11px;color:var(--s-600);line-height:1.6;margin-bottom:8px">
         针对 Top 3 痛点，让HR<strong>当场操作</strong>给你看：
@@ -453,7 +409,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     </div>
 
     <!-- Phase 3 -->
-    <div style="background:#fff;border-radius: 14px;padding:14px;border:1.5px solid var(--b)">
+    <div style="background:#fff;border-radius:10px;padding:14px;border:1.5px solid var(--b)">
       <div style="font-size:11px;font-weight:700;color:var(--b-d);margin-bottom:6px">🔵 Phase 3 — 全面排查（1周）</div>
       <div style="font-size:11px;color:var(--s-600);line-height:1.6;margin-bottom:8px">
         紧急的修完后，再按 47 节点清单<strong>逐个模块</strong>过：
@@ -499,7 +455,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
 <!-- ═══════════════════════════════════════════ -->
 <!-- 🔧 系统能力验证 — HR说"我要X"，怎么知道系统能不能？ -->
 <!-- ═══════════════════════════════════════════ -->
-<div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5,#f0fdf4);border:2px solid var(--g);border-radius:14px;padding: 24px 32px;margin-bottom:16px;margin-top:16px">
+<div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5,#f0fdf4);border:2px solid var(--g);border-radius:14px;padding:20px 24px;margin-bottom:16px;margin-top:16px">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
     <span style="font-size:22px">🔧</span>
     <span style="font-size:16px;font-weight:700;color:var(--g-d)">系统能力验证 — HR说"我要X"，你怎么判断系统能不能实现？</span>
@@ -528,7 +484,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   </div>
 
   <!-- 真实案例演示 -->
-  <div style="background:#fff;border-radius: 14px;padding:14px 16px;border:1px solid var(--s-200);margin-bottom:12px">
+  <div style="background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--s-200);margin-bottom:12px">
     <div style="font-size:12px;font-weight:700;color:var(--s-800);margin-bottom:8px">🎯 真实案例：HR说"我要改招聘需求表单，让用户关联职位，没有职位就新建"</div>
     <table style="width:100%;border-collapse:collapse;font-size:11px">
       <tr style="background:var(--g-bg)">
@@ -706,7 +662,6 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   橙子自动化 · 信息化项目组 · EHR 系统中心 ｜ 杰德瑞恩J 出品 ｜ 更新于 2026年7月
 </div>
 
-</div>
 </div>
 </body>
 </html>
