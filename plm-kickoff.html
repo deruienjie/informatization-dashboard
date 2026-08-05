@@ -60,7 +60,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 .toc-card.toc-g:hover{border-color:#10b981;box-shadow:0 8px 24px rgba(16,185,129,.15)}
 .toc-card.toc-y:hover{border-color:#f59e0b;box-shadow:0 8px 24px rgba(245,158,11,.15)}
 .toc-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.toc-icon{width:40px;height:40px;border-radius: 14px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.toc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .toc-card.toc-b .toc-icon{background:rgba(59,130,246,.15);color:#3b82f6}
 .toc-card.toc-p .toc-icon{background:rgba(139,92,246,.15);color:#8b5cf6}
 .toc-card.toc-g .toc-icon{background:rgba(16,185,129,.15);color:#10b981}
@@ -92,13 +92,13 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 16px;
-  padding: 14px 28px;
+  border-radius: 14px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1200px;
+  max-width: 1000px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -110,7 +110,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -129,11 +129,11 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
 }
 .topnav-item {
   position: relative;
-  padding: 9px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -167,7 +167,7 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
   left: 0;
   min-width: 220px;
   background: #1e293b;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 8px;
   border: 1px solid #334155;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
@@ -231,55 +231,15 @@ svg text[fill="#475569"]{fill:#94a3b8!important}
   .topnav-menu { flex-wrap: wrap; }
 }
 
-.container{max-width:1200px;margin:0 auto;}
-
-/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 24px;
-  box-sizing: border-box;
-}
-.site-shell > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.site-shell > .container {
-  width: 100% !important;
-  max-width: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-.site-shell > .topnav {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box;
-}
-.site-shell.presentation-shell {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  padding: 0;
-  height: auto;
-}
-body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-@media (max-width: 1200px) {
-  .site-shell { padding-left: 12px; padding-right: 12px; }
-}
-
+.container{max-width:1000px;margin:0 auto;}
 </style>
+  <script src="shared-topnav.js" data-site-topnav-loader="true" defer></script>
 </head>
 <body>
-<div class="site-shell presentation-shell">
+
+
+
+
 <div class="topnav">
   <a href="index.html" class="topnav-brand">
     <span class="logo">●</span>
@@ -295,7 +255,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
       <span class="tn-label">业务场景</span>
       <span class="topnav-badge">2</span>
     </a>
-        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="erp-center.html" class="topnav-item has-dropdown">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -305,15 +265,17 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="ehr-center.html">👥 EHR 系统</a>
         <a href="it-panorama.html">💻 IT 全景</a>
         <div class="divider"></div>
-        <a href="company-intro.html">🏢 公司背景</a>
+        
+<div class="container">
+<a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
-    </div>
-<a href="site-map.html" class="topnav-item">
-      <span class="tn-icon">▦</span>
-      <span class="tn-label">站点地图</span>
     </a>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <a href="key-files-overview.html" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
@@ -325,22 +287,24 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <div class="tn-section">外部参考</div>
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
-    </div>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    </a>
+    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
-        <a href="key-files-overview.html">📋 我的笔记</a>
-        <a href="key-files-manager.html">⭐ 收藏夹</a>
-        <a href="site-map.html">📌 最近浏览</a>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
         <div class="divider"></div>
         <div class="tn-section">设置</div>
-        <a href="index.html">⚙️ 偏好</a>
+        <a href="#">⚙️ 偏好</a>
       </div>
-    </div>
+    </a>
   </div>
+</div>
+
 </div>
 
 </div>
@@ -541,7 +505,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   <div class="slide-inner" style="text-align:center">
     <div class="section-label">为什么</div>
     <div class="slide-title b">为什么要做信息化？</div>
-    <svg viewBox="0 0 1000 430" style="width:100%;max-width: 1200px;height:auto" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1000 430" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
       <rect width="1000" height="430" fill="none"/>
       <!-- 左侧：逻辑链 -->
       <g transform="translate(30,10)">
@@ -865,7 +829,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   <div class="slide-num">04 / 11</div>
   <div class="slide-inner" style="text-align:center">
     <div class="section-label" style="color:#475569">Vision</div>
-    <svg viewBox="0 0 1000 660" style="width:100%;max-width: 1200px;height:auto" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1000 660" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
       <rect width="1000" height="660" fill="none"/>
       <!-- 左侧：现状 -->
       <rect x="30" y="50" width="190" height="380" rx="14" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.25)" stroke-width="1"/>
@@ -983,7 +947,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     <div class="section-label">PLM 系统</div>
     <div class="slide-title" style="color:#8b5cf6">产品生命周期管理系统</div>
     <div class="slide-sub">覆盖从概念到退市的全周期 · 6 大核心功能</div>
-    <svg viewBox="0 0 1000 520" style="width:100%;max-width: 1200px;height:auto" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1000 520" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
       <rect width="1000" height="520" fill="none"/>
       <g transform="translate(20,20)">
         <rect x="0" y="0" width="300" height="150" rx="12" fill="rgba(16,185,129,.04)" stroke="rgba(16,185,129,.2)" stroke-width="1.2"/>
@@ -1194,7 +1158,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         </g>
       </g>
     </svg>
-    <div style="margin-top:10px;padding:10px 24px;background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.2);border-radius: 14px;max-width:1200px;margin-left:auto;margin-right:auto">
+    <div style="margin-top:10px;padding:10px 24px;background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.2);border-radius:12px;max-width:1200px;margin-left:auto;margin-right:auto">
       <span style="font-size:13px;color:#7c3aed;font-weight:700">PLM = 研发数据的「唯一真相源」· 一次维护，多处使用</span>
     </div>
   </div>
@@ -1261,7 +1225,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     <div class="section-label">项目保障</div>
     <div class="slide-title y">组织架构</div>
     <div class="slide-sub">3层组织 · 分工清晰 · 责任到人</div>
-    <svg viewBox="0 0 1000 540" style="width:100%;max-width: 1200px;height:auto" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1000 540" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
       <rect width="1000" height="540" fill="none"/>
 
       <!-- 左侧：3层架构图 -->
@@ -1338,7 +1302,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     <div class="section-label">项目保障</div>
     <div class="slide-title b">沟通机制</div>
     <div class="slide-sub">4种机制 · 决策可追溯 · 信息对齐无歧义</div>
-    <svg viewBox="0 0 1000 540" style="width:100%;max-width: 1200px;height:auto" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1000 540" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
       <rect width="1000" height="540" fill="none"/>
 
       <!-- 1. 微信项目群 -->
@@ -1429,7 +1393,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
     <div class="section-label">项目保障</div>
     <div class="slide-title g">奖惩机制</div>
     <div class="slide-sub">按节点奖 · 按结果罚 · 激励到位 · 约束到位</div>
-    <svg viewBox="0 0 1000 540" style="width:100%;max-width: 1200px;height:auto" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1000 540" style="width:100%;max-width:1000px;height:auto" xmlns="http://www.w3.org/2000/svg">
       <rect width="1000" height="540" fill="none"/>
 
       <!-- 一、专项奖金 -->
@@ -1509,6 +1473,6 @@ const observer = new IntersectionObserver(entries=>{
 slides.forEach(s=>observer.observe(s));
 </script>
 </div>
-</div>
+
 </body>
 </html>
