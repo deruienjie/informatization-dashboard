@@ -1,0 +1,158 @@
+/* 统一顶部导航：全站唯一菜单样式。页面内容样式继续由各页面自己负责。 */
+.site-topnav {
+  width: min(100%, 1200px);
+  margin: 0 auto 20px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1000;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid rgba(148, 163, 184, .18);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, .14);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+.site-topnav * { box-sizing: border-box; }
+.site-topnav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+.site-topnav-logo {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 13px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+}
+.site-topnav-menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  flex: 1 1 620px;
+  flex-wrap: wrap;
+}
+.site-topnav-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 30px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 7px;
+  color: #cbd5e1;
+  background: transparent;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 520;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+.site-topnav-item:hover,
+.site-topnav-item.active,
+.site-topnav-item[aria-expanded="true"] {
+  color: #fff;
+  background: rgba(16, 185, 129, .22);
+}
+.site-topnav-icon { font-size: 13px; line-height: 1; opacity: .92; }
+.site-topnav-arrow { font-size: 9px; opacity: .66; }
+.site-topnav-badge {
+  min-width: 16px;
+  padding: 2px 5px;
+  border-radius: 9px;
+  color: #fff;
+  background: #ef4444;
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+}
+.site-topnav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  min-width: 226px;
+  max-height: min(70vh, 560px);
+  overflow: auto;
+  padding: 7px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background: #1e293b;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .30);
+}
+.site-topnav-item.has-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -8px;
+  right: -8px;
+  height: 10px;
+}
+.site-topnav-item.has-dropdown:hover .site-topnav-dropdown,
+.site-topnav-item.has-dropdown:focus-within .site-topnav-dropdown,
+.site-topnav-item.has-dropdown[aria-expanded="true"] .site-topnav-dropdown {
+  display: block;
+}
+.site-topnav-item.has-dropdown-right .site-topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.site-topnav-dropdown a {
+  display: block;
+  padding: 7px 9px;
+  border-radius: 5px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 11px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.site-topnav-dropdown a:hover,
+.site-topnav-dropdown a.active {
+  color: #34d399;
+  background: rgba(16, 185, 129, .16);
+}
+.site-topnav-section {
+  padding: 6px 9px 4px;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: .3px;
+}
+.site-topnav-divider { height: 1px; margin: 6px 4px; background: #334155; }
+.site-topnav-note {
+  margin-left: auto;
+  color: #64748b;
+  font-size: 10px;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .site-topnav { align-items: flex-start; }
+  .site-topnav-menu { justify-content: flex-start; flex-basis: 100%; }
+  .site-topnav-note { display: none; }
+}
+@media (max-width: 560px) {
+  .site-topnav { padding: 10px 12px; }
+  .site-topnav-menu { gap: 2px; }
+  .site-topnav-item { padding: 7px 8px; font-size: 11px; }
+  .site-topnav-dropdown { position: fixed; top: auto; left: 12px; right: 12px; min-width: 0; max-height: 58vh; }
+  .site-topnav-item.has-dropdown-right .site-topnav-dropdown { left: 12px; right: 12px; }
+}
