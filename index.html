@@ -9,13 +9,13 @@
 /* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
 .topnav {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 16px;
-  padding: 14px 28px;
+  border-radius: 14px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto 24px auto;
-  max-width: 1200px;
+  max-width: 1000px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   position: relative;
   z-index: 100;
@@ -27,7 +27,7 @@
   text-decoration: none;
   color: #fff;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
 }
 .topnav-brand .logo {
   width: 28px; height: 28px;
@@ -46,11 +46,11 @@
 }
 .topnav-item {
   position: relative;
-  padding: 9px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -156,7 +156,7 @@ body {
   color: #1e293b;
   line-height: 1.6;
   min-height: 100vh;
-  padding: 24px 32px;
+  padding: 20px 24px;
 }
 .container { max-width: 1400px; margin: 0 auto; }
 
@@ -197,14 +197,14 @@ body {
 .welcome-bar {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: #fff;
-  border-radius: 18px;
-  padding: 36px 40px;
+  border-radius: 16px;
+  padding: 32px 36px;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
 }
-.welcome-bar h1 { font-size: 30px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.3px; }
-.welcome-bar .sub { font-size: 15px; color: #94a3b8; }
+.welcome-bar h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+.welcome-bar .sub { font-size: 13px; color: #94a3b8; }
 .welcome-bar::after {
   content: '';
   position: absolute;
@@ -218,19 +218,19 @@ body {
 .kpi-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 24px;
 }
 .kpi-card {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 24px 20px;
+  border-radius: 12px;
+  padding: 20px;
   text-align: center;
 }
 .kpi-value {
-  font-size: 36px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 600;
   color: #0f172a;
   line-height: 1;
 }
@@ -238,22 +238,22 @@ body {
 .kpi-card.k2 .kpi-value { color: #3b82f6; }
 .kpi-card.k3 .kpi-value { color: #8b5cf6; }
 .kpi-card.k4 .kpi-value { color: #f59e0b; }
-.kpi-label { font-size: 14px; color: #475569; margin-top: 10px; font-weight: 500; }
-.kpi-meta { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+.kpi-label { font-size: 12px; color: #64748b; margin-top: 8px; }
+.kpi-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; }
 
 /* ===== Section ===== */
 .section {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 28px 32px;
-  margin-bottom: 24px;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
 }
 .section h2 {
-  font-size: 19px;
+  font-size: 16px;
   font-weight: 600;
   color: #0f172a;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -271,13 +271,13 @@ body {
 .role-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 .role-card {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 24px 16px;
+  border-radius: 10px;
+  padding: 18px 14px;
   text-align: center;
   text-decoration: none;
   color: #1e293b;
@@ -289,9 +289,9 @@ body {
   background: #fff;
   box-shadow: 0 6px 16px rgba(16,185,129,0.1);
 }
-.role-card .r-icon { font-size: 34px; margin-bottom: 10px; }
-.role-card .r-title { font-size: 16px; font-weight: 600; }
-.role-card .r-sub { font-size: 13px; color: #64748b; margin-top: 6px; }
+.role-card .r-icon { font-size: 28px; margin-bottom: 8px; }
+.role-card .r-title { font-size: 14px; font-weight: 600; }
+.role-card .r-sub { font-size: 11px; color: #94a3b8; margin-top: 4px; }
 .role-card.placeholder {
   background: #f8fafc;
   border: 2px dashed #cbd5e1;
@@ -325,9 +325,9 @@ body {
   border-radius: 50%;
 }
 .tl-item.fresh::before { background: #10b981; }
-.tl-date { font-size: 13px; color: #64748b; font-weight: 500; }
-.tl-title { font-size: 16px; color: #0f172a; margin: 6px 0; font-weight: 600; }
-.tl-meta { font-size: 14px; color: #64748b; }
+.tl-date { font-size: 12px; color: #64748b; font-weight: 500; }
+.tl-title { font-size: 14px; color: #0f172a; margin: 4px 0; font-weight: 600; }
+.tl-meta { font-size: 12px; color: #64748b; }
 .tl-meta a { color: #3b82f6; text-decoration: none; }
 .tl-meta a:hover { text-decoration: underline; }
 
@@ -335,15 +335,15 @@ body {
 .sys-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 .sys-card {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 10px;
+  padding: 16px;
 }
-.sys-name { font-size: 15px; font-weight: 600; color: #0f172a; }
+.sys-name { font-size: 13px; font-weight: 600; color: #0f172a; }
 .sys-status {
   display: inline-block;
   font-size: 11px;
@@ -366,60 +366,17 @@ body {
 .sys-bar.live { background: #10b981; }
 .sys-bar.dev { background: #f59e0b; }
 .sys-bar.todo { background: #ef4444; }
-.sys-meta { font-size: 13px; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
+.sys-meta { font-size: 11px; color: #94a3b8; margin-top: 6px; }
 
 @media (max-width: 768px) {
   .kpi-row, .role-grid, .sys-grid { grid-template-columns: 1fr 1fr; }
   .topnav-menu { flex-wrap: wrap; }
 }
-
-/* ===== 全站外框统一：导航与正文保持同一视觉宽度 ===== */
-.site-shell {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 24px;
-  box-sizing: border-box;
-}
-.site-shell > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.site-shell > .container {
-  width: 100% !important;
-  max-width: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-.site-shell > .topnav {
-  width: 100% !important;
-  max-width: none !important;
-  box-sizing: border-box;
-}
-.site-shell.presentation-shell {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  padding: 0;
-  height: auto;
-}
-body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not([style*="position:fixed"]) {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-@media (max-width: 1200px) {
-  .site-shell { padding-left: 16px; padding-right: 16px; }
-}
-
 </style>
+  <script src="shared-topnav.js" data-site-topnav-loader="true" defer></script>
 </head>
 <body>
-<div class="site-shell">
+
 <div class="container">
 
 
@@ -438,7 +395,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
       <span class="tn-label">业务场景</span>
       <span class="tn-badge">2</span>
     </a>
-        <div class="topnav-item has-dropdown" role="button" tabindex="0" data-href="erp-center.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="erp-center.html" class="topnav-item has-dropdown">
       <span class="tn-icon">▦</span>
       <span class="tn-label">系统中心</span>
       <span class="tn-arrow">▾</span>
@@ -451,12 +408,12 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="company-intro.html">🏢 公司背景</a>
         <a href="management-reform.html">⚙️ 管理变革</a>
       </div>
-    </div>
-<a href="site-map.html" class="topnav-item">
-      <span class="tn-icon">▦</span>
-      <span class="tn-label">站点地图</span>
     </a>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">全站地图</span>
+    </a>
+    <a href="key-files-overview.html" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◉</span>
       <span class="tn-label">知识沉淀</span>
       <span class="tn-arrow">▾</span>
@@ -465,29 +422,24 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
         <a href="key-files-manager.html">🗂️ 归档文件柜</a>
         <div class="divider"></div>
-        <div class="tn-section">个人成长</div>
-        <a href="flow-vs-short-video.html">◎ 心流与短视频</a>
-        <div class="divider"></div>
         <div class="tn-section">外部参考</div>
         <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
       </div>
-    </div>
-    <div class="topnav-item has-dropdown has-dropdown-right" role="button" tabindex="0" data-href="key-files-overview.html" onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('.topnav-dropdown')) { event.preventDefault(); window.location.href = this.dataset.href; }">
+    </a>
+    <a href="#" class="topnav-item has-dropdown has-dropdown-right">
       <span class="tn-icon">◔</span>
       <span class="tn-label">我</span>
       <span class="tn-arrow">▾</span>
       <div class="topnav-dropdown">
         <div class="tn-section">个人信息</div>
-        <a href="site-map.html">🗺️ 站点地图</a>
-        <div class="divider"></div>
-        <a href="key-files-overview.html">📋 我的笔记</a>
-        <a href="key-files-manager.html">⭐ 收藏夹</a>
-        <a href="site-map.html">📌 最近浏览</a>
+        <a href="#">📋 我的笔记</a>
+        <a href="#">⭐ 收藏夹</a>
+        <a href="#">📌 最近浏览</a>
         <div class="divider"></div>
         <div class="tn-section">设置</div>
-        <a href="index.html">⚙️ 偏好</a>
+        <a href="#">⚙️ 偏好</a>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 
@@ -546,7 +498,7 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
         <div class="r-title">研发视角</div>
         <div class="r-sub">PLM + BOM 审批</div>
       </a>
-      <a href="management-reform.html" class="role-card">
+      <a href="company-informatization.html" class="role-card">
         <div class="r-icon">👔</div>
         <div class="r-title">老板视角</div>
         <div class="r-sub">自我复盘工具</div>
@@ -559,11 +511,6 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   <div class="section">
     <h2>📋 业务场景时间线 <span class="meta-tag">最新在上</span><a href="business-scenarios.html" style="margin-left:auto;font-size:12px;color:#3b82f6;text-decoration:none">查看全部 →</a></h2>
     <div class="timeline">
-      <div class="tl-item fresh">
-        <div class="tl-date">2026-07-24 · 今天</div>
-        <div class="tl-title">◎ 个人成长 → 心流工作与刷短视频的认知疲劳机制</div>
-        <div class="tl-meta">注意力切换 / 奖赏波动 / 心理内耗 · <a href="flow-vs-short-video.html">打开 →</a></div>
-      </div>
       <div class="tl-item fresh">
         <div class="tl-date">2026-07-23 · 今天</div>
         <div class="tl-title">💼 ERP / 财务 → 委外生产与成本归集流程优化</div>
@@ -617,6 +564,6 @@ body > *:not(.site-shell):not(.nav-dots):not(.slide):not(script):not(style):not(
   <div style="margin-top:24px;text-align:center;font-size:12px;color:#94a3b8">本平台为个人知识网络体系（铁律 14）· 内容是"我给自己看的笔记" · 2026-07-23 18:09</div>
 
 </div>
-</div>
+
 </body>
 </html>
