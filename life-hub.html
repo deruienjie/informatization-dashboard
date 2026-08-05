@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识架构 · 生活手册 · 杰德瑞恩J</title>
+<style>
+:root {
+  --bg: #f0f2f5; --card: #fff; --text: #1a1a2e; --sub: #6b7280; --muted: #9ca3af;
+  --blue: #2563eb; --blue-light: #eff6ff; --blue-soft: #dbeafe;
+  --green: #059669; --green-light: #ecfdf5; --green-soft: #d1fae5;
+  --orange: #ea580c; --orange-light: #fff7ed; --orange-soft: #fed7aa;
+  --red: #dc2626; --red-light: #fef2f2; --red-soft: #fecaca;
+  --purple: #7c3aed; --purple-light: #f5f3ff; --purple-soft: #e9d5ff;
+  --amber: #d97706; --amber-light: #fffbeb;
+  --s-50: #f8fafc; --s-100: #f1f5f9; --s-200: #e2e8f0; --s-400: #94a3b8; --s-600: #475569; --s-700: #334155; --s-800: #1e293b; --s-900: #0f172a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7;
+  min-height: 100vh; padding: 20px 24px;
+}
+.wrap { max-width: 1200px; margin: 0 auto; }
+
+/* ===== Topnav ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 16px; padding: 14px 28px; display: flex;
+  align-items: center; justify-content: space-between;
+  margin: 0 auto 24px; max-width: 1200px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  position: relative; z-index: 100;
+}
+.topnav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 600; font-size: 16px; }
+.brand-logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 14px;
+}
+.topnav-menu { display: flex; gap: 6px; align-items: center; }
+.topnav-item {
+  position: relative; padding: 8px 14px; border-radius: 8px;
+  color: #cbd5e1; text-decoration: none; font-size: 14px;
+  font-weight: 500; display: inline-flex; align-items: center; gap: 6px;
+  cursor: pointer; line-height: 1;
+}
+.topnav-item:hover, .topnav-item.active { background: rgba(16,185,129,.2); color: #fff; }
+.topnav-item .tn-icon { font-size: 15px; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: .65; }
+.topnav-dropdown {
+  display: none; position: absolute; top: 100%; left: 0;
+  min-width: 220px; background: #1e293b; border-radius: 10px;
+  padding: 8px; border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3); z-index: 200;
+}
+.has-dropdown::after {
+  content: ''; position: absolute; top: 100%; left: -8px; right: -8px;
+  height: 30px; background: transparent; z-index: 190;
+}
+.has-dropdown:hover .topnav-dropdown { display: block; }
+.has-dropdown-right .topnav-dropdown { left: auto; right: 0; }
+.has-dropdown-right::after { left: auto; right: -8px; }
+.topnav-dropdown a {
+  display: block; padding: 7px 10px; font-size: 12px;
+  color: #cbd5e1; text-decoration: none; border-radius: 5px; white-space: nowrap;
+}
+.topnav-dropdown a:hover { background: rgba(16,185,129,.15); color: #34d399; }
+.divider { height: 1px; background: #334155; margin: 6px 4px; }
+.tn-section { padding: 6px 12px 4px; font-size: 11px; color: #64748b; font-weight: 500; }
+@media (max-width: 768px) { .topnav-menu { flex-wrap: wrap; } }
+
+/* ===== Breadcrumb ===== */
+.breadcrumb { padding: 8px 16px; font-size: 12px; color: #64748b; margin-bottom: 16px; display: flex; gap: 6px; flex-wrap: wrap; }
+.breadcrumb a { color: var(--blue); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: #cbd5e1; }
+.breadcrumb .current { color: var(--text); font-weight: 500; }
+
+/* ===== Hero ===== */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #1e40af 100%);
+  color: #fff; border-radius: 16px; padding: 32px 36px;
+  margin-bottom: 20px; position: relative; overflow: hidden;
+}
+.hero::after {
+  content: ''; position: absolute; right: -80px; top: -120px;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: rgba(59,130,246,.16);
+}
+.hero h1 { font-size: 28px; font-weight: 600; position: relative; z-index: 1; }
+.hero .sub { font-size: 14px; color: #cbd5e1; margin-top: 8px; position: relative; z-index: 1; }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; position: relative; z-index: 1; }
+.tag { font-size: 12px; padding: 4px 10px; border-radius: 20px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); }
+
+/* ===== Quick Nav (sticky) ===== */
+.quick-nav {
+  position: sticky; top: 10px; z-index: 50;
+  background: rgba(255,255,255,.96); backdrop-filter: blur(8px);
+  border: 1px solid var(--s-200); border-radius: 12px;
+  padding: 10px 14px; margin-bottom: 20px;
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.quick-nav a { font-size: 12px; color: var(--s-600); text-decoration: none; padding: 5px 9px; border-radius: 7px; }
+.quick-nav a:hover { background: var(--blue-light); color: var(--blue); }
+
+/* ===== Section ===== */
+.section { background: #fff; border: 1px solid var(--s-200); border-radius: 14px; padding: 24px 28px; margin-bottom: 20px; }
+.section h2 { font-size: 19px; color: var(--s-900); font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section h3 { font-size: 16px; color: var(--s-900); margin: 16px 0 8px; }
+.section p { font-size: 14px; color: var(--s-600); margin-bottom: 12px; }
+.section p strong { color: var(--s-900); font-weight: 600; }
+.meta-tag { font-size: 11px; font-weight: 400; background: var(--s-100); color: var(--s-600); padding: 3px 10px; border-radius: 20px; margin-left: 6px; }
+
+/* ===== Module Cards ===== */
+.module-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 8px;
+}
+.module-card {
+  border: 1px solid var(--s-200); border-radius: 12px; padding: 18px;
+  background: var(--s-50); text-decoration: none; color: inherit;
+  transition: all .2s; display: block; position: relative;
+}
+.module-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.08); border-color: var(--blue); }
+.module-card .mc-icon { font-size: 28px; margin-bottom: 8px; }
+.module-card .mc-title { font-size: 15px; font-weight: 600; color: var(--s-900); margin-bottom: 4px; }
+.module-card .mc-desc { font-size: 12px; color: var(--sub); line-height: 1.5; }
+.module-card .mc-count { font-size: 11px; color: var(--muted); margin-top: 8px; }
+.module-card.b-invest { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: var(--blue-soft); }
+.module-card.b-life { background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-color: var(--green-soft); }
+.module-card.b-home { background: linear-gradient(135deg, #fff7ed, #fed7aa); border-color: var(--orange-soft); }
+.module-card.b-self { background: linear-gradient(135deg, #f5f3ff, #e9d5ff); border-color: var(--purple-soft); }
+
+/* ===== Card grid (细页) ===== */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px; }
+.card {
+  background: #fff; border: 1px solid var(--s-200); border-radius: 12px;
+  padding: 18px; text-decoration: none; color: inherit; transition: all .2s;
+  position: relative; display: block;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.08); border-color: var(--blue); }
+.card h3 { font-size: 15px; color: var(--s-900); margin: 0 0 8px; }
+.card p { font-size: 12px; color: var(--sub); margin: 0; line-height: 1.6; }
+.card .card-tag { font-size: 10px; padding: 2px 8px; border-radius: 12px; background: var(--blue-light); color: var(--blue); display: inline-block; margin-bottom: 8px; }
+.card .card-tag.green { background: var(--green-light); color: var(--green); }
+.card .card-tag.orange { background: var(--orange-light); color: var(--orange); }
+.card .card-tag.purple { background: var(--purple-light); color: var(--purple); }
+.card .card-tag.red { background: var(--red-light); color: var(--red); }
+.card .card-arrow { position: absolute; right: 14px; bottom: 12px; font-size: 14px; color: var(--muted); }
+
+/* ===== Tip / Warn / Danger ===== */
+.tip { background: var(--blue-light); border-left: 4px solid var(--blue); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--text); margin: 12px 0; }
+.tip.green { background: var(--green-light); border-left-color: var(--green); }
+.tip.orange { background: var(--orange-light); border-left-color: var(--orange); }
+.tip.red { background: var(--red-light); border-left-color: var(--red); }
+.tip.purple { background: var(--purple-light); border-left-color: var(--purple); }
+.tip strong { color: var(--s-900); }
+
+/* ===== Relation Diagram ===== */
+.relation-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.relation-table th { background: var(--s-50); color: var(--s-600); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--s-200); font-weight: 600; }
+.relation-table td { padding: 10px 12px; border-bottom: 1px solid var(--s-100); vertical-align: top; }
+.relation-table td strong { color: var(--s-900); }
+.relation-table .center { background: var(--blue-light); color: var(--blue); font-weight: 600; text-align: center; }
+
+/* ===== Check List ===== */
+.checklist { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
+.checklist li { background: var(--s-50); border: 1px solid var(--s-200); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--s-700); }
+.checklist li:before { content: "✓"; color: var(--green); font-weight: 700; margin-right: 8px; }
+
+/* ===== Refresh Log ===== */
+.log-list { margin: 8px 0; padding: 0; }
+.log-item { background: var(--s-50); border-left: 3px solid var(--blue); padding: 10px 14px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; }
+.log-item .log-date { color: var(--blue); font-weight: 600; font-size: 12px; }
+.log-item .log-title { color: var(--s-900); margin: 4px 0; font-weight: 500; }
+
+/* ===== Footer ===== */
+.footer { text-align: center; padding: 24px 0; color: var(--muted); font-size: 12px; }
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) { .module-grid { grid-template-columns: repeat(2, 1fr); } .card-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .module-grid { grid-template-columns: 1fr; } .card-grid { grid-template-columns: 1fr; } body { padding: 12px; } .section { padding: 20px; } .hero { padding: 24px; } .topnav { padding: 14px; } }
+</style>
+  <script src="shared-topnav.js" data-site-topnav-loader="true" defer></script>
+</head>
+<body>
+
+<div class="wrap">
+
+<nav class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="brand-logo">●</span>
+    <span>杰德瑞恩J · 生活手册</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item"><span class="tn-icon">⌂</span>首页</a>
+    <a href="life-hub.html" class="topnav-item active"><span class="tn-icon">🗂️</span>知识架构</a>
+    <div class="topnav-item has-dropdown" tabindex="0" role="button" data-href="invest-market-cap.html" onclick="if(!event.target.closest('.topnav-dropdown'))window.location.href=this.dataset.href">
+      <span class="tn-icon">💰</span>投资中心<span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="invest-market-cap.html">📊 市值金字塔</a>
+        <a href="invest-pe-valuation.html">📐 PE 估值实战</a>
+        <div class="divider"></div>
+        <a href="index.html#invest">💼 基金持仓（主页）</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown" tabindex="0" role="button" data-href="life-hub.html#home" onclick="if(!event.target.closest('.topnav-dropdown'))window.location.href=this.dataset.href">
+      <span class="tn-icon">🏠</span>居住决策<span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="life-hub.html#home">⚖️ 3 盘深度对比</a>
+        <a href="index.html#home">📊 楼盘全对比（主页）</a>
+        <a href="index.html#car">🚗 车决策（主页）</a>
+        <a href="index.html#decoration">🎨 装修管理（主页）</a>
+      </div>
+    </div>
+    <a href="index.html#profile" class="topnav-item"><span class="tn-icon">👤</span>个人档案</a>
+  </div>
+</nav>
+
+<nav class="breadcrumb">
+  <a href="index.html">首页</a>
+  <span class="sep">/</span>
+  <span class="current">知识架构</span>
+</nav>
+
+<header class="hero">
+  <h1>🗂️ 知识架构 · 生活手册</h1>
+  <div class="sub">把生活沉淀的全部知识，从「投资、居住、个人」3 大板块串联起来。每个板块都能跳到原页面，不需要重复维护。</div>
+  <div class="badge-row">
+    <span class="tag">🗺️ 导航中心</span>
+    <span class="tag">🔗 跨板块关联</span>
+    <span class="tag">📅 2026-07-28 v1.0</span>
+  </div>
+</header>
+
+<nav class="quick-nav">
+  <a href="#map">总览图</a>
+  <a href="#invest">投资中心</a>
+  <a href="#home">居住决策</a>
+  <a href="#self">个人档案</a>
+  <a href="#relation">跨板块关联</a>
+  <a href="#starter">小白先看</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<!-- 1. 总览图 -->
+<section class="section" id="map">
+  <h2>一、知识总览图 <span class="meta-tag">v1.0 新增</span></h2>
+  <p><strong>3 大板块</strong>，覆盖生活所有沉淀内容。每个板块有 1 个主页 + 多个子页。</p>
+  <div class="module-grid">
+    <a href="#invest" class="module-card b-invest">
+      <div class="mc-icon">💰</div>
+      <div class="mc-title">投资中心</div>
+      <div class="mc-desc">金融市场方法论 + 自有持仓全景</div>
+      <div class="mc-count">2 个方法论 + 1 个持仓快照</div>
+    </a>
+    <a href="#home" class="module-card b-home">
+      <div class="mc-icon">🏠</div>
+      <div class="mc-title">居住决策</div>
+      <div class="mc-desc">房 / 车 / 装修 / 家具 4 大决策</div>
+      <div class="mc-count">12 个盘 + 4 维车对比 + 装修预算</div>
+    </a>
+    <a href="#self" class="module-card b-self">
+      <div class="mc-icon">👤</div>
+      <div class="mc-title">个人档案</div>
+      <div class="mc-desc">家庭成员 / 财务 / 健身 / 行动清单</div>
+      <div class="mc-count">家庭 + 财务 + 健康 + To-Do</div>
+    </a>
+    <a href="#relation" class="module-card b-life">
+      <div class="mc-icon">🔗</div>
+      <div class="mc-title">跨板块关联</div>
+      <div class="mc-desc">投资 ↔ 房 ↔ 车 ↔ 装修 ↔ 档案</div>
+      <div class="mc-count">影响传导图 + 决策清单</div>
+    </a>
+  </div>
+  <div class="tip"><strong>💡 用法：</strong>从任何一个板块卡片进入 → 看相关子页 → 遇到跨板块问题（如"房贷月供占现金流多少？"）→ 跳到「跨板块关联」找传导路径。</div>
+</section>
+
+<!-- 2. 投资中心 -->
+<section class="section" id="invest">
+  <h2>二、投资中心 <span class="meta-tag">金融市场方法论</span></h2>
+  <p><strong>2 个方法论子页 + 1 个持仓快照</strong>。方法论是「通用的估值/分析框架」，持仓快照是「我自己账户的现状」。</p>
+  <div class="card-grid">
+    <a href="invest-market-cap.html" class="card">
+      <span class="card-tag">📊 方法论 · 新增</span>
+      <h3>📊 市值金字塔</h3>
+      <p>用长鑫存储 IPO 案例讲清：1000 亿市值里到底有多少真金白银？为什么"市值 = 估值 ≠ 现金"？4 大虚高机制 + 投资启示。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="invest-pe-valuation.html" class="card">
+      <span class="card-tag">📐 方法论 · 新增</span>
+      <h3>📐 PE 估值实战</h3>
+      <p>10 章节讲透 PE 估值：公式 → 合理区间 → 增长匹配 → 周期股陷阱 → 估值杀 → 三情景推演 → 决策清单。含 7 问自检框架。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="index.html#invest" class="card">
+      <span class="card-tag green">💼 持仓快照</span>
+      <h3>💼 基金持仓（主页）</h3>
+      <p>东方财富账户当前持仓、防御 60% + 进攻 17% 仓位分配、整体浮亏 ¥1,857 的实际复盘 + 重要教训。</p>
+      <span class="card-arrow">→</span>
+    </a>
+  </div>
+  <div class="tip purple"><strong>🔗 关联：</strong>持仓里如果买了重仓某行业的基金（如半导体、新能源）→ 用「市值金字塔」理解估值虚高 → 用「PE 估值实战」判断该不该加仓/止盈。</div>
+</section>
+
+<!-- 3. 居住决策 -->
+<section class="section" id="home">
+  <h2>三、居住决策 <span class="meta-tag">房 / 车 / 装修 / 家具</span></h2>
+  <p><strong>4 大决策</strong>都跟"现金流压力"强相关。每个决策都有详细对比页 + 测算工具。</p>
+  <div class="card-grid">
+    <a href="life-hub.html#home" class="card">
+      <span class="card-tag orange">⚖️ 3 盘深度对比</span>
+      <h3>⚖️ 深铁璟城 vs 安居福汇阁 vs 庆宜华苑</h3>
+      <p>灵芝地铁站附近 3 个主力盘的 7 维对比 + 月供深度拆解（公积金抵扣后实际月供）+ 6 维评分雷达 + 申购方式。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="index.html#home" class="card">
+      <span class="card-tag">📊 楼盘全对比（主页）</span>
+      <h3>📊 12 个项目 7 维度评分</h3>
+      <p>深铁璟城 / 安居福汇阁 / 庆宜华苑棚改 / 翻身四杰等 12 个项目按 7 维度综合评分。重点推荐 + 详细对比。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="index.html#car" class="card">
+      <span class="card-tag">🚗 车决策（主页）</span>
+      <h3>🚗 二手车 vs 租车</h3>
+      <p>二手特斯拉 10 万 vs 节假日租车。5 年/10 年累计成本对比 + 决策关键（不在钱 在场景）。建议：暂缓买车，先租车。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="index.html#decoration" class="card">
+      <span class="card-tag">🎨 装修管理（主页）</span>
+      <h3>🎨 装修预算 + 家具家电</h3>
+      <p>硬装 + 软装 + 家电分项预算 + 施工排期 + 家具家电采购清单。购房后启动。</p>
+      <span class="card-arrow">→</span>
+    </a>
+  </div>
+  <div class="tip orange"><strong>🔗 关联：</strong>居住决策的"月供预算" = 投资中心"现金流分配"的核心约束。买房月供 > 收入 50% 时，进攻仓位必须降下来。</div>
+</section>
+
+<!-- 4. 个人档案 -->
+<section class="section" id="self">
+  <h2>四、个人档案 <span class="meta-tag">主页面 · 全部沉淀</span></h2>
+  <p>全部沉淀在 <a href="index.html"><strong>index.html</strong></a> 主页面，不重复维护。这里只做导航。</p>
+  <div class="card-grid">
+    <a href="index.html#profile" class="card">
+      <span class="card-tag purple">👤 家庭/财务</span>
+      <h3>👤 家庭成员 + 财务全貌</h3>
+      <p>杰德瑞恩本人 + 女朋友基本信息、家庭收入支出结构、储蓄/投资/负债占比。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="index.html#fitness" class="card">
+      <span class="card-tag green">🏃 健身饮食</span>
+      <h3>🏃 健身目标 + 饮食偏好</h3>
+      <p>健身目标（增肌/减脂）、饮食禁忌（清淡广式，油腻辣食敏感）、火龙果+奇亚籽缓解方案。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="index.html#todo" class="card">
+      <span class="card-tag red">✅ 行动清单</span>
+      <h3>✅ 待办行动（按优先级）</h3>
+      <p>5 项进行中任务，按优先级排序：30 天内需决断的关键决策（车/房/投资调整）。</p>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="index.html#decoration" class="card">
+      <span class="card-tag">🛋️ 家具家电</span>
+      <h3>🛋️ 家具家电采购清单</h3>
+      <p>购房后启动：硬装-软装-家电清单 + 品牌对比 + 预算分配。</p>
+      <span class="card-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- 5. 跨板块关联 -->
+<section class="section" id="relation">
+  <h2>五、跨板块关联 <span class="meta-tag">最重要的部分</span></h2>
+  <p style="background:#fef3c7;padding:14px 18px;border-radius:10px;border-left:4px solid #f59e0b;font-size:13px;color:#78350f;">💡 <strong>为什么要有这一节？</strong>生活中<strong>任何决策都会跨板块</strong>。买房月供影响现金流 → 现金流影响投资仓位 → 投资仓位影响未来装修预算。一环扣一环。</p>
+
+  <h3>影响传导图</h3>
+  <table class="relation-table">
+    <thead>
+      <tr>
+        <th>上游决策</th>
+        <th style="width: 5%;">→</th>
+        <th>直接影响</th>
+        <th>进一步影响</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>🏠 买房决策</strong></td>
+        <td class="center">→</td>
+        <td>月供 + 装修预算（首付 25-50 万）</td>
+        <td>📉 投资仓位下降 → 进攻仓位减少 → 装修预算被压缩</td>
+      </tr>
+      <tr>
+        <td><strong>🚗 买车决策</strong></td>
+        <td class="center">→</td>
+        <td>年均 +28,000 元支出</td>
+        <td>📉 投资仓位下降 5-8% → 复利 10 年少 8-15 万</td>
+      </tr>
+      <tr>
+        <td><strong>💰 投资策略</strong></td>
+        <td class="center">→</td>
+        <td>防御 60% + 进攻 17% 比例</td>
+        <td>📈 长期复利 6-8% → 决定 10 年后能否全款买房/装修</td>
+      </tr>
+      <tr>
+        <td><strong>🎨 装修投入</strong></td>
+        <td class="center">→</td>
+        <td>硬装 10-15 万 + 软装 5-8 万</td>
+        <td>📉 短期流动性吃紧 → 紧急备用金需预留 6 个月</td>
+      </tr>
+      <tr>
+        <td><strong>👤 家庭结构</strong></td>
+        <td class="center">→</td>
+        <td>成员变动（结婚/生子/赡养）</td>
+        <td>📈 居住需求升级 → 决策路径切换（2 房 → 3 房）</td>
+      </tr>
+      <tr>
+        <td><strong>🏃 健身与健康</strong></td>
+        <td class="center">→</td>
+        <td>医疗备用金 + 健身支出</td>
+        <td>📊 影响"财务全貌"中弹性支出占比</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>每月自检 5 问（跨板块）</h3>
+  <ul class="checklist">
+    <li><strong>① 现金流健康度：</strong>月供 + 车贷 + 装修分期，加起来不超过月收入的 50%？</li>
+    <li><strong>② 防御层厚度：</strong>防御仓位（现金 + 货币基金 ≥ 6 个月支出）？</li>
+    <li><strong>③ 进攻层配比：</strong>进攻仓位（股票/偏股基金）占可投资资产 ≤ 30%？</li>
+    <li><strong>④ 装修进度：</strong>装修预算是否还按 1:1 软硬分配？</li>
+    <li><strong>⑤ 决策延迟：</strong>任何一笔 &gt; 5 万的支出，是否先回看本表再决定？</li>
+  </ul>
+</section>
+
+<!-- 6. 小白先看 -->
+<section class="section" id="starter" style="background:linear-gradient(135deg,#ecfdf5,#f0fdfa);border:2px solid #10b981;">
+  <h2 style="color:#065f46;">🚦 小白先看这 3 步 <span class="meta-tag">0 基础也能用</span></h2>
+  <p style="font-size:15px;color:#0f172a;">如果你是<strong>第一次</strong>看这个生活手册，按下面 3 步走，10 分钟就能了解全貌：</p>
+  <div class="card-grid" style="margin-top:14px;">
+    <div class="card" style="background:#fff;">
+      <span class="card-tag green">① 5 分钟</span>
+      <h3>看「个人档案」</h3>
+      <p>从 <a href="index.html"><strong>首页</strong></a> 进，先看「🧑 基本信息 + 💰 家庭财务全貌」。了解背景信息，再看其他板块才不懵。</p>
+    </div>
+    <div class="card" style="background:#fff;">
+      <span class="card-tag orange">② 10 分钟</span>
+      <h3>看「决策树」</h3>
+      <p>首页里的「🚗 车」+「🏢 房」决策路径。最近 30 天要决断的事，先看这两个。其他板块可以慢慢看。</p>
+    </div>
+    <div class="card" style="background:#fff;">
+      <span class="card-tag purple">③ 5 分钟</span>
+      <h3>看「投资中心」</h3>
+      <p>急着学投资的话，先看「市值金字塔」10 分钟搞懂"千亿市值 ≠ 千亿现金"，再看「PE 估值实战」学估值。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7. 更新日志 -->
+<section class="section" id="log">
+  <h2>六、更新日志 <span class="meta-tag">本导航页</span></h2>
+  <ul class="log-list">
+    <li class="log-item">
+      <div class="log-date">2026-07-28 · v1.0</div>
+      <div class="log-title">首次发布：knowledge hub 导航中心</div>
+      <p style="font-size:12px;color:var(--sub);margin-top:4px;">汇总 4 个页面（index.html / compare-3.html / 2 个投资方法论）到 3 大板块 + 跨板块关联表 + 月度 5 问自检。历史页面零改动。</p>
+    </li>
+  </ul>
+</section>
+
+<!-- 8. FAQ -->
+<section class="section" id="faq">
+  <h2>七、FAQ <span class="meta-tag">常见问题</span></h2>
+  <div style="padding:14px 0;border-bottom:1px solid var(--s-200);">
+    <strong style="color:var(--s-900);">这个导航页会取代 index.html 吗？</strong>
+    <p style="font-size:13px;color:var(--s-600);margin-top:6px;">不会。index.html 是历史主页（个人档案 + 决策树 + 投资全景），依然作为首页。life-hub.html 只是新增的"导航中心"，提供跨板块的快捷入口。</p>
+  </div>
+  <div style="padding:14px 0;border-bottom:1px solid var(--s-200);">
+    <strong style="color:var(--s-900);">新页面要放哪个位置？</strong>
+    <p style="font-size:13px;color:var(--s-600);margin-top:6px;">原则：跟"投资"相关 → 投资中心（新增子页）；跟"房/车/装修"相关 → 居住决策；跟"个人/家庭/行动"相关 → 个人档案。先看是不是这 3 个板块，再决定是新增子页还是放进现有页面。</p>
+  </div>
+  <div style="padding:14px 0;border-bottom:1px solid var(--s-200);">
+    <strong style="color:var(--s-900);">为什么"跨板块关联"单独成一节？</strong>
+    <p style="font-size:13px;color:var(--s-600);margin-top:6px;">生活中 80% 的决策都会跨板块（买房影响投资、买车影响现金流、装修影响 3 个月备用金）。如果只在单板块里看，会盲人摸象。单独这一节是为了提醒"任何决策都要回头看 5 问"。</p>
+  </div>
+  <div style="padding:14px 0;">
+    <strong style="color:var(--s-900);">未来会扩展哪些板块？</strong>
+    <p style="font-size:13px;color:var(--s-600);margin-top:6px;">已规划：🩺 健康管理（年度体检/医保/商业保险）、🤝 人际关系（重要联系人/礼品预算）、📚 学习成长（读书清单/技能规划）、🌍 旅行规划（年度出行计划）。每个新板块都会在 life-hub.html 顶部导航加 1 个入口。</p>
+  </div>
+</section>
+
+<div class="footer">
+  📮 反馈 / 补充：告诉我「加 X 板块」或「关联 Y 路径」<br><br>
+  杰德瑞恩J · life-handbook · 个人生活知识网络
+</div>
+
+</div>
+
+</body>
+</html>
