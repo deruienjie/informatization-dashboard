@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>市值金字塔 · 投资 · 杰德瑞恩J 信息化驾驶舱</title>
+<style>
+
+/* ===== 统一顶部导航 V2（5 板块 · 30px 大桥接 hover） ===== */
+.topnav {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 14px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto 24px auto;
+  max-width: 1200px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+}
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.topnav-brand .logo {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+.topnav-menu {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.topnav-item {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+  line-height: 1;
+}
+.topnav-item:hover, .topnav-item.active {
+  background: rgba(16,185,129,0.2);
+  color: #fff;
+}
+.topnav-item .tn-icon { font-size: 14px; opacity: 0.9; line-height: 1; vertical-align: middle; }
+.topnav-item .tn-arrow { font-size: 9px; opacity: 0.6; line-height: 1; vertical-align: middle; }
+.topnav-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+.topnav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 200;
+}
+.topnav-item.has-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: -8px;
+  right: -8px;
+  height: 30px;
+  background: transparent;
+  z-index: 190;
+}
+.topnav-item.has-dropdown:hover .topnav-dropdown {
+  display: block;
+}
+.topnav-item.has-dropdown-right .topnav-dropdown {
+  left: auto;
+  right: 0;
+}
+.topnav-item.has-dropdown-right::after {
+  left: auto;
+  right: -8px;
+}
+.topnav-dropdown a {
+  display: block;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.topnav-dropdown a:hover {
+  background: rgba(16,185,129,0.15);
+  color: #34d399;
+}
+.topnav-dropdown .divider {
+  height: 1px;
+  background: #334155;
+  margin: 6px 4px;
+}
+.topnav-dropdown .tn-section {
+  padding: 6px 12px 4px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 768px) {
+  .topnav-menu { flex-wrap: wrap; }
+}
+
+/* ===== 通用样式 ===== */
+:root {
+  --g:#10b981;--g-bg:#d1fae5;--g-d:#065f46;
+  --y:#f59e0b;--y-bg:#fef3c7;--y-d:#92400e;
+  --b:#3b82f6;--b-bg:#dbeafe;--b-d:#1e40af;
+  --r:#ef4444;--r-bg:#fee2e2;--r-d:#991b1b;
+  --p:#8b5cf6;--p-bg:#ede9fe;--p-d:#5b21b6;
+  --s-50:#f8fafc;--s-100:#f1f5f9;--s-200:#e2e8f0;--s-400:#94a3b8;--s-600:#475569;--s-700:#334155;--s-800:#1e293b;--s-900:#0f172a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: var(--s-50);
+  color: var(--s-700);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px 24px;
+}
+.site-shell { max-width: 1200px; margin: 0 auto; }
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* ===== 面包屑 ===== */
+.breadcrumb {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.breadcrumb a { color: #3b82f6; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: #cbd5e1; }
+.breadcrumb .current { color: #1e293b; font-weight: 500; }
+
+/* ===== 页面头部 ===== */
+.page-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #065f46 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.page-header h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; position: relative; z-index: 1; }
+.page-header .sub { font-size: 13px; color: #94a3b8; position: relative; z-index: 1; }
+.page-header .badge-row { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
+.page-header .tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ===== Section ===== */
+.section {
+  background: #fff;
+  border: 1px solid var(--s-200);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+.section h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section h2 .meta-tag {
+  font-size: 11px;
+  font-weight: 400;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.section p { font-size: 14px; color: #475569; line-height: 1.75; margin-bottom: 12px; }
+.section p strong { color: #0f172a; font-weight: 600; }
+
+/* ===== 公式卡 ===== */
+.formula-card {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #fff;
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-align: center;
+  margin: 16px 0;
+}
+.formula-card .formula { font-size: 22px; font-weight: 600; color: #10b981; margin-bottom: 6px; }
+.formula-card .formula-desc { font-size: 12px; color: #94a3b8; }
+
+/* ===== 表格 ===== */
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+table.data th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+table.data td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+table.data tr:last-child td { border-bottom: none; }
+table.data tr:hover td { background: #f8fafc; }
+table.data td.code { font-family: ui-monospace, "SF Mono", monospace; color: #0f172a; }
+table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.data .hl-green { color: #10b981; font-weight: 600; }
+table.data .hl-red { color: #ef4444; font-weight: 600; }
+table.data .hl-blue { color: #3b82f6; font-weight: 600; }
+table.data .hl-amber { color: #f59e0b; font-weight: 600; }
+
+/* ===== 机制卡（4大推手） ===== */
+.mech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 12px;
+}
+.mech-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.mech-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: #10b981;
+}
+.mech-card.m2::before { background: #3b82f6; }
+.mech-card.m3::before { background: #8b5cf6; }
+.mech-card.m4::before { background: #f59e0b; }
+.mech-card .mech-num {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  background: #fff;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 8px;
+}
+.mech-card .mech-title { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+.mech-card .mech-effect {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #065f46;
+  background: #d1fae5;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+.mech-card .mech-desc { font-size: 12px; color: #64748b; line-height: 1.7; }
+
+/* ===== 金字塔 SVG 容器 ===== */
+.pyramid-wrap {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 16px 0;
+  text-align: center;
+}
+.pyramid-wrap svg { max-width: 100%; height: auto; }
+.pyramid-caption { font-size: 12px; color: #94a3b8; margin-top: 12px; }
+
+/* ===== 概念对比卡 ===== */
+.compare-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+.compare-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+}
+.compare-card .cc-name { font-size: 13px; color: #475569; font-weight: 500; }
+.compare-card .cc-val { font-size: 22px; font-weight: 600; color: #0f172a; margin: 8px 0; font-variant-numeric: tabular-nums; }
+.compare-card .cc-meta { font-size: 11px; color: #94a3b8; }
+.compare-card.c-cash {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-color: #f59e0b;
+}
+.compare-card.c-cash .cc-name { color: #92400e; }
+.compare-card.c-cash .cc-val { color: #92400e; }
+.compare-card.c-virtual { background: #f1f5f9; }
+
+/* ===== 风险提示 ===== */
+.notice-warn {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #78350f;
+  line-height: 1.7;
+}
+.notice-warn strong { color: #92400e; }
+
+/* ===== FAQ ===== */
+.faq-item {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 14px 0;
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-q { font-size: 14px; font-weight: 600; color: #0f172a; margin-bottom: 6px; display: flex; gap: 8px; align-items: flex-start; }
+.faq-q::before { content: "Q"; background: #10b981; color: #fff; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+.faq-a { font-size: 13px; color: #475569; line-height: 1.75; padding-left: 26px; }
+.faq-a strong { color: #0f172a; }
+
+/* ===== Timeline ===== */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 6px; bottom: 6px;
+  width: 2px;
+  background: #e2e8f0;
+}
+.tl-item {
+  position: relative;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -22px; top: 16px;
+  width: 12px; height: 12px;
+  background: #fff;
+  border: 3px solid #10b981;
+  border-radius: 50%;
+}
+.tl-date { font-size: 12px; color: #64748b; font-weight: 500; }
+.tl-title { font-size: 14px; color: #0f172a; margin: 4px 0; font-weight: 600; }
+
+@media (max-width: 768px) {
+  body { padding: 12px; }
+  .mech-grid { grid-template-columns: 1fr; }
+  .compare-row { grid-template-columns: 1fr 1fr; }
+  .page-header { padding: 20px; }
+  .section { padding: 18px 20px; }
+}
+</style>
+  <script src="shared-topnav.js" data-site-topnav-loader="true" defer></script>
+</head>
+<body>
+<div class="site-shell">
+
+<div class="topnav">
+  <a href="index.html" class="topnav-brand">
+    <span class="logo">●</span>
+    <span class="brand-text">杰德瑞恩J · 信息化驾驶舱</span>
+  </a>
+  <div class="topnav-menu">
+    <a href="index.html" class="topnav-item">
+      <span class="tn-icon">⌂</span>
+      <span class="tn-label">首页</span>
+    </a>
+    <a href="business-scenarios.html" class="topnav-item">
+      <span class="tn-icon">▤</span>
+      <span class="tn-label">业务场景</span>
+    </a>
+    <div class="topnav-item has-dropdown" tabindex="0" role="button"
+         data-href="erp-center.html"
+         onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">系统中心</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <a href="erp-center.html">📦 ERP 项目实施</a>
+        <a href="plm-center.html">🔧 PLM 项目实施</a>
+        <a href="ehr-center.html">👥 EHR 系统</a>
+        <a href="it-panorama.html">💻 IT 全景</a>
+        <div class="divider"></div>
+        <a href="company-intro.html">🏢 公司背景</a>
+        <a href="management-reform.html">⚙️ 管理变革</a>
+      </div>
+    </div>
+    <a href="site-map.html" class="topnav-item">
+      <span class="tn-icon">▦</span>
+      <span class="tn-label">站点地图</span>
+    </a>
+    <div class="topnav-item has-dropdown has-dropdown-right" tabindex="0" role="button"
+         data-href="key-files-overview.html"
+         onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }">
+      <span class="tn-icon">◉</span>
+      <span class="tn-label">知识沉淀</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">内部知识网络</div>
+        <a href="key-files-overview.html">📚 杰德瑞恩知识网络</a>
+        <a href="key-files-manager.html">🗂️ 归档文件柜</a>
+        <div class="divider"></div>
+        <div class="tn-section">外部参考</div>
+        <a href="https://github.com/deruienjie" target="_blank">🐙 GitHub 主页</a>
+      </div>
+    </div>
+    <div class="topnav-item has-dropdown has-dropdown-right" tabindex="0" role="button"
+         data-href="site-map.html"
+         onclick="if (!event.target.closest('.topnav-dropdown')) { window.location.href = this.dataset.href; }">
+      <span class="tn-icon">◔</span>
+      <span class="tn-label">我</span>
+      <span class="tn-arrow">▾</span>
+      <div class="topnav-dropdown">
+        <div class="tn-section">导航</div>
+        <a href="site-map.html">🗺️ 站点地图</a>
+        <a href="index.html">🏠 返回首页</a>
+        <a href="business-scenarios.html">▤ 业务场景总览</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<nav class="breadcrumb">
+  <a href="index.html">首页</a>
+  <span class="sep">/</span>
+  <a href="invest.html">投资</a>
+  <span class="sep">/</span>
+  <span class="current">市值金字塔</span>
+</nav>
+
+<header class="page-header">
+  <h1>📊 市值金字塔 <span style="font-size:13px;color:#94a3b8;font-weight:400;margin-left:6px;">小白版 v2.0</span></h1>
+  <div class="sub">从长鑫存储上市说起：1000 亿市值里，到底有多少真金白银？</div>
+  <div class="badge-row">
+    <span class="tag">🏷️ 金融市场</span>
+    <span class="tag">📚 概念扫盲</span>
+    <span class="tag">🚦 小白友好</span>
+    <span class="tag">⏱️ 10 分钟读完</span>
+    <span class="tag">📅 2026-07-28 v2</span>
+  </div>
+</header>
+
+<!-- 1. 业务背景 -->
+<section class="section" id="bg" style="background:linear-gradient(135deg,#ecfdf5,#f0fdfa);border:2px solid #10b981;">
+  <h2>🚦 小白先看这 3 步（5 分钟版） <span class="meta-tag">0 基础也能懂</span></h2>
+  <p style="font-size:15px;color:#0f172a;">如果你是<strong>彻底的小白</strong>，只要看完这 3 步，就能跟人聊"市值"不掉队：</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px;">
+    <div style="background:#fff;border:2px solid #10b981;border-radius:12px;padding:18px;">
+      <div style="font-size:24px;font-weight:700;color:#065f46;">① 什么是市值？</div>
+      <p style="font-size:13px;color:#475569;margin-top:8px;line-height:1.7;">市值 = 股价 × 总股本。<br>大白话：<strong>"市场觉得这家公司值多少钱"</strong>。<br>注意：这不是公司账上有的钱，是大家"愿意付的总价"。</p>
+    </div>
+    <div style="background:#fff;border:2px solid #f59e0b;border-radius:12px;padding:18px;">
+      <div style="font-size:24px;font-weight:700;color:#92400e;">② 钱从哪来？</div>
+      <p style="font-size:13px;color:#475569;margin-top:8px;line-height:1.7;">1,000 亿市值里，<br>只有 80 亿是<strong>真金白银</strong>（&lt; 8%），<br>其余 920 亿都是"市场预期"。</p>
+    </div>
+    <div style="background:#fff;border:2px solid #ef4444;border-radius:12px;padding:18px;">
+      <div style="font-size:24px;font-weight:700;color:#991b1b;">③ 风险在哪？</div>
+      <p style="font-size:13px;color:#475569;margin-top:8px;line-height:1.7;">高市值 = <strong>市场情绪 + 估值溢价</strong>叠加。<br>情绪一退，<strong>市值可腰斩 60%+</strong>，<br>但公司经营可能完全没变。</p>
+    </div>
+  </div>
+  <div style="background:#fef3c7;padding:12px 16px;border-radius:8px;margin-top:14px;font-size:13px;color:#78350f;border-left:4px solid #f59e0b;">
+    📌 <strong>读完后：</strong>如果想看长鑫存储这个真实案例，跳到第五章；想知道"为什么市值会虚高"，看第三章的 4 大机制。
+  </div>
+</section>
+
+<section class="section" id="bg2">
+  <h2>一、业务背景 <span class="meta-tag">为什么讲这个</span></h2>
+  <p>2026 年 7 月，<strong>长鑫存储（CXMT）</strong>在科创板 IPO 上市。上市首日开盘大涨，总市值最高突破 <strong>1300 亿</strong>。很多人第一反应是："这家公司账上真有 1300 亿现金吗？"</p>
+  <p>答案是：<strong>不是</strong>。市值 1300 亿，公司账上趴着的真金白银可能只有 50-80 亿——<strong>不到市值的 10%</strong>。剩下的 90%，都是市场对未来赚钱能力的定价，也就是<strong>估值</strong>。</p>
+  <p style="background:#dbeafe;padding:12px 16px;border-radius:8px;border-left:4px solid #3b82f6;font-size:13px;color:#1e40af;">💡 <strong>小白级理解：</strong>想象你开一家奶茶店，开了 6 个月生意不错，有人出价 100 万买你的店。这 100 万叫"市值"，但你账上现金可能只有 5 万——剩下 95 万是对方"觉得你未来能赚那么多"的钱。</p>
+  <p>这一页把"市值到底是个啥"讲清楚，避免被"千亿市值"这种大词唬住，也避免在估值虚高时头脑发热追高。</p>
+</section>
+
+<!-- 2. 市值怎么算 -->
+<section class="section" id="formula">
+  <h2>二、市值怎么算？ <span class="meta-tag">公式</span></h2>
+
+  <div class="formula-card">
+    <div class="formula">市值 ＝ 股价 × 总股本</div>
+    <div class="formula-desc">两个变量 × 一个乘法，就这么简单</div>
+  </div>
+
+  <h3>🧮 一步一步算给你看（小白版）</h3>
+  <p style="background:#f0f9ff;padding:14px 18px;border-radius:10px;border-left:4px solid #3b82f6;">
+    长鑫存储 IPO 当天的样子：<br>
+    <strong>① 股价</strong> = 38 元（最近一次成交价，<strong>每秒钟都在变</strong>）<br>
+    <strong>② 总股本</strong> = 37 亿股（公司一共发了这么多股票，<strong>IPO 后基本不变</strong>）<br>
+    <strong>③ 用公式：38 元 × 37 亿股 = 1,406 亿元</strong><br>
+    → 长鑫存储当天的市值 ≈ <strong>1,400 亿</strong>
+  </p>
+
+  <table class="data">
+    <thead>
+      <tr><th>项</th><th>含义</th><th>会变吗</th><th class="num">长鑫存储举例</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>股价</strong></td>
+        <td>最近一笔撮合成交价</td>
+        <td>每秒钟都在变</td>
+        <td class="num code">~38 元</td>
+      </tr>
+      <tr>
+        <td><strong>总股本</strong></td>
+        <td>公司发行的所有股票数</td>
+        <td>IPO 后基本不变</td>
+        <td class="num code">~37 亿股</td>
+      </tr>
+      <tr>
+        <td><strong>市值</strong></td>
+        <td>股价 × 股本</td>
+        <td>随股价每秒钟变</td>
+        <td class="num code hl-amber">~1,400 亿</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>关键注意</strong>：1,400 亿市值，谁都没有真的出过 1,400 亿现金。它只是"如果按当前股价把所有股票买下来要花的钱"——<strong>估值，不是现金</strong>。</p>
+  <p style="background:#fee2e2;padding:12px 16px;border-radius:10px;border-left:4px solid #ef4444;font-size:13px;color:#991b1b;">🚨 <strong>小白级理解：</strong>"市值 1,400 亿"听起来像公司有 1,400 亿现金可以花。完全不是！公司账上可能只有 80 亿现金，其余 1,320 亿是"市场以为这家公司未来能赚到的钱"。股价每天涨涨跌跌，<strong>但公司账上的一分钱都没变</strong>。</p>
+</section>
+
+<!-- 3. 为什么上市后市值虚高 -->
+<section class="section" id="why-high">
+  <h2>三、为什么上市后市值会"虚高"？ <span class="meta-tag">4 大机制</span></h2>
+  <p>同样是这家年净利润 15 亿的公司，按传统制造业 PE 给 15 倍的话，市值应该值 225 亿。但实际给到了 1,400 亿，多出来的 6 倍，<strong>全靠 4 个市场机制叠加</strong>：</p>
+  <p style="background:#fef3c7;padding:12px 16px;border-radius:10px;border-left:4px solid #f59e0b;font-size:13px;color:#78350f;">💡 <strong>小白级理解：</strong>想象一个本来卖 12 元的东西，上市第一天突然被炒到 38 元。本身体没变（公司还是那个公司），但因为 4 个原因，价格涨了 3 倍多——这就是"虚火"。</p>
+
+  <div class="mech-grid">
+    <div class="mech-card m1">
+      <span class="mech-num">机制 ①</span>
+      <div class="mech-title">一二级市场价差</div>
+      <div class="mech-desc">上市前一级市场定价 ~12 元，上市首日开盘 38 元。一夜之间"贵" 3 倍——打新暴利的根源。</div>
+      <span class="mech-effect">涨幅 +217%</span>
+    </div>
+    <div class="mech-card m2">
+      <span class="mech-num">机制 ②</span>
+      <div class="mech-title">PE 倍数给得高</div>
+      <div class="mech-desc">半导体是热门赛道，市场愿意给 80-100 倍 PE。传统制造业只给 10-15 倍——差 6 倍。</div>
+      <span class="mech-effect" style="background:#dbeafe;color:#1e40af;">PE 80-100×</span>
+    </div>
+    <div class="mech-card m3">
+      <span class="mech-num">机制 ③</span>
+      <div class="mech-title">流通盘稀缺</div>
+      <div class="mech-desc">战略配售锁 24 个月、网下机构锁 6-12 个月。第一天能流通的不到 40%，想买的人多、能卖的少 → 股价被推高。</div>
+      <span class="mech-effect" style="background:#ede9fe;color:#5b21b6;">流通 &lt; 40%</span>
+    </div>
+    <div class="mech-card m4">
+      <span class="mech-num">机制 ④</span>
+      <div class="mech-title">国产替代溢价</div>
+      <div class="mech-desc">A 股唯一纯 DRAM 标的 + AI 算力爆发 + 大基金背书。市场愿意为稀缺性多付 30-50% 的钱。</div>
+      <span class="mech-effect" style="background:#fef3c7;color:#92400e;">溢价 +30-50%</span>
+    </div>
+  </div>
+
+  <p style="margin-top:14px;"><strong>叠加效应</strong>：本来年净利润 15 亿的公司，按传统 PE 只值 225 亿；但因为以上 4 个机制，硬是被市场炒到 1,400 亿。<strong>这就是估值的"虚火"</strong>。</p>
+  <p style="background:#fee2e2;padding:12px 16px;border-radius:10px;border-left:4px solid #ef4444;font-size:13px;color:#991b1b;">🚨 <strong>小白记忆口诀：</strong>"一二三缺一"——一二级价差、PE 倍数高、流通盘稀缺、国产替代溢价。任何一个机制单独出现不至于这么疯，<strong>4 个一起上才是"千亿市值"</strong>。以后看到新上市公司，挨个对照这 4 个，判断"虚火"程度。</p>
+</section>
+
+<!-- 4. 市值 vs 真金白银（核心 SVG） -->
+<section class="section" id="pyramid">
+  <h2>四、市值 ≠ 真金白银 <span class="meta-tag">核心结论</span></h2>
+  <p>用一张金字塔图把"市值里有多少真钱"这件事钉死。下面是<strong>虚构示例数字</strong>（长鑫公开数据为参考估算），仅供理解比例关系。</p>
+
+  <div class="pyramid-wrap">
+    <svg viewBox="0 0 680 540" width="100%" role="img" aria-label="市值金字塔对比图">
+      <title>市值金字塔对比图</title>
+      <desc>长鑫存储1000亿市值中真正是现金的部分只占8%，说明市值是估值而非真金白银</desc>
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#BA7517"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <text x="340" y="30" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="15" font-weight="500" fill="#2c2c2a">
+        长鑫存储：1000 亿市值里有多少真金白银？
+      </text>
+      <text x="340" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="400" fill="#5f5e5a">
+        数字为示例估算，仅供理解"市值≠现金"
+      </text>
+
+      <g>
+        <rect x="40" y="80" width="600" height="80" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+        <text x="60" y="108" font-family="-apple-system,sans-serif" font-size="13" font-weight="500" fill="#2c2c2a">市值</text>
+        <text x="60" y="134" font-family="-apple-system,sans-serif" font-size="22" font-weight="500" fill="#444441">1,000 亿</text>
+        <text x="620" y="106" text-anchor="end" font-family="-apple-system,sans-serif" font-size="13" font-weight="500" fill="#5f5e5a">100%</text>
+        <text x="620" y="126" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="400" fill="#888780">股价 × 股本</text>
+        <text x="620" y="144" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="400" fill="#888780">纯虚拟数字</text>
+      </g>
+
+      <g>
+        <rect x="235" y="175" width="210" height="80" rx="10" fill="#E6F1FB" stroke="#378ADD" stroke-width="0.5"/>
+        <text x="255" y="203" font-family="-apple-system,sans-serif" font-size="13" font-weight="500" fill="#0C447C">总资产</text>
+        <text x="255" y="229" font-family="-apple-system,sans-serif" font-size="18" font-weight="500" fill="#185FA5">350 亿</text>
+        <text x="425" y="203" text-anchor="end" font-family="-apple-system,sans-serif" font-size="13" font-weight="500" fill="#185FA5">35%</text>
+        <text x="425" y="223" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="400" fill="#378ADD">公司账面有啥</text>
+      </g>
+
+      <g>
+        <rect x="286" y="270" width="108" height="80" rx="10" fill="#EAF3DE" stroke="#639922" stroke-width="0.5"/>
+        <text x="304" y="298" font-family="-apple-system,sans-serif" font-size="13" font-weight="500" fill="#27500A">净资产</text>
+        <text x="304" y="324" font-family="-apple-system,sans-serif" font-size="15" font-weight="500" fill="#3B6D11">180 亿</text>
+        <text x="378" y="298" text-anchor="end" font-family="-apple-system,sans-serif" font-size="13" font-weight="500" fill="#3B6D11">18%</text>
+        <text x="378" y="318" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="400" fill="#639922">股东能分到</text>
+      </g>
+
+      <g>
+        <rect x="316" y="365" width="48" height="80" rx="10" fill="#FAEEDA" stroke="#EF9F27" stroke-width="1.5"/>
+        <text x="340" y="389" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="500" fill="#633806">现金</text>
+        <text x="340" y="412" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="16" font-weight="500" fill="#BA7517">80亿</text>
+        <text x="340" y="432" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="500" fill="#854F0B">8% 真钱</text>
+      </g>
+
+      <g>
+        <path d="M 340 460 L 340 480" stroke="#BA7517" stroke-width="1.2" fill="none" marker-end="url(#arrow)"/>
+        <text x="340" y="498" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="500" fill="#BA7517">
+          股价涨 100% → 市值涨 100% → 但公司账上一分钱不多
+        </text>
+      </g>
+    </svg>
+    <div class="pyramid-caption">每往里一层，数字越小；最核心的"现金"只是金字塔尖上的一小块</div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-card c-virtual">
+      <div class="cc-name">市值</div>
+      <div class="cc-val">1,000 亿</div>
+      <div class="cc-meta">纯虚拟 · 100%</div>
+    </div>
+    <div class="compare-card">
+      <div class="cc-name">总资产</div>
+      <div class="cc-val">350 亿</div>
+      <div class="cc-meta">账面有啥 · 35%</div>
+    </div>
+    <div class="compare-card">
+      <div class="cc-name">净资产</div>
+      <div class="cc-val">180 亿</div>
+      <div class="cc-meta">股东能分 · 18%</div>
+    </div>
+    <div class="compare-card c-cash">
+      <div class="cc-name">现金</div>
+      <div class="cc-val">80 亿</div>
+      <div class="cc-meta">真金白银 · 8%</div>
+    </div>
+  </div>
+
+  <p><strong>真正的"真金白银"是哪几块？</strong></p>
+  <table class="data">
+    <thead><tr><th>项目</th><th>性质</th><th>数字（示例）</th></tr></thead>
+    <tbody>
+      <tr><td>IPO 募资</td><td>一次性进账</td><td class="num code">~100 亿</td></tr>
+      <tr><td>每年净利润</td><td>靠经营赚的真钱</td><td class="num code">~10-15 亿</td></tr>
+      <tr><td>累计现金</td><td>账上能花的</td><td class="num code hl-amber">~80 亿</td></tr>
+    </tbody>
+  </table>
+  <p>只有这三块是真钱。<strong>其他市值涨跌都是"浮盈/浮亏"</strong>，要卖出去那一刻才变成现金。</p>
+  <p style="background:#dbeafe;padding:12px 16px;border-radius:10px;border-left:4px solid #3b82f6;font-size:13px;color:#1e40af;">💡 <strong>小白级理解：</strong>把市值想成"你手机上的股票账户余额"。余额 1000 亿，你随时能花吗？不能——要"卖出"那一刻才变成你银行卡里的钱。中间的浮盈浮亏只是数字变化，<strong>真钱进账只有 ① IPO 收到的 + ② 每年净利润（且能分红）</strong>这两块。</p>
+</section>
+
+<!-- 5. 长鑫存储案例 -->
+<section class="section" id="case">
+  <h2>五、案例：长鑫存储 <span class="meta-tag">实际背景</span></h2>
+  <p>把上面那套理论套到一家真实公司上，看就清楚了。</p>
+  <p style="background:#dbeafe;padding:12px 16px;border-radius:10px;border-left:4px solid #3b82f6;font-size:13px;color:#1e40af;">💡 <strong>小白级理解：</strong>长鑫存储 = 中国<strong>唯一</strong>能跟三星、海力士正面刚的 DRAM 工厂。"唯一"两个字很重要——稀缺性 = 估值溢价。这个背景后面会反复用到。</p>
+
+  <table class="data">
+    <thead><tr><th>项目</th><th>数字</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>所属行业</td><td>DRAM 存储芯片</td><td>中国唯一能跟三星/海力士正面竞争的厂商</td></tr>
+      <tr><td>发行价</td><td class="num code">12.88 元</td><td>一级市场询价</td></tr>
+      <tr><td>上市首日开盘</td><td class="num code hl-red">~38 元</td><td>二级市场竞价，涨幅 +195%</td></tr>
+      <tr><td>总股本</td><td class="num code">~37 亿股</td><td>IPO 后基本固定</td></tr>
+      <tr><td>总市值峰值</td><td class="num code hl-amber">~1,300-1,400 亿</td><td>4 个机制叠加的产物</td></tr>
+      <tr><td>实际年净利润</td><td class="num code">~10-15 亿</td><td>公司一年真赚到的钱</td></tr>
+      <tr><td>对应 PE</td><td class="num code hl-blue">80-130 倍</td><td>市场给它的估值倍数</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>关键观察</strong>：长鑫一年赚 10-15 亿，按传统 PE 15 倍只值 200 亿；现在市场给 80-130 倍 PE，<strong>溢价 6-9 倍</strong>。这 6-9 倍溢价，就是估值的"虚火"。</p>
+
+  <div class="notice-warn">
+    <strong>⚠️ 风险提示</strong>：估值虚高 = 回归压力大。一旦市场情绪转向、PE 跌回 30 倍合理区间，<strong>股价可能腰斩 60%+</strong>。这就是"千亿市值"光环下最值得警惕的事。
+  </div>
+</section>
+
+<!-- 6. 投资启示 -->
+<section class="section" id="takeaway">
+  <h2>六、投资启示 <span class="meta-tag">应用到决策</span></h2>
+  <p>搞清"市值 ≠ 真金白银"之后，落到实操上能避开哪些坑：</p>
+  <p style="background:#ecfdf5;padding:12px 16px;border-radius:10px;border-left:4px solid #10b981;font-size:13px;color:#065f46;">📋 <strong>小白用法：</strong>每次听到"千亿市值"、"万亿赛道"这种宣传话术，挨个对照下面 5 条自检。任何一条让你答"不知道"，就先别买。</p>
+
+  <table class="data">
+    <thead><tr><th>启示</th><th>怎么用</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>看 PE，不看市值</strong></td>
+        <td>市值大不代表贵，PE 高才是贵。1,000 亿市值 + PE 15 倍 比 100 亿市值 + PE 100 倍 便宜得多。</td>
+      </tr>
+      <tr>
+        <td><strong>区分"股价"和"价值"</strong></td>
+        <td>股价是市场投票，价值是公司本身。投票可以疯狂，也可以冷漠，但价值要靠业绩慢慢兑现。</td>
+      </tr>
+      <tr>
+        <td><strong>警惕"千亿市值"光环</strong></td>
+        <td>市值大不等于公司好，更多是"市场情绪 + 流动性溢价"的产物。光环褪去时，跌得最惨。</td>
+      </tr>
+      <tr>
+        <td><strong>真钱只有两块</strong></td>
+        <td>① IPO 募资（一次性）；② 每年净利润（持续）。其他都是浮盈浮亏，没卖都是数字。</td>
+      </tr>
+      <tr>
+        <td><strong>回看自己的持仓</strong></td>
+        <td>对每只持仓问自己：今天市值多少？现金分红收过多少年？PE 多少倍？</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 7. FAQ -->
+<section class="section" id="faq">
+  <h2>七、常见问题 <span class="meta-tag">FAQ（小白朴素版）</span></h2>
+
+  <div class="faq-item">
+    <div class="faq-q">市值和股价有什么区别？</div>
+    <div class="faq-a">股价是<strong>每股的价格</strong>（比如 38 元），市值是<strong>整家公司值多少钱</strong>（38 元 × 37 亿股 = 1,400 亿）。前者看单股，后者看全局。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">总市值 1,400 亿，那我能买下这家公司吗？</div>
+    <div class="faq-a">理论上能——只要有 1,400 亿现金在市场上把<strong>所有流通股</strong>都买下来。但实际做不到，因为：① 不是所有股票都卖（锁定期）；② 大量买入会把股价推到天上去，1,400 亿根本买不完。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">市值涨 100%，公司是不是多赚了 100%？</div>
+    <div class="faq-a"><strong>不是</strong>。市值涨 100% 只是股价翻倍，公司账上现金<strong>一分钱没多</strong>。所谓的"浮盈"只有你卖出那一刻才变成真钱。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">为什么 PE 越高股价越涨？</div>
+    <div class="faq-a">因为大家觉得公司未来还会赚更多钱，"现在 15 亿利润、给 100 倍 PE 是合理的，等它赚 30 亿的时候 PE 就下来了"。一旦预期落空，PE 会快速回归——<strong>这就是估值杀</strong>。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">长鑫存储这种票能买吗？</div>
+    <div class="faq-a">这是投资决策问题，本页不做推荐。<strong>但要先问自己三件事</strong>：① 我能接受 60% 以上的回撤吗？② 我能看懂 DRAM 行业周期吗？③ 这笔钱我 3-5 年不动可以吗？三个都答"是"，再谈配置。</div>
+  </div>
+</section>
+
+<!-- 8. 变更日志 -->
+<section class="section" id="changelog">
+  <h2>八、变更日志 <span class="meta-tag">更新记录</span></h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">2026-07-28 · 今天</div>
+      <div class="tl-title">v2.0 小白版 · 顶部加"小白先看 3 步"导引</div>
+      <p style="font-size:13px;color:#64748b;margin-top:6px;">每章加"小白级理解"白话注释（奶茶店/手机余额/西瓜摊等类比）；市值 4 大机制加"一二三缺一"口诀；投资启示改为小白自检框架。</p>
+    </div>
+    <div class="tl-item fresh">
+      <div class="tl-date">2026-07-27 · v1.0</div>
+      <div class="tl-title">首次发布 · 长鑫存储上市市值话题</div>
+      <p style="font-size:13px;color:#64748b;margin-top:6px;">基于 7 月长鑫 IPO 的实际数据 + 8 章节结构整理。市值金字塔 SVG 作为核心可视化。</p>
+    </div>
+  </div>
+</section>
+
+<footer style="text-align:center;padding:24px 0;color:#94a3b8;font-size:12px;">
+  📮 反馈 / 补充：告诉我「改 X 章节」或「加 Y 案例」
+  <br><br>
+  杰德瑞恩J · 信息化驾驶舱 · 投资模块 · 市值金字塔
+</footer>
+
+</div>
+</div>
+</body>
+</html>
